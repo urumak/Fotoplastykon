@@ -1,4 +1,4 @@
-﻿using Fotoplastykon.DAL.Model;
+﻿using Fotoplastykon.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
