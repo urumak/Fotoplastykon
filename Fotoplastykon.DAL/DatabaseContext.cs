@@ -1,6 +1,7 @@
 ﻿using Fotoplastykon.DAL.Entities;
 using Fotoplastykon.DAL.Entities.Core;
 using Microsoft.EntityFrameworkCore;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,6 @@ namespace Fotoplastykon.DAL
 {
     public class DatabaseContext : DbContext
     {
-        public DatabaseContext(DbContextOptions options) : base(options)
-        {
-        }
         public DatabaseContext()
         {
         }
@@ -21,31 +19,20 @@ namespace Fotoplastykon.DAL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
+            var cs = "Server=localhost;Port=3306;Database=fotoplastykon;User=root;Password=root;Charset=utf8mb4;SslMode=None;Connect Timeout=5;AllowPublicKeyRetrieval=True;";
+
+            var builder = new MySqlConnectionStringBuilder(cs)
             {
-                optionsBuilder.UseMySql("Server=localhost;Port=3306;Database=fotoplastykon;User=root;Password=root;Charset=utf8mb4;SslMode=None;Connect Timeout=5;");
-            }
+                TreatTinyAsBoolean = true,
+                OldGuids = true
+            };
+
+            optionsBuilder.UseMySql(builder.ToString());
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            var types = GetAllTypesForModelCreating();
-
-            foreach (var type in types)
-            {
-                dynamic configurationInstance = Activator.CreateInstance(type);
-                modelBuilder.ApplyConfiguration(configurationInstance);
-            }
-
-        }
-
-        private IEnumerable<Type> GetAllTypesForModelCreating()
-        {
-            var entityConfigurationType = typeof(IEntityTypeConfiguration<IEntity>);
-
-            return AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(a => a.GetTypes())
-                .Where(t => entityConfigurationType.IsAssignableFrom(t));
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(DatabaseContext).Assembly);
         }
     }
 }
