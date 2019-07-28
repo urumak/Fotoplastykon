@@ -19,6 +19,10 @@ namespace Fotoplastykon.API
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseIISIntegration()
+                .UseIIS()
                 .UseStartup<Startup>();
     }
 }
