@@ -7,7 +7,7 @@ namespace Fotoplastykon.DAL.UnitsOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
-        public CoreUserRepository CoreUsers { get; private set; }
+        public ICoreUserRepository CoreUsers { get; private set; }
         private readonly DatabaseContext _context;
 
         public UnitOfWork(DatabaseContext context)

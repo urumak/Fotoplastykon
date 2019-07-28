@@ -7,7 +7,7 @@ namespace Fotoplastykon.DAL.UnitsOfWork
 {
     interface IUnitOfWork : IDisposable
     {
-        CoreUserRepository CoreUsers { get; }
+        ICoreUserRepository CoreUsers { get; }
         int Save();
     }
 }
