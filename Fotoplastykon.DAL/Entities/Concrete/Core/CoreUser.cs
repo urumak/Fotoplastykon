@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Fotoplastykon.DAL.Entities.Abstract;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Fotoplastykon.DAL.Entities.Core
+namespace Fotoplastykon.DAL.Entities.Concrete.Core
 {
     public class CoreUser : IEntity
     {

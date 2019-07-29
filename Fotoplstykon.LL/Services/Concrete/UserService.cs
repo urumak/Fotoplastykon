@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AutoMapper;
+using Fotoplastykon.DAL.UnitsOfWork.Abstract;
 
 namespace Fotoplstykon.LL.Services
 {

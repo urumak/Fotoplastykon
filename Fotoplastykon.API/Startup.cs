@@ -1,24 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using Fotoplastykon.API.Extensions;
 using Fotoplastykon.DAL;
 using Fotoplastykon.DAL.Entities;
-using Fotoplastykon.DAL.Entities.Core;
+using Fotoplastykon.DAL.Entities.Abstract;
 using Fotoplastykon.DAL.Repositories;
-using Fotoplastykon.DAL.UnitsOfWork;
+using Fotoplastykon.DAL.Repositories.Abstract;
+using Fotoplastykon.DAL.UnitsOfWork.Abstract;
 using Fotoplstykon.LL.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MySql.Data.MySqlClient;
-using NetCore.AutoRegisterDi;
 
 namespace Fotoplastykon.API
 {
@@ -30,7 +24,7 @@ namespace Fotoplastykon.API
         }
 
         public IConfiguration Configuration { get; }
-        private readonly string frontendCORS = "frontendCORS";
+        public string FrontendCors { get; } = "frontendCORS";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940

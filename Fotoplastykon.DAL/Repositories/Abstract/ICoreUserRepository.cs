@@ -1,9 +1,7 @@
-﻿using Fotoplastykon.DAL.Entities.Core;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using Fotoplastykon.DAL.Entities.Concrete.Core;
 
-namespace Fotoplastykon.DAL.Repositories
+namespace Fotoplastykon.DAL.Repositories.Abstract
 {
     public interface ICoreUserRepository : IRepository<CoreUser>
     {

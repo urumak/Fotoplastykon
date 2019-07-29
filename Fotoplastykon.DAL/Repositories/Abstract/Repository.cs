@@ -1,18 +1,17 @@
-﻿using Fotoplastykon.DAL.Entities;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
+using Fotoplastykon.DAL.Entities.Abstract;
+using Microsoft.EntityFrameworkCore;
 
-namespace Fotoplastykon.DAL.Repositories
+namespace Fotoplastykon.DAL.Repositories.Abstract
 {
     public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
     {
         protected readonly DbContext Context;
 
-        public Repository(DbContext context)
+        protected Repository(DbContext context)
         {
             Context = context;
         }

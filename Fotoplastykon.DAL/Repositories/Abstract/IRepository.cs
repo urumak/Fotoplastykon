@@ -1,10 +1,9 @@
-﻿using Fotoplastykon.DAL.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text;
+using Fotoplastykon.DAL.Entities.Abstract;
 
-namespace Fotoplastykon.DAL.Repositories
+namespace Fotoplastykon.DAL.Repositories.Abstract
 {
     public interface IRepository<TEntity> where TEntity : IEntity
     {

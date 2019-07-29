@@ -1,11 +1,11 @@
 ﻿using Fotoplastykon.DAL.Entities;
-using Fotoplastykon.DAL.Entities.Core;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Fotoplastykon.DAL.Entities.Concrete.Core;
 
 namespace Fotoplastykon.DAL
 {

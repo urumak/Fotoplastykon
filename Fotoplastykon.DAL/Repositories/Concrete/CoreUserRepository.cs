@@ -1,23 +1,23 @@
-﻿using Fotoplastykon.DAL.Entities.Core;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Fotoplastykon.DAL.Entities.Concrete.Core;
+using Fotoplastykon.DAL.Repositories.Abstract;
 
-namespace Fotoplastykon.DAL.Repositories
+namespace Fotoplastykon.DAL.Repositories.Concrete
 {
     public class CoreUserRepository : Repository<CoreUser>, ICoreUserRepository
     {
+        // ReSharper disable once SuggestBaseTypeForParameter
         public CoreUserRepository(DatabaseContext context)
             : base(context)
         {
         }
 
-        private DatabaseContext _context { get { return Context as DatabaseContext; } }
+        private DatabaseContext DatabaseContext => Context as DatabaseContext;
 
         public IEnumerable<CoreUser> GetNewUsers(int count)
         {
-            return _context.CoreUsers.OrderBy(u => u.Id).Take(count).ToList();
+            return DatabaseContext.CoreUsers.OrderBy(u => u.Id).Take(count).ToList();
         }
     }
 }

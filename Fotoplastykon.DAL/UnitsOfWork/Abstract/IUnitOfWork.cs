@@ -1,9 +1,7 @@
-﻿using Fotoplastykon.DAL.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using Fotoplastykon.DAL.Repositories.Abstract;
 
-namespace Fotoplastykon.DAL.UnitsOfWork
+namespace Fotoplastykon.DAL.UnitsOfWork.Abstract
 {
     public interface IUnitOfWork : IDisposable
     {
