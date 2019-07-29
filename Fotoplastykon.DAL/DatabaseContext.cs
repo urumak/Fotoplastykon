@@ -11,7 +11,7 @@ namespace Fotoplastykon.DAL
 {
     public class DatabaseContext : DbContext
     {
-        public DatabaseContext()
+        public DatabaseContext(DbContextOptions options) : base(options)
         {
         }
 
@@ -19,15 +19,10 @@ namespace Fotoplastykon.DAL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var cs = "Server=localhost;Port=3306;Database=fotoplastykon;User=root;Password=root;Charset=utf8mb4;SslMode=None;Connect Timeout=5;AllowPublicKeyRetrieval=True;";
-
-            var builder = new MySqlConnectionStringBuilder(cs)
+            if (!optionsBuilder.IsConfigured)
             {
-                TreatTinyAsBoolean = true,
-                OldGuids = true
-            };
-
-            optionsBuilder.UseMySql(builder.ToString());
+                optionsBuilder.UseMySql("Server=localhost;Port=3306;Database=fotoplastykon;User=root;Password=root;Charset=utf8mb4;SslMode=None;Connect Timeout=5;AllowPublicKeyRetrieval=True;");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

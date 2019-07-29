@@ -14,10 +14,15 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        protected DatabaseContext Context { get; }
+        public UsersController(DatabaseContext context)
+        {
+            Context = context;
+        }
         [Route("")]
         public async Task<IEnumerable<CoreUser>> GetAll()
         {
-            using (var unitOfWork = new UnitOfWork(new DatabaseContext()))
+            using (var unitOfWork = new UnitOfWork(Context))
             {
                 return unitOfWork.CoreUsers.GetAll();
             }
