@@ -4,7 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Fotoplastykon.DAL;
 using Fotoplastykon.DAL.Entities.Core;
+using Fotoplastykon.DAL.Repositories;
 using Fotoplastykon.DAL.UnitsOfWork;
+using Fotoplstykon.LL.Models;
+using Fotoplstykon.LL.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,18 +17,15 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        protected DatabaseContext Context { get; }
-        public UsersController(DatabaseContext context)
+        protected IUserService Users { get; }
+        public UsersController(IUserService users)
         {
-            Context = context;
+            Users = users;
         }
         [Route("")]
-        public async Task<IEnumerable<CoreUser>> GetAll()
+        public async Task<IEnumerable<User>> GetAll()
         {
-            using (var unitOfWork = new UnitOfWork(Context))
-            {
-                return unitOfWork.CoreUsers.GetAll();
-            }
+            return Users.GetAll();
         }
     }
 }

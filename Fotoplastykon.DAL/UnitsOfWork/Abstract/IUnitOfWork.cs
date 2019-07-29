@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Fotoplastykon.DAL.UnitsOfWork
 {
-    interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork : IDisposable
     {
         ICoreUserRepository CoreUsers { get; }
         int Save();

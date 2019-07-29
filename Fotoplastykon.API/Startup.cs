@@ -2,7 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Fotoplastykon.API.Extensions;
 using Fotoplastykon.DAL;
+using Fotoplastykon.DAL.Entities;
+using Fotoplastykon.DAL.Entities.Core;
+using Fotoplastykon.DAL.Repositories;
+using Fotoplastykon.DAL.UnitsOfWork;
+using Fotoplstykon.LL.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -11,6 +18,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MySql.Data.MySqlClient;
+using NetCore.AutoRegisterDi;
 
 namespace Fotoplastykon.API
 {
@@ -30,18 +38,13 @@ namespace Fotoplastykon.API
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddDbContext<DatabaseContext>(options =>
-            {
-                var cs = Configuration.GetConnectionString("DefaultConnection");
+            services.AddMySqlDbContext<DatabaseContext>(Configuration);
 
-                var builder = new MySqlConnectionStringBuilder(cs)
-                {
-                    TreatTinyAsBoolean = true,
-                    OldGuids = true
-                };
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-                options.UseMySql(builder.ToString());
-            });
+            services.RegisterAllTypes(typeof(IRepository<IEntity>).Assembly, "Repository");
+            services.RegisterAllTypes(typeof(IUnitOfWork).Assembly, "UnitOfWork");
+            services.RegisterAllTypes(typeof(IUserService).Assembly, "Service");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
