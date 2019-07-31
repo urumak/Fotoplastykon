@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
-using Fotoplstykon.LL.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Fotoplastykon.DAL.Entities.Concrete.Core;
+using Fotoplastykon.LL.Models;
 
-namespace Fotoplstykon.LL.Services
+namespace Fotoplastykon.LL.Services
 {
     public class AutomapperProfile : Profile
     {

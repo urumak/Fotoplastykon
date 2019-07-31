@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.757
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fotoplastykon.DAL", "Fotoplastykon.DAL\Fotoplastykon.DAL.csproj", "{C4473E96-6843-409E-B8DF-1AA878BA2F42}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fotoplstykon.LL", "Fotoplstykon.LL\Fotoplstykon.LL.csproj", "{BE0626AA-3F4D-4C6E-A1B1-90ADBC30CDD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fotoplastykon.LL", "Fotoplstykon.LL\Fotoplastykon.LL.csproj", "{BE0626AA-3F4D-4C6E-A1B1-90ADBC30CDD4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fotoplastykon.API", "Fotoplastykon.API\Fotoplastykon.API.csproj", "{606EC67D-3D14-4EDD-88A6-46E2EAE49BA0}"
 EndProject
@@ -13,11 +13,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{1BD95615-221A-4C8F-9B95-202FE4508AFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fotoplastykon.DAL.Tests", "Fotoplastykon.DAL.Tests\Fotoplastykon.DAL.Tests.csproj", "{B4EEB1DC-ADB7-4B6B-81BB-A82D2891E9C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fotoplastykon.DAL.Tests", "Fotoplastykon.DAL.Tests\Fotoplastykon.DAL.Tests.csproj", "{B4EEB1DC-ADB7-4B6B-81BB-A82D2891E9C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fotoplastykon.LL.Tests", "Fotoplastykon.LL.Tests\Fotoplastykon.LL.Tests.csproj", "{1724B033-EAFC-4E62-B1E5-8D0A429BA1ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fotoplastykon.LL.Tests", "Fotoplastykon.LL.Tests\Fotoplastykon.LL.Tests.csproj", "{1724B033-EAFC-4E62-B1E5-8D0A429BA1ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fotoplastykon.API.Tests", "Fotoplastykon.API.Tests\Fotoplastykon.API.Tests.csproj", "{E7586140-3C0B-4AF3-AC8E-E7279639E1AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fotoplastykon.API.Tests", "Fotoplastykon.API.Tests\Fotoplastykon.API.Tests.csproj", "{E7586140-3C0B-4AF3-AC8E-E7279639E1AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

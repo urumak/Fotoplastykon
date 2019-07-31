@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Fotoplstykon.LL.Models;
-using Fotoplstykon.LL.Services;
+using Fotoplastykon.LL.Models;
+using Fotoplastykon.LL.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fotoplastykon.API.Areas.Admin.Controllers

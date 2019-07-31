@@ -1,11 +1,9 @@
-﻿using Fotoplstykon.LL.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using Fotoplastykon.LL.Models;
 
-namespace Fotoplstykon.LL.Services
+namespace Fotoplastykon.LL.Services.Abstract
 {
-    public interface IUserService
+    public interface IUserService : IService<User>
     {
         IEnumerable<User> GetAll();
     }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Fotoplstykon.LL.Models
+﻿namespace Fotoplastykon.LL.Models
 {
     public class User
     {

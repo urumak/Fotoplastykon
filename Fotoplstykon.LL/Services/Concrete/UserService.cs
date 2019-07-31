@@ -1,13 +1,10 @@
-﻿using Fotoplastykon.DAL.UnitsOfWork;
-using Fotoplstykon.LL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using AutoMapper;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
+using Fotoplastykon.LL.Models;
+using Fotoplastykon.LL.Services.Abstract;
 
-namespace Fotoplstykon.LL.Services
+namespace Fotoplastykon.LL.Services.Concrete
 {
     public class UserService : IUserService
     {
