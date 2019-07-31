@@ -2,9 +2,7 @@
 using AutoMapper;
 using Fotoplastykon.API.Extensions;
 using Fotoplastykon.DAL;
-using Fotoplastykon.DAL.Entities;
 using Fotoplastykon.DAL.Entities.Abstract;
-using Fotoplastykon.DAL.Repositories;
 using Fotoplastykon.DAL.Repositories.Abstract;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
 using Fotoplastykon.LL.Services.Abstract;
