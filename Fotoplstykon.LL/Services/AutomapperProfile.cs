@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Fotoplastykon.DAL.Entities.Concrete.Core;
 using Fotoplastykon.LL.Models;
+using User = Fotoplastykon.DAL.Entities.Concrete.User;
 
 namespace Fotoplastykon.LL.Services
 {
@@ -8,7 +8,7 @@ namespace Fotoplastykon.LL.Services
     {
         public AutomapperProfile()
         {
-            CreateMap<CoreUser, User>();
+            CreateMap<User, Models.User>();
         }
     }
 }

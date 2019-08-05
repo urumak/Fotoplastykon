@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using Fotoplastykon.DAL.Entities.Concrete.Core;
+using Fotoplastykon.DAL.Entities.Concrete;
 
 namespace Fotoplastykon.DAL.Repositories.Abstract
 {
-    public interface ICoreUserRepository : IRepository<CoreUser>
+    public interface ICoreUserRepository : IRepository<User>
     {
-        IEnumerable<CoreUser> GetNewUsers(int count);
+        IEnumerable<User> GetNewUsers(int count);
     }
 }

@@ -12,7 +12,7 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
         public UnitOfWork(DatabaseContext context)
         {
             _context = context;
-            CoreUsers = new CoreUserRepository(_context);
+            CoreUsers = new UserRepository(_context);
         }
 
         public int Save()

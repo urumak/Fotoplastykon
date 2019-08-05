@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Fotoplastykon.DAL.Entities.Concrete.Core;
+using Fotoplastykon.DAL.Entities.Concrete;
 
 namespace Fotoplastykon.DAL
 {
@@ -15,7 +15,9 @@ namespace Fotoplastykon.DAL
         {
         }
 
-        public virtual DbSet<CoreUser> CoreUsers { get; protected set; }
+        public virtual DbSet<User> Users { get; protected set; }
+        public virtual DbSet<Film> Films { get; protected set; }
+        public virtual DbSet<PageCreation> PageCreations { get; protected set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
