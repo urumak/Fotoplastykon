@@ -27,7 +27,7 @@ namespace Fotoplastykon.DAL.Entities.Concrete
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.Property(p => p.UserName).IsRequired().HasMaxLength(50);
+            builder.Property(p => p.UserName).IsRequired().HasMaxLength(100);
             builder.Property(p => p.FirstName).HasMaxLength(100);
             builder.Property(p => p.Surname).HasMaxLength(250);
             builder.Property(p => p.Email).IsRequired().HasMaxLength(250);

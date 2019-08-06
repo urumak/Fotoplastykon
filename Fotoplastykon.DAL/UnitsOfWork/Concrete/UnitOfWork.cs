@@ -6,16 +6,16 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
 {
     public class UnitOfWork : IUnitOfWork
     {
-        public ICoreUserRepository CoreUsers { get; private set; }
+        public ICoreUserRepository Users { get; private set; }
         private readonly DatabaseContext _context;
 
         public UnitOfWork(DatabaseContext context)
         {
             _context = context;
-            CoreUsers = new UserRepository(_context);
+            Users = new UserRepository(_context);
         }
 
-        public int Save()
+        public int Complete()
         {
             return _context.SaveChanges();
         }
