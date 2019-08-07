@@ -5,7 +5,7 @@ using Fotoplastykon.DAL.Repositories.Abstract;
 
 namespace Fotoplastykon.DAL.Repositories.Concrete
 {
-    public class UserRepository : Repository<User>, ICoreUserRepository
+    public class UserRepository : Repository<User>, IUserRepository
     {
         // ReSharper disable once SuggestBaseTypeForParameter
         public UserRepository(DatabaseContext context)
@@ -18,6 +18,11 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
         public IEnumerable<User> GetNewUsers(int count)
         {
             return DatabaseContext.Users.OrderBy(u => u.Id).Take(count).ToList();
+        }
+
+        public User GetByName(string name)
+        {
+            return DatabaseContext.Users.FirstOrDefault(u => u.UserName == name);
         }
     }
 }

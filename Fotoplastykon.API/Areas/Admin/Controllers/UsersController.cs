@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
-using Fotoplastykon.LL.Models;
+using AutoMapper;
+using Fotoplastykon.API.Areas.Admin.Models.Users;
+using Fotoplastykon.LL.Models.Users;
 using Fotoplastykon.LL.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,14 +12,25 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
     public class UsersController : ControllerBase
     {
         protected IUserService Users { get; }
-        public UsersController(IUserService users)
+        protected IMapper Mapper { get; }
+
+        public UsersController(IUserService users, IMapper mapper)
         {
             Users = users;
+            Mapper = mapper;
         }
         [Route("")]
-        public IEnumerable<User> GetAll()
+        public IEnumerable<AddUserModel> GetAll()
         {
             return Users.GetAll();
+        }
+
+        [Route("add")]
+        public IActionResult Add(UserFormModel user)
+        {
+            Users.Add(Mapper.Map<AddUserModel>(user));
+
+            return Ok();
         }
     }
 }
