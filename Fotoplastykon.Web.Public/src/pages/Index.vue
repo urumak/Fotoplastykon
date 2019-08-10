@@ -1,6 +1,34 @@
 <template>
   <q-page class="flex flex-center">
-    <img alt="Quasar logo" src="~assets/quasar-logo-full.svg" />
+    <div class="row">
+      <q-card class="my-card" style="background: #9C27B0">
+        <q-img class="news-img" src="assets/once-upon-a-time-in-hollywood.jpg">
+        </q-img>
+        <q-card-section>
+          dfdf
+          sdfsdfsdfsdf
+          sdfsd
+        </q-card-section>
+      </q-card>
+    </div>
+    <div class="row">
+      <q-card class="my-card">
+        <q-card-section>
+          dfdf
+          sdfsdfsdfsdf
+          sdfsd
+        </q-card-section>
+      </q-card>
+    </div>
+    <div class="row">
+      <q-card class="my-card">
+        <q-card-section>
+          dfdf
+          sdfsdfsdfsdf
+          sdfsd
+        </q-card-section>
+      </q-card>
+    </div>
   </q-page>
 </template>
 
