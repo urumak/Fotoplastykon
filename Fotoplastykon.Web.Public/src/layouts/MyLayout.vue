@@ -1,7 +1,7 @@
 <template>
   <q-layout view="hHh lpR fFf">
 
-    <q-header elevated class="bg-primary text-purple">
+    <q-header class="bg-primary text-purple">
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar>
@@ -12,19 +12,16 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="left" side="left">
-      <div class="absolute-left film-tape-left">
-      </div>
-      <!-- drawer content -->
-    </q-drawer>
-    
-    <q-drawer v-model="right" side="right">
-      <!-- drawer content -->
-    </q-drawer>
+    <div class="absolute-left film-tape">
+    </div>
 
     <q-page-container>
       <router-view />
     </q-page-container>
+
+    <div class="footer">
+
+    </div>
 
   </q-layout>
 </template>

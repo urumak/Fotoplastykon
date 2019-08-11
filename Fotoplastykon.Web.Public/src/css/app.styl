@@ -8,19 +8,59 @@
 .row
     width: 100%
 
-.q-page-container
-    padding-bottom: 100px
-    padding-top: 100px
+.row + .row
+    margin-top: 1em 
 
-.film-tape-left
-    width: 24.5%
-    background-image: url("images/film_tape_left.png")
+.q-page-container
+    padding-bottom: 500px
+    padding-top: 100px !important
+    padding-left: 200px
+
+.film-tape
+    width: 250px;
+    height: 100%
+    z-index: 1
+    top: 0
+    left: 0
+    overflow-x: hidden
+    transition: 0.5s
+    padding-top: 60px
+    background-image: url("images/tape.png")
     background-repeat: repeat-y
 
+.right-slider
+    width: 450px;
+    height: 100%
+    z-index: 1
+    overflow-x: hidden
+    transition: 0.5s
+
 .news-img
-    width: 20%
+    height: auto
+    width: 33.3333%
     float: right 
+    margin-left: -140px;
 
 .q-card
     border-radius: 0px
+
+.news-content
+    padding-right: 305px
+
+.vertical-slider
+    background: #9C27B0
+    margin: auto
+    height: 100%
+    width: 80%
+    padding: 10px
+    vertical-align: center
+
+.footer
+  position: absolute
+  left: 0
+  bottom: 0
+  width: 100%
+  background-color: #9C27B0
+  color: white
+  height: 400px
 
