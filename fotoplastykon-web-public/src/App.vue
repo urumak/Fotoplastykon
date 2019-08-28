@@ -2,11 +2,7 @@
   <v-app>
     <v-app-bar app>
       <v-toolbar-title class="headline text-uppercase">
-        <span>Vuetify</span>
-        <span class="font-weight-light">MATERIAL DESIGN</span>
-          <v-avatar>
-            <v-img src="./assets/icon.png"></v-img>
-          </v-avatar>
+        <span class="font-weight-light">Fotoplastykon</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn
@@ -18,10 +14,12 @@
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
     </v-app-bar>
-
     <v-content>
+      <div class="float-left film-tape">
+      </div>
       <router-view/>
     </v-content>
+    <hr />
   </v-app>
 </template>
 

@@ -1,15 +1,17 @@
-// app global css
+// app global css 
 .my-card
     width : 100%
+    background: rgb(252,255,244); /* Old browsers */
+    background: -moz-linear-gradient(-45deg,  rgba(252,255,244,1) 0%, rgba(223,229,215,1) 40%, rgba(179,190,173,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(-45deg,  rgba(252,255,244,1) 0%,rgba(223,229,215,1) 40%,rgba(179,190,173,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(135deg,  rgba(252,255,244,1) 0%,rgba(223,229,215,1) 40%,rgba(179,190,173,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 
 .my-header
     height : 50px
 
-.row
-    width: 100%
 
 .row + .row
-    margin-top: 1em 
+    margin-top: 3em 
 
 .q-page-container
     padding-bottom: 500px
@@ -17,7 +19,7 @@
     padding-left: 200px
 
 .film-tape
-    width: 250px;
+    width: 200px
     height: 100%
     z-index: 1
     top: 0
@@ -25,12 +27,10 @@
     overflow-x: hidden
     transition: 0.5s
     padding-top: 60px
-    background-image: url("images/tape.png")
+    background-image: url("img/tape.png")
     background-repeat: repeat-y
 
 .right-slider
-    width: 450px;
-    height: 100%
     z-index: 1
     overflow-x: hidden
     transition: 0.5s
@@ -39,20 +39,18 @@
     height: auto
     width: 33.3333%
     float: right 
-    margin-left: -140px;
+    margin-left: -140px
+    margin-top: 10%
 
-.q-card
+.v-card
     border-radius: 0px
 
-.news-content
-    padding-right: 305px
-
 .vertical-slider
-    background: #9C27B0
-    margin: auto
     height: 100%
-    width: 80%
-    padding: 10px
+    background: rgb(252,255,244); /* Old browsers */
+    background: -moz-linear-gradient(-45deg,  rgba(252,255,244,1) 0%, rgba(223,229,215,1) 40%, rgba(179,190,173,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(-45deg,  rgba(252,255,244,1) 0%,rgba(223,229,215,1) 40%,rgba(179,190,173,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(135deg,  rgba(252,255,244,1) 0%,rgba(223,229,215,1) 40%,rgba(179,190,173,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     vertical-align: center
 
 .footer
@@ -63,4 +61,47 @@
   background-color: #9C27B0
   color: white
   height: 400px
+
+.news-card-content
+    width: 75%
+    font-size: 19px
+    text-align: center
+    line-height: 1.6em
+    padding: 50px
+
+.container
+    margin-right: 20px
+    padding-bottom: 500px !important
+    margin-top: 50px
+
+.v-content
+    background: #aa3af0 !important
+
+.v-app-bar
+    background: rgb(252,255,244); /* Old browsers */
+    background: -moz-linear-gradient(-45deg,  rgba(252,255,244,1) 0%, rgba(223,229,215,1) 40%, rgba(179,190,173,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(-45deg,  rgba(252,255,244,1) 0%,rgba(223,229,215,1) 40%,rgba(179,190,173,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(135deg,  rgba(252,255,244,1) 0%,rgba(223,229,215,1) 40%,rgba(179,190,173,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+
+.news-card-content-reflection
+    width: 75%
+    font-size: 19px
+    text-align: center
+    line-height: 1.6em
+    padding: 50px
+    float: right
+
+.news-img-reflection
+    height: auto
+    width: 33.3333%
+    float: right 
+    margin-right: -140px
+    z-index: 2
+    margin-top: 10%
+
+.card-title
+    padding: 20px
+    text-transform: uppercase
+    font-size: 24px
+    color: #523068
 
