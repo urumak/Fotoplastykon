@@ -15,7 +15,7 @@
           <v-icon>mdi-open-in-new</v-icon>
         </v-btn>
       </v-app-bar>
-      <v-img src="@/assets/main.png">
+      <v-img src="@/assets/main.png" class="align-center main-img">
       </v-img>
     </div>
     <v-app-bar class="app-bar-standard" :class="{ 'navbar--hidden': showNavbarPicture }" app>
