@@ -24,13 +24,5 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
         {
             return Users.GetAll();
         }
-
-        [Route("add")]
-        public IActionResult Add(UserFormModel user)
-        {
-            Users.Add(Mapper.Map<AddUserModel>(user));
-
-            return Ok();
-        }
     }
 }

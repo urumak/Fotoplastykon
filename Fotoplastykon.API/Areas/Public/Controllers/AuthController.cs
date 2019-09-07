@@ -1,4 +1,6 @@
-﻿using Fotoplastykon.API.Areas.Public.Models.Auth;
+﻿using AutoMapper;
+using Fotoplastykon.API.Areas.Public.Models.Auth;
+using Fotoplastykon.LL.Models.Users;
 using Fotoplastykon.LL.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,11 +14,13 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         private readonly DateTime tokenExpires = DateTime.Now.AddMinutes(30);
         private IUserService Users { get; }
         private IAuthService Auth { get; }
+        private IMapper Mapper { get; }
 
-        public AuthController(IUserService users, IAuthService auth)
+        public AuthController(IUserService users, IAuthService auth, IMapper mapper)
         {
             Users = users;
             Auth = auth;
+            Mapper = mapper;
         }
 
         #region TryLoginUser()
@@ -36,6 +40,16 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
             }
 
             return BadRequest("[[[Email lub hasło są nieprawidłowe.]]]");
+        }
+        #endregion
+
+        #region Register()
+        [Route("register")]
+        public IActionResult Register(RegisterModel user)
+        {
+            Users.Add(Mapper.Map<AddUserModel>(user));
+
+            return Ok();
         }
         #endregion
     }

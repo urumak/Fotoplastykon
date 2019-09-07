@@ -9,6 +9,7 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
     {
         public UnitOfWork(DatabaseContext context, IUserRepository users, IPageCreationRepository creations)
         {
+            Context = context;
             Users = users;
             Creations = creations;
         }
