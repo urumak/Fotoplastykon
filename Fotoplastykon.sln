@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.757
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fotoplastykon.DAL", "Fotoplastykon.DAL\Fotoplastykon.DAL.csproj", "{C4473E96-6843-409E-B8DF-1AA878BA2F42}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fotoplastykon.LL", "Fotoplstykon.LL\Fotoplastykon.LL.csproj", "{BE0626AA-3F4D-4C6E-A1B1-90ADBC30CDD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fotoplastykon.BLL", "Fotoplstykon.LL\Fotoplastykon.BLL.csproj", "{BE0626AA-3F4D-4C6E-A1B1-90ADBC30CDD4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fotoplastykon.API", "Fotoplastykon.API\Fotoplastykon.API.csproj", "{606EC67D-3D14-4EDD-88A6-46E2EAE49BA0}"
 EndProject

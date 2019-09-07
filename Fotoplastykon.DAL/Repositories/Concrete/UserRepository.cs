@@ -2,12 +2,12 @@
 using System.Linq;
 using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.DAL.Repositories.Abstract;
+using Microsoft.EntityFrameworkCore;
 
 namespace Fotoplastykon.DAL.Repositories.Concrete
 {
     public class UserRepository : Repository<User>, IUserRepository
     {
-        // ReSharper disable once SuggestBaseTypeForParameter
         public UserRepository(DatabaseContext context)
             : base(context)
         {
@@ -20,9 +20,14 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
             return DatabaseContext.Users.OrderBy(u => u.Id).Take(count).ToList();
         }
 
-        public User GetByName(string name)
+        public User GetByUserName(string name)
         {
             return DatabaseContext.Users.FirstOrDefault(u => u.UserName == name);
+        }
+
+        public User GetByUserNameWithPermissions(string name)
+        {
+            return DatabaseContext.Users.Include(u => u.PageCreations).FirstOrDefault(u => u.UserName == name);
         }
     }
 }

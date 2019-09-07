@@ -3,7 +3,7 @@ using AutoMapper;
 using Fotoplastykon.LL.Models.Users;
 using User = Fotoplastykon.DAL.Entities.Concrete.User;
 
-namespace Fotoplastykon.LL.Services
+namespace Fotoplastykon.LL.Models
 {
     public class MappingProfile : Profile
     {
@@ -17,9 +17,6 @@ namespace Fotoplastykon.LL.Services
             CreateMap<User, AddUserModel>()
                 .ReverseMap()
                 .ForMember(d => d.PasswordHash, o => o.Ignore());
-
-            CreateMap<User, UserLoginModel>()
-                .ForMember(d => d.PagesIds, o => o.MapFrom(s => s.PageCreations.Select(c => c.FilmId)));
         }
     }
 }

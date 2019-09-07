@@ -10,38 +10,43 @@ namespace Fotoplastykon.LL.Services.Concrete
 {
     public class UserService : IUserService
     {
-        private IUsersUnit UsersUnit { get; }
-        private IMapper Mapper { get; }
-        private IPasswordHasher<User> Hasher { get; }
-
-        public UserService (IUsersUnit usersUnit, IMapper mapper, IPasswordHasher<User> hasher)
+        public UserService (IUnitOfWork unit, IMapper mapper, IPasswordHasher<User> hasher)
         {
-            UsersUnit = usersUnit;
+            Unit = unit;
             Mapper = mapper;
             Hasher = hasher;
         }
 
+        private IUnitOfWork Unit { get; }
+        private IMapper Mapper { get; }
+        private IPasswordHasher<User> Hasher { get; }
+
         public IEnumerable<AddUserModel> GetAll()
         {
-            return Mapper.Map<IEnumerable<AddUserModel>>(UsersUnit.Users.GetAll());
+            return Mapper.Map<IEnumerable<AddUserModel>>(Unit.Users.GetAll());
         }
 
         public bool Add(AddUserModel user)
         {
             var entity = Mapper.Map<User>(user);
 
-            UsersUnit.Users.Add(entity);
-            UsersUnit.Complete();
+            Unit.Users.Add(entity);
+            Unit.Complete();
 
             var result = SetPassword(entity.Id, user.Password);
-            UsersUnit.Complete();
+            Unit.Complete();
 
             return result;
         }
 
+        public UserLoginModel GetForLoginByUserName(string userName)
+        {
+            return Mapper.Map<UserLoginModel>(Unit.Users.GetByUserNameWithPermissions(userName));
+        }
+
         private bool SetPassword(long id, string password)
         {
-            var user = UsersUnit.Users.Get(id);
+            var user = Unit.Users.Get(id);
 
             if (user == null) return false;
 

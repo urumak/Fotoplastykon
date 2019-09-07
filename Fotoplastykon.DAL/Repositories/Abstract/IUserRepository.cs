@@ -6,6 +6,7 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
     public interface IUserRepository : IRepository<User>
     {
         IEnumerable<User> GetNewUsers(int count);
-        User GetByName(string name);
+        User GetByUserName(string name);
+        User GetByUserNameWithPermissions(string name);
     }
 }

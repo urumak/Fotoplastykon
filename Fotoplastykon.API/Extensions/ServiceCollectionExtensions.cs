@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MySql.Data.MySqlClient;
@@ -9,20 +11,18 @@ namespace Fotoplastykon.API.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static void RegisterAllTypes(this IServiceCollection services, Assembly assembly, string nameEndsWith)
+        public static void RegisterAllTypes(this IServiceCollection services, Assembly assembly, string nameEndsWith, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
         {
             services.RegisterAssemblyPublicNonGenericClasses(assembly)
                  .Where(c => c.Name.EndsWith(nameEndsWith))
-                 .AsPublicImplementedInterfaces();
+                 .AsPublicImplementedInterfaces(serviceLifetime);
         }
 
-        public static void AddMySqlDbContext<TContext>(this IServiceCollection services, IConfiguration configuration) where TContext : DbContext
+        public static void AddMySqlDbContext<TContext>(this IServiceCollection services, string connectionString) where TContext : DbContext
         {
             services.AddDbContext<TContext>(options =>
             {
-                var cs = configuration.GetConnectionString("DefaultConnection");
-
-                var builder = new MySqlConnectionStringBuilder(cs)
+                var builder = new MySqlConnectionStringBuilder(connectionString)
                 {
                     TreatTinyAsBoolean = true,
                     OldGuids = true
@@ -30,6 +30,26 @@ namespace Fotoplastykon.API.Extensions
 
                 options.UseMySql(builder.ToString());
             });
+        }
+
+        public static void SetAuthentication(this IServiceCollection services)
+        {
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters.NameClaimType = "sub";
+                options.MetadataAddress = "https://login.microsoftonline.com/common/.well-known/openid-configuration";
+                options.Audience = "https://myapi.audience.com";
+            });
+        }
+
+        public static void SetAuthorization(this IServiceCollection services)
+        {
+
         }
     }
 }

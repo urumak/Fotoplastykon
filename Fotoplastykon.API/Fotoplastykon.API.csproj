@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Fotoplastykon.DAL\Fotoplastykon.DAL.csproj" />
-    <ProjectReference Include="..\Fotoplstykon.LL\Fotoplastykon.LL.csproj" />
+    <ProjectReference Include="..\Fotoplstykon.LL\Fotoplastykon.BLL.csproj" />
   </ItemGroup>
 
 </Project>

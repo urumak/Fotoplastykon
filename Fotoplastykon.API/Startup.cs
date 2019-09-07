@@ -32,12 +32,12 @@ namespace Fotoplastykon.API
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddMySqlDbContext<DatabaseContext>(Configuration);
+            services.AddMySqlDbContext<DatabaseContext>(Configuration.GetConnectionString("DefaultConnection"));
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.RegisterAllTypes(typeof(IRepository<IEntity>).Assembly, "Repository");
-            services.RegisterAllTypes(typeof(IUsersUnit).Assembly, "UsersUnit");
+            services.RegisterAllTypes(typeof(IUnitOfWork).Assembly, "UnitOfWork");
             services.RegisterAllTypes(typeof(IUserService).Assembly, "Service");
 
             services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();

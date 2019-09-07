@@ -14,13 +14,13 @@ namespace Fotoplastykon.LL.Services.Concrete
 {
     public class AuthService : IAuthService
     {
-        private IUsersWithPermissionsUnit Unit { get; }
+        private IUnitOfWork Unit { get; }
         private IPasswordHasher<User> Hasher { get; }
         private Microsoft.Extensions.Configuration.IConfiguration Configuration { get; }
 
         private User _user;
 
-        public AuthService(IUsersWithPermissionsUnit unit, IPasswordHasher<User> hasher, Microsoft.Extensions.Configuration.IConfiguration configuration)
+        public AuthService(IUnitOfWork unit, IPasswordHasher<User> hasher, Microsoft.Extensions.Configuration.IConfiguration configuration)
         {
             Unit = unit;
             Hasher = hasher;
@@ -31,7 +31,7 @@ namespace Fotoplastykon.LL.Services.Concrete
         {
             var result = new LoginResult();
 
-            if (!FindUser(userName)) return result;
+            if (_user != null) return result;
 
             if (!CheckPassword(password)) return result;
 
@@ -43,7 +43,7 @@ namespace Fotoplastykon.LL.Services.Concrete
 
         private bool FindUser(string userName)
         {
-            _user = Unit.Users.GetByName(userName);
+            _user = Unit.Users.GetByUserName(userName);
 
             return _user != null;
         }
