@@ -5,8 +5,10 @@ import store from './store'
 import vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css'
 import './css/app.styl'
+import '@/bootstrap/axios';
 
 Vue.use(vuetify);
+
 Vue.config.productionTip = false
 
 new Vue({
@@ -15,3 +17,5 @@ new Vue({
   vuetify: new vuetify({}),
   render: h => h(App)
 }).$mount('#app')
+
+
