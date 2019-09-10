@@ -1,6 +1,6 @@
-﻿using Fotoplastykon.LL.Models.Auth;
+﻿using Fotoplastykon.BLL.Models.Auth;
 
-namespace Fotoplastykon.LL.Services.Abstract
+namespace Fotoplastykon.BLL.Services.Abstract
 {
     public interface IAuthService
     {

@@ -6,7 +6,7 @@ using Fotoplastykon.DAL.Entities.Abstract;
 using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.DAL.Repositories.Abstract;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
-using Fotoplastykon.LL.Services.Abstract;
+using Fotoplastykon.BLL.Services.Abstract;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;

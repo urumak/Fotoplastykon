@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Fotoplastykon.LL.Models.Users;
+using Fotoplastykon.BLL.Models.Users;
 
-namespace Fotoplastykon.LL.Services.Abstract
+namespace Fotoplastykon.BLL.Services.Abstract
 {
     public interface IUserService
     {

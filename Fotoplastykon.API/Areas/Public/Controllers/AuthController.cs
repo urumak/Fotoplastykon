@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Fotoplastykon.API.Areas.Public.Models.Auth;
-using Fotoplastykon.LL.Models.Users;
-using Fotoplastykon.LL.Services.Abstract;
+using Fotoplastykon.BLL.Models.Users;
+using Fotoplastykon.BLL.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -11,7 +11,6 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly DateTime tokenExpires = DateTime.Now.AddMinutes(30);
         private IUserService Users { get; }
         private IAuthService Auth { get; }
         private IMapper Mapper { get; }
@@ -25,21 +24,16 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
 
         #region TryLoginUser()
         [HttpPost("login")]
-        public ActionResult<TokenModel> Login([FromBody] LoginModel model)
+        public ActionResult<TokenViewModel> Login([FromBody] LoginModel model)
         {
-            var user = Users.GetForLoginByUserName(model.UserName);
+            var loginResult = Auth.TryLoginUser(model.UserName, model.Password);
 
-            if (user != null)
+            if (loginResult.CorrectCredentials)
             {
-            //    var result = Users.VerifyPassword(user, model.Password);
-
-            //    if (result == LoginResult.Success)
-            //    {
-            //        return CreateToken(user, tokenExpires);
-            //    }
+                return Mapper.Map<TokenViewModel>(loginResult.Token);
             }
 
-            return BadRequest("[[[Email lub hasło są nieprawidłowe.]]]");
+            return BadRequest("Nazwa użytkownika lub hasło są nieprawidłowe");
         }
         #endregion
 

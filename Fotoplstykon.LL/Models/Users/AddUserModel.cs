@@ -1,4 +1,4 @@
-﻿namespace Fotoplastykon.LL.Models.Users
+﻿namespace Fotoplastykon.BLL.Models.Users
 {
     public class AddUserModel
     {

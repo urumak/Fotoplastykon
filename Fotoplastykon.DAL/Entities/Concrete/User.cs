@@ -19,6 +19,7 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         public string PasswordHash { get; set; }
         public string Email { get; set; }
         public bool IsAdmin { get; set; }
+        public string RefreshToken { get; set; }
 
         public ICollection<PageCreation> PageCreations { get; set; }
     }
@@ -33,6 +34,7 @@ namespace Fotoplastykon.DAL.Entities.Concrete
             builder.Property(p => p.Email).IsRequired().HasMaxLength(250);
             builder.Property(p => p.PasswordHash).HasMaxLength(300);
             builder.Property(p => p.IsAdmin).IsRequired().HasDefaultValue(false);
+            builder.Property(p => p.RefreshToken).HasMaxLength(300);
             builder.ToTable("users");
         }
     }

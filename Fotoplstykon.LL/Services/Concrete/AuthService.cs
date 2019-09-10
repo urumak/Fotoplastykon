@@ -1,25 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Fotoplastykon.BLL.Models.Auth;
 using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
-using Fotoplastykon.LL.Models.Auth;
-using Fotoplastykon.LL.Services.Abstract;
+using Fotoplastykon.BLL.Services.Abstract;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 
-namespace Fotoplastykon.LL.Services.Concrete
+namespace Fotoplastykon.BLL.Services.Concrete
 {
     public class AuthService : IAuthService
     {
-        private IUnitOfWork Unit { get; }
-        private IPasswordHasher<User> Hasher { get; }
-        private Microsoft.Extensions.Configuration.IConfiguration Configuration { get; }
-
-        private User _user;
-
         public AuthService(IUnitOfWork unit, IPasswordHasher<User> hasher, Microsoft.Extensions.Configuration.IConfiguration configuration)
         {
             Unit = unit;
@@ -27,11 +22,18 @@ namespace Fotoplastykon.LL.Services.Concrete
             Configuration = configuration;
         }
 
+        private IUnitOfWork Unit { get; }
+        private IPasswordHasher<User> Hasher { get; }
+        private Microsoft.Extensions.Configuration.IConfiguration Configuration { get; }
+
+        private readonly DateTime tokenExpirationDate = DateTime.Now.AddMinutes(30);
+        private User _user;
+
         public LoginResult TryLoginUser(string userName, string password)
         {
             var result = new LoginResult();
 
-            if (_user != null) return result;
+            if (!FindUser(userName)) return result;
 
             if (!CheckPassword(password)) return result;
 
@@ -55,10 +57,10 @@ namespace Fotoplastykon.LL.Services.Concrete
             return result == PasswordVerificationResult.Success;
         }
 
-        private string CreateToken()
+        private TokenModel CreateToken()
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]));
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var claims = CreateClaims();
 
@@ -66,11 +68,18 @@ namespace Fotoplastykon.LL.Services.Concrete
                 Configuration["Tokens:Issuer"],
                 Configuration["Tokens:Issuer"],
                 claims,
-                signingCredentials: credentials
+                expires: tokenExpirationDate,
+                signingCredentials: creds
             );
+
             var tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
 
-            return tokenValue;
+            return new TokenModel()
+            {
+                Token = tokenValue,
+                RefreshToken = CreateRefreshToken(),
+                ExpirationDate = token.ValidTo
+            };
         }
 
         private IEnumerable<Claim> CreateClaims()
@@ -80,9 +89,25 @@ namespace Fotoplastykon.LL.Services.Concrete
             return new List<Claim>()
             {
                 new Claim(JwtRegisteredClaimNames.Sub, _user.Id.ToString()),
+                new Claim(ClaimTypes.Name, _user.UserName.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, _user.Email),
                 new Claim("CanEditPages", canEditPagesWithIds)
             };
+        }
+
+        private string CreateRefreshToken()
+        {
+            if (string.IsNullOrEmpty(_user.RefreshToken))
+            {
+                _user.RefreshToken = Hasher.HashPassword(_user, Guid.NewGuid().ToString())
+                    .Replace("+", string.Empty)
+                    .Replace("=", string.Empty)
+                    .Replace("/", string.Empty);
+ 
+                Unit.Complete();
+            }
+
+            return _user.RefreshToken;
         }
 
         private string GetPagesIdsThatUserCanEdit()

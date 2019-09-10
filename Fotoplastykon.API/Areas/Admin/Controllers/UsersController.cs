@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
 using Fotoplastykon.API.Areas.Admin.Models.Users;
-using Fotoplastykon.LL.Models.Users;
-using Fotoplastykon.LL.Services.Abstract;
+using Fotoplastykon.BLL.Models.Users;
+using Fotoplastykon.BLL.Services.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fotoplastykon.API.Areas.Admin.Controllers

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Fotoplastykon.API.Areas.Admin.Models.Users;
-using Fotoplastykon.LL.Models.Users;
+using Fotoplastykon.BLL.Models.Users;
 
 namespace Fotoplastykon.API.Areas.Admin.Models
 {

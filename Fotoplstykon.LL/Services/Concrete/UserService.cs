@@ -2,11 +2,11 @@
 using AutoMapper;
 using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
-using Fotoplastykon.LL.Models.Users;
-using Fotoplastykon.LL.Services.Abstract;
+using Fotoplastykon.BLL.Models.Users;
+using Fotoplastykon.BLL.Services.Abstract;
 using Microsoft.AspNetCore.Identity;
 
-namespace Fotoplastykon.LL.Services.Concrete
+namespace Fotoplastykon.BLL.Services.Concrete
 {
     public class UserService : IUserService
     {

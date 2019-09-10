@@ -1,8 +1,9 @@
-﻿namespace Fotoplastykon.LL.Models.Auth
+﻿
+namespace Fotoplastykon.BLL.Models.Auth
 {
     public class LoginResult
     {
         public bool CorrectCredentials { get; set; }
-        public string Token { get; set; }
+        public TokenModel Token { get; set; }
     }
 }
