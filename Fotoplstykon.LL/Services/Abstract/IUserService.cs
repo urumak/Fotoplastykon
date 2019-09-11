@@ -8,5 +8,6 @@ namespace Fotoplastykon.BLL.Services.Abstract
         IEnumerable<AddUserModel> GetAll();
         bool Add(AddUserModel user);
         UserLoginModel GetForLoginByUserName(string userName);
+        bool CheckIfExistByRefreshToken(string refreshToken);
     }
 }

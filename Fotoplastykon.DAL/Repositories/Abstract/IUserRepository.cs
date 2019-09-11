@@ -7,6 +7,7 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
     {
         IEnumerable<User> GetNewUsers(int count);
         User GetByUserName(string name);
+        User GetByRefreshToken(string refreshToken);
         User GetByUserNameWithPermissions(string name);
     }
 }

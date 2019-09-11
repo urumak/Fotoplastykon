@@ -43,9 +43,46 @@ namespace Fotoplastykon.BLL.Services.Concrete
             return result;
         }
 
+        public TokenModel TryRefreshToken(long userId)
+        {
+            if (!FindUser(userId)) return null;
+
+            return CreateToken();
+        }
+
+        public TokenModel TryRecoverToken(string refreshToken)
+        {
+            if (!FindUserByRefreshToken(refreshToken)) return null;
+
+            return CreateToken();
+        }
+
+        public bool TryRevokeToken(string refreshToken)
+        {
+            if (!FindUserByRefreshToken(refreshToken)) return false;
+
+            _user.RefreshToken = null;
+            Unit.Complete();
+
+            return true;
+        }
+
         private bool FindUser(string userName)
         {
             _user = Unit.Users.GetByUserName(userName);
+
+            return _user != null;
+        }
+
+        private bool FindUser(long userId)
+        {
+            _user = Unit.Users.Get(userId);
+
+            return _user != null;
+        }
+        private bool FindUserByRefreshToken(string refreshToken)
+        {
+            _user = Unit.Users.GetByRefreshToken(refreshToken);
 
             return _user != null;
         }

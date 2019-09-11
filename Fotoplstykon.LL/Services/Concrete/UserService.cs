@@ -54,5 +54,10 @@ namespace Fotoplastykon.BLL.Services.Concrete
 
             return true;
         }
+
+        public bool CheckIfExistByRefreshToken(string refreshToken)
+        {
+            return Unit.Users.GetByRefreshToken(refreshToken) != null;
+        }
     }
 }
