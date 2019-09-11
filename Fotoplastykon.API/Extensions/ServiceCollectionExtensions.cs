@@ -1,11 +1,16 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Fotoplastykon.BLL.Services.Abstract;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using MySql.Data.MySqlClient;
 using NetCore.AutoRegisterDi;
+using System;
 using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Fotoplastykon.API.Extensions
 {
@@ -32,7 +37,7 @@ namespace Fotoplastykon.API.Extensions
             });
         }
 
-        public static void SetAuthentication(this IServiceCollection services)
+        public static void SetAuthentication(this IServiceCollection services, string issuer, string tokenKey)
         {
             services.AddAuthentication(options =>
             {
@@ -41,9 +46,40 @@ namespace Fotoplastykon.API.Extensions
             })
             .AddJwtBearer(options =>
             {
-                options.TokenValidationParameters.NameClaimType = "sub";
-                options.MetadataAddress = "https://login.microsoftonline.com/common/.well-known/openid-configuration";
-                options.Audience = "https://myapi.audience.com";
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+
+                    ValidIssuer = issuer,
+                    ValidAudience = issuer,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenKey)),
+
+                    RequireExpirationTime = true,
+                    ClockSkew = new TimeSpan(0, 5, 0)
+                };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnTokenValidated = context =>
+                    {
+                        var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
+                        var userId = Convert.ToInt64(context.Principal.Identity.Name);
+                        var user = userService.Get(userId);
+
+                        if (user == null)
+                        {
+                            context.Fail("Unauthorized");
+                        }
+
+                        return Task.CompletedTask;
+                    }
+                };
             });
         }
 

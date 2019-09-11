@@ -43,62 +43,8 @@ namespace Fotoplastykon.API
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+            services.SetAuthentication(Configuration["Tokens:Issuer"], Configuration["Tokens:Key"]);
 
-            services
-                .AddAuthentication(options =>
-                {
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(options =>
-                {
-                    options.RequireHttpsMetadata = false;
-                    options.SaveToken = true;
-
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-
-                        ValidIssuer = Configuration["Tokens:Issuer"],
-                        ValidAudience = Configuration["Tokens:Issuer"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"])),
-
-                        RequireExpirationTime = true,
-                        ClockSkew = new TimeSpan(0, 5, 0)
-                    };
-
-                    options.Events = new JwtBearerEvents
-                    {
-                        OnMessageReceived = context =>
-                        {
-                            var accessToken = context.Request.Query["access_token"];
-                            var path = context.HttpContext.Request.Path;
-
-                            if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
-                            {
-                                context.Token = accessToken;
-                            }
-
-                            return Task.CompletedTask;
-                        },
-                        OnTokenValidated = context =>
-                        {
-                            var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
-                            var userId = Convert.ToInt64(context.Principal.Identity.Name);
-                            var user = userService.Get(userId);
-
-                            if (user == null)
-                            {
-                                context.Fail("Unauthorized");
-                            }
-
-                            return Task.CompletedTask;
-                        }
-                    };
-                });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext?.User ?? new ClaimsPrincipal());
 
