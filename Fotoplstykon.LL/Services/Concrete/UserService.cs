@@ -26,6 +26,11 @@ namespace Fotoplastykon.BLL.Services.Concrete
             return Mapper.Map<IEnumerable<AddUserModel>>(Unit.Users.GetAll());
         }
 
+        public User Get(long id)
+        {
+            return Unit.Users.Get(id);
+        }
+
         public bool Add(AddUserModel user)
         {
             var entity = Mapper.Map<User>(user);

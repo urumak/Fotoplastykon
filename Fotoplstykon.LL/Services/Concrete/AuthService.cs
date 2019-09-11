@@ -128,7 +128,8 @@ namespace Fotoplastykon.BLL.Services.Concrete
                 new Claim(JwtRegisteredClaimNames.Sub, _user.Id.ToString()),
                 new Claim(ClaimTypes.Name, _user.UserName.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, _user.Email),
-                new Claim("CanEditPages", canEditPagesWithIds)
+                new Claim("CanEditPages", canEditPagesWithIds),
+                new Claim("IsAdmin", _user.IsAdmin.ToString())
             };
         }
 

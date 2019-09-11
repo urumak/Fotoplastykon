@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Fotoplastykon.API.Areas.Public.Models.Auth;
+using Fotoplastykon.API.Extensions;
 using Fotoplastykon.BLL.Models.Users;
 using Fotoplastykon.BLL.Services.Abstract;
 using Microsoft.AspNetCore.Http;
@@ -55,6 +56,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         {
             if (!string.IsNullOrEmpty(authorization) && authorization.StartsWith("Bearer "))
             {
+                var user = User.Id();
                 var jwtValue = authorization.Replace("Bearer ", String.Empty);
 
                 if (new JwtSecurityTokenHandler().ReadToken(jwtValue) is JwtSecurityToken jwt)
