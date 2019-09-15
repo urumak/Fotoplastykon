@@ -11,7 +11,7 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Policy = "AdminAccess")]
     public class UsersController : ControllerBase
     {
         protected IUserService Users { get; }

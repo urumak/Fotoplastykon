@@ -20,6 +20,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using System.Security.Principal;
+using Microsoft.AspNetCore.Authorization;
+using Fotoplastykon.API.AccessHandlers.PageAccess;
 
 namespace Fotoplastykon.API
 {
@@ -44,9 +46,11 @@ namespace Fotoplastykon.API
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.SetAuthentication(Configuration["Tokens:Issuer"], Configuration["Tokens:Key"]);
+            services.SetAuthorization();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext?.User ?? new ClaimsPrincipal());
+            services.AddTransient<IAuthorizationHandler, PageAccessHandler>();
 
             services.RegisterAllTypes(typeof(IRepository<IEntity>).Assembly, "Repository");
             services.RegisterAllTypes(typeof(IUnitOfWork).Assembly, "UnitOfWork");

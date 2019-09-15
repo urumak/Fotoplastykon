@@ -4,6 +4,6 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
 {
     public interface IPageCreationRepository
     {
-        IEnumerable<long> GetPagesIdsForUser(long userId);
+        IEnumerable<string> GetPagesIdsForUser(long userId);
     }
 }

@@ -14,11 +14,11 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
 
         private DatabaseContext DatabaseContext => Context as DatabaseContext;
 
-        public IEnumerable<long> GetPagesIdsForUser(long userId)
+        public IEnumerable<string> GetPagesIdsForUser(long userId)
         {
             return DatabaseContext.PageCreations
                 .Where(c => c.UserId == userId)
-                .Select(c => c.FilmId)
+                .Select(c => c.Film.PagePublicId)
                 .ToList();
         }
     }

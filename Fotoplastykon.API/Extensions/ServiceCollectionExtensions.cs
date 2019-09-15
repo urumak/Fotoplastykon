@@ -1,4 +1,5 @@
-﻿using Fotoplastykon.BLL.Services.Abstract;
+﻿using Fotoplastykon.API.AccessHandlers.PageAccess;
+using Fotoplastykon.BLL.Services.Abstract;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -68,7 +69,12 @@ namespace Fotoplastykon.API.Extensions
 
         public static void SetAuthorization(this IServiceCollection services)
         {
-
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminAccess", policy => policy.RequireClaim("IsAdmin", "True"));
+                options.AddPolicy("CanEditPages", policy =>
+                        policy.Requirements.Add(new PageAccessRequirement()));
+            });
         }
     }
 }
