@@ -3,6 +3,7 @@ using Fotoplastykon.API.Areas.Public.Models.Auth;
 using Fotoplastykon.API.Extensions;
 using Fotoplastykon.BLL.Models.Users;
 using Fotoplastykon.BLL.Services.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,8 +11,9 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace Fotoplastykon.API.Areas.Public.Controllers
 {
-    [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
+    [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
         private IUserService Users { get; }
@@ -36,6 +38,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         #endregion
 
         #region TryLoginUser()
+        [AllowAnonymous]
         [HttpPost("login")]
         public ActionResult<TokenViewModel> Login([FromBody] LoginModel model)
         {
@@ -48,9 +51,10 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         #endregion
 
         #region RefreshToken()
+        [AllowAnonymous]
         [HttpGet("refresh-token")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
         public ActionResult<TokenViewModel> RefreshToken([FromHeader(Name = "Authorization")] string authorization)
         {
@@ -73,9 +77,10 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         #endregion
 
         #region RecoverToken()
+        [AllowAnonymous]
         [HttpGet("recover-token")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
         public ActionResult<TokenViewModel> RecoverToken([FromBody]TokenRequestModel refreshToken)
         {

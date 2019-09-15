@@ -63,8 +63,8 @@ namespace Fotoplastykon.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc();
             app.UseAuthentication();
+            app.UseMvc();
         }
     }
 }

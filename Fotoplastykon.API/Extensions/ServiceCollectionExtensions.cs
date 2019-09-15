@@ -63,23 +63,6 @@ namespace Fotoplastykon.API.Extensions
                     RequireExpirationTime = true,
                     ClockSkew = new TimeSpan(0, 5, 0)
                 };
-
-                options.Events = new JwtBearerEvents
-                {
-                    OnTokenValidated = context =>
-                    {
-                        var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
-                        var userId = Convert.ToInt64(context.Principal.Identity.Name);
-                        var user = userService.Get(userId);
-
-                        if (user == null)
-                        {
-                            context.Fail("Unauthorized");
-                        }
-
-                        return Task.CompletedTask;
-                    }
-                };
             });
         }
 
