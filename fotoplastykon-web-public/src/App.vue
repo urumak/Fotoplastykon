@@ -56,31 +56,33 @@
   </v-app>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
+import Component from 'vue-class-component'
 
-export default {
-  name: 'App',
-  data: () => ({
-    showNavbarPicture: true,
-    currentScrollPosition: 0
-  }),
+@Component({})
+export default class AppComponent extends Vue
+{
+  private showNavbarPicture: boolean = true;
+  private lastScrollPosition: number = 0;
 
-  created () {
+  mounted () 
+  {
     window.addEventListener('scroll', this.onScroll)
-  },
-
-  destroyed () {
-    window.removeEventListener('scroll', this.onScroll)
-  },
-
-  methods: {
-    onScroll () {
-      const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop
-
-      let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight + 0.205 >= document.documentElement.offsetHeight
-      
-      this.showNavbarPicture = currentScrollPosition === 0 || bottomOfWindow
-    }
   }
-};
+
+  beforeDestroy ()
+  {
+    window.removeEventListener('scroll', this.onScroll)
+  }
+
+  onScroll () 
+  {
+    const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop
+
+    let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight + 1 >= document.documentElement.offsetHeight
+    
+    this.showNavbarPicture = currentScrollPosition === 0 || bottomOfWindow
+  }
+}
 </script>

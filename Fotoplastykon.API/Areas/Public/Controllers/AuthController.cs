@@ -11,6 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace Fotoplastykon.API.Areas.Public.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
