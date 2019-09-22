@@ -57,6 +57,17 @@ namespace Fotoplastykon.API
             services.RegisterAllTypes(typeof(IUserService).Assembly, "Service");
 
             services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(FrontendCors,
+                builder =>
+                {
+                    builder.WithOrigins(Configuration["Cors:Frontend"])
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,6 +78,7 @@ namespace Fotoplastykon.API
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(FrontendCors);
             app.UseAuthentication();
             app.UseMvc();
         }

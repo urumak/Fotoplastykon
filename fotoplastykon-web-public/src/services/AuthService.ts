@@ -20,6 +20,21 @@ export default class AuthService
      *
      * @returns Promise<TokenModel>
      */
+    public static async login(username: string, password:string): Promise<any>
+    {
+        let test = (await Vue.axios.post<TokenModel>('auth/login', {username: username, password: password})).data['token'];
+        console.log(test);
+        return (Vue as any).$auth.login({
+            username: username,
+            password: password,
+        });
+    }
+
+    /**
+     * @param refreshToken string
+     *
+     * @returns Promise<TokenModel>
+     */
     public static async recoverToken(refreshToken: string): Promise<TokenModel>
     {
         return (await Vue.axios.post<TokenModel>('auth/token/recover', {

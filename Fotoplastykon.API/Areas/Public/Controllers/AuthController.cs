@@ -52,7 +52,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
 
         #region RefreshToken()
         [AllowAnonymous]
-        [HttpGet("refresh-token")]
+        [HttpGet("refresh")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
@@ -76,6 +76,14 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         }
         #endregion
 
+        #region Logout()
+        [HttpPost("logout")]
+        public ActionResult<IActionResult> Logout()
+        {
+            return Ok();
+        }
+        #endregion
+
         #region RecoverToken()
         [AllowAnonymous]
         [HttpGet("recover-token")]
@@ -95,7 +103,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         }
         #endregion
 
-        #region
+        #region RevokeToken()
         [HttpPost("revoke-token")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
