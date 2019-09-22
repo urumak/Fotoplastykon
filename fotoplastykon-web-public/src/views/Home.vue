@@ -2,13 +2,12 @@
   <HelloWorld />
 </template>
 
-<script lang="ts">
-import Vue from 'vue';
+<script>
 import HelloWorld from '../components/HelloWorld.vue';
 
-export default Vue.extend({
+export default {
   components: {
     HelloWorld,
   },
-});
+};
 </script>
