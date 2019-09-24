@@ -6,12 +6,12 @@
           <span class="font-weight-light">Fotoplastykon</span>
         </v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn
-          text
-          href="https://github.com/vuetifyjs/vuetify/releases/latest"
-          target="_blank"
-        >
-          <span class="mr-2">Latest Release</span>
+        <v-btn text :to="{name:'login'}">
+          <span class="mr-2">Zaloguj się</span>
+          <v-icon>mdi-open-in-new</v-icon>
+        </v-btn>
+        <v-btn text :to="{name:'register'}">
+          <span class="mr-2">Zarejestruj się</span>
           <v-icon>mdi-open-in-new</v-icon>
         </v-btn>
       </v-app-bar>
@@ -23,12 +23,12 @@
         <span class="font-weight-light">Fotoplastykon</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn
-        text
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-      >
-        <span class="mr-2">Latest Release</span>
+      <v-btn text :to="{name:'login'}">
+        <span class="mr-2">Zaloguj się</span>
+        <v-icon>mdi-open-in-new</v-icon>
+      </v-btn>
+      <v-btn text :to="{name:'register'}">
+        <span class="mr-2">Zarejestruj się</span>
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
     </v-app-bar>
@@ -66,7 +66,7 @@ export default class AppComponent extends Vue
   private showNavbarPicture: boolean = true;
   private lastScrollPosition: number = 0;
 
-  mounted () 
+  mounted ()
   {
     window.addEventListener('scroll', this.onScroll)
   }
@@ -76,12 +76,12 @@ export default class AppComponent extends Vue
     window.removeEventListener('scroll', this.onScroll)
   }
 
-  onScroll () 
+  onScroll ()
   {
     const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop
 
     let bottomOfWindow = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop) + window.innerHeight + 1 >= document.documentElement.offsetHeight
-    
+
     this.showNavbarPicture = currentScrollPosition === 0 || bottomOfWindow
   }
 }

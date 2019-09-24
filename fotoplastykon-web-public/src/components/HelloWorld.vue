@@ -9,9 +9,13 @@
             </div>
             <div class="card-title-line"></div>
             <div class="news-card-content">
-              <v-text-field v-model="username"></v-text-field>
-              <v-text-field v-model="password"></v-text-field>
-              <v-btn v-on:click="login()"></v-btn>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+              dapibus consectetur nisi, eu facilisis diam. Ut a est at arcu
+              commodo molestie. Integer non mollis est, vel interdum eros.
+              Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
+              posuere cubilia Curae; Pellentesque posuere id est id cursus. Nam
+              eu leo eu leo iaculis suscipit. Mauris fermentum ipsum sed sapien
+              semper fermentum.
             </div>
           </v-card>
           <v-img class="news-img" src="@/assets/TheGodfather_02.jpg" contain>
@@ -135,9 +139,6 @@ import AuthService from "@/services/AuthService.ts";
 
 @Component({})
 export default class HelloWorldComponent extends Vue {
-  private username: string = "";
-  private password: string = "";
-
   async created() {
     this.loadData();
   }
@@ -145,27 +146,6 @@ export default class HelloWorldComponent extends Vue {
   async loadData(): Promise<boolean> {
 
     return true;
-  }
-
-  async login(): Promise<void> {
-    let pass = this.password;
-    let email = this.username;
-    (await (this as any).$auth.login)({
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      data: {
-        userName: email,
-        password: pass
-      },
-      success: function (data: any) {
-
-      },
-      error: function (err:any) {
-        console.log(err)
-      }
-    });
-    console.log((await (this as any).$auth.user()));
   }
 }
 </script>

@@ -1,25 +1,12 @@
 import Vue from 'vue';
 
-/**
- * AuthService
- */
 export default class AuthService
 {
-    /**
-     * @param refreshToken string
-     *
-     * @returns Promise<TokenModel>
-     */
     public static async refreshToken(): Promise<TokenModel>
     {
         return (await Vue.axios.get<TokenModel>('auth/token/refresh')).data;
     }
 
-    /**
-     * @param refreshToken string
-     *
-     * @returns Promise<TokenModel>
-     */
     public static async login(username: string, password:string): Promise<any>
     {
         let test = (await Vue.axios.post<TokenModel>('auth/login', {username: username, password: password})).data['token'];
@@ -30,11 +17,6 @@ export default class AuthService
         });
     }
 
-    /**
-     * @param refreshToken string
-     *
-     * @returns Promise<TokenModel>
-     */
     public static async recoverToken(refreshToken: string): Promise<TokenModel>
     {
         return (await Vue.axios.post<TokenModel>('auth/token/recover', {
@@ -43,20 +25,6 @@ export default class AuthService
     }
 
 
-    /**
-     * @returns Promise<AuthModel>
-     */
-    public static async getIdentity(): Promise<AuthModel>
-    {
-        return (await Vue.axios.get<AuthModel>('auth/profile')).data;
-    }
-
-    /**
-     * @param email string
-     * @param callbackUrl string
-     *
-     * @returns Promise<string>
-     */
     public static async resetPassword(email: string, callbackUrl: string): Promise<string>
     {
         return (await Vue.axios.post<string>('auth/reset-password', {
@@ -65,14 +33,6 @@ export default class AuthService
         })).data;
     }
 
-    /**
-     * @param token string
-     * @param email string
-     * @param newPassword string
-     * @param repeatPassword string
-     *
-     * @returns Promise<string>
-     */
     public static async setPassword(token: string, email: string, newPassword: string, repeatPassword: string): Promise<string>
     {
         return (await Vue.axios.post<string>('auth/set-password', {
@@ -83,22 +43,14 @@ export default class AuthService
         })).data;
     }
 
-    /**
-     * @param model PasswordModel
-     *
-     * @returns Promise<string>
-     */
     public static async changePassword(model: PasswordModel): Promise<string>
     {
         return (await Vue.axios.post<string>('auth/change-password', model)).data;
     }
 
-    /**
-     * @returns Promise<number>
-     */
-    public static async passwordExpires(): Promise<number>
+    public static async register(model: RegisterModel): Promise<void>
     {
-        return (await Vue.axios.get<number>('auth/password-expires')).data;
+        await Vue.axios.post('auth/register', model);
     }
 }
 
@@ -109,24 +61,14 @@ export interface TokenModel
     expires: string;
 }
 
-export interface AuthModel
-{
-    id: number;
-    userName: string;
-    email: string;
-    givenName: string;
-    surname: string;
-    permissions: string[];
-    forcePasswordChange: boolean;
-    systemVersion: string;
-}
-
-export interface ProfileModel
+export interface RegisterModel
 {
     userName: string;
     email: string;
-    givenName: string;
+    firstName: string;
     surname: string;
+    password: string;
+    repeatPassword: string;
 }
 
 export interface LoginModel
