@@ -6,11 +6,37 @@ import vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css'
 import './css/app.styl'
 import '@/bootstrap/axios';
-import VueAuth from '@d0whc3r/vue-auth-plugin';
 
-const options = {};
+Vue.use(require('@websanova/vue-auth'), {
+  http: require('@websanova/vue-auth/drivers/http/axios.1.x.js'),
+  router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
+  authRedirect: {path: '/auth/login'},
+  forbiddenRedirect: {path: '/error/403'},
+  notFoundRedirect: {path: '/error/404'},
+  loginData: {url: 'auth/login', method: 'POST', redirect: '/', fetchUser: true},
+  logoutData: {url: 'auth/logout', method: 'POST', redirect: '/auth/login', makeRequest: false},
+  fetchData: {url: 'auth/user', method: 'GET', enabled: true},
+  refreshData: {url: 'auth/refresh', method: 'GET', enabled: true, interval: 30},
+  auth: {
+    request: function (req: any, token: any)
+    {
+      (this as any).options.http._setHeaders.call(this, req, {Authorization: 'Bearer ' + token});
+    },
+    response: function (res: any)
+    {
+      if (res && res.request && res.request.responseURL && res.request.responseURL.indexOf('/auth/') > 0)
+      {
+        return (res.data || {}).token;
+      }
+      return null;
+    }
+  },
+  parseUserData: function (data: any)
+  {
+    return data;
+  }
+});
 
-Vue.use(VueAuth, options);
 
 Vue.use(vuetify);
 

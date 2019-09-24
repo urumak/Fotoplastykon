@@ -120,5 +120,16 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
             return BadRequest("Nie udało się usunąć tokena");
         }
         #endregion
+
+        #region GetUser()
+        [Route("user")]
+        [HttpGet]
+        public IActionResult GetUser()
+        {
+            var user = Users.Get(User.Id());
+
+            return Ok(user);
+        }
+        #endregion
     }
 }

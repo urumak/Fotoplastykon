@@ -148,7 +148,24 @@ export default class HelloWorldComponent extends Vue {
   }
 
   async login(): Promise<void> {
-    let response = await AuthService.login(this.username, this.password);
+    let pass = this.password;
+    let email = this.username;
+    (await (this as any).$auth.login)({
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: {
+        userName: email,
+        password: pass
+      },
+      success: function (data: any) {
+
+      },
+      error: function (err:any) {
+        console.log(err)
+      }
+    });
+    console.log((await (this as any).$auth.user()));
   }
 }
 </script>
