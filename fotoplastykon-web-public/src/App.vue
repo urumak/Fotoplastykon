@@ -6,7 +6,11 @@
           <span class="font-weight-light">Fotoplastykon</span>
         </v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn text :to="{name:'login'}">
+        <v-btn v-if="$auth.check()" text @click="$auth.logout()">
+          <span class="mr-2">Wyloguj się</span>
+          <v-icon>mdi-open-in-new</v-icon>
+        </v-btn>
+        <v-btn v-else text :to="{name:'login'}">
           <span class="mr-2">Zaloguj się</span>
           <v-icon>mdi-open-in-new</v-icon>
         </v-btn>
@@ -23,7 +27,11 @@
         <span class="font-weight-light">Fotoplastykon</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn text :to="{name:'login'}">
+      <v-btn v-if="$auth.check()" text @click="$auth.logout()">
+        <span class="mr-2">Wyloguj się</span>
+        <v-icon>mdi-open-in-new</v-icon>
+      </v-btn>
+      <v-btn v-else text :to="{name:'login'}">
         <span class="mr-2">Zaloguj się</span>
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>

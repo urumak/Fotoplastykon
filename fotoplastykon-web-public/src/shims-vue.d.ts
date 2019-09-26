@@ -102,16 +102,16 @@ declare module 'global'
 declare module "vue-progressbar"
 {
     import { PluginFunction } from "vue";
-  
+
     export const install: PluginFunction<{}>;
-  
+
     interface ProgressMethods
     {
         start(): void;
         finish(): void;
         fail(): void;
     }
-  
+
     module "vue/types/vue"
     {
         interface Vue
@@ -125,12 +125,5 @@ declare module "vue-progressbar"
     }
 }
 
-// Map module to type 'any'. This allow to import js library without type declaration file.
-// declare module '@/locales/messages';
-// declare module '@tinymce/tinymce-vue';
-// declare module 'tinymce/tinymce';
-// declare module 'fingerprintjs2';
-// declare module 'ua-parser-js';
-// declare module 'vuedraggable';
-// declare module 'vue-datetime';
-// declare module 'vue-select';
+declare module 'form-backend-validation';
+declare module '@websanova/vue-auth';

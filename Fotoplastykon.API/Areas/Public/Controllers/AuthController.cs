@@ -29,6 +29,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
 
         #region Register()
         [HttpPost("register")]
+        [AllowAnonymous]
         public IActionResult Register(RegisterModel user)
         {
             Users.Add(Mapper.Map<AddUserModel>(user));

@@ -2,10 +2,10 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css'
 import './css/app.styl'
 import '@/bootstrap/axios';
+import vuetify from '@/plugins/vuetify';
 
 Vue.use(require('@websanova/vue-auth'), {
   http: require('@websanova/vue-auth/drivers/http/axios.1.x.js'),
@@ -14,7 +14,7 @@ Vue.use(require('@websanova/vue-auth'), {
   forbiddenRedirect: {path: '/error/403'},
   notFoundRedirect: {path: '/error/404'},
   loginData: {url: 'auth/login', method: 'POST', redirect: '/', fetchUser: true},
-  logoutData: {url: 'auth/logout', method: 'POST', redirect: '/auth/login', makeRequest: false},
+  logoutData: {url: 'auth/logout', method: 'POST', redirect: '/login', makeRequest: false},
   fetchData: {url: 'auth/user', method: 'GET', enabled: true},
   refreshData: {url: 'auth/refresh', method: 'GET', enabled: true, interval: 30},
   auth: {
@@ -37,15 +37,12 @@ Vue.use(require('@websanova/vue-auth'), {
   }
 });
 
-
-Vue.use(vuetify);
-
 Vue.config.productionTip = false;
 
 new Vue({
   router,
   store,
-  vuetify: new vuetify({}),
+  vuetify,
   render: h => h(App)
 }).$mount('#app');
 

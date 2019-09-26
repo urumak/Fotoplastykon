@@ -13,7 +13,7 @@
 <script lang="ts">
     import Vue from "vue";
     import Component from "vue-class-component";
-    import AuthService, { RegisterModel }from "@/services/AuthService.ts";
+    import AuthService, { RegisterModel } from "@/services/AuthService.ts";
 
     @Component({})
     export default class RegisterComponent extends Vue {
