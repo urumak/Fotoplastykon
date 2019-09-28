@@ -21,6 +21,11 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         public bool IsAdmin { get; set; }
 
         public ICollection<PageCreation> PageCreations { get; set; }
+        public ICollection<Friendship> InvitedFriends { get; set; }
+        public ICollection<Friendship> AcceptedFriends { get; set; }
+        public ICollection<Invitation> InvitationsSent { get; set; }
+        public ICollection<Invitation> InvitationsReceived { get; set; }
+
     }
 
     internal class UserMappings : IEntityTypeConfiguration<User>

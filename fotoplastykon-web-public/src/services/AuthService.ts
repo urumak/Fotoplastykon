@@ -48,7 +48,7 @@ export default class AuthService
         return (await Vue.axios.post<string>('auth/change-password', model)).data;
     }
 
-    public static async register(model: RegisterModel): Promise<void>
+    public static async register(model: RegisterModel): Promise<any>
     {
         await Vue.axios.post('auth/register', model);
     }

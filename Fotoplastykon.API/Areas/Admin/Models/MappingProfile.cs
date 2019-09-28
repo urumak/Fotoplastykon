@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Fotoplastykon.API.Areas.Admin.Models.Users;
 using Fotoplastykon.BLL.Models.Users;
+using Fotoplastykon.DAL.Entities.Concrete;
 
 namespace Fotoplastykon.API.Areas.Admin.Models
 {
@@ -8,10 +9,10 @@ namespace Fotoplastykon.API.Areas.Admin.Models
     {
         public MappingProfile()
         {
-            AddUserMappings();
+            UsersMappings();
         }
 
-        private void AddUserMappings()
+        private void UsersMappings()
         {
             CreateMap<UserFormModel, AddUserModel>();
         }

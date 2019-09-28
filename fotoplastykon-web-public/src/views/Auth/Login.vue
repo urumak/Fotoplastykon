@@ -22,8 +22,6 @@
 
     @Component({})
     export default class LoginComponent extends Vue {
-        private username: string = '';
-        private password: string = '';
         private valid = true;
         private rememberMe = false;
 

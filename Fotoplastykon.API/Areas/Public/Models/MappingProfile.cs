@@ -2,6 +2,7 @@
 using Fotoplastykon.API.Areas.Public.Models.Auth;
 using Fotoplastykon.BLL.Models.Auth;
 using Fotoplastykon.BLL.Models.Users;
+using Fotoplastykon.DAL.Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,13 +14,14 @@ namespace Fotoplastykon.API.Areas.Public.Models
     {
         public MappingProfile()
         {
-            AddAuthMappings();
+            UsersMappings();
         }
 
-        void AddAuthMappings()
+        void UsersMappings()
         {
             CreateMap<RegisterModel, AddUserModel>();
             CreateMap<TokenModel, TokenViewModel>();
+            CreateMap<User, Users.ListItemModel>();
         }
     }
 }

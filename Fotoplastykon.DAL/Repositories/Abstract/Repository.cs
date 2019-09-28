@@ -46,9 +46,20 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
             Context.Set<TEntity>().Remove(entity);
         }
 
+        public void Remove(long id)
+        {
+            var entity = Context.Set<TEntity>().FirstOrDefault(x => x.Id == id);
+            Context.Set<TEntity>().Remove(entity);
+        }
+
         public void RemoveRange(IEnumerable<TEntity> entities)
         {
             Context.Set<TEntity>().RemoveRange(entities);
+        }
+
+        public TEntity Get(Expression<Func<TEntity, bool>> predicate)
+        {
+            return Context.Set<TEntity>().FirstOrDefault(predicate);
         }
     }
 }
