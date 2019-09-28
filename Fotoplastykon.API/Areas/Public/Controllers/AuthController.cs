@@ -77,57 +77,16 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         }
         #endregion
 
-        #region Logout()
-        [HttpPost("logout")]
-        public ActionResult<IActionResult> Logout()
-        {
-            return Ok();
-        }
-        #endregion
-
-        #region RecoverToken()
-        [AllowAnonymous]
-        [HttpGet("recover-token")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesDefaultResponseType]
-        public ActionResult<TokenViewModel> RecoverToken([FromBody]TokenRequestModel refreshToken)
-        {
-            if (!string.IsNullOrEmpty(refreshToken.Token))
-            {
-                var recoveredToken = Mapper.Map<TokenViewModel>(Auth.TryRecoverToken(refreshToken.Token));
-
-                if(recoveredToken != null) return recoveredToken;
-            }
-
-            return BadRequest("Nie udało się odświeżyć tokena.");
-        }
-        #endregion
-
-        #region RevokeToken()
-        [HttpPost("revoke-token")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesDefaultResponseType]
-        public ActionResult RevokeToken([FromBody]TokenRequestModel model)
-        {
-            if (string.IsNullOrEmpty(model.Token)) return BadRequest();
-
-            if (!Users.CheckIfExistByRefreshToken(model.Token)) return NotFound();
-
-            if(Auth.TryRevokeToken(model.Token)) return Ok("Token został usunięty");
-
-            return BadRequest("Nie udało się usunąć tokena");
-        }
-        #endregion
-
         #region GetUser()
         [Route("user")]
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetUser()
         {
             var user = Users.Get(User.Id());
+
+            if (user == null) return NotFound();
 
             return Ok(user);
         }

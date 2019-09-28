@@ -26,7 +26,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
             Mapper = mapper;
         }
 
-        [HttpPost("fetch")]
+        [HttpGet("")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]

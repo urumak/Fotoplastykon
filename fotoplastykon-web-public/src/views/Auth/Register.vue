@@ -1,11 +1,11 @@
 <template>
     <v-container class="flex flex-center">
-        <v-text-field v-model="user.userName" placeholder="Nazwa użytkownika"></v-text-field>
-        <v-text-field v-model="user.password" placeholder="Hasło"></v-text-field>
-        <v-text-field v-model="user.repeatPassword" placeholder="Powtórz hasło"></v-text-field>
-        <v-text-field v-model="user.firstName" placeholder="Imię"></v-text-field>
-        <v-text-field v-model="user.surname" placeholder="Nazwisko"></v-text-field>
-        <v-text-field v-model="user.email" placeholder="Adres email"></v-text-field>
+        <v-text-field v-model="user.userName" label="Nazwa użytkownika"></v-text-field>
+        <v-text-field v-model="user.password" label="Hasło"></v-text-field>
+        <v-text-field v-model="user.repeatPassword" label="Powtórz hasło"></v-text-field>
+        <v-text-field v-model="user.firstName" label="Imię"></v-text-field>
+        <v-text-field v-model="user.surname" label="Nazwisko"></v-text-field>
+        <v-text-field v-model="user.email" label="Adres email"></v-text-field>
         <v-btn v-on:click="register()">Zarejestruj się</v-btn>
     </v-container>
 </template>

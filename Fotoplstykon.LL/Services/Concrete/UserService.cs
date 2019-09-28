@@ -2,9 +2,9 @@
 using AutoMapper;
 using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
-using Fotoplastykon.BLL.Models.Users;
 using Fotoplastykon.BLL.Services.Abstract;
 using Microsoft.AspNetCore.Identity;
+using Fotoplastykon.BLL.Models.Users;
 
 namespace Fotoplastykon.BLL.Services.Concrete
 {
@@ -20,11 +20,6 @@ namespace Fotoplastykon.BLL.Services.Concrete
         private IUnitOfWork Unit { get; }
         private IMapper Mapper { get; }
         private IPasswordHasher<User> Hasher { get; }
-
-        public IEnumerable<AddUserModel> GetAll()
-        {
-            return Mapper.Map<IEnumerable<AddUserModel>>(Unit.Users.GetAll());
-        }
 
         public User Get(long id)
         {
