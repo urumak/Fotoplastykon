@@ -25,11 +25,6 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
             return DatabaseContext.Users.FirstOrDefault(u => u.UserName == name);
         }
 
-        public User GetByRefreshToken(string refreshToken)
-        {
-            return DatabaseContext.Users.FirstOrDefault(u => u.RefreshToken == refreshToken);
-        }
-
         public User GetByUserNameWithPermissions(string name)
         {
             return DatabaseContext.Users.Include(u => u.PageCreations).FirstOrDefault(u => u.UserName == name);

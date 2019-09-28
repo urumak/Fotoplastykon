@@ -6,7 +6,5 @@ namespace Fotoplastykon.BLL.Services.Abstract
     {
         LoginResult TryLoginUser(string userName, string password);
         TokenModel TryRefreshToken(long userId);
-        TokenModel TryRecoverToken(string refreshToken);
-        bool TryRevokeToken(string refreshToken);
     }
 }

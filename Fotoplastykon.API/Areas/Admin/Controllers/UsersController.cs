@@ -24,7 +24,7 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
         }
 
         [Route("")]
-        public IEnumerable<AddUserModel> GetAll()
+        public IEnumerable<AddUserModel> Search(string search)
         {
             return null;
         }

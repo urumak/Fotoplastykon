@@ -5,12 +5,13 @@ using Fotoplastykon.DAL.UnitsOfWork.Abstract;
 using Fotoplastykon.BLL.Services.Abstract;
 using Microsoft.AspNetCore.Identity;
 using Fotoplastykon.BLL.Models.Users;
+using System.Linq;
 
 namespace Fotoplastykon.BLL.Services.Concrete
 {
     public class UserService : IUserService
     {
-        public UserService (IUnitOfWork unit, IMapper mapper, IPasswordHasher<User> hasher)
+        public UserService(IUnitOfWork unit, IMapper mapper, IPasswordHasher<User> hasher)
         {
             Unit = unit;
             Mapper = mapper;
@@ -44,6 +45,15 @@ namespace Fotoplastykon.BLL.Services.Concrete
             return Mapper.Map<UserLoginModel>(Unit.Users.GetByUserNameWithPermissions(userName));
         }
 
+        public List<User> Search(string searchString)
+        {
+            //TODO: poprawić wyszukiwanie tak, żeby dało się szukać po imieniu i nazwisku
+            return Unit.Users
+                .Find(u => u.UserName.Contains(searchString)
+                    || u.FirstName.Contains(searchString)
+                    || u.Surname.Contains(searchString)).ToList();
+        }
+
         private bool SetPassword(long id, string password)
         {
             var user = Unit.Users.Get(id);
@@ -53,11 +63,6 @@ namespace Fotoplastykon.BLL.Services.Concrete
             user.PasswordHash = Hasher.HashPassword(user, password);
 
             return true;
-        }
-
-        public bool CheckIfExistByRefreshToken(string refreshToken)
-        {
-            return Unit.Users.GetByRefreshToken(refreshToken) != null;
         }
     }
 }

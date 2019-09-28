@@ -50,23 +50,6 @@ namespace Fotoplastykon.BLL.Services.Concrete
             return CreateToken();
         }
 
-        public TokenModel TryRecoverToken(string refreshToken)
-        {
-            if (!FindUserByRefreshToken(refreshToken)) return null;
-
-            return CreateToken();
-        }
-
-        public bool TryRevokeToken(string refreshToken)
-        {
-            if (!FindUserByRefreshToken(refreshToken)) return false;
-
-            _user.RefreshToken = null;
-            Unit.Complete();
-
-            return true;
-        }
-
         private bool FindUser(string userName)
         {
             _user = Unit.Users.GetByUserName(userName);
@@ -77,12 +60,6 @@ namespace Fotoplastykon.BLL.Services.Concrete
         private bool FindUser(long userId)
         {
             _user = Unit.Users.Get(userId);
-
-            return _user != null;
-        }
-        private bool FindUserByRefreshToken(string refreshToken)
-        {
-            _user = Unit.Users.GetByRefreshToken(refreshToken);
 
             return _user != null;
         }
@@ -114,7 +91,6 @@ namespace Fotoplastykon.BLL.Services.Concrete
             return new TokenModel()
             {
                 Token = tokenValue,
-                RefreshToken = CreateRefreshToken(),
                 ExpirationDate = token.ValidTo
             };
         }
@@ -131,21 +107,6 @@ namespace Fotoplastykon.BLL.Services.Concrete
                 new Claim("CanEditPages", canEditPagesWithIds),
                 new Claim("IsAdmin", _user.IsAdmin.ToString())
             };
-        }
-
-        private string CreateRefreshToken()
-        {
-            if (string.IsNullOrEmpty(_user.RefreshToken))
-            {
-                _user.RefreshToken = Hasher.HashPassword(_user, Guid.NewGuid().ToString())
-                    .Replace("+", string.Empty)
-                    .Replace("=", string.Empty)
-                    .Replace("/", string.Empty);
- 
-                Unit.Complete();
-            }
-
-            return _user.RefreshToken;
         }
 
         private string GetPagesIdsThatUserCanEdit()
