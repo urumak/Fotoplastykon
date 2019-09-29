@@ -10,7 +10,8 @@ namespace Fotoplastykon.DAL.Entities.Concrete
     {
         public Film()
         {
-            PageCreations = new HashSet<PageCreation>();
+            PageCreations = new HashSet<FilmPageCreation>();
+            PeopleInRoles = new HashSet<PersonInRole>();
         }
 
         public long Id { get; set; }
@@ -18,7 +19,8 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         public int YearOfProduction { get; set; }
         public string PagePublicId { get; set; }
 
-        public ICollection<PageCreation> PageCreations { get; set; }
+        public ICollection<FilmPageCreation> PageCreations { get; set; }
+        public ICollection<PersonInRole> PeopleInRoles { get; set; }
     }
 
     internal class FilmMappings : IEntityTypeConfiguration<Film>

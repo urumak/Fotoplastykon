@@ -27,7 +27,7 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
 
         public User GetByUserNameWithPermissions(string name)
         {
-            return DatabaseContext.Users.Include(u => u.PageCreations).FirstOrDefault(u => u.UserName == name);
+            return DatabaseContext.Users.Include(u => u.FilmPageCreations).FirstOrDefault(u => u.UserName == name);
         }
     }
 }

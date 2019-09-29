@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Fotoplastykon.DAL.Entities.Concrete
 {
-    public class PageCreation : IEntity
+    public class FilmPageCreation : IEntity
     {
         public long Id { get; set; }
         public long UserId { get; set; }
@@ -14,13 +14,13 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         public Film Film { get; set; }
     }
 
-    internal class PageCreationMappings : IEntityTypeConfiguration<PageCreation>
+    internal class PageCreationMappings : IEntityTypeConfiguration<FilmPageCreation>
     {
-        public void Configure(EntityTypeBuilder<PageCreation> builder)
+        public void Configure(EntityTypeBuilder<FilmPageCreation> builder)
         {
-            builder.HasOne(p => p.User).WithMany(p =>p.PageCreations).HasForeignKey(p => p.UserId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(p => p.User).WithMany(p => p.FilmPageCreations).HasForeignKey(p => p.UserId).OnDelete(DeleteBehavior.Cascade);
             builder.HasOne(p => p.Film).WithMany(p => p.PageCreations).HasForeignKey(p => p.FilmId).OnDelete(DeleteBehavior.Cascade);
-            builder.ToTable("page_creations");
+            builder.ToTable("film_page_creations");
         }
     }
 }

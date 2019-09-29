@@ -10,6 +10,7 @@ using Fotoplastykon.BLL.Services.Abstract;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace Fotoplastykon.BLL.Services.Concrete
 {
@@ -111,9 +112,10 @@ namespace Fotoplastykon.BLL.Services.Concrete
 
         private string GetPagesIdsThatUserCanEdit()
         {
-            var pagesIds = Unit.Creations.GetPagesIdsForUser(_user.Id);
+            var filmPagesIds = Unit.FilmPagesCreations.GetPagesIdsForUser(_user.Id).ToList();
+            var personPagesIds = Unit.PersonPagesCreations.GetPagesIdsForUser(_user.Id).ToList();
 
-            return JsonConvert.SerializeObject(pagesIds);
+            return JsonConvert.SerializeObject(filmPagesIds.Concat(personPagesIds));
         }
     }
 }

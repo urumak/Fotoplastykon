@@ -6,9 +6,10 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Abstract
     public interface IUnitOfWork
     {
         IUserRepository Users { get; }
-        IPageCreationRepository Creations { get; }
+        IFilmPageCreationRepository FilmPagesCreations { get; }
         IInvitationRepository Invitations { get; }
         IFriendshipRepository Friendships { get; }
+        IPersonPageCreationRepository PersonPagesCreations { get; }
         int Complete();
     }
 }

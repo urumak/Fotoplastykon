@@ -1,13 +1,15 @@
 ﻿using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.DAL.Repositories.Abstract;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Fotoplastykon.DAL.Repositories.Concrete
 {
-    public class PageCreationRepository : Repository<PageCreation>, IPageCreationRepository
+    public class PersonPageCreationRepository : Repository<PersonPageCreation>, IPersonPageCreationRepository
     {
-        public PageCreationRepository(DatabaseContext context)
+        public PersonPageCreationRepository(DatabaseContext context)
             : base(context)
         {
         }
@@ -16,9 +18,9 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
 
         public IEnumerable<string> GetPagesIdsForUser(long userId)
         {
-            return DatabaseContext.PageCreations
+            return DatabaseContext.PersonPageCreations
                 .Where(c => c.UserId == userId)
-                .Select(c => c.Film.PagePublicId)
+                .Select(c => c.Person.PagePublicId)
                 .ToList();
         }
     }

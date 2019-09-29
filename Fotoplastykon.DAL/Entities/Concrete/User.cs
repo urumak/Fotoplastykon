@@ -9,7 +9,12 @@ namespace Fotoplastykon.DAL.Entities.Concrete
     {
         public User()
         {
-            PageCreations = new HashSet<PageCreation>();
+            FilmPageCreations = new HashSet<FilmPageCreation>();
+            InvitedFriends = new HashSet<Friendship>();
+            AcceptedFriends = new HashSet<Friendship>();
+            InvitationsSent = new HashSet<Invitation>();
+            InvitationsReceived = new HashSet<Invitation>();
+            PersonPageCreations = new HashSet<PersonPageCreation>();
         }
 
         public long Id { get; set; }
@@ -20,7 +25,8 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         public string Email { get; set; }
         public bool IsAdmin { get; set; }
 
-        public ICollection<PageCreation> PageCreations { get; set; }
+        public ICollection<FilmPageCreation> FilmPageCreations { get; set; }
+        public ICollection<PersonPageCreation> PersonPageCreations { get; set; }
         public ICollection<Friendship> InvitedFriends { get; set; }
         public ICollection<Friendship> AcceptedFriends { get; set; }
         public ICollection<Invitation> InvitationsSent { get; set; }

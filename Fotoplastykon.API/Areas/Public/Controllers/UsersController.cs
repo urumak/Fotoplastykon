@@ -73,7 +73,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         public IActionResult RemoveFriend(long id)
         {
             Users.RemoveFriend(User.Id(), id);
-            return Ok(id);
+            return Ok();
         }
     }
 }

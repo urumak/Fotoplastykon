@@ -9,21 +9,25 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
     {
         public UnitOfWork(DatabaseContext context, 
             IUserRepository users, 
-            IPageCreationRepository creations, 
+            IFilmPageCreationRepository filmPagesCreations, 
             IInvitationRepository invitations, 
-            IFriendshipRepository friendships)
+            IFriendshipRepository friendships,
+            IPersonPageCreationRepository personPagesCreations)
         {
             Context = context;
             Users = users;
-            Creations = creations;
+            FilmPagesCreations = filmPagesCreations;
             Friendships = friendships;
             Invitations = invitations;
+            PersonPagesCreations = personPagesCreations;
         }
 
         public IUserRepository Users { get; }
-        public IPageCreationRepository Creations { get; }
+        public IFilmPageCreationRepository FilmPagesCreations { get; }
         public IInvitationRepository Invitations { get; }
         public IFriendshipRepository Friendships { get; }
+        public IPersonPageCreationRepository PersonPagesCreations { get; }
+
         private DbContext Context { get; }
 
         public int Complete()

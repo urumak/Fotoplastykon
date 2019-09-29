@@ -103,7 +103,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
         {
             var friendship = Unit.Friendships.Get(f => f.InvitedId == userId && f.InvitingId == friendId);
 
-            if(friendship == null) Unit.Friendships.Get(f => f.InvitedId == friendId && f.InvitingId == userId);
+            if(friendship == null) friendship = Unit.Friendships.Get(f => f.InvitedId == friendId && f.InvitingId == userId);
 
             Unit.Friendships.Remove(friendship);
             Unit.Complete();

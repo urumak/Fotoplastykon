@@ -17,7 +17,13 @@ namespace Fotoplastykon.DAL
 
         public virtual DbSet<User> Users { get; protected set; }
         public virtual DbSet<Film> Films { get; protected set; }
-        public virtual DbSet<PageCreation> PageCreations { get; protected set; }
+        public virtual DbSet<FilmPerson> FilmPeople { get; protected set; }
+        public virtual DbSet<Friendship> Friendships { get; protected set; }
+        public virtual DbSet<Invitation> Invitations { get; protected set; }
+        public virtual DbSet<PersonInRole> PeopleInRoles { get; protected set; }
+        public virtual DbSet<FilmPageCreation> FilmPageCreations { get; protected set; }
+        public virtual DbSet<PersonPageCreation> PersonPageCreations { get; protected set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
