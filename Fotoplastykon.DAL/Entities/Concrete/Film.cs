@@ -12,6 +12,8 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         {
             PageCreations = new HashSet<FilmPageCreation>();
             PeopleInRoles = new HashSet<PersonInRole>();
+            ForumThreads = new HashSet<ForumThread>();
+            Watchings = new HashSet<FilmWatching>();
         }
 
         public long Id { get; set; }
@@ -21,6 +23,8 @@ namespace Fotoplastykon.DAL.Entities.Concrete
 
         public ICollection<FilmPageCreation> PageCreations { get; set; }
         public ICollection<PersonInRole> PeopleInRoles { get; set; }
+        public ICollection<ForumThread> ForumThreads { get; set; }
+        public ICollection<FilmWatching> Watchings { get; set; }
     }
 
     internal class FilmMappings : IEntityTypeConfiguration<Film>

@@ -14,6 +14,8 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         {
             Roles = new HashSet<PersonInRole>();
             PageCreations = new HashSet<PersonPageCreation>();
+            ForumThreads = new HashSet<ForumThread>();
+            Marks = new HashSet<PersonMark>();
         }
 
         public long Id { get; set; }
@@ -24,6 +26,8 @@ namespace Fotoplastykon.DAL.Entities.Concrete
 
         public ICollection<PersonInRole> Roles { get; set; }
         public ICollection<PersonPageCreation> PageCreations { get; set; }
+        public ICollection<ForumThread> ForumThreads { get; set; }
+        public ICollection<PersonMark> Marks { get; set; }
     }
 
 

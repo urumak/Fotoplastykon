@@ -3,14 +3,16 @@ using System;
 using Fotoplastykon.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Fotoplastykon.DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20190929173013_CreateForumThreadsAndMarks")]
+    partial class CreateForumThreadsAndMarks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -167,50 +169,6 @@ namespace Fotoplastykon.DAL.Migrations
                     b.ToTable("friendships");
                 });
 
-            modelBuilder.Entity("Fotoplastykon.DAL.Entities.Concrete.Information", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Content");
-
-                    b.Property<long>("CreatedById");
-
-                    b.Property<DateTime>("DateCreated");
-
-                    b.Property<string>("Title");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.ToTable("informations");
-                });
-
-            modelBuilder.Entity("Fotoplastykon.DAL.Entities.Concrete.InformationComment", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Content");
-
-                    b.Property<long>("CreatedById");
-
-                    b.Property<DateTime>("DateCreated");
-
-                    b.Property<long>("InformationId");
-
-                    b.Property<long?>("ParentId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("ParentId");
-
-                    b.ToTable("information_comments");
-                });
-
             modelBuilder.Entity("Fotoplastykon.DAL.Entities.Concrete.Invitation", b =>
                 {
                     b.Property<long>("Id")
@@ -227,26 +185,6 @@ namespace Fotoplastykon.DAL.Migrations
                     b.HasIndex("InvitingId");
 
                     b.ToTable("invitations");
-                });
-
-            modelBuilder.Entity("Fotoplastykon.DAL.Entities.Concrete.Message", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("MessageText");
-
-                    b.Property<long>("ReceiverId");
-
-                    b.Property<long>("SenderId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReceiverId");
-
-                    b.HasIndex("SenderId");
-
-                    b.ToTable("messages");
                 });
 
             modelBuilder.Entity("Fotoplastykon.DAL.Entities.Concrete.PageCreationRequest", b =>
@@ -325,74 +263,6 @@ namespace Fotoplastykon.DAL.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("person_page_creations");
-                });
-
-            modelBuilder.Entity("Fotoplastykon.DAL.Entities.Concrete.Quiz", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("quizes");
-                });
-
-            modelBuilder.Entity("Fotoplastykon.DAL.Entities.Concrete.QuizAnswer", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("AnswerText");
-
-                    b.Property<bool>("IsCorrect");
-
-                    b.Property<long>("QuestionId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuestionId");
-
-                    b.ToTable("quiz_answers");
-                });
-
-            modelBuilder.Entity("Fotoplastykon.DAL.Entities.Concrete.QuizQuestion", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("IsMultichoice");
-
-                    b.Property<string>("QuestionText");
-
-                    b.Property<long>("QuizId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuizId");
-
-                    b.ToTable("quiz_questions");
-                });
-
-            modelBuilder.Entity("Fotoplastykon.DAL.Entities.Concrete.QuizScore", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<long>("QuizId");
-
-                    b.Property<int>("Score");
-
-                    b.Property<long>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuizId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("quiz_scores");
                 });
 
             modelBuilder.Entity("Fotoplastykon.DAL.Entities.Concrete.User", b =>
@@ -501,27 +371,6 @@ namespace Fotoplastykon.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Fotoplastykon.DAL.Entities.Concrete.Information", b =>
-                {
-                    b.HasOne("Fotoplastykon.DAL.Entities.Concrete.User", "CreatedBy")
-                        .WithMany("Informations")
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Fotoplastykon.DAL.Entities.Concrete.InformationComment", b =>
-                {
-                    b.HasOne("Fotoplastykon.DAL.Entities.Concrete.User", "CreatedBy")
-                        .WithMany("InformationComments")
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Fotoplastykon.DAL.Entities.Concrete.InformationComment", "Parent")
-                        .WithMany("Children")
-                        .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("Fotoplastykon.DAL.Entities.Concrete.Invitation", b =>
                 {
                     b.HasOne("Fotoplastykon.DAL.Entities.Concrete.User", "Invited")
@@ -532,19 +381,6 @@ namespace Fotoplastykon.DAL.Migrations
                     b.HasOne("Fotoplastykon.DAL.Entities.Concrete.User", "Inviting")
                         .WithMany("InvitationsSent")
                         .HasForeignKey("InvitingId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Fotoplastykon.DAL.Entities.Concrete.Message", b =>
-                {
-                    b.HasOne("Fotoplastykon.DAL.Entities.Concrete.User", "Receiver")
-                        .WithMany("MessagesReceived")
-                        .HasForeignKey("ReceiverId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Fotoplastykon.DAL.Entities.Concrete.User", "Sender")
-                        .WithMany("MessagesSent")
-                        .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -591,35 +427,6 @@ namespace Fotoplastykon.DAL.Migrations
 
                     b.HasOne("Fotoplastykon.DAL.Entities.Concrete.User", "User")
                         .WithMany("PersonPageCreations")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Fotoplastykon.DAL.Entities.Concrete.QuizAnswer", b =>
-                {
-                    b.HasOne("Fotoplastykon.DAL.Entities.Concrete.QuizQuestion", "Question")
-                        .WithMany("Answers")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Fotoplastykon.DAL.Entities.Concrete.QuizQuestion", b =>
-                {
-                    b.HasOne("Fotoplastykon.DAL.Entities.Concrete.Quiz", "Quiz")
-                        .WithMany("Questions")
-                        .HasForeignKey("QuizId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Fotoplastykon.DAL.Entities.Concrete.QuizScore", b =>
-                {
-                    b.HasOne("Fotoplastykon.DAL.Entities.Concrete.Quiz", "Quiz")
-                        .WithMany("Scores")
-                        .HasForeignKey("QuizId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Fotoplastykon.DAL.Entities.Concrete.User", "User")
-                        .WithMany("Scores")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

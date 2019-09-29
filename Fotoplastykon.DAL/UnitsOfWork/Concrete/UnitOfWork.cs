@@ -2,6 +2,7 @@
 using Fotoplastykon.DAL.Repositories.Concrete;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
 {
