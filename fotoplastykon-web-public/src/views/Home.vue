@@ -13,8 +13,8 @@
     </v-app-bar>
     <div style="height: 80px"></div>
     <v-row style="margin-bottom: -80px">
-      <div class="col-7"><v-img class="landing-img" src="@/assets/main.png"></v-img></div>
-      <div class="col-5 float-right">
+      <div class="col-8"><v-img class="landing-img" src="@/assets/main.png"></v-img></div>
+      <div class="col-4 float-right">
         <v-card color="white" style="margin-top: -40px">
           <v-tabs
 
