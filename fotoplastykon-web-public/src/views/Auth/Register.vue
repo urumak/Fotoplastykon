@@ -18,7 +18,7 @@
     import AuthService, { RegisterModel } from "@/services/AuthService.ts";
     import Form from 'form-backend-validation';
 
-    @Component({})
+    @Component({name: 'register-component'})
     export default class RegisterComponent extends Vue {
         private form = new Form({
             surname: '',

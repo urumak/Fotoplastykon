@@ -20,7 +20,7 @@
     import AuthService, { LoginModel } from "@/services/AuthService.ts";
     import Form from 'form-backend-validation';
 
-    @Component({})
+    @Component({ name: 'login-component'})
     export default class LoginComponent extends Vue {
         private valid = true;
         private rememberMe = false;

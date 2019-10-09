@@ -22,5 +22,10 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
             Users = users;
             Mapper = mapper;
         }
+        //get list z filtrami i pagerem
+        //create
+        //fetch
+        //update
+        //delete
     }
 }

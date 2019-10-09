@@ -11,6 +11,7 @@ const router = new Router({
     {
       path: '/',
       name: 'home',
+      meta: { noLayout: true },
       component: Home
     },
     {

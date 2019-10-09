@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Fotoplastykon.API.Areas.Public.Models;
 using Fotoplastykon.API.Areas.Public.Models.Users;
 using Fotoplastykon.API.Enums;
 using Fotoplastykon.API.Extensions;
@@ -37,42 +38,45 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
             return Mapper.Map<List<ListItemModel>>(Users.Search(search));
         }
 
-        [HttpPost("invite/{id}")]
+        [HttpPost("invite")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public IActionResult Invite(long id)
+        public IActionResult Invite([FromBody]FriendIdModel model)
         {
-            Users.InviteFriend(User.Id(), id);
+            Users.InviteFriend(User.Id(), model.FriendId);
             return Ok();
         }
 
-        [HttpPost("invitation-reply")]
+        [HttpPost("accept-invitation")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public IActionResult AcceptInvitation([FromBody]InvitationReplyModel model)
+        public IActionResult AcceptInvitation([FromBody]FriendIdModel model)
         {
-            if(model.Reply == InvitationReply.Accept)
-            {
-                Users.AcceptInvitation(User.Id(), model.InvingId);
-            }
-
-            if (model.Reply == InvitationReply.Refuse)
-            {
-                Users.RefuseInvitation(User.Id(), model.InvingId);
-            }
+            Users.AcceptInvitation(User.Id(), model.FriendId);
 
             return Ok();
         }
 
-        [HttpDelete("remove-friend/{id}")]
+        [HttpPost("refuse-invitation")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public IActionResult RemoveFriend(long id)
+        public IActionResult RefuseInvitation([FromBody]FriendIdModel model)
         {
-            Users.RemoveFriend(User.Id(), id);
+            Users.RefuseInvitation(User.Id(), model.FriendId);
+
+            return Ok();
+        }
+
+        [HttpDelete("remove-friend")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public IActionResult RemoveFriend([FromBody]FriendIdModel model)
+        {
+            Users.RemoveFriend(User.Id(), model.FriendId);
             return Ok();
         }
     }
