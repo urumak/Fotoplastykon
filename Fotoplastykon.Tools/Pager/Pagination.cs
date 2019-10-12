@@ -13,7 +13,7 @@ namespace Fotoplastykon.Tools.Pager
             return new PaginationResult<T>
             {
                 Pager = pager,
-                Records = query.Skip(pager.PageIndex * pager.PageSize).Take(pager.PageSize).ToList()
+                Items = query.Skip(pager.PageIndex * pager.PageSize).Take(pager.PageSize).ToList()
             };
         }
     }

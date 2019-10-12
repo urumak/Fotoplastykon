@@ -13,7 +13,8 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
             IFilmPageCreationRepository filmPagesCreations, 
             IInvitationRepository invitations, 
             IFriendshipRepository friendships,
-            IPersonPageCreationRepository personPagesCreations)
+            IPersonPageCreationRepository personPagesCreations,
+            IInformationRepository informations)
         {
             Context = context;
             Users = users;
@@ -21,6 +22,7 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
             Friendships = friendships;
             Invitations = invitations;
             PersonPagesCreations = personPagesCreations;
+            Informations = informations;
         }
 
         public IUserRepository Users { get; }
@@ -28,6 +30,8 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
         public IInvitationRepository Invitations { get; }
         public IFriendshipRepository Friendships { get; }
         public IPersonPageCreationRepository PersonPagesCreations { get; }
+
+        public IInformationRepository Informations { get; }
 
         private DbContext Context { get; }
 

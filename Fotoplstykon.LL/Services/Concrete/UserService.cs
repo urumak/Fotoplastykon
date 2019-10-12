@@ -9,17 +9,14 @@ using System.Linq;
 
 namespace Fotoplastykon.BLL.Services.Concrete
 {
-    public class UserService : IUserService
+    public class UserService : Service, IUserService
     {
         public UserService(IUnitOfWork unit, IMapper mapper, IPasswordHasher<User> hasher)
+            : base(unit, mapper)
         {
-            Unit = unit;
-            Mapper = mapper;
             Hasher = hasher;
         }
 
-        private IUnitOfWork Unit { get; }
-        private IMapper Mapper { get; }
         private IPasswordHasher<User> Hasher { get; }
 
         public User Get(long id)

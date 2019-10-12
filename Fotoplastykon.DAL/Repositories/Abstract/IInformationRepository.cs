@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Fotoplastykon.DAL.Entities.Concrete;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Fotoplastykon.DAL.Repositories.Abstract
 {
-    public interface IInformationRepository
+    public interface IInformationRepository : IRepository<Information>
     {
     }
 }

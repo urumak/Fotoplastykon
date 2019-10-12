@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Fotoplastykon.DAL\Fotoplastykon.DAL.csproj" />
+    <ProjectReference Include="..\Fotoplastykon.Tools\Fotoplastykon.Tools.csproj" />
   </ItemGroup>
 
   <ItemGroup>

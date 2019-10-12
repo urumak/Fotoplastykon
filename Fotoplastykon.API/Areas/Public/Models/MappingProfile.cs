@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Fotoplastykon.API.Areas.Public.Models.Auth;
+using Fotoplastykon.API.Areas.Public.Models;
 using Fotoplastykon.BLL.Models.Auth;
 using Fotoplastykon.BLL.Models.Users;
 using Fotoplastykon.DAL.Entities.Concrete;
@@ -15,13 +15,19 @@ namespace Fotoplastykon.API.Areas.Public.Models
         public MappingProfile()
         {
             UsersMappings();
+            InformationsMappings();
         }
 
         void UsersMappings()
         {
-            CreateMap<RegisterModel, AddUserModel>();
-            CreateMap<TokenModel, TokenViewModel>();
+            CreateMap<Auth.RegisterModel, AddUserModel>();
+            CreateMap<TokenModel, Auth.TokenViewModel>();
             CreateMap<User, Users.ListItemModel>();
+        }
+
+        void InformationsMappings()
+        {
+            CreateMap<Information, Informations.ListItemModel>();
         }
     }
 }

@@ -23,7 +23,7 @@
 
             <v-tab
                     :href="`#tab-login`"
-            >Zaluguj się
+            >Zaloguj się
             </v-tab>
             <v-tab
                     :href="`#tab-register`"
