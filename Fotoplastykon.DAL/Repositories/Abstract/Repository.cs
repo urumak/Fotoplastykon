@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Fotoplastykon.DAL.Entities.Abstract;
+using Fotoplastykon.Tools.Pager;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fotoplastykon.DAL.Repositories.Abstract
@@ -60,6 +61,11 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
         public TEntity Get(Expression<Func<TEntity, bool>> predicate)
         {
             return Context.Set<TEntity>().FirstOrDefault(predicate);
+        }
+
+        public IPaginationResult<TEntity> GetPaginatedList(IPager pager)
+        {
+            return Context.Set<TEntity>().GetPaginationResult<TEntity>(pager);
         }
     }
 }

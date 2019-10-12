@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fotoplastykon.BLL", "Fotopl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fotoplastykon.API", "Fotoplastykon.API\Fotoplastykon.API.csproj", "{606EC67D-3D14-4EDD-88A6-46E2EAE49BA0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fotoplastykon.Tools", "Fotoplastykon.Tools\Fotoplastykon.Tools.csproj", "{3AB17A48-921C-4506-BD60-4F56B6CE999B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{606EC67D-3D14-4EDD-88A6-46E2EAE49BA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{606EC67D-3D14-4EDD-88A6-46E2EAE49BA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{606EC67D-3D14-4EDD-88A6-46E2EAE49BA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AB17A48-921C-4506-BD60-4F56B6CE999B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AB17A48-921C-4506-BD60-4F56B6CE999B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AB17A48-921C-4506-BD60-4F56B6CE999B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AB17A48-921C-4506-BD60-4F56B6CE999B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
