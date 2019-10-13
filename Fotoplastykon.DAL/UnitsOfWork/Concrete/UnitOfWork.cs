@@ -9,12 +9,12 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
     public class UnitOfWork : IUnitOfWork
     {
         public UnitOfWork(DatabaseContext context, 
-            IUserRepository users, 
-            IFilmPageCreationRepository filmPagesCreations, 
-            IInvitationRepository invitations, 
-            IFriendshipRepository friendships,
-            IPersonPageCreationRepository personPagesCreations,
-            IInformationRepository informations)
+            IUsersRepository users, 
+            IFilmPageCreationsRepository filmPagesCreations, 
+            IInvitationsRepository invitations, 
+            IFriendshipsRepository friendships,
+            IPersonPageCreationsRepository personPagesCreations,
+            IInformationsRepository informations)
         {
             Context = context;
             Users = users;
@@ -25,13 +25,13 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
             Informations = informations;
         }
 
-        public IUserRepository Users { get; }
-        public IFilmPageCreationRepository FilmPagesCreations { get; }
-        public IInvitationRepository Invitations { get; }
-        public IFriendshipRepository Friendships { get; }
-        public IPersonPageCreationRepository PersonPagesCreations { get; }
+        public IUsersRepository Users { get; }
+        public IFilmPageCreationsRepository FilmPagesCreations { get; }
+        public IInvitationsRepository Invitations { get; }
+        public IFriendshipsRepository Friendships { get; }
+        public IPersonPageCreationsRepository PersonPagesCreations { get; }
 
-        public IInformationRepository Informations { get; }
+        public IInformationsRepository Informations { get; }
 
         private DbContext Context { get; }
 

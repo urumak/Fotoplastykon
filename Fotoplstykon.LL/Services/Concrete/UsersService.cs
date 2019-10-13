@@ -9,9 +9,9 @@ using System.Linq;
 
 namespace Fotoplastykon.BLL.Services.Concrete
 {
-    public class UserService : Service, IUserService
+    public class UsersService : Service, IUsersService
     {
-        public UserService(IUnitOfWork unit, IMapper mapper, IPasswordHasher<User> hasher)
+        public UsersService(IUnitOfWork unit, IMapper mapper, IPasswordHasher<User> hasher)
             : base(unit, mapper)
         {
             Hasher = hasher;
@@ -27,7 +27,6 @@ namespace Fotoplastykon.BLL.Services.Concrete
         public bool Add(AddUserModel user)
         {
             var entity = Mapper.Map<User>(user);
-
             Unit.Users.Add(entity);
             Unit.Complete();
 
@@ -60,50 +59,6 @@ namespace Fotoplastykon.BLL.Services.Concrete
             user.PasswordHash = Hasher.HashPassword(user, password);
 
             return true;
-        }
-
-        public void InviteFriend(long userId, long friendId)
-        {
-            var invitation = new Invitation
-            {
-                InvitingId = userId,
-                InvitedId = friendId
-            };
-
-            Unit.Invitations.Add(invitation);
-            Unit.Complete();
-        }
-
-        public void AcceptInvitation(long userId, long invitedId)
-        {
-            var invitation = Unit.Invitations.Get(u => u.InvitedId == invitedId && u.InvitingId == userId);
-
-            var friendship = new Friendship
-            {
-                InvitingId = invitation.InvitingId,
-                InvitedId = invitation.InvitedId
-            };
-
-            Unit.Friendships.Add(friendship);
-            Unit.Invitations.Remove(invitation);
-            Unit.Complete();
-        }
-
-        public void RefuseInvitation(long userId, long invitedId)
-        {
-            var invitation = Unit.Invitations.Get(u => u.InvitedId == invitedId && u.InvitingId == userId);
-            Unit.Invitations.Remove(invitation);
-            Unit.Complete();
-        }
-
-        public void RemoveFriend(long userId, long friendId)
-        {
-            var friendship = Unit.Friendships.Get(f => f.InvitedId == userId && f.InvitingId == friendId);
-
-            if(friendship == null) friendship = Unit.Friendships.Get(f => f.InvitedId == friendId && f.InvitingId == userId);
-
-            Unit.Friendships.Remove(friendship);
-            Unit.Complete();
         }
     }
 }

@@ -14,10 +14,10 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
     [Authorize(Policy = "AdminAccess")]
     public class UsersController : ControllerBase
     {
-        protected IUserService Users { get; }
+        protected IUsersService Users { get; }
         protected IMapper Mapper { get; }
 
-        public UsersController(IUserService users, IMapper mapper)
+        public UsersController(IUsersService users, IMapper mapper)
         {
             Users = users;
             Mapper = mapper;

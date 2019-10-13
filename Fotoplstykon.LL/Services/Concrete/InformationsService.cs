@@ -9,16 +9,21 @@ using System.Text;
 
 namespace Fotoplastykon.BLL.Services.Concrete
 {
-    public class InformationService : Service, IInformationSerivice
+    public class InformationsService : Service, IInformationsSerivice
     {
-        public InformationService(IUnitOfWork unit, IMapper mapper)
+        public InformationsService(IUnitOfWork unit, IMapper mapper)
             : base (unit, mapper)
         {
         }
 
-        public IPaginationResult<Information>  GetPaginatedList(IPager pager)
+        public IPaginationResult<Information> GetPaginatedList(IPager pager)
         {
             return Unit.Informations.GetPaginatedList(pager);
+        }
+
+        public Information GetWithCreator(long id)
+        {
+            return Unit.Informations.GetWithCreator(id);
         }
     }
 }

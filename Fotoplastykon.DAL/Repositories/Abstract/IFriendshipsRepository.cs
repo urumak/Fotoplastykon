@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Fotoplastykon.DAL.Repositories.Abstract
 {
-    public interface IInformationRepository : IRepository<Information>
+    public interface IFriendshipsRepository : IRepository<Friendship>
     {
     }
 }

@@ -15,10 +15,10 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
     [ApiController]
     public class InformationsController : ControllerBase
     {
-        private IInformationSerivice Informations { get; }
+        private IInformationsSerivice Informations { get; }
         private IMapper Mapper { get; }
 
-        public InformationsController(IInformationSerivice informations, IMapper mapper)
+        public InformationsController(IInformationsSerivice informations, IMapper mapper)
         {
             Informations = informations;
             Mapper = mapper;
@@ -36,6 +36,18 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
                 Pager = result.Pager,
                 Items = Mapper.Map<List<ListItemModel>>(result.Items)
             });
+        }
+
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public IActionResult Get(long id)
+        {
+            var result = Informations.GetWithCreator(id);
+            if (result == null) return NotFound();
+
+            return Ok(Mapper.Map<InformationModel>(result));
         }
     }
 }

@@ -7,9 +7,9 @@ using System.Text;
 
 namespace Fotoplastykon.DAL.Repositories.Concrete
 {
-    public class PersonPageCreationRepository : Repository<PersonPageCreation>, IPersonPageCreationRepository
+    public class PersonPageCreationsRepository : Repository<PersonPageCreation>, IPersonPageCreationsRepository
     {
-        public PersonPageCreationRepository(DatabaseContext context)
+        public PersonPageCreationsRepository(DatabaseContext context)
             : base(context)
         {
         }

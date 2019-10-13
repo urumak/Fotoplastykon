@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Fotoplastykon.DAL.Repositories.Concrete
 {
-    public class UserRepository : Repository<User>, IUserRepository
+    public class UsersRepository : Repository<User>, IUsersRepository
     {
-        public UserRepository(DatabaseContext context)
+        public UsersRepository(DatabaseContext context)
             : base(context)
         {
         }

@@ -11,7 +11,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Policy = "CanEditPages")]
-    public class FilmController : ControllerBase
+    public class FilmsController : ControllerBase
     {
         [Route("{id}")]
         public IActionResult GetAll(string id)

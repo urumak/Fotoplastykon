@@ -28,6 +28,8 @@ namespace Fotoplastykon.API.Areas.Public.Models
         void InformationsMappings()
         {
             CreateMap<Information, Informations.ListItemModel>();
+            CreateMap<Information, Informations.InformationModel>()
+                .ForMember(d => d.CreatedByName, o => o.MapFrom(s => s.CreatedBy.FirstName + " " + s.CreatedBy.Surname));
         }
     }
 }

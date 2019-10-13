@@ -5,8 +5,7 @@ using System.Text;
 
 namespace Fotoplastykon.DAL.Repositories.Abstract
 {
-    public interface IPersonPageCreationRepository : IRepository<PersonPageCreation>
+    public interface IInvitationsRepository : IRepository<Invitation>
     {
-        IEnumerable<string> GetPagesIdsForUser(long userId);
     }
 }

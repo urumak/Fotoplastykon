@@ -5,12 +5,12 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Abstract
 {
     public interface IUnitOfWork
     {
-        IUserRepository Users { get; }
-        IFilmPageCreationRepository FilmPagesCreations { get; }
-        IInvitationRepository Invitations { get; }
-        IFriendshipRepository Friendships { get; }
-        IPersonPageCreationRepository PersonPagesCreations { get; }
-        IInformationRepository Informations { get; }
+        IUsersRepository Users { get; }
+        IFilmPageCreationsRepository FilmPagesCreations { get; }
+        IInvitationsRepository Invitations { get; }
+        IFriendshipsRepository Friendships { get; }
+        IPersonPageCreationsRepository PersonPagesCreations { get; }
+        IInformationsRepository Informations { get; }
         int Complete();
     }
 }

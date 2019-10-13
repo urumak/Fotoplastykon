@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Fotoplastykon.DAL.Repositories.Abstract
 {
-    public interface IFilmPageCreationRepository : IRepository<FilmPageCreation>
+    public interface IFilmPageCreationsRepository : IRepository<FilmPageCreation>
     {
         IEnumerable<string> GetPagesIdsForUser(long userId);
     }

@@ -54,7 +54,7 @@ namespace Fotoplastykon.API
 
             services.RegisterAllTypes(typeof(IRepository<IEntity>).Assembly, "Repository");
             services.RegisterAllTypes(typeof(IUnitOfWork).Assembly, "UnitOfWork");
-            services.RegisterAllTypes(typeof(IUserService).Assembly, "Service");
+            services.RegisterAllTypes(typeof(IUsersService).Assembly, "Service");
 
             services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 

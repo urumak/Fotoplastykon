@@ -20,10 +20,10 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private IUserService Users { get; }
+        private IUsersService Users { get; }
         private IMapper Mapper { get; }
 
-        public UsersController(IUserService users, IMapper mapper)
+        public UsersController(IUsersService users, IMapper mapper)
         {
             Users = users;
             Mapper = mapper;
@@ -38,46 +38,46 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
             return Mapper.Map<List<ListItemModel>>(Users.Search(search));
         }
 
-        [HttpPost("invite")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesDefaultResponseType]
-        public IActionResult Invite([FromBody]FriendIdModel model)
-        {
-            Users.InviteFriend(User.Id(), model.FriendId);
-            return Ok();
-        }
+        //[HttpPost("invite")]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //[ProducesDefaultResponseType]
+        //public IActionResult Invite([FromBody]FriendIdModel model)
+        //{
+        //    Users.InviteFriend(User.Id(), model.FriendId);
+        //    return Ok();
+        //}
 
-        [HttpPost("accept-invitation")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesDefaultResponseType]
-        public IActionResult AcceptInvitation([FromBody]FriendIdModel model)
-        {
-            Users.AcceptInvitation(User.Id(), model.FriendId);
+        //[HttpPost("accept-invitation")]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //[ProducesDefaultResponseType]
+        //public IActionResult AcceptInvitation([FromBody]FriendIdModel model)
+        //{
+        //    Users.AcceptInvitation(User.Id(), model.FriendId);
 
-            return Ok();
-        }
+        //    return Ok();
+        //}
 
-        [HttpPost("refuse-invitation")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesDefaultResponseType]
-        public IActionResult RefuseInvitation([FromBody]FriendIdModel model)
-        {
-            Users.RefuseInvitation(User.Id(), model.FriendId);
+        //[HttpPost("refuse-invitation")]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //[ProducesDefaultResponseType]
+        //public IActionResult RefuseInvitation([FromBody]FriendIdModel model)
+        //{
+        //    Users.RefuseInvitation(User.Id(), model.FriendId);
 
-            return Ok();
-        }
+        //    return Ok();
+        //}
 
-        [HttpDelete("remove-friend")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesDefaultResponseType]
-        public IActionResult RemoveFriend([FromBody]FriendIdModel model)
-        {
-            Users.RemoveFriend(User.Id(), model.FriendId);
-            return Ok();
-        }
+        //[HttpDelete("remove-friend")]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //[ProducesDefaultResponseType]
+        //public IActionResult RemoveFriend([FromBody]FriendIdModel model)
+        //{
+        //    Users.RemoveFriend(User.Id(), model.FriendId);
+        //    return Ok();
+        //}
     }
 }

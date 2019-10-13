@@ -6,9 +6,9 @@ using System.Text;
 
 namespace Fotoplastykon.DAL.Repositories.Concrete
 {
-    public class FriendshipRepository : Repository<Friendship>, IFriendshipRepository
+    public class FriendshipsRepository : Repository<Friendship>, IFriendshipsRepository
     {
-        public FriendshipRepository(DatabaseContext context)
+        public FriendshipsRepository(DatabaseContext context)
             : base(context)
         {
         }

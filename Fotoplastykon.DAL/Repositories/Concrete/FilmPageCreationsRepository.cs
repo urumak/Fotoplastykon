@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace Fotoplastykon.DAL.Repositories.Concrete
 {
-    public class FilmPageCreationRepository : Repository<FilmPageCreation>, IFilmPageCreationRepository
+    public class FilmPageCreationsRepository : Repository<FilmPageCreation>, IFilmPageCreationsRepository
     {
-        public FilmPageCreationRepository(DatabaseContext context)
+        public FilmPageCreationsRepository(DatabaseContext context)
             : base(context)
         {
         }

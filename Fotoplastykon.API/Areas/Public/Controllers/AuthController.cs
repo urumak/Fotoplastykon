@@ -16,11 +16,11 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        private IUserService Users { get; }
+        private IUsersService Users { get; }
         private IAuthService Auth { get; }
         private IMapper Mapper { get; }
 
-        public AuthController(IUserService users, IAuthService auth, IMapper mapper)
+        public AuthController(IUsersService users, IAuthService auth, IMapper mapper)
         {
             Users = users;
             Auth = auth;

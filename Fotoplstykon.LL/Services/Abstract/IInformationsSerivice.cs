@@ -6,8 +6,9 @@ using System.Text;
 
 namespace Fotoplastykon.BLL.Services.Abstract
 {
-    public interface IInformationSerivice
+    public interface IInformationsSerivice
     {
         IPaginationResult<Information> GetPaginatedList(IPager pager);
+        Information GetWithCreator(long id);
     }
 }

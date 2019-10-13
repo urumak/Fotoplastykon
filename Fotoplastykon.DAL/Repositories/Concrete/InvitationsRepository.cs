@@ -6,9 +6,9 @@ using System.Text;
 
 namespace Fotoplastykon.DAL.Repositories.Concrete
 {
-    public class InvitationRepository : Repository<Invitation>, IInvitationRepository
+    public class InvitationsRepository : Repository<Invitation>, IInvitationsRepository
     {
-        public InvitationRepository(DatabaseContext context)
+        public InvitationsRepository(DatabaseContext context)
             : base(context)
         {
         }
