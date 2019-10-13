@@ -23,6 +23,7 @@ namespace Fotoplastykon.API.Areas.Public.Models
             CreateMap<Auth.RegisterModel, AddUserModel>();
             CreateMap<TokenModel, Auth.TokenViewModel>();
             CreateMap<User, Users.ListItemModel>();
+            CreateMap<User, Users.UserModel>();
         }
 
         void InformationsMappings()

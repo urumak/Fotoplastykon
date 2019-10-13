@@ -29,13 +29,23 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
             Mapper = mapper;
         }
 
-        [HttpGet("{search}")]
+        [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public IEnumerable<ListItemModel> Search(string search)
+        public IActionResult Get(long id)
         {
-            return Mapper.Map<List<ListItemModel>>(Users.Search(search));
+            if (!Users.CheckIfExists(id)) return NotFound();
+
+            return Ok(Mapper.Map<UserModel>(Users.Get(id)));
+        }
+
+        [HttpGet("{search}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesDefaultResponseType]
+        public IActionResult Search(string search)
+        {
+            return Ok(Mapper.Map<List<ListItemModel>>(Users.Search(search)));
         }
     }
 }
