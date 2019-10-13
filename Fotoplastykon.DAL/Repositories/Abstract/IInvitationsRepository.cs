@@ -7,5 +7,6 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
 {
     public interface IInvitationsRepository : IRepository<Invitation>
     {
+        Invitation Get(long firstId, long secondId);
     }
 }

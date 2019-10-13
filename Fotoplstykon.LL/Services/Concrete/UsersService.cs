@@ -50,6 +50,11 @@ namespace Fotoplastykon.BLL.Services.Concrete
                     || u.Surname.Contains(searchString)).ToList();
         }
 
+        public bool CheckIfExists(long id)
+        {
+            return Unit.Users.Get(id) != null;
+        }
+
         private bool SetPassword(long id, string password)
         {
             var user = Unit.Users.Get(id);

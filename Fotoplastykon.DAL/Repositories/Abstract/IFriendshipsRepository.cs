@@ -7,5 +7,7 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
 {
     public interface IFriendshipsRepository : IRepository<Friendship>
     {
+        Friendship Get(long firstId, long secondId);
+        Friendship GetByIvitingAndInvitedId(long invitingId, long invitedId);
     }
 }

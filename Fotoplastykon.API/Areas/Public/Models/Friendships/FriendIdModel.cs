@@ -1,4 +1,4 @@
-﻿namespace Fotoplastykon.API.Areas.Public.Models
+﻿namespace Fotoplastykon.API.Areas.Public.Friendships
 {
     public class FriendIdModel
     {

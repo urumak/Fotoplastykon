@@ -10,5 +10,7 @@ namespace Fotoplastykon.BLL.Services.Abstract
         void AcceptInvitation(long userId, long invitingId);
         void RefuseInvitation(long userId, long invitingId);
         void RemoveFriend(long userId, long friendId);
+        bool CheckIfFriendshipExist(long firstId, long secondId);
+        bool CheckIfInvitationExist(long firstId, long secondId);
     }
 }

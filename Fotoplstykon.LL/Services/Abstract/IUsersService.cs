@@ -10,5 +10,6 @@ namespace Fotoplastykon.BLL.Services.Abstract
         bool Add(AddUserModel user);
         UserLoginModel GetForLoginByUserName(string userName);
         List<User> Search(string searchString);
+        bool CheckIfExists(long id);
     }
 }

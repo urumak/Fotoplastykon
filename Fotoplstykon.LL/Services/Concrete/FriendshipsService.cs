@@ -58,5 +58,15 @@ namespace Fotoplastykon.BLL.Services.Concrete
             Unit.Friendships.Remove(friendship);
             Unit.Complete();
         }
+
+        public bool CheckIfFriendshipExist(long firstId, long secondId)
+        {
+            return Unit.Friendships.Get(firstId, secondId) != null;
+        }
+
+        public bool CheckIfInvitationExist(long firstId, long secondId)
+        {
+            return Unit.Invitations.Get(firstId, secondId) != null;
+        }
     }
 }
