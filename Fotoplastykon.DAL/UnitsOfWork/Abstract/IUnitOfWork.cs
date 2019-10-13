@@ -11,6 +11,10 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Abstract
         IFriendshipsRepository Friendships { get; }
         IPersonPageCreationsRepository PersonPagesCreations { get; }
         IInformationsRepository Informations { get; }
+        IQuizesRepository Quizes { get; }
+        IQuizQuestionsRepository QuizQuestions { get; }
+        IQuizAnswersRepository QuizAnswers { get; }
+        IQuizScoresRepository QuizScores { get; }
         int Complete();
     }
 }

@@ -14,7 +14,11 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
             IInvitationsRepository invitations, 
             IFriendshipsRepository friendships,
             IPersonPageCreationsRepository personPagesCreations,
-            IInformationsRepository informations)
+            IInformationsRepository informations,
+            IQuizesRepository quizes,
+            IQuizQuestionsRepository quizQuestions,
+            IQuizAnswersRepository quizAnswers,
+            IQuizScoresRepository quizScores)
         {
             Context = context;
             Users = users;
@@ -23,6 +27,10 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
             Invitations = invitations;
             PersonPagesCreations = personPagesCreations;
             Informations = informations;
+            Quizes = quizes;
+            QuizQuestions = quizQuestions;
+            QuizAnswers = quizAnswers;
+            QuizScores = quizScores;
         }
 
         public IUsersRepository Users { get; }
@@ -30,9 +38,11 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
         public IInvitationsRepository Invitations { get; }
         public IFriendshipsRepository Friendships { get; }
         public IPersonPageCreationsRepository PersonPagesCreations { get; }
-
+        public IQuizesRepository Quizes { get; }
+        public IQuizQuestionsRepository QuizQuestions { get; }
+        public IQuizAnswersRepository QuizAnswers { get; }
+        public IQuizScoresRepository QuizScores { get; }
         public IInformationsRepository Informations { get; }
-
         private DbContext Context { get; }
 
         public int Complete()

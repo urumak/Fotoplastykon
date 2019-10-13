@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Fotoplastykon.API.Areas.Public.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/films")]
     [ApiController]
     [Authorize(Policy = "CanEditPages")]
     public class FilmsController : ControllerBase

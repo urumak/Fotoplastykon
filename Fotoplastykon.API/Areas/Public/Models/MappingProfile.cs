@@ -16,6 +16,7 @@ namespace Fotoplastykon.API.Areas.Public.Models
         {
             UsersMappings();
             InformationsMappings();
+            QuizesMappings();
         }
 
         void UsersMappings()
@@ -31,6 +32,13 @@ namespace Fotoplastykon.API.Areas.Public.Models
             CreateMap<Information, Informations.ListItemModel>();
             CreateMap<Information, Informations.InformationModel>()
                 .ForMember(d => d.CreatedByName, o => o.MapFrom(s => s.CreatedBy.FirstName + " " + s.CreatedBy.Surname));
+        }
+
+        void QuizesMappings()
+        {
+            CreateMap<Quiz, Quizes.QuizModel>();
+            CreateMap<QuizQuestion, Quizes.QuestionModel>();
+            CreateMap<QuizAnswer, Quizes.AnswerModel>();
         }
     }
 }

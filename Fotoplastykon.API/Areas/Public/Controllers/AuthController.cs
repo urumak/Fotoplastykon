@@ -13,7 +13,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     public class AuthController : ControllerBase
     {
         private IUsersService Users { get; }

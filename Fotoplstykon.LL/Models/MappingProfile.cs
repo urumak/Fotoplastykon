@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using AutoMapper;
+using Fotoplastykon.BLL.Models.Quizes;
 using Fotoplastykon.BLL.Models.Users;
+using Fotoplastykon.DAL.Entities.Concrete;
 using User = Fotoplastykon.DAL.Entities.Concrete.User;
 
 namespace Fotoplastykon.BLL.Models
@@ -9,14 +11,22 @@ namespace Fotoplastykon.BLL.Models
     {
         public MappingProfile()
         {
-            AddUserMappings();
+            UserMappings();
+            QuizMappings();
         }
 
-        private void AddUserMappings()
+        private void UserMappings()
         {
             CreateMap<User, AddUserModel>()
                 .ReverseMap()
                 .ForMember(d => d.PasswordHash, o => o.Ignore());
+        }
+
+        private void QuizMappings()
+        {
+            CreateMap<Quiz, QuizResultModel>();
+            CreateMap<QuizQuestion, QuestionResultModel>();
+            CreateMap<QuizAnswer, AnswerResultModel>();
         }
     }
 }

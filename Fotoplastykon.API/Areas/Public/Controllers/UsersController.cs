@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Fotoplastykon.API.Areas.Public.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/users")]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -35,9 +35,10 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesDefaultResponseType]
         public IActionResult Get(long id)
         {
-            if (!Users.CheckIfExists(id)) return NotFound();
+            var user = Users.Get(id);
+            if (user == null) return NotFound();
 
-            return Ok(Mapper.Map<UserModel>(Users.Get(id)));
+            return Ok(Mapper.Map<UserModel>(user));
         }
 
         [HttpGet("{search}")]

@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Fotoplastykon.API.Areas.Public.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/friendships")]
     [ApiController]
     public class FriendshipsController : ControllerBase
     {

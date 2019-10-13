@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Fotoplastykon.API.Areas.Public.Models.Informations;
+using Fotoplastykon.API.Areas.Public.Models.Quizes;
+using Fotoplastykon.API.Extensions;
+using Fotoplastykon.BLL.Models.Quizes;
 using Fotoplastykon.BLL.Services.Abstract;
 using Fotoplastykon.Tools.Pager;
 using Microsoft.AspNetCore.Http;
@@ -11,16 +13,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Fotoplastykon.API.Areas.Public.Controllers
 {
-    [Route("api/informations")]
+    [Route("api/quizes")]
     [ApiController]
-    public class InformationsController : ControllerBase
+    public class QuizesController : ControllerBase
     {
-        private IInformationsSerivice Informations { get; }
+        private IQuizesService Quizes { get; }
         private IMapper Mapper { get; }
 
-        public InformationsController(IInformationsSerivice informations, IMapper mapper)
+        public QuizesController(IQuizesService quizes, IMapper mapper)
         {
-            Informations = informations;
+            Quizes = quizes;
             Mapper = mapper;
         }
 
@@ -29,7 +31,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesDefaultResponseType]
         public IActionResult GetPaginatedList([FromQuery]Pager pager)
         {
-            var result = Informations.GetPaginatedList(pager);
+            var result = Quizes.GetPaginatedList(pager);
 
             return Ok(new PaginationResult<ListItemModel>
             {
@@ -44,10 +46,21 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesDefaultResponseType]
         public IActionResult Get(long id)
         {
-            var result = Informations.GetWithCreator(id);
+            var result = Quizes.GetFull(id);
             if (result == null) return NotFound();
 
-            return Ok(Mapper.Map<InformationModel>(result));
+            return Ok(Mapper.Map<QuizModel>(result));
+        }
+
+        [HttpPost("submit/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public IActionResult SubmitQuiz(long id, [FromBody]List<UserAnswerModel> answers)
+        {
+            if (!Quizes.CheckIfQuizExists(id)) return NotFound();
+
+            return Ok(Quizes.SubmitQuiz(id, User.Id(), answers));
         }
     }
 }
