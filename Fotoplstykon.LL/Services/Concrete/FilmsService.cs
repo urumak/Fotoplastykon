@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Fotoplastykon.BLL.Models.Films;
 using Fotoplastykon.BLL.Services.Abstract;
+using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
 using System;
 using System.Collections.Generic;
@@ -15,8 +17,20 @@ namespace Fotoplastykon.BLL.Services.Concrete
 
         }
 
-        public void Rate(long userId, long filmId)
+        public void Rate(FilmMarkModel mark)
         {
+            Unit.FilmWatchings.Add(Mapper.Map<FilmWatching>(mark));
+            Unit.Complete();
+        }
+
+        public bool CheckIfWatchingExists(long userId, long filmId)
+        {
+            return Unit.FilmWatchings.Get(userId, filmId) != null;
+        }
+
+        public bool CheckIfExists(long filmId)
+        {
+            return Unit.Films.Get(filmId) != null;
         }
     }
 }

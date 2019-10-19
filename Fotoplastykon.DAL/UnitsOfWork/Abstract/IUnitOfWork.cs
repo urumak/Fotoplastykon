@@ -16,6 +16,10 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Abstract
         IQuizAnswersRepository QuizAnswers { get; }
         IQuizScoresRepository QuizScores { get; }
         IFilesRepository Files { get; }
+        IFilmWatchingsRepository FilmWatchings { get;  }
+        IFilmsRepository Films { get; }
+        IFilmPeopleRepository FilmPeople { get; }
+        IPersonMarksRepository PersonMarks { get; }
         int Complete();
     }
 }

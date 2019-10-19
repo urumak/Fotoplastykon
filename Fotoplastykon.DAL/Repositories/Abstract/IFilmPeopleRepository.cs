@@ -5,8 +5,7 @@ using System.Text;
 
 namespace Fotoplastykon.DAL.Repositories.Abstract
 {
-    public interface IFilmWatchingsRepository : IRepository<FilmWatching>
+    public interface IFilmPeopleRepository : IRepository<FilmPerson>
     {
-        FilmWatching Get(long userId, long filmId);
     }
 }

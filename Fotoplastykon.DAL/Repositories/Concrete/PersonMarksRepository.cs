@@ -7,19 +7,18 @@ using System.Text;
 
 namespace Fotoplastykon.DAL.Repositories.Concrete
 {
-    public class FilmWatchingsRepository : Repository<FilmWatching>, IFilmWatchingsRepository
+    public class PersonMarksRepository : Repository<PersonMark>, IPersonMarksRepository
     {
-        public FilmWatchingsRepository(DatabaseContext context)
+        public PersonMarksRepository(DatabaseContext context)
             : base(context)
         {
-
         }
 
         private DatabaseContext DatabaseContext => Context as DatabaseContext;
 
-        public FilmWatching Get(long userId, long filmId)
+        public PersonMark Get(long userId, long personId)
         {
-            return DatabaseContext.FilmWatchings.FirstOrDefault(f => f.FilmId == filmId && f.UserId == userId);
+            return DatabaseContext.PeopleMarks.FirstOrDefault(f => f.PersonId == personId && f.UserId == userId);
         }
     }
 }

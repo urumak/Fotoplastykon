@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using AutoMapper;
+using Fotoplastykon.BLL.Models.Films;
 using Fotoplastykon.BLL.Models.Quizes;
 using Fotoplastykon.BLL.Models.Users;
 using Fotoplastykon.DAL.Entities.Concrete;
@@ -13,6 +14,7 @@ namespace Fotoplastykon.BLL.Models
         {
             UserMappings();
             QuizMappings();
+            FilmMappings();
         }
 
         private void UserMappings()
@@ -27,6 +29,11 @@ namespace Fotoplastykon.BLL.Models
             CreateMap<Quiz, QuizResultModel>();
             CreateMap<QuizQuestion, QuestionResultModel>();
             CreateMap<QuizAnswer, AnswerResultModel>();
+        }
+
+        private void FilmMappings()
+        {
+            CreateMap<FilmMarkModel, FilmWatching>();
         }
     }
 }
