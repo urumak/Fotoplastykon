@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Fotoplastykon.BLL.Services.Concrete
 {
-    public class InformationsService : Service, IInformationsSerivice
+    public class InformationsService : Service, IInformationsService
     {
         public InformationsService(IUnitOfWork unit, IMapper mapper)
             : base (unit, mapper)
@@ -24,6 +24,29 @@ namespace Fotoplastykon.BLL.Services.Concrete
         public Information GetWithCreator(long id)
         {
             return Unit.Informations.GetWithCreator(id);
+        }
+
+        public void AddComment(InformationComment comment)
+        {
+            Unit.InformationComments.Add(comment);
+            Unit.Complete();
+        }
+        public void RemoveComment(long id)
+        {
+            Unit.InformationComments.Remove(id);
+            Unit.Complete();
+        }
+
+        public void UpdateComment(long id, InformationComment comment)
+        {
+            var entity = Unit.InformationComments.Get(id);
+            Mapper.Map(comment, entity);
+            Unit.Complete();
+        }
+
+        public bool CheckIfCommentExists(long id)
+        {
+            return Unit.InformationComments.Get(id) != null;
         }
     }
 }

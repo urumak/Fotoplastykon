@@ -15,10 +15,10 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
     [ApiController]
     public class InformationsController : ControllerBase
     {
-        private IInformationsSerivice Informations { get; }
+        private IInformationsService Informations { get; }
         private IMapper Mapper { get; }
 
-        public InformationsController(IInformationsSerivice informations, IMapper mapper)
+        public InformationsController(IInformationsService informations, IMapper mapper)
         {
             Informations = informations;
             Mapper = mapper;

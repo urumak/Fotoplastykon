@@ -57,8 +57,8 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
 
         public virtual void Remove(long id)
         {
-            var entity = Context.Set<TEntity>().FirstOrDefault(x => x.Id == id);
-            Context.Set<TEntity>().Remove(entity);
+            var entity = Get(id);
+            Remove(entity);
         }
 
         public virtual void RemoveRange(IEnumerable<TEntity> entities)

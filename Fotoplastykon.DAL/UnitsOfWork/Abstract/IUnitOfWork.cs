@@ -20,6 +20,7 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Abstract
         IFilmsRepository Films { get; }
         IFilmPeopleRepository FilmPeople { get; }
         IPersonMarksRepository PersonMarks { get; }
+        IInformationCommentsRepository InformationComments { get; }
         int Complete();
     }
 }
