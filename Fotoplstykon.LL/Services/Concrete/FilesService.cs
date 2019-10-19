@@ -11,11 +11,11 @@ using System.Text;
 
 namespace Fotoplastykon.BLL.Services.Concrete
 {
-    public class FileService : Service, IFileService
+    public class FilesService : Service, IFilesService
     {
         protected IStorekeeper Storekeeper { get; }
 
-        public FileService(IUnitOfWork unit, IMapper mapper, IStorekeeper storekeeper)
+        public FilesService(IUnitOfWork unit, IMapper mapper, IStorekeeper storekeeper)
             : base(unit, mapper)
         {
             Storekeeper = storekeeper;
@@ -50,6 +50,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
             var fileInfo = Unit.Files.Get(id);
             Storekeeper.Remove(fileInfo.Name, fileInfo.RelativePath);
             Unit.Files.Remove(id);
+            Unit.Complete();
         }
 
         public bool CheckIfExists(long id)

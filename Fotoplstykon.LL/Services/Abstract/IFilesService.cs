@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Fotoplastykon.BLL.Services.Abstract
 {
-    public interface IFileService
+    public interface IFilesService
     {
         FileInfo Get(long id);
         FileInfo Add(IFormFile file, string relativePath = null);

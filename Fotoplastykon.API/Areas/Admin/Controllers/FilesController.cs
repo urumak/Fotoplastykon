@@ -13,8 +13,8 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
     [ApiController]
     public class FilesController : ControllerBase
     {
-        protected IFileService Files { get; }
-        public FilesController(IFileService files)
+        protected IFilesService Files { get; }
+        public FilesController(IFilesService files)
         {
             Files = files;
         }
