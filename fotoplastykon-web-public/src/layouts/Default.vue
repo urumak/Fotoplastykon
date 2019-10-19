@@ -1,87 +1,51 @@
 <template>
     <div>
-        <!--<div class="landing">
-              <v-app-bar class="app-bar-starter" :class="{ 'navbar--hidden': !showNavbarPicture }" app>
-                <v-toolbar-title class="headline text-uppercase">
-                  <span class="font-weight-light">Fotoplastykon</span>
-                </v-toolbar-title>
-                <v-spacer></v-spacer>
-                <v-btn v-if="$auth.check()" text @click="$auth.logout()">
-                  <span class="mr-2">Wyloguj się</span>
-                  <v-icon>mdi-open-in-new</v-icon>
-                </v-btn>
-                <v-btn v-else text :to="{name:'login'}">
-                  <span class="mr-2">Zaloguj się</span>
-                  <v-icon>mdi-open-in-new</v-icon>
-                </v-btn>
-                <v-btn text :to="{name:'register'}">
-                  <span class="mr-2">Zarejestruj się</span>
-                  <v-icon>mdi-open-in-new</v-icon>
-                </v-btn>
-              </v-app-bar>
-              <v-img src="@/assets/main.png" class="align-center main-img">
-              </v-img>
-            </div>-->
-        <!--
-                <v-app-bar class="app-bar-standard" :class="{ 'navbar&#45;&#45;hidden': showNavbarPicture }" app>
-            -->
         <v-app-bar class="app-bar-standard" app>
-            <v-toolbar-title class="headline text-uppercase">
+            <v-toolbar-title class="headline text-uppercase mr-6">
                 <span class="font-weight-light">Fotoplastykon</span>
             </v-toolbar-title>
+            <v-text-field label="Szukaj" class="mt-7 mr-6" outlined dense single-line></v-text-field>
+            <v-btn v-if="$auth.check()" class="mr-2" text>
+                <span>Filmy</span>
+            </v-btn>
+            <v-btn v-if="$auth.check()" class="mr-2" text>
+                <span>Ludzie kina</span>
+            </v-btn>
+            <v-btn v-if="$auth.check()" class="mr-2" text>
+                <span>Forum</span>
+            </v-btn>
+            <v-btn v-if="$auth.check()" class="mr-2" text>
+                <span>Quizy</span>
+            </v-btn>
             <v-spacer></v-spacer>
-            <v-btn v-if="$auth.check()" text @click="$auth.logout()">
-                <span class="mr-2">Wyloguj się</span>
-                <!--
-                                <v-icon>mdi-open-in-new</v-icon>
-                        -->
+            <v-btn v-if="!$auth.check()" text class="mr-2" :to="{name:'home'}">
+                <span>Zaloguj się</span>
             </v-btn>
-            <v-btn v-else text :to="{ name: 'login' }">
-                <span class="mr-2">Zaloguj się</span>
-                <!--
-                                <v-icon>mdi-open-in-new</v-icon>
-                        -->
+            <v-btn v-if="!$auth.check()" text  class="mr-2" :to="{name:'home'}">
+                <span>Zarejestruj się</span>
             </v-btn>
-            <v-btn text :to="{ name: 'register' }">
-                <span class="mr-2">Zarejestruj się</span>
-                <!--
-                                <v-icon>mdi-open-in-new</v-icon>
-                        -->
-            </v-btn>
+            <v-badge v-if="$auth.check()" class="mr-4" color="red" overlap>
+                <template v-slot:badge>
+                <span>1</span>
+                </template>
+                <v-icon class="nav-icon">mdi-chat</v-icon>
+            </v-badge>
+            <v-badge v-if="$auth.check()" color="red" class="mr-4" overlap>
+                <template v-slot:badge>
+                <span>1</span>
+                </template>
+                <v-icon class="nav-icon">mdi-bell</v-icon>
+            </v-badge>
+            <v-avatar v-if="$auth.check()" class="nav-avatar mr-2" @click="$auth.logout()">
+                <v-img src="@/assets/bird.jpg"></v-img>
+            </v-avatar>
         </v-app-bar>
         <v-content style="margin-top:60px;">
-            <div class="float-left film-tape">
-            </div>
-            <v-container class="flex flex-center">
+            <v-container class="float-right flex flex-center">
                 <slot />
             </v-container>
+            <div class="float-left film-tape">
+            </div>
         </v-content>
-
-        <!--<div class="footer">
-      <v-app-bar class="app-bar-starter" :class="{ 'navbar--hidden': !showNavbarPicture }" app>
-        <v-toolbar-title class="headline text-uppercase">
-          <span class="font-weight-light">Fotoplastykon</span>
-        </v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-btn
-          text
-          href="https://github.com/vuetifyjs/vuetify/releases/latest"
-          target="_blank"
-        >
-          <v-btn v-if="$auth.check()" text @click="$auth.logout()">
-            <span class="mr-2">Wyloguj się</span>
-            <v-icon>mdi-open-in-new</v-icon>
-          </v-btn>
-          <v-btn v-else text :to="{name:'login'}">
-            <span class="mr-2">Zaloguj się</span>
-            <v-icon>mdi-open-in-new</v-icon>
-          </v-btn>
-          <v-btn text :to="{name:'register'}">
-            <span class="mr-2">Zarejestruj się</span>
-            <v-icon>mdi-open-in-new</v-icon>
-          </v-btn>
-        </v-btn>
-      </v-app-bar>
-    </div>-->
     </div>
 </template>

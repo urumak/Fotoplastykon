@@ -7,7 +7,7 @@
         <span class="font-weight-light">Fotoplastykon</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn text>
+      <v-btn text :to="{name:'informations'}">
         <span class="mr-2">Kontynuuj bez logowania</span>
       </v-btn>
     </v-app-bar>
@@ -16,27 +16,14 @@
       <div class="col-8"><v-img class="landing-img" src="@/assets/main.png"></v-img></div>
       <div class="col-4 float-right">
         <v-card color="white" style="margin-top: -40px">
-          <v-tabs
-
-          >
+          <v-tabs>
             <v-tabs-slider></v-tabs-slider>
-
-            <v-tab
-                    :href="`#tab-login`"
-            >Zaloguj się
-            </v-tab>
-            <v-tab
-                    :href="`#tab-register`"
-            >Zarejestruj się
-            </v-tab>
-            <v-tab-item
-                    :value="'tab-login'"
-            >
+            <v-tab :href="`#tab-login`">Zaloguj się</v-tab>
+            <v-tab :href="`#tab-register`">Zarejestruj się</v-tab>
+            <v-tab-item :value="'tab-login'">
               <login-component></login-component>
             </v-tab-item>
-            <v-tab-item
-                    :value="'tab-register'"
-            >
+            <v-tab-item :value="'tab-register'">
               <register-component></register-component>
             </v-tab-item>
           </v-tabs>

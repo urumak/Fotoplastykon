@@ -15,14 +15,9 @@ const router = new Router({
       component: Home
     },
     {
-      path: '/about',
-      name: 'about',
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-    },
-    {
-      path: '/about',
-      name: 'error-404',
-      component: () => import(/* webpackChunkName: "about" */ './views/Error404.vue')
+      path: '/informations',
+      name: 'informations',
+      component: () => import(/* webpackChunkName: "about" */ './views/Informations/MainPage.vue')
     },
     {
       path: '/login',
