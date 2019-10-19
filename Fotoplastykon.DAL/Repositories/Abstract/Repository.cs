@@ -45,7 +45,14 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
 
         public virtual void Remove(TEntity entity)
         {
-            Context.Set<TEntity>().Remove(entity);
+            if(entity is IRecoverable recoverableEntity)
+            {
+                recoverableEntity.DateDeleted = DateTime.Now;
+            }
+            else
+            {
+                Context.Set<TEntity>().Remove(entity);
+            }
         }
 
         public virtual void Remove(long id)

@@ -7,9 +7,8 @@ using System.Text;
 
 namespace Fotoplastykon.DAL.Entities.Concrete
 {
-    public class ForumThread : IEntity
+    public class ForumThread : IEntity, IRecoverable
     {
-        //TODO: przerobić na soft delete
         public ForumThread ()
         {
             Comments = new HashSet<ForumThreadComment>();
@@ -22,6 +21,7 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         public long? FilmId { get; set; }
         public string Subject { get; set; }
         public string Content { get; set; }
+        public DateTime? DateDeleted { get; set; }
 
         public User CreatedBy { get; set; }
         public FilmPerson Person { get; set; }
