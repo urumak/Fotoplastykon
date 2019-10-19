@@ -24,6 +24,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
         public FileInfo Get(long id)
         {
             var fileInfo = Unit.Files.Get(id);
+            if (fileInfo == null) return null;
             return Storekeeper.Get(fileInfo.Name, fileInfo.RelativePath);
         }
 
@@ -49,6 +50,11 @@ namespace Fotoplastykon.BLL.Services.Concrete
             var fileInfo = Unit.Files.Get(id);
             Storekeeper.Remove(fileInfo.Name, fileInfo.RelativePath);
             Unit.Files.Remove(id);
+        }
+
+        public bool CheckIfExists(long id)
+        {
+            return Unit.Files.Get(id) != null;
         }
 
         private byte[] GetFileContent(IFormFile file)

@@ -11,5 +11,6 @@ namespace Fotoplastykon.BLL.Services.Abstract
         FileInfo Get(long id);
         FileInfo Add(IFormFile file, string relativePath = null);
         void Remove(long id);
+        bool CheckIfExists(long id);
     }
 }
