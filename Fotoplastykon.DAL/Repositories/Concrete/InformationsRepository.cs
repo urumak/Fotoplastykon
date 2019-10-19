@@ -20,7 +20,7 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
 
         public Information GetWithCreator(long id)
         {
-            return Context.Set<Information>().Include(i => i.CreatedBy).FirstOrDefault(i => i.Id == id);
+            return DatabaseContext.Informations.Include(i => i.CreatedBy).FirstOrDefault(i => i.Id == id);
         }
     }
 }

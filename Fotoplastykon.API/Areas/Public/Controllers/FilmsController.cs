@@ -10,11 +10,24 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
 {
     [Route("api/films")]
     [ApiController]
-    [Authorize(Policy = "CanEditPages")]
     public class FilmsController : ControllerBase
     {
+
+        public FilmsController()
+        {
+
+        }
         [Route("{id}")]
         public IActionResult GetAll(string id)
+        {
+            return Ok();
+        }
+
+        [HttpPost("rate/{filmPublicId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public IActionResult SubmitQuiz(string filmPublicId)
         {
             return Ok();
         }

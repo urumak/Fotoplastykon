@@ -15,12 +15,14 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
         {
         }
 
+        private DatabaseContext DatabaseContext => Context as DatabaseContext;
+
         public Friendship Get(long firstId, long secondId)
         {
-            var friendship = Context.Set<Friendship>()
+            var friendship = DatabaseContext.Friendships
                 .FirstOrDefault(f => f.InvitedId == firstId && f.InvitingId == secondId);
 
-            if (friendship == null) friendship = Context.Set<Friendship>()
+            if (friendship == null) friendship = DatabaseContext.Friendships
                     .FirstOrDefault(f => f.InvitedId == secondId && f.InvitingId == firstId);
 
             return friendship;
@@ -28,7 +30,7 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
 
         public Friendship GetByIvitingAndInvitedId(long invitingId, long invitedId)
         {
-            return Context.Set<Friendship>()
+            return DatabaseContext.Friendships
                 .FirstOrDefault(f => f.InvitedId == invitedId && f.InvitingId == invitingId);
         }
     }

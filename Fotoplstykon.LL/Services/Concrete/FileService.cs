@@ -1,4 +1,5 @@
-﻿using Fotoplastykon.BLL.Services.Abstract;
+﻿using AutoMapper;
+using Fotoplastykon.BLL.Services.Abstract;
 using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.DAL.Storage;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
@@ -10,14 +11,13 @@ using System.Text;
 
 namespace Fotoplastykon.BLL.Services.Concrete
 {
-    public class FileService : IFileService
+    public class FileService : Service, IFileService
     {
-        protected IUnitOfWork Unit { get; }
         protected IStorekeeper Storekeeper { get; }
 
-        public FileService(IUnitOfWork unit, IStorekeeper storekeeper)
+        public FileService(IUnitOfWork unit, IMapper mapper, IStorekeeper storekeeper)
+            : base(unit, mapper)
         {
-            Unit = unit;
             Storekeeper = storekeeper;
         }
 

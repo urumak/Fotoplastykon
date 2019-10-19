@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Fotoplastykon.API.Areas.Public.Models;
 using Fotoplastykon.API.Areas.Public.Models.Users;
-using Fotoplastykon.API.Enums;
 using Fotoplastykon.API.Extensions;
 using Fotoplastykon.BLL.Services.Abstract;
 using Fotoplastykon.DAL.Entities.Concrete;

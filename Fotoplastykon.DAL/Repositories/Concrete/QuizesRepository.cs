@@ -20,7 +20,7 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
 
         public Quiz GetFullQuiz(long id)
         {
-            return Context.Set<Quiz>()
+            return DatabaseContext.Quizes
                 .Include(q => q.Questions)
                 .ThenInclude(qq => qq.Answers)
                 .FirstOrDefault(q => q.Id == id);

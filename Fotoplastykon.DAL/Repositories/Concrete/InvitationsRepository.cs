@@ -15,12 +15,14 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
         {
         }
 
+        private DatabaseContext DatabaseContext => Context as DatabaseContext;
+
         public Invitation Get(long firstId, long secondId)
         {
-            var invitation = Context.Set<Invitation>()
+            var invitation = DatabaseContext.Invitations
                 .FirstOrDefault(f => f.InvitedId == firstId && f.InvitingId == secondId);
 
-            if (invitation == null) invitation = Context.Set<Invitation>()
+            if (invitation == null) invitation = DatabaseContext.Invitations
                     .FirstOrDefault(f => f.InvitedId == secondId && f.InvitingId == firstId);
 
             return invitation;

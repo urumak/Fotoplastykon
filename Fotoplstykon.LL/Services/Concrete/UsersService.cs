@@ -11,13 +11,13 @@ namespace Fotoplastykon.BLL.Services.Concrete
 {
     public class UsersService : Service, IUsersService
     {
+        private IPasswordHasher<User> Hasher { get; }
+
         public UsersService(IUnitOfWork unit, IMapper mapper, IPasswordHasher<User> hasher)
             : base(unit, mapper)
         {
             Hasher = hasher;
         }
-
-        private IPasswordHasher<User> Hasher { get; }
 
         public User Get(long id)
         {
