@@ -1,5 +1,6 @@
 ﻿using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.DAL.Repositories.Abstract;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 

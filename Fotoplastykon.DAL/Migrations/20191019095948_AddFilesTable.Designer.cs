@@ -3,19 +3,45 @@ using System;
 using Fotoplastykon.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Fotoplastykon.DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20191019095948_AddFilesTable")]
+    partial class AddFilesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("Fotoplastykon.DAL.Entities.Concrete.File", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(500);
+
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasMaxLength(1000);
+
+                    b.Property<string>("PublicId")
+                        .IsRequired()
+                        .HasMaxLength(80);
+
+                    b.Property<long>("Size");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("files");
+                });
 
             modelBuilder.Entity("Fotoplastykon.DAL.Entities.Concrete.Film", b =>
                 {
@@ -397,33 +423,6 @@ namespace Fotoplastykon.DAL.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("quiz_scores");
-                });
-
-            modelBuilder.Entity("Fotoplastykon.DAL.Entities.Concrete.StoredFileInfo", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("AbsolutePath")
-                        .IsRequired()
-                        .HasMaxLength(1000);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(500);
-
-                    b.Property<string>("PublicId")
-                        .IsRequired()
-                        .HasMaxLength(80);
-
-                    b.Property<string>("RelativePath")
-                        .HasMaxLength(1000);
-
-                    b.Property<long>("Size");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("files");
                 });
 
             modelBuilder.Entity("Fotoplastykon.DAL.Entities.Concrete.User", b =>

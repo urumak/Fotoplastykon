@@ -18,7 +18,8 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
             IQuizesRepository quizes,
             IQuizQuestionsRepository quizQuestions,
             IQuizAnswersRepository quizAnswers,
-            IQuizScoresRepository quizScores)
+            IQuizScoresRepository quizScores,
+            IFilesRepository files)
         {
             Context = context;
             Users = users;
@@ -31,6 +32,7 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
             QuizQuestions = quizQuestions;
             QuizAnswers = quizAnswers;
             QuizScores = quizScores;
+            Files = files;
         }
 
         public IUsersRepository Users { get; }
@@ -43,6 +45,7 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
         public IQuizAnswersRepository QuizAnswers { get; }
         public IQuizScoresRepository QuizScores { get; }
         public IInformationsRepository Informations { get; }
+        public IFilesRepository Files { get; }
         private DbContext Context { get; }
 
         public int Complete()

@@ -3,6 +3,7 @@ using System.Linq;
 using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.DAL.Repositories.Abstract;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Fotoplastykon.DAL.Repositories.Concrete
 {

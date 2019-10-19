@@ -3,14 +3,16 @@ using System;
 using Fotoplastykon.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Fotoplastykon.DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20191019123933_AddRelativeAndAbsolutePathtoFiles")]
+    partial class AddRelativeAndAbsolutePathtoFiles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -417,6 +419,7 @@ namespace Fotoplastykon.DAL.Migrations
                         .HasMaxLength(80);
 
                     b.Property<string>("RelativePath")
+                        .IsRequired()
                         .HasMaxLength(1000);
 
                     b.Property<long>("Size");

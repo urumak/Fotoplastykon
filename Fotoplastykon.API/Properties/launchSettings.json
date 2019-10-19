@@ -3,11 +3,11 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iis": {
-      "applicationUrl": "http://fotoplastykon.dev.local",
+      "applicationUrl": "http://fotoplastykon.dev.local/",
       "sslPort": 0
     },
     "iisExpress": {
-      "applicationUrl": "http://http://fotoplastykon.dev.local/",
+      "applicationUrl": "http://fotoplastykon.dev.local/",
       "sslPort": 0
     }
   },

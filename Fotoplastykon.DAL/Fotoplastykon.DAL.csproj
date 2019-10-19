@@ -17,4 +17,10 @@
     <ProjectReference Include="..\Fotoplastykon.Tools\Fotoplastykon.Tools.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Microsoft.Extensions.FileProviders.Abstractions">
+      <HintPath>..\..\..\Program Files (x86)\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.fileproviders.abstractions\2.2.0\lib\netstandard2.0\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
