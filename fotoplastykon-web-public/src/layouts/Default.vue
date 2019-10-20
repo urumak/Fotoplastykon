@@ -4,7 +4,7 @@
             <v-toolbar-title class="headline text-uppercase mr-6">
                 <span class="font-weight-light">Fotoplastykon</span>
             </v-toolbar-title>
-            <v-text-field label="Szukaj" class="mt-7 mr-6" outlined dense single-line></v-text-field>
+            <v-text-field label="Szukaj" class="mt-7 mr-6" filled dense single-line></v-text-field>
             <v-btn v-if="$auth.check()" class="mr-2" text>
                 <span>Filmy</span>
             </v-btn>
