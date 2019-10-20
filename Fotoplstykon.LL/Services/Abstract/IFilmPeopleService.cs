@@ -2,13 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Fotoplastykon.BLL.Services.Abstract
 {
     public interface IFilmPeopleService
     {
-        void Rate(PersonMarkModel mark);
-        bool CheckIfWatchingExists(long userId, long personId);
-        bool CheckIfExists(long personId);
+        Task Rate(PersonMarkModel mark);
+        Task<bool> CheckIfWatchingExists(long userId, long personId);
+        Task<bool> CheckIfExists(long personId);
     }
 }

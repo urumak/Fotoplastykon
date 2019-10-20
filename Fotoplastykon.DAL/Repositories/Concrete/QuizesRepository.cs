@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Fotoplastykon.DAL.Repositories.Concrete
 {
@@ -18,12 +19,12 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
 
         private DatabaseContext DatabaseContext => Context as DatabaseContext;
 
-        public Quiz GetFullQuiz(long id)
+        public async Task<Quiz> GetFullQuiz(long id)
         {
-            return DatabaseContext.Quizes
+            return await DatabaseContext.Quizes
                 .Include(q => q.Questions)
                 .ThenInclude(qq => qq.Answers)
-                .FirstOrDefault(q => q.Id == id);
+                .FirstOrDefaultAsync(q => q.Id == id);
         }
     }
 }

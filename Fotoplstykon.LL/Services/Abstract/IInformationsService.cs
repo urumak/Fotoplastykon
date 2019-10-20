@@ -3,16 +3,17 @@ using Fotoplastykon.Tools.Pager;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Fotoplastykon.BLL.Services.Abstract
 {
     public interface IInformationsService
     {
-        IPaginationResult<Information> GetPaginatedList(IPager pager);
-        Information GetWithCreator(long id);
-        void AddComment(InformationComment comment);
-        void RemoveComment(long id);
-        void UpdateComment(long id, InformationComment comment);
-        bool CheckIfCommentExists(long id);
+        Task<IPaginationResult<Information>> GetPaginatedList(IPager pager);
+        Task<Information> GetWithCreator(long id);
+        Task AddComment(InformationComment comment);
+        Task RemoveComment(long id);
+        Task UpdateComment(long id, InformationComment comment);
+        Task<bool> CheckIfCommentExists(long id);
     }
 }

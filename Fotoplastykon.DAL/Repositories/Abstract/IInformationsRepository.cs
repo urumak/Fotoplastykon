@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Fotoplastykon.DAL.Repositories.Abstract
 {
     public interface IInformationsRepository : IRepository<Information>
     {
-        Information GetWithCreator(long id);
+        Task<Information> GetWithCreator(long id);
     }
 }

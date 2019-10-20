@@ -6,6 +6,7 @@ using Fotoplastykon.Tools.Pager;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Fotoplastykon.BLL.Services.Concrete
 {
@@ -16,37 +17,37 @@ namespace Fotoplastykon.BLL.Services.Concrete
         {
         }
 
-        public IPaginationResult<Information> GetPaginatedList(IPager pager)
+        public async Task<IPaginationResult<Information>> GetPaginatedList(IPager pager)
         {
-            return Unit.Informations.GetPaginatedList(pager);
+            return await Unit.Informations.GetPaginatedList(pager);
         }
 
-        public Information GetWithCreator(long id)
+        public async Task<Information> GetWithCreator(long id)
         {
-            return Unit.Informations.GetWithCreator(id);
+            return await Unit.Informations.GetWithCreator(id);
         }
 
-        public void AddComment(InformationComment comment)
+        public async Task AddComment(InformationComment comment)
         {
-            Unit.InformationComments.Add(comment);
-            Unit.Complete();
+            await Unit.InformationComments.Add(comment);
+            await Unit.Complete();
         }
-        public void RemoveComment(long id)
+        public async Task RemoveComment(long id)
         {
-            Unit.InformationComments.Remove(id);
-            Unit.Complete();
+            await Unit.InformationComments.Remove(id);
+            await Unit.Complete();
         }
 
-        public void UpdateComment(long id, InformationComment comment)
+        public async Task UpdateComment(long id, InformationComment comment)
         {
-            var entity = Unit.InformationComments.Get(id);
+            var entity = await Unit.InformationComments.Get(id);
             Mapper.Map(comment, entity);
-            Unit.Complete();
+            await Unit.Complete();
         }
 
-        public bool CheckIfCommentExists(long id)
+        public async Task<bool> CheckIfCommentExists(long id)
         {
-            return Unit.InformationComments.Get(id) != null;
+            return await Unit.InformationComments.Get(id) != null;
         }
     }
 }

@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Fotoplastykon.DAL.Repositories.Abstract
 {
     public interface IPersonMarksRepository : IRepository<PersonMark>
     {
-        PersonMark Get(long userId, long personId);
+        Task<PersonMark> Get(long userId, long personId);
     }
 }

@@ -13,13 +13,13 @@ namespace Fotoplastykon.API.AccessHandlers.PageAccess
 {
     public class PageAccessHandler : AuthorizationHandler<PageAccessRequirement>
     {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, PageAccessRequirement requirement)
+        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PageAccessRequirement requirement)
         {
             var pagesClaim = context.User.FindFirst("CanEditPages");
 
             if (pagesClaim == null)
             {
-                return Task.CompletedTask;
+                return;
             }
 
             var pagesIds = JsonConvert.DeserializeObject<List<string>>(pagesClaim.Value);
@@ -40,8 +40,6 @@ namespace Fotoplastykon.API.AccessHandlers.PageAccess
                     }
                 }
             }
-
-            return Task.CompletedTask;
         }
     }
 }

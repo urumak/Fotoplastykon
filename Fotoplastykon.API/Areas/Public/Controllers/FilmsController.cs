@@ -20,7 +20,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
             Films = films;
         }
         [Route("{id}")]
-        public IActionResult GetAll(string id)
+        public async Task<IActionResult> GetAll(string id)
         {
             return Ok();
         }
@@ -30,10 +30,10 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
-        public IActionResult Rate(long filmId)
+        public async Task<IActionResult> Rate(long filmId)
         {
-            if (!Films.CheckIfExists(filmId)) return NotFound();
-            if (Films.CheckIfWatchingExists(User.Id(), filmId)) return BadRequest("Użytkownik ocenił już film");
+            if (!await Films.CheckIfExists(filmId)) return NotFound();
+            if (await Films.CheckIfWatchingExists(User.Id(), filmId)) return BadRequest("Użytkownik ocenił już film");
             return Ok();
         }
     }

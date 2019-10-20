@@ -22,7 +22,7 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
         [HttpPost("add")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
-        public IActionResult Add([FromForm]IFormFile file)
+        public async Task<IActionResult> Add([FromForm]IFormFile file)
         {
             Files.Add(file);
             return Ok();
@@ -32,9 +32,9 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public IActionResult Get(long id)
+        public async Task<IActionResult> Get(long id)
         {
-            var file = Files.Get(id);
+            var file = await Files.Get(id);
             if (file == null || !file.Exists) return NotFound();
             return Ok();
         }
@@ -42,10 +42,10 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
         [HttpDelete("")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
-        public IActionResult Remove([FromBody]FileIdModel model)
+        public async Task<IActionResult> Remove([FromBody]FileIdModel model)
         {
-            if (!Files.CheckIfExists(model.Id)) return NotFound();
-            Files.Remove(model.Id);
+            if (!await Files.CheckIfExists(model.Id)) return NotFound();
+            await Files.Remove(model.Id);
             return Ok();
         }
     }

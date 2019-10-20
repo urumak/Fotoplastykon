@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Threading.Tasks;
 
 namespace Fotoplastykon.API.Areas.Public.Controllers
 {
@@ -30,7 +31,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         #region Register()
         [HttpPost("register")]
         [AllowAnonymous]
-        public IActionResult Register(RegisterModel user)
+        public async Task<IActionResult> Register(RegisterModel user)
         {
             Users.Add(Mapper.Map<AddUserModel>(user));
 
@@ -41,11 +42,11 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         #region TryLoginUser()
         [AllowAnonymous]
         [HttpPost("login")]
-        public ActionResult<TokenViewModel> Login([FromBody] LoginModel model)
+        public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            var loginResult = Auth.TryLoginUser(model.UserName, model.Password);
+            var loginResult = await Auth.TryLoginUser(model.UserName, model.Password);
 
-            if (loginResult.CorrectCredentials) return Mapper.Map<TokenViewModel>(loginResult.Token);
+            if (loginResult.CorrectCredentials) return Ok(Mapper.Map<TokenViewModel>(loginResult.Token));
 
             return BadRequest("Nazwa użytkownika lub hasło są nieprawidłowe.");
         }
@@ -57,7 +58,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
-        public ActionResult<TokenViewModel> RefreshToken([FromHeader(Name = "Authorization")] string authorization)
+        public async Task<IActionResult> RefreshToken([FromHeader(Name = "Authorization")] string authorization)
         {
             if (!string.IsNullOrEmpty(authorization) && authorization.StartsWith("Bearer "))
             {
@@ -69,7 +70,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
                     var id = Convert.ToInt64(jwt.Subject);
                     var token = Mapper.Map<TokenViewModel>(Auth.TryRefreshToken(id));
 
-                    if (token != null) return token;
+                    if (token != null) return Ok(token);
                 }
             }
 
@@ -82,7 +83,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult GetUser()
+        public async Task<IActionResult> GetUser()
         {
             var user = Users.Get(User.Id());
 

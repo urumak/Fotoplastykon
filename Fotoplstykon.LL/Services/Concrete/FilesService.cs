@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Fotoplastykon.BLL.Services.Concrete
 {
@@ -21,18 +22,18 @@ namespace Fotoplastykon.BLL.Services.Concrete
             Storekeeper = storekeeper;
         }
 
-        public FileInfo Get(long id)
+        public async Task<FileInfo> Get(long id)
         {
-            var fileInfo = Unit.Files.Get(id);
+            var fileInfo = await Unit.Files.Get(id);
             if (fileInfo == null) return null;
             return Storekeeper.Get(fileInfo.Name, fileInfo.RelativePath);
         }
 
-        public FileInfo Add(IFormFile file, string relativePath = null)
+        public async Task<FileInfo> Add(IFormFile file, string relativePath = null)
         {
             var fileContent = GetFileContent(file);
             var storedFile = Storekeeper.Add(fileContent, file.FileName);
-            Unit.Files.Add(new StoredFileInfo
+            await Unit.Files.Add(new StoredFileInfo
             {
                 AbsolutePath = storedFile.FullName,
                 Name = storedFile.Name,
@@ -40,22 +41,22 @@ namespace Fotoplastykon.BLL.Services.Concrete
                 RelativePath = relativePath,
                 Size = fileContent.Length
             });
-            Unit.Complete();
+            await Unit.Complete();
 
             return storedFile;
         }
 
-        public void Remove(long id)
+        public async Task Remove(long id)
         {
-            var fileInfo = Unit.Files.Get(id);
+            var fileInfo = await Unit.Files.Get(id);
             Storekeeper.Remove(fileInfo.Name, fileInfo.RelativePath);
-            Unit.Files.Remove(id);
-            Unit.Complete();
+            await Unit.Files.Remove(id);
+            await Unit.Complete();
         }
 
-        public bool CheckIfExists(long id)
+        public async Task<bool> CheckIfExists(long id)
         {
-            return Unit.Files.Get(id) != null;
+            return await Unit.Files.Get(id) != null;
         }
 
         private byte[] GetFileContent(IFormFile file)

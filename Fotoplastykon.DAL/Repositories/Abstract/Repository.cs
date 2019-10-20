@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Fotoplastykon.DAL.Entities.Abstract;
 using Fotoplastykon.Tools.Pager;
 using Microsoft.EntityFrameworkCore;
@@ -18,29 +19,29 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
             Context = context;
         }
 
-        public virtual TEntity Get(long id)
+        public virtual async Task<TEntity> Get(long id)
         {
-            return Context.Set<TEntity>().FirstOrDefault(x => x.Id == id);
+            return await Context.Set<TEntity>().FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public virtual IEnumerable<TEntity> GetAll()
+        public virtual async Task<IEnumerable<TEntity>> GetAll()
         {
-            return Context.Set<TEntity>().ToList();
+            return await Context.Set<TEntity>().ToListAsync();
         }
 
-        public virtual IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
+        public virtual async Task<IEnumerable<TEntity>> Find(Expression<Func<TEntity, bool>> predicate)
         {
-            return Context.Set<TEntity>().Where(predicate).ToList();
+            return await Context.Set<TEntity>().Where(predicate).ToListAsync();
         }
 
-        public virtual void Add(TEntity entity)
+        public virtual async Task Add(TEntity entity)
         {
-            Context.Set<TEntity>().Add(entity);
+            await Context.Set<TEntity>().AddAsync(entity);
         }
 
-        public virtual void AddRange(IEnumerable<TEntity> entities)
+        public virtual async Task AddRange(IEnumerable<TEntity> entities)
         {
-            Context.Set<TEntity>().AddRange(entities);
+            await Context.Set<TEntity>().AddRangeAsync(entities);
         }
 
         public virtual void Remove(TEntity entity)
@@ -55,9 +56,9 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
             }
         }
 
-        public virtual void Remove(long id)
+        public virtual async Task Remove(long id)
         {
-            var entity = Get(id);
+            var entity = await Get(id);
             Remove(entity);
         }
 
@@ -66,14 +67,14 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
             Context.Set<TEntity>().RemoveRange(entities);
         }
 
-        public virtual TEntity Get(Expression<Func<TEntity, bool>> predicate)
+        public virtual async Task<TEntity> Get(Expression<Func<TEntity, bool>> predicate)
         {
-            return Context.Set<TEntity>().FirstOrDefault(predicate);
+            return await Context.Set<TEntity>().FirstOrDefaultAsync(predicate);
         }
 
-        public virtual IPaginationResult<TEntity> GetPaginatedList(IPager pager)
+        public virtual async Task<IPaginationResult<TEntity>> GetPaginatedList(IPager pager)
         {
-            return Context.Set<TEntity>().GetPaginationResult<TEntity>(pager);
+            return await Context.Set<TEntity>().GetPaginationResult(pager);
         }
     }
 }

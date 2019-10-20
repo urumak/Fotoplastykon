@@ -1,9 +1,11 @@
 ﻿using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.DAL.Repositories.Abstract;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Fotoplastykon.DAL.Repositories.Concrete
 {
@@ -16,9 +18,9 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
 
         private DatabaseContext DatabaseContext => Context as DatabaseContext;
 
-        public PersonMark Get(long userId, long personId)
+        public async Task<PersonMark> Get(long userId, long personId)
         {
-            return DatabaseContext.PeopleMarks.FirstOrDefault(f => f.PersonId == personId && f.UserId == userId);
+            return await DatabaseContext.PeopleMarks.FirstOrDefaultAsync(f => f.PersonId == personId && f.UserId == userId);
         }
     }
 }

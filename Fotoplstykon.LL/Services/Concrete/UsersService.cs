@@ -6,6 +6,7 @@ using Fotoplastykon.BLL.Services.Abstract;
 using Microsoft.AspNetCore.Identity;
 using Fotoplastykon.BLL.Models.Users;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Fotoplastykon.BLL.Services.Concrete
 {
@@ -19,45 +20,48 @@ namespace Fotoplastykon.BLL.Services.Concrete
             Hasher = hasher;
         }
 
-        public User Get(long id)
+        public async Task<User> Get(long id)
         {
-            return Unit.Users.Get(id);
+            return await Unit.Users.Get(id);
         }
 
-        public bool Add(AddUserModel user)
+        public async Task<bool> Add(AddUserModel user)
         {
             var entity = Mapper.Map<User>(user);
-            Unit.Users.Add(entity);
-            Unit.Complete();
+            await Unit.Users.Add(entity);
+            await Unit.Complete();
 
-            var result = SetPassword(entity.Id, user.Password);
-            Unit.Complete();
+            var result = await SetPassword(entity.Id, user.Password);
+            await Unit.Complete();
 
             return result;
         }
 
-        public UserLoginModel GetForLoginByUserName(string userName)
+        public async Task<UserLoginModel> GetForLoginByUserName(string userName)
         {
-            return Mapper.Map<UserLoginModel>(Unit.Users.GetByUserNameWithPermissions(userName));
+            var user = await Unit.Users.GetByUserNameWithPermissions(userName);
+            return Mapper.Map<UserLoginModel>(user);
         }
 
-        public List<User> Search(string searchString)
+        public async Task<List<User>> Search(string searchString)
         {
             //TODO: poprawić wyszukiwanie tak, żeby dało się szukać po imieniu i nazwisku
-            return Unit.Users
+            var users = await Unit.Users
                 .Find(u => u.UserName.Contains(searchString)
                     || u.FirstName.Contains(searchString)
-                    || u.Surname.Contains(searchString)).ToList();
+                    || u.Surname.Contains(searchString));
+
+            return users.ToList();
         }
 
-        public bool CheckIfExists(long id)
+        public async Task<bool> CheckIfExists(long id)
         {
-            return Unit.Users.Get(id) != null;
+            return await Unit.Users.Get(id) != null;
         }
 
-        private bool SetPassword(long id, string password)
+        private async Task<bool> SetPassword(long id, string password)
         {
-            var user = Unit.Users.Get(id);
+            var user = await Unit.Users.Get(id);
 
             if (user == null) return false;
 

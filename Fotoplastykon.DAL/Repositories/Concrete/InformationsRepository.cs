@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Fotoplastykon.DAL.Repositories.Concrete
 {
@@ -18,9 +19,9 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
 
         private DatabaseContext DatabaseContext => Context as DatabaseContext;
 
-        public Information GetWithCreator(long id)
+        public async Task<Information> GetWithCreator(long id)
         {
-            return DatabaseContext.Informations.Include(i => i.CreatedBy).FirstOrDefault(i => i.Id == id);
+            return await DatabaseContext.Informations.Include(i => i.CreatedBy).FirstOrDefaultAsync(i => i.Id == id);
         }
     }
 }

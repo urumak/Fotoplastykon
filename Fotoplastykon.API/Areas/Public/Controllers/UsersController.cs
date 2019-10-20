@@ -32,7 +32,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public IActionResult Get(long id)
+        public async Task<IActionResult> Get(long id)
         {
             var user = Users.Get(id);
             if (user == null) return NotFound();
@@ -43,7 +43,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [HttpGet("{search}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
-        public IActionResult Search(string search)
+        public async Task<IActionResult> Search(string search)
         {
             return Ok(Mapper.Map<List<ListItemModel>>(Users.Search(search)));
         }

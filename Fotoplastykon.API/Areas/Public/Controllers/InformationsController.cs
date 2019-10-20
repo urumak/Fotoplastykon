@@ -27,9 +27,9 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [HttpGet("")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
-        public IActionResult GetPaginatedList([FromQuery]Pager pager)
+        public async Task<IActionResult> GetPaginatedList([FromQuery]Pager pager)
         {
-            var result = Informations.GetPaginatedList(pager);
+            var result = await Informations.GetPaginatedList(pager);
 
             return Ok(new PaginationResult<ListItemModel>
             {
@@ -42,9 +42,9 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public IActionResult Get(long id)
+        public async Task<IActionResult> Get(long id)
         {
-            var result = Informations.GetWithCreator(id);
+            var result = await Informations.GetWithCreator(id);
             if (result == null) return NotFound();
 
             return Ok(Mapper.Map<InformationModel>(result));

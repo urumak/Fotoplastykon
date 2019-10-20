@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Fotoplastykon.BLL.Services.Concrete
 {
@@ -30,37 +31,37 @@ namespace Fotoplastykon.BLL.Services.Concrete
         private readonly DateTime tokenExpirationDate = DateTime.Now.AddMinutes(30);
         private User _user;
 
-        public LoginResult TryLoginUser(string userName, string password)
+        public async Task<LoginResult> TryLoginUser(string userName, string password)
         {
             var result = new LoginResult();
 
-            if (!FindUser(userName)) return result;
+            if (!await FindUser(userName)) return result;
 
             if (!CheckPassword(password)) return result;
 
             result.CorrectCredentials = true;
-            result.Token = CreateToken();
+            result.Token = await CreateToken();
 
             return result;
         }
 
-        public TokenModel TryRefreshToken(long userId)
+        public async Task<TokenModel> TryRefreshToken(long userId)
         {
-            if (!FindUser(userId)) return null;
+            if (!await FindUser(userId)) return null;
 
-            return CreateToken();
+            return await CreateToken();
         }
 
-        private bool FindUser(string userName)
+        private async Task<bool> FindUser(string userName)
         {
-            _user = Unit.Users.GetByUserName(userName);
+            _user = await Unit.Users.GetByUserName(userName);
 
             return _user != null;
         }
 
-        private bool FindUser(long userId)
+        private async Task<bool> FindUser(long userId)
         {
-            _user = Unit.Users.Get(userId);
+            _user = await Unit.Users.Get(userId);
 
             return _user != null;
         }
@@ -72,12 +73,12 @@ namespace Fotoplastykon.BLL.Services.Concrete
             return result == PasswordVerificationResult.Success;
         }
 
-        private TokenModel CreateToken()
+        private async Task<TokenModel> CreateToken()
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var claims = CreateClaims();
+            var claims = await CreateClaims();
 
             var token = new JwtSecurityToken(
                 Configuration["Tokens:Issuer"],
@@ -96,9 +97,9 @@ namespace Fotoplastykon.BLL.Services.Concrete
             };
         }
 
-        private IEnumerable<Claim> CreateClaims()
+        private async Task<IEnumerable<Claim>> CreateClaims()
         {
-            var canEditPagesWithIds = GetPagesIdsThatUserCanEdit();
+            var canEditPagesWithIds = await GetPagesIdsThatUserCanEdit();
 
             return new List<Claim>()
             {
@@ -110,10 +111,10 @@ namespace Fotoplastykon.BLL.Services.Concrete
             };
         }
 
-        private string GetPagesIdsThatUserCanEdit()
+        private async Task<string> GetPagesIdsThatUserCanEdit()
         {
-            var filmPagesIds = Unit.FilmPagesCreations.GetPagesIdsForUser(_user.Id).ToList();
-            var personPagesIds = Unit.PersonPagesCreations.GetPagesIdsForUser(_user.Id).ToList();
+            var filmPagesIds = await Unit.FilmPagesCreations.GetPagesIdsForUser(_user.Id);
+            var personPagesIds = await Unit.PersonPagesCreations.GetPagesIdsForUser(_user.Id);
 
             return JsonConvert.SerializeObject(filmPagesIds.Concat(personPagesIds));
         }

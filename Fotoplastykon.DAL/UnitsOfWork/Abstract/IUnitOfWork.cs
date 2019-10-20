@@ -1,5 +1,6 @@
 ﻿using Fotoplastykon.DAL.Repositories.Abstract;
 using System;
+using System.Threading.Tasks;
 
 namespace Fotoplastykon.DAL.UnitsOfWork.Abstract
 {
@@ -21,6 +22,6 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Abstract
         IFilmPeopleRepository FilmPeople { get; }
         IPersonMarksRepository PersonMarks { get; }
         IInformationCommentsRepository InformationComments { get; }
-        int Complete();
+        Task<int> Complete();
     }
 }

@@ -6,6 +6,7 @@ using Fotoplastykon.DAL.UnitsOfWork.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Fotoplastykon.BLL.Services.Concrete
 {
@@ -17,20 +18,20 @@ namespace Fotoplastykon.BLL.Services.Concrete
 
         }
 
-        public void Rate(PersonMarkModel mark)
+        public async Task Rate(PersonMarkModel mark)
         {
-            Unit.PersonMarks.Add(Mapper.Map<PersonMark>(mark));
-            Unit.Complete();
+            await Unit.PersonMarks.Add(Mapper.Map<PersonMark>(mark));
+            await Unit.Complete();
         }
 
-        public bool CheckIfWatchingExists(long userId, long personId)
+        public async Task<bool> CheckIfWatchingExists(long userId, long personId)
         {
-            return Unit.PersonMarks.Get(userId, personId) != null;
+            return await Unit.PersonMarks.Get(userId, personId) != null;
         }
 
-        public bool CheckIfExists(long personId)
+        public async Task<bool> CheckIfExists(long personId)
         {
-            return Unit.FilmPeople.Get(personId) != null;
+            return await Unit.FilmPeople.Get(personId) != null;
         }
     }
 }

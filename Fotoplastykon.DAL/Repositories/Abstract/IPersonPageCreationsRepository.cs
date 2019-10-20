@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Fotoplastykon.DAL.Repositories.Abstract
 {
     public interface IPersonPageCreationsRepository : IRepository<PersonPageCreation>
     {
-        IEnumerable<string> GetPagesIdsForUser(long userId);
+        Task<IEnumerable<string>> GetPagesIdsForUser(long userId);
     }
 }

@@ -29,11 +29,11 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
-        public IActionResult Invite([FromBody]FriendIdModel model)
+        public async Task<IActionResult> Invite([FromBody]FriendIdModel model)
         {
-            if (!Users.CheckIfExists(model.FriendId)) return NotFound();
-            if (Friendships.CheckIfFriendshipExist(User.Id(), model.FriendId)) return BadRequest("Użytkownicy są już znajomymi.");
-            Friendships.InviteFriend(User.Id(), model.FriendId);
+            if (!await Users.CheckIfExists(model.FriendId)) return NotFound();
+            if (await Friendships.CheckIfFriendshipExist(User.Id(), model.FriendId)) return BadRequest("Użytkownicy są już znajomymi.");
+            await Friendships.InviteFriend(User.Id(), model.FriendId);
 
             return Ok();
         }
@@ -42,10 +42,10 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public IActionResult AcceptInvitation([FromBody]FriendIdModel model)
+        public async Task<IActionResult> AcceptInvitation([FromBody]FriendIdModel model)
         {
-            if(!Friendships.CheckIfInvitationExist(User.Id(), model.FriendId)) return NotFound();
-            Friendships.AcceptInvitation(User.Id(), model.FriendId);
+            if(!await Friendships.CheckIfInvitationExist(User.Id(), model.FriendId)) return NotFound();
+            await Friendships.AcceptInvitation(User.Id(), model.FriendId);
 
             return Ok();
         }
@@ -54,10 +54,10 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public IActionResult RefuseInvitation([FromBody]FriendIdModel model)
+        public async Task<IActionResult> RefuseInvitation([FromBody]FriendIdModel model)
         {
-            if (!Friendships.CheckIfInvitationExist(User.Id(), model.FriendId)) return NotFound();
-            Friendships.RefuseInvitation(User.Id(), model.FriendId);
+            if (!await Friendships.CheckIfInvitationExist(User.Id(), model.FriendId)) return NotFound();
+            await Friendships.RefuseInvitation(User.Id(), model.FriendId);
 
             return Ok();
         }
@@ -66,12 +66,12 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public IActionResult RemoveFriend([FromBody]FriendIdModel model)
+        public async Task<IActionResult> RemoveFriend([FromBody]FriendIdModel model)
         {
-            if (!Users.CheckIfExists(model.FriendId)) return NotFound();
-            if (!Friendships.CheckIfFriendshipExist(User.Id(), model.FriendId)) return NotFound();
+            if (!await Users.CheckIfExists(model.FriendId)) return NotFound();
+            if (!await Friendships.CheckIfFriendshipExist(User.Id(), model.FriendId)) return NotFound();
 
-            Friendships.RemoveFriend(User.Id(), model.FriendId);
+            await Friendships.RemoveFriend(User.Id(), model.FriendId);
             return Ok();
         }
     }

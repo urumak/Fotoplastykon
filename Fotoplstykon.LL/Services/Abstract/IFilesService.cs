@@ -3,14 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Fotoplastykon.BLL.Services.Abstract
 {
     public interface IFilesService
     {
-        FileInfo Get(long id);
-        FileInfo Add(IFormFile file, string relativePath = null);
-        void Remove(long id);
-        bool CheckIfExists(long id);
+        Task<FileInfo> Get(long id);
+        Task<FileInfo> Add(IFormFile file, string relativePath = null);
+        Task Remove(long id);
+        Task<bool> CheckIfExists(long id);
     }
 }

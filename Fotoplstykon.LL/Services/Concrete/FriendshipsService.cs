@@ -5,6 +5,7 @@ using Fotoplastykon.DAL.UnitsOfWork.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Fotoplastykon.BLL.Services.Concrete
 {
@@ -15,7 +16,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
         {
         }
 
-        public void InviteFriend(long userId, long friendId)
+        public async Task InviteFriend(long userId, long friendId)
         {
             var invitation = new Invitation
             {
@@ -23,13 +24,13 @@ namespace Fotoplastykon.BLL.Services.Concrete
                 InvitedId = friendId
             };
 
-            Unit.Invitations.Add(invitation);
-            Unit.Complete();
+            await Unit.Invitations.Add(invitation);
+            await Unit.Complete();
         }
 
-        public void AcceptInvitation(long userId, long invitedId)
+        public async Task AcceptInvitation(long userId, long invitedId)
         {
-            var invitation = Unit.Invitations.Get(u => u.InvitedId == invitedId && u.InvitingId == userId);
+            var invitation = await Unit.Invitations.Get(u => u.InvitedId == invitedId && u.InvitingId == userId);
 
             var friendship = new Friendship
             {
@@ -37,36 +38,36 @@ namespace Fotoplastykon.BLL.Services.Concrete
                 InvitedId = invitation.InvitedId
             };
 
-            Unit.Friendships.Add(friendship);
+            await Unit.Friendships.Add(friendship);
             Unit.Invitations.Remove(invitation);
-            Unit.Complete();
+            await Unit.Complete();
         }
 
-        public void RefuseInvitation(long userId, long invitedId)
+        public async Task RefuseInvitation(long userId, long invitedId)
         {
-            var invitation = Unit.Invitations.Get(u => u.InvitedId == invitedId && u.InvitingId == userId);
+            var invitation = await Unit.Invitations.Get(u => u.InvitedId == invitedId && u.InvitingId == userId);
             Unit.Invitations.Remove(invitation);
-            Unit.Complete();
+            await Unit.Complete();
         }
 
-        public void RemoveFriend(long userId, long friendId)
+        public async Task RemoveFriend(long userId, long friendId)
         {
-            var friendship = Unit.Friendships.Get(f => f.InvitedId == userId && f.InvitingId == friendId);
+            var friendship = await Unit.Friendships.Get(f => f.InvitedId == userId && f.InvitingId == friendId);
 
-            if (friendship == null) friendship = Unit.Friendships.Get(f => f.InvitedId == friendId && f.InvitingId == userId);
+            if (friendship == null) friendship = await Unit.Friendships.Get(f => f.InvitedId == friendId && f.InvitingId == userId);
 
             Unit.Friendships.Remove(friendship);
-            Unit.Complete();
+            await Unit.Complete();
         }
 
-        public bool CheckIfFriendshipExist(long firstId, long secondId)
+        public async Task<bool> CheckIfFriendshipExist(long firstId, long secondId)
         {
-            return Unit.Friendships.Get(firstId, secondId) != null;
+            return await Unit.Friendships.Get(firstId, secondId) != null;
         }
 
-        public bool CheckIfInvitationExist(long firstId, long secondId)
+        public async Task<bool> CheckIfInvitationExist(long firstId, long secondId)
         {
-            return Unit.Invitations.Get(firstId, secondId) != null;
+            return await Unit.Invitations.Get(firstId, secondId) != null;
         }
     }
 }

@@ -25,10 +25,10 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
-        public IActionResult Rate(long perdonId)
+        public async Task<IActionResult> Rate(long perdonId)
         {
-            if (!FilmPeople.CheckIfExists(perdonId)) return NotFound();
-            if (FilmPeople.CheckIfWatchingExists(User.Id(), perdonId)) return BadRequest("Użytkownik ocenił już osobę");
+            if (!await FilmPeople.CheckIfExists(perdonId)) return NotFound();
+            if (await FilmPeople.CheckIfWatchingExists(User.Id(), perdonId)) return BadRequest("Użytkownik ocenił już osobę");
             return Ok();
         }
     }

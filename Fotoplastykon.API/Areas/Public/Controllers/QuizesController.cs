@@ -29,9 +29,9 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [HttpGet("")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
-        public IActionResult GetPaginatedList([FromQuery]Pager pager)
+        public async Task<IActionResult> GetPaginatedList([FromQuery]Pager pager)
         {
-            var result = Quizes.GetPaginatedList(pager);
+            var result = await Quizes.GetPaginatedList(pager);
 
             return Ok(new PaginationResult<ListItemModel>
             {
@@ -44,9 +44,9 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public IActionResult Get(long id)
+        public async Task<IActionResult> Get(long id)
         {
-            var result = Quizes.GetFull(id);
+            var result = await Quizes.GetFull(id);
             if (result == null) return NotFound();
 
             return Ok(Mapper.Map<QuizModel>(result));
@@ -56,11 +56,11 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public IActionResult SubmitQuiz(long id, [FromBody]List<UserAnswerModel> answers)
+        public async Task<IActionResult> SubmitQuiz(long id, [FromBody]List<UserAnswerModel> answers)
         {
-            if (!Quizes.CheckIfQuizExists(id)) return NotFound();
+            if (!await Quizes.CheckIfQuizExists(id)) return NotFound();
 
-            return Ok(Quizes.SubmitQuiz(id, User.Id(), answers));
+            return Ok(await Quizes.SubmitQuiz(id, User.Id(), answers));
         }
     }
 }

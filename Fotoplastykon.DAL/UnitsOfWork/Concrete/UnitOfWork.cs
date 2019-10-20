@@ -3,6 +3,7 @@ using Fotoplastykon.DAL.Repositories.Concrete;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Threading.Tasks;
 
 namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
 {
@@ -64,9 +65,9 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
 
         private DbContext Context { get; }
 
-        public int Complete()
+        public async Task<int> Complete()
         {
-            return Context.SaveChanges();
+            return await Context.SaveChangesAsync();
         }
     }
 }

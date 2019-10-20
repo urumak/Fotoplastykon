@@ -16,7 +16,10 @@
             </v-btn>
         </v-app-bar>
         <v-content>
-            <div class="float-left film-tape">
+            <div>
+                <div class="float-left film-tape">
+                </div>
+                <slot />
             </div>
         </v-content>
     </div>

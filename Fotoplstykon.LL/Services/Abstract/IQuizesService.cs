@@ -4,14 +4,15 @@ using Fotoplastykon.Tools.Pager;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Fotoplastykon.BLL.Services.Abstract
 {
     public interface IQuizesService
     {
-        Quiz GetFull(long id);
-        IPaginationResult<Quiz> GetPaginatedList(IPager pager);
-        bool CheckIfQuizExists(long id);
-        ResultModel SubmitQuiz(long quizId, long userId, IEnumerable<UserAnswerModel> answers);
+        Task<Quiz> GetFull(long id);
+        Task<IPaginationResult<Quiz>> GetPaginatedList(IPager pager);
+        Task<bool> CheckIfQuizExists(long id);
+        Task<ResultModel> SubmitQuiz(long quizId, long userId, IEnumerable<UserAnswerModel> answers);
     }
 }

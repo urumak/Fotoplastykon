@@ -1,9 +1,11 @@
 ﻿using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.DAL.Repositories.Abstract;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Fotoplastykon.DAL.Repositories.Concrete
 {
@@ -17,9 +19,9 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
 
         private DatabaseContext DatabaseContext => Context as DatabaseContext;
 
-        public FilmWatching Get(long userId, long filmId)
+        public async Task<FilmWatching> Get(long userId, long filmId)
         {
-            return DatabaseContext.FilmWatchings.FirstOrDefault(f => f.FilmId == filmId && f.UserId == userId);
+            return await DatabaseContext.FilmWatchings.FirstOrDefaultAsync(f => f.FilmId == filmId && f.UserId == userId);
         }
     }
 }

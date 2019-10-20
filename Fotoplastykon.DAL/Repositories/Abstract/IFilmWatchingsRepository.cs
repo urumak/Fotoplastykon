@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Fotoplastykon.DAL.Repositories.Abstract
 {
     public interface IFilmWatchingsRepository : IRepository<FilmWatching>
     {
-        FilmWatching Get(long userId, long filmId);
+        Task<FilmWatching> Get(long userId, long filmId);
     }
 }

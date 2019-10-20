@@ -8,6 +8,7 @@ using Fotoplastykon.Tools.Pager;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Fotoplastykon.BLL.Services.Concrete
 {
@@ -18,24 +19,24 @@ namespace Fotoplastykon.BLL.Services.Concrete
         {
         }
 
-        public bool CheckIfQuizExists(long id)
+        public async Task<bool> CheckIfQuizExists(long id)
         {
-            return Unit.Quizes.Get(id) != null;
+            return await Unit.Quizes.Get(id) != null;
         }
 
-        public Quiz GetFull(long id)
+        public async Task<Quiz> GetFull(long id)
         {
-            return Unit.Quizes.GetFullQuiz(id);
+            return await Unit.Quizes.GetFullQuiz(id);
         }
 
-        public IPaginationResult<Quiz> GetPaginatedList(IPager pager)
+        public async Task<IPaginationResult<Quiz>> GetPaginatedList(IPager pager)
         {
-            return Unit.Quizes.GetPaginatedList(pager);
+            return await Unit.Quizes.GetPaginatedList(pager);
         }
 
-        public ResultModel SubmitQuiz(long quizId, long userId, IEnumerable<UserAnswerModel> answers)
+        public async Task<ResultModel> SubmitQuiz(long quizId, long userId, IEnumerable<UserAnswerModel> answers)
         {
-            var quiz = Unit.Quizes.GetFullQuiz(quizId);
+            var quiz = await Unit.Quizes.GetFullQuiz(quizId);
             var counter = new QuizPointsCounter(quiz, answers);
             var points = counter.CountPoints();
 
@@ -46,8 +47,8 @@ namespace Fotoplastykon.BLL.Services.Concrete
                 Score = points
             };
 
-            Unit.QuizScores.Add(score);
-            Unit.Complete();
+            await Unit.QuizScores.Add(score);
+            await Unit.Complete();
 
             return new ResultModel { Points = points, Quiz = Mapper.Map<QuizResultModel>(quiz) };
         }

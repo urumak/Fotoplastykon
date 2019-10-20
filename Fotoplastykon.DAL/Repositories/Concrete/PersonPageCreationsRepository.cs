@@ -1,10 +1,12 @@
 ﻿using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.DAL.Repositories.Abstract;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Fotoplastykon.DAL.Repositories.Concrete
 {
@@ -17,12 +19,12 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
 
         private DatabaseContext DatabaseContext => Context as DatabaseContext;
 
-        public IEnumerable<string> GetPagesIdsForUser(long userId)
+        public async Task<IEnumerable<string>> GetPagesIdsForUser(long userId)
         {
-            return DatabaseContext.PersonPageCreations
+            return await DatabaseContext.PersonPageCreations
                 .Where(c => c.UserId == userId)
                 .Select(c => c.Person.PagePublicId)
-                .ToList();
+                .ToListAsync();
         }
     }
 }

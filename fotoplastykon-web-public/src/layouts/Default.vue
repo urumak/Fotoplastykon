@@ -1,10 +1,12 @@
 <template>
     <div>
         <v-app-bar class="app-bar-standard" app>
-            <v-toolbar-title class="headline text-uppercase mr-6">
+            <v-toolbar-title class="headline text-uppercase">
                 <span class="font-weight-light">Fotoplastykon</span>
             </v-toolbar-title>
-            <v-text-field label="Szukaj" class="mt-7 mr-6" filled dense single-line></v-text-field>
+            <v-spacer></v-spacer>
+            <v-text-field label="Szukaj" class="mt-7" filled dense single-line></v-text-field>
+            <v-spacer></v-spacer>
             <v-btn v-if="$auth.check()" class="mr-2" text>
                 <span>Filmy</span>
             </v-btn>
