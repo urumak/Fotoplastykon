@@ -26,6 +26,7 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         }
 
         public long Id { get; set; }
+        public string PublicId { get; set; }
         public string UserName { get; set; }
         public string FirstName { get; set; }
         public string Surname { get; set; }
@@ -55,6 +56,7 @@ namespace Fotoplastykon.DAL.Entities.Concrete
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            builder.Property(p => p.PublicId).IsRequired().HasDefaultValue("00000000-0000-0000-0000-000000000000").HasMaxLength(100);
             builder.Property(p => p.UserName).IsRequired().HasMaxLength(100);
             builder.Property(p => p.FirstName).IsRequired().HasMaxLength(100);
             builder.Property(p => p.Surname).IsRequired().HasMaxLength(250);

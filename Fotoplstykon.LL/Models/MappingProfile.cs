@@ -1,11 +1,12 @@
 ﻿using System.Linq;
 using AutoMapper;
+using Fotoplastykon.BLL.Enums;
 using Fotoplastykon.BLL.Models.FilmPeople;
 using Fotoplastykon.BLL.Models.Films;
 using Fotoplastykon.BLL.Models.Quizes;
+using Fotoplastykon.BLL.Models.Search;
 using Fotoplastykon.BLL.Models.Users;
 using Fotoplastykon.DAL.Entities.Concrete;
-using User = Fotoplastykon.DAL.Entities.Concrete.User;
 
 namespace Fotoplastykon.BLL.Models
 {
@@ -18,6 +19,7 @@ namespace Fotoplastykon.BLL.Models
             FilmMappings();
             FilmPersonMappings();
             InformationMappings();
+            SearchMappings();
         }
 
         private void UserMappings()
@@ -48,6 +50,24 @@ namespace Fotoplastykon.BLL.Models
         {
             CreateMap<InformationComment, InformationComment>()
                 .ForMember(d => d.Id, o => o.Ignore());
+        }
+
+        private void SearchMappings()
+        {
+            CreateMap<User, SearchModel>()
+                .ForMember(d => d.Value, o => o.MapFrom(s => s.FirstName + " " + s.Surname))
+                .ForMember(d => d.Key, o => o.MapFrom(s => s.PublicId))
+                .ForMember(d => d.Type, o => o.MapFrom(s => SearchItemType.User));
+
+            CreateMap<Film, SearchModel>()
+                .ForMember(d => d.Value, o => o.MapFrom(s => s.Title))
+                .ForMember(d => d.Key, o => o.MapFrom(s => s.PagePublicId))
+                .ForMember(d => d.Type, o => o.MapFrom(s => SearchItemType.User));
+
+            CreateMap<FilmPerson, SearchModel>()
+                .ForMember(d => d.Value, o => o.MapFrom(s => s.FirstName + " " + s.Surname))
+                .ForMember(d => d.Key, o => o.MapFrom(s => s.PagePublicId))
+                .ForMember(d => d.Type, o => o.MapFrom(s => SearchItemType.User));
         }
     }
 }

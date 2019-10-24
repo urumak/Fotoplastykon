@@ -9,5 +9,6 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
         Task<IEnumerable<User>> GetNewUsers(int count);
         Task<User> GetByUserName(string name);
         Task<User> GetByUserNameWithPermissions(string name);
+        Task<List<User>> GetForSearch(string search, int limit = 10);
     }
 }
