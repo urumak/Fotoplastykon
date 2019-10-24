@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Fotoplastykon.BLL.Enums
 {
-    public enum SearchItemType
+    public enum ItemType
     {
         Film,
         FilmPerson,

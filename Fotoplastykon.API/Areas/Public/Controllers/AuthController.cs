@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Fotoplastykon.API.Areas.Public.Models.Auth;
 using Fotoplastykon.API.Extensions;
-using Fotoplastykon.BLL.Models.Users;
+using Fotoplastykon.BLL.DTOs.Users;
 using Fotoplastykon.BLL.Services.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -33,7 +33,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterModel user)
         {
-            Users.Add(Mapper.Map<AddUserModel>(user));
+            await Users.Add(Mapper.Map<AddUserDTO>(user));
 
             return Ok();
         }
@@ -68,7 +68,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
                 if (new JwtSecurityTokenHandler().ReadToken(jwtValue) is JwtSecurityToken jwt)
                 {
                     var id = Convert.ToInt64(jwt.Subject);
-                    var token = Mapper.Map<TokenViewModel>(Auth.TryRefreshToken(id));
+                    var token = Mapper.Map<TokenViewModel>(await Auth.TryRefreshToken(id));
 
                     if (token != null) return Ok(token);
                 }
@@ -85,7 +85,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetUser()
         {
-            var user = Users.Get(User.Id());
+            var user = await Users.Get(User.Id());
 
             if (user == null) return NotFound();
 

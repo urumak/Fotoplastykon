@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Fotoplastykon.BLL.Models.Search;
+using Fotoplastykon.BLL.DTOs.Search;
 using Fotoplastykon.BLL.Services.Abstract;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
 using System;
@@ -17,15 +17,15 @@ namespace Fotoplastykon.BLL.Services.Concrete
         {
         }
 
-        public async Task<List<SearchModel>> Search(string search, int limit = 10)
+        public async Task<List<SearchDTO>> Search(string search, int limit = 10)
         {
             var users = await Unit.Users.GetForSearch(search, limit);
             var films = await Unit.Films.GetForSearch(search, limit);
             var filmPeople = await Unit.FilmPeople.GetForSearch(search, limit);
 
-            return Mapper.Map<List<SearchModel>>(users)
-                .Concat(Mapper.Map<List<SearchModel>>(films))
-                .Concat(Mapper.Map<List<SearchModel>>(filmPeople))
+            return Mapper.Map<List<SearchDTO>>(users)
+                .Concat(Mapper.Map<List<SearchDTO>>(films))
+                .Concat(Mapper.Map<List<SearchDTO>>(filmPeople))
                 .OrderBy(m => m.Value)
                 .Take(limit)
                 .ToList();

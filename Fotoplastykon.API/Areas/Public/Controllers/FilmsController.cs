@@ -19,11 +19,6 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         {
             Films = films;
         }
-        [Route("{id}")]
-        public async Task<IActionResult> GetAll(string id)
-        {
-            return Ok();
-        }
 
         [HttpPost("rate/{filmId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]

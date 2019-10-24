@@ -28,5 +28,17 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
 
             return films;
         }
+
+        public async Task<Film> GetForPage(string publicId)
+        {
+            return await DatabaseContext.Films
+                .Include(u => u.PeopleInRoles)
+                .ThenInclude(r => r.Person)
+                .Include(u => u.ForumThreads)
+                .Include(u => u.PageCreations)
+                .ThenInclude(c => c.User)
+                .Include(u => u.Watchings)
+                .FirstOrDefaultAsync(u => u.PagePublicId == publicId);
+        }
     }
 }

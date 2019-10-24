@@ -1,4 +1,4 @@
-﻿using Fotoplastykon.BLL.Models.Quizes;
+﻿using Fotoplastykon.BLL.DTOs.Quizes;
 using Fotoplastykon.DAL.Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ namespace Fotoplastykon.BLL.Helpers
         private Dictionary<long, List<long>> UserAnswersDictionary { get; }
         private Dictionary<long, List<long>> CorrectAnswersDictionary { get; }
 
-        public QuizPointsCounter(Quiz quiz, IEnumerable<UserAnswerModel> answers)
+        public QuizPointsCounter(Quiz quiz, IEnumerable<UserAnswerDTO> answers)
         {
             UserAnswersDictionary = answers.GroupBy(a => a.QuestionId)
                 .Select(g => new

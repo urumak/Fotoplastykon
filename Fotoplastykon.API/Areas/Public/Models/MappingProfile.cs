@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Fotoplastykon.API.Areas.Public.Models;
-using Fotoplastykon.BLL.Models.Auth;
-using Fotoplastykon.BLL.Models.Users;
+using Fotoplastykon.BLL.DTOs.Auth;
+using Fotoplastykon.BLL.DTOs.Users;
 using Fotoplastykon.DAL.Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -21,8 +21,8 @@ namespace Fotoplastykon.API.Areas.Public.Models
 
         void UsersMappings()
         {
-            CreateMap<Auth.RegisterModel, AddUserModel>();
-            CreateMap<TokenModel, Auth.TokenViewModel>();
+            CreateMap<Auth.RegisterModel, AddUserDTO>();
+            CreateMap<TokenDTO, Auth.TokenViewModel>();
             CreateMap<User, Users.ListItemModel>();
             CreateMap<User, Users.UserModel>();
         }

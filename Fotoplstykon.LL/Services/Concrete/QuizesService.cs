@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Fotoplastykon.BLL.Helpers;
-using Fotoplastykon.BLL.Models.Quizes;
+using Fotoplastykon.BLL.DTOs.Quizes;
 using Fotoplastykon.BLL.Services.Abstract;
 using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
@@ -34,7 +34,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
             return await Unit.Quizes.GetPaginatedList(pager);
         }
 
-        public async Task<ResultModel> SubmitQuiz(long quizId, long userId, IEnumerable<UserAnswerModel> answers)
+        public async Task<ResultDTO> SubmitQuiz(long quizId, long userId, IEnumerable<UserAnswerDTO> answers)
         {
             var quiz = await Unit.Quizes.GetFullQuiz(quizId);
             var counter = new QuizPointsCounter(quiz, answers);
@@ -50,7 +50,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
             await Unit.QuizScores.Add(score);
             await Unit.Complete();
 
-            return new ResultModel { Points = points, Quiz = Mapper.Map<QuizResultModel>(quiz) };
+            return new ResultDTO { Points = points, Quiz = Mapper.Map<QuizResultDTO>(quiz) };
         }
     }
 }

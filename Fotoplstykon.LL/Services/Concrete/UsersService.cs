@@ -4,7 +4,7 @@ using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
 using Fotoplastykon.BLL.Services.Abstract;
 using Microsoft.AspNetCore.Identity;
-using Fotoplastykon.BLL.Models.Users;
+using Fotoplastykon.BLL.DTOs.Users;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,7 +25,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
             return await Unit.Users.Get(id);
         }
 
-        public async Task<bool> Add(AddUserModel user)
+        public async Task<bool> Add(AddUserDTO user)
         {
             var entity = Mapper.Map<User>(user);
             await Unit.Users.Add(entity);
@@ -37,10 +37,10 @@ namespace Fotoplastykon.BLL.Services.Concrete
             return result;
         }
 
-        public async Task<UserLoginModel> GetForLoginByUserName(string userName)
+        public async Task<UserLoginDTO> GetForLoginByUserName(string userName)
         {
             var user = await Unit.Users.GetByUserNameWithPermissions(userName);
-            return Mapper.Map<UserLoginModel>(user);
+            return Mapper.Map<UserLoginDTO>(user);
         }
 
         public async Task<List<User>> Search(string searchString)

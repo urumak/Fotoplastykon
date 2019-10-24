@@ -42,5 +42,20 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
 
             return users;
         }
+
+        public async Task<User> GetForPage(string publicId)
+        {
+            return await DatabaseContext.Users
+                .Include(u => u.PersonPageCreations)
+                .ThenInclude(c => c.Person)
+                .Include(u => u.FilmPageCreations)
+                .ThenInclude(c => c.Film)
+                .Include(u => u.FilmsWatched)
+                .ThenInclude(f => f.Film)
+                .Include(u => u.RatedPeople)
+                .ThenInclude(p => p.Person)
+                .Include(u => u.Photo)
+                .FirstOrDefaultAsync(u => u.PublicId == publicId);
+        }
     }
 }

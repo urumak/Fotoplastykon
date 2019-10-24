@@ -33,7 +33,9 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         public string PasswordHash { get; set; }
         public string Email { get; set; }
         public bool IsAdmin { get; set; }
+        public long? PhotoId { get; set; }
 
+        public StoredFileInfo Photo { get; set; }
         public ICollection<FilmPageCreation> FilmPageCreations { get; set; }
         public ICollection<PersonPageCreation> PersonPageCreations { get; set; }
         public ICollection<Friendship> InvitedFriends { get; set; }
@@ -63,6 +65,7 @@ namespace Fotoplastykon.DAL.Entities.Concrete
             builder.Property(p => p.Email).IsRequired().HasMaxLength(250);
             builder.Property(p => p.PasswordHash).HasMaxLength(300);
             builder.Property(p => p.IsAdmin).IsRequired().HasDefaultValue(false);
+            builder.HasOne(p => p.Photo).WithMany(p => p.UserPhotos).HasForeignKey(p => p.PhotoId).OnDelete(DeleteBehavior.Cascade);
             builder.ToTable("users");
         }
     }

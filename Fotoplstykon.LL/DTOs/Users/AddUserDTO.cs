@@ -1,6 +1,6 @@
-﻿namespace Fotoplastykon.BLL.Models.Users
+﻿namespace Fotoplastykon.BLL.DTOs.Users
 {
-    public class AddUserModel
+    public class AddUserDTO
     {
         public long Id { get; set; }
         public string UserName { get; set; }

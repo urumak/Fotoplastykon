@@ -15,6 +15,10 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         public string RelativePath { get; set; }
         public string Name { get; set; }
         public long Size { get; set; }
+
+        public ICollection<User> UserPhotos { get; set; }
+        public ICollection<Film> FilmPhotos { get; set; }
+        public ICollection<FilmPerson> FilmPersonPhotos { get; set; }
     }
 
     internal class FileMappings : IEntityTypeConfiguration<StoredFileInfo>

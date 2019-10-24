@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Fotoplastykon.BLL.Models.Films;
+using Fotoplastykon.BLL.DTOs.Films;
 using Fotoplastykon.BLL.Services.Abstract;
 using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
@@ -18,7 +18,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
 
         }
 
-        public async Task Rate(FilmMarkModel mark)
+        public async Task Rate(FilmMarkDTO mark)
         {
             await Unit.FilmWatchings.Add(Mapper.Map<FilmWatching>(mark));
             await Unit.Complete();

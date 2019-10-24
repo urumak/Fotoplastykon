@@ -24,7 +24,7 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
         [ProducesDefaultResponseType]
         public async Task<IActionResult> Add([FromForm]IFormFile file)
         {
-            Files.Add(file);
+            await Files.Add(file);
             return Ok();
         }
 

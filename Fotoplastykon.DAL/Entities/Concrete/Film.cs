@@ -20,7 +20,9 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         public string Title { get; set; }
         public int YearOfProduction { get; set; }
         public string PagePublicId { get; set; }
+        public long? PhotoId { get; set; }
 
+        public StoredFileInfo Photo { get; set; }
         public ICollection<FilmPageCreation> PageCreations { get; set; }
         public ICollection<PersonInRole> PeopleInRoles { get; set; }
         public ICollection<ForumThread> ForumThreads { get; set; }
@@ -34,6 +36,7 @@ namespace Fotoplastykon.DAL.Entities.Concrete
             builder.Property(p => p.Title).IsRequired().HasMaxLength(500);
             builder.Property(p => p.YearOfProduction).IsRequired();
             builder.Property(p => p.PagePublicId).IsRequired().HasMaxLength(80);
+            builder.HasOne(p => p.Photo).WithMany(p => p.FilmPhotos).HasForeignKey(p => p.PhotoId).OnDelete(DeleteBehavior.Cascade);
             builder.ToTable("films");
         }
     }

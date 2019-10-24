@@ -34,7 +34,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesDefaultResponseType]
         public async Task<IActionResult> Get(long id)
         {
-            var user = Users.Get(id);
+            var user = await Users.Get(id);
             if (user == null) return NotFound();
 
             return Ok(Mapper.Map<UserModel>(user));
@@ -45,7 +45,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesDefaultResponseType]
         public async Task<IActionResult> Search(string search)
         {
-            return Ok(Mapper.Map<List<ListItemModel>>(Users.Search(search)));
+            return Ok(Mapper.Map<List<ListItemModel>>(await Users.Search(search)));
         }
     }
 }

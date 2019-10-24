@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using AutoMapper;
 using Fotoplastykon.BLL.Enums;
-using Fotoplastykon.BLL.Models.FilmPeople;
-using Fotoplastykon.BLL.Models.Films;
-using Fotoplastykon.BLL.Models.Quizes;
-using Fotoplastykon.BLL.Models.Search;
-using Fotoplastykon.BLL.Models.Users;
+using Fotoplastykon.BLL.DTOs.FilmPeople;
+using Fotoplastykon.BLL.DTOs.Films;
+using Fotoplastykon.BLL.DTOs.Quizes;
+using Fotoplastykon.BLL.DTOs.Search;
+using Fotoplastykon.BLL.DTOs.Users;
 using Fotoplastykon.DAL.Entities.Concrete;
 
 namespace Fotoplastykon.BLL.Models
@@ -24,26 +24,26 @@ namespace Fotoplastykon.BLL.Models
 
         private void UserMappings()
         {
-            CreateMap<User, AddUserModel>()
+            CreateMap<User, AddUserDTO>()
                 .ReverseMap()
                 .ForMember(d => d.PasswordHash, o => o.Ignore());
         }
 
         private void QuizMappings()
         {
-            CreateMap<Quiz, QuizResultModel>();
-            CreateMap<QuizQuestion, QuestionResultModel>();
-            CreateMap<QuizAnswer, AnswerResultModel>();
+            CreateMap<Quiz, QuizResultDTO>();
+            CreateMap<QuizQuestion, QuestionResultDTO>();
+            CreateMap<QuizAnswer, AnswerResultDTO>();
         }
 
         private void FilmMappings()
         {
-            CreateMap<FilmMarkModel, FilmWatching>();
+            CreateMap<FilmMarkDTO, FilmWatching>();
         }
 
         private void FilmPersonMappings()
         {
-            CreateMap<PersonMarkModel, PersonMark>();
+            CreateMap<PersonMarkDTO, PersonMark>();
         }
 
         private void InformationMappings()
@@ -54,20 +54,20 @@ namespace Fotoplastykon.BLL.Models
 
         private void SearchMappings()
         {
-            CreateMap<User, SearchModel>()
+            CreateMap<User, SearchDTO>()
                 .ForMember(d => d.Value, o => o.MapFrom(s => s.FirstName + " " + s.Surname))
                 .ForMember(d => d.Key, o => o.MapFrom(s => s.PublicId))
-                .ForMember(d => d.Type, o => o.MapFrom(s => SearchItemType.User));
+                .ForMember(d => d.Type, o => o.MapFrom(s => ItemType.User));
 
-            CreateMap<Film, SearchModel>()
+            CreateMap<Film, SearchDTO>()
                 .ForMember(d => d.Value, o => o.MapFrom(s => s.Title))
                 .ForMember(d => d.Key, o => o.MapFrom(s => s.PagePublicId))
-                .ForMember(d => d.Type, o => o.MapFrom(s => SearchItemType.User));
+                .ForMember(d => d.Type, o => o.MapFrom(s => ItemType.User));
 
-            CreateMap<FilmPerson, SearchModel>()
+            CreateMap<FilmPerson, SearchDTO>()
                 .ForMember(d => d.Value, o => o.MapFrom(s => s.FirstName + " " + s.Surname))
                 .ForMember(d => d.Key, o => o.MapFrom(s => s.PagePublicId))
-                .ForMember(d => d.Type, o => o.MapFrom(s => SearchItemType.User));
+                .ForMember(d => d.Type, o => o.MapFrom(s => ItemType.User));
         }
     }
 }

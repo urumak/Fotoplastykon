@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Fotoplastykon.BLL.Models.FilmPeople
+namespace Fotoplastykon.BLL.DTOs.Films
 {
-    public class PersonMarkModel
+    public class FilmMarkDTO
     {
         public long UserId { get; set; }
-        public long FilmPersonId { get; set; }
+        public long FilmId { get; set; }
         public int Mark { get; set; }
     }
 }

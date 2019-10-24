@@ -1,4 +1,4 @@
-﻿using Fotoplastykon.BLL.Models.Search;
+﻿using Fotoplastykon.BLL.DTOs.Search;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +8,6 @@ namespace Fotoplastykon.BLL.Services.Abstract
 {
     public interface ISearchService
     {
-        Task<List<SearchModel>> Search(string search, int limit = 10);
+        Task<List<SearchDTO>> Search(string search, int limit = 10);
     }
 }

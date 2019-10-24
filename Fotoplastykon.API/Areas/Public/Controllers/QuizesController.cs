@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Fotoplastykon.API.Areas.Public.Models.Quizes;
 using Fotoplastykon.API.Extensions;
-using Fotoplastykon.BLL.Models.Quizes;
+using Fotoplastykon.BLL.DTOs.Quizes;
 using Fotoplastykon.BLL.Services.Abstract;
 using Fotoplastykon.Tools.Pager;
 using Microsoft.AspNetCore.Http;
@@ -56,7 +56,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> SubmitQuiz(long id, [FromBody]List<UserAnswerModel> answers)
+        public async Task<IActionResult> SubmitQuiz(long id, [FromBody]List<UserAnswerDTO> answers)
         {
             if (!await Quizes.CheckIfQuizExists(id)) return NotFound();
 

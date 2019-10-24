@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Fotoplastykon.BLL.Models.Auth;
+using Fotoplastykon.BLL.DTOs.Auth;
 using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
 using Fotoplastykon.BLL.Services.Abstract;
@@ -45,7 +45,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
             return result;
         }
 
-        public async Task<TokenModel> TryRefreshToken(long userId)
+        public async Task<TokenDTO> TryRefreshToken(long userId)
         {
             if (!await FindUser(userId)) return null;
 
@@ -73,7 +73,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
             return result == PasswordVerificationResult.Success;
         }
 
-        private async Task<TokenModel> CreateToken()
+        private async Task<TokenDTO> CreateToken()
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -90,7 +90,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
 
             var tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
 
-            return new TokenModel()
+            return new TokenDTO()
             {
                 Token = tokenValue,
                 ExpirationDate = token.ValidTo

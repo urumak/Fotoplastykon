@@ -9,5 +9,6 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
     public interface IFilmPeopleRepository : IRepository<FilmPerson>
     {
         Task<List<FilmPerson>> GetForSearch(string search, int limit = 10);
+        Task<FilmPerson> GetForPage(string publicId);
     }
 }

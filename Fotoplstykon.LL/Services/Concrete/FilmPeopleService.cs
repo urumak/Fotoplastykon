@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Fotoplastykon.BLL.Models.FilmPeople;
+using Fotoplastykon.BLL.DTOs.FilmPeople;
 using Fotoplastykon.BLL.Services.Abstract;
 using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
@@ -18,7 +18,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
 
         }
 
-        public async Task Rate(PersonMarkModel mark)
+        public async Task Rate(PersonMarkDTO mark)
         {
             await Unit.PersonMarks.Add(Mapper.Map<PersonMark>(mark));
             await Unit.Complete();

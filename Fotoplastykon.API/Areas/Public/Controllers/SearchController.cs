@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Fotoplastykon.BLL.Models.Search;
+using Fotoplastykon.BLL.DTOs.Search;
 using Fotoplastykon.BLL.Services.Abstract;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,11 +15,9 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
     public class SearchController : ControllerBase
     {
         protected ISearchService SearchService { get; }
-        private IMapper Mapper { get; }
 
-        public SearchController(ISearchService searchService, IMapper mapper)
+        public SearchController(ISearchService searchService)
         {
-            Mapper = mapper;
             SearchService = searchService;
         }
 

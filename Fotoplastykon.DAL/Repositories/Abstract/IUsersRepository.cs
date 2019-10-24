@@ -10,5 +10,6 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
         Task<User> GetByUserName(string name);
         Task<User> GetByUserNameWithPermissions(string name);
         Task<List<User>> GetForSearch(string search, int limit = 10);
+        Task<User> GetForPage(string publicId);
     }
 }

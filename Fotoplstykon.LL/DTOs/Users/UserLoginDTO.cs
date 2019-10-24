@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Fotoplastykon.BLL.Models.Users
+namespace Fotoplastykon.BLL.DTOs.Users
 {
-    public class UserLoginModel
+    public class UserLoginDTO
     {
         public long Id { get; set; }
         public string UserName { get; set; }

@@ -23,7 +23,9 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         public string Surname { get; set; }
         public Profession Profession { get; set; }
         public string PagePublicId { get; set; }
+        public long? PhotoId { get; set; }
 
+        public StoredFileInfo Photo { get; set; }
         public ICollection<PersonInRole> Roles { get; set; }
         public ICollection<PersonPageCreation> PageCreations { get; set; }
         public ICollection<ForumThread> ForumThreads { get; set; }
@@ -35,6 +37,7 @@ namespace Fotoplastykon.DAL.Entities.Concrete
     {
         public void Configure(EntityTypeBuilder<FilmPerson> builder)
         {
+            builder.HasOne(p => p.Photo).WithMany(p => p.FilmPersonPhotos).HasForeignKey(p => p.PhotoId).OnDelete(DeleteBehavior.Cascade);
             builder.ToTable("film_people");
         }
     }

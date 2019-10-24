@@ -1,4 +1,4 @@
-﻿using Fotoplastykon.BLL.Models.Films;
+﻿using Fotoplastykon.BLL.DTOs.Films;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,7 +8,7 @@ namespace Fotoplastykon.BLL.Services.Abstract
 {
     public interface IFilmsService
     {
-        Task Rate(FilmMarkModel mark);
+        Task Rate(FilmMarkDTO mark);
         Task<bool> CheckIfWatchingExists(long userId, long filmId);
         Task<bool> CheckIfExists(long filmId);
     }

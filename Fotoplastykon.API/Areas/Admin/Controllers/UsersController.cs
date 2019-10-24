@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
 using Fotoplastykon.API.Areas.Admin.Models.Users;
-using Fotoplastykon.BLL.Models.Users;
+using Fotoplastykon.BLL.DTOs.Users;
 using Fotoplastykon.BLL.Services.Abstract;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;

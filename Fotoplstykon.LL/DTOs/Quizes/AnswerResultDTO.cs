@@ -1,6 +1,6 @@
-﻿namespace Fotoplastykon.BLL.Models.Quizes
+﻿namespace Fotoplastykon.BLL.DTOs.Quizes
 {
-    public class AnswerResultModel
+    public class AnswerResultDTO
     {
         public long Id { get; set; }
         public string AnswerText { get; set; }
