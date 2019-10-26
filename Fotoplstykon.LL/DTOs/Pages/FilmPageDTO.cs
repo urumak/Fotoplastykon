@@ -12,8 +12,7 @@ namespace Fotoplastykon.BLL.DTOs.Pages
         public string Title { get; set; }
         public int YearOfProduction { get; set; }
         public decimal Rank { get; set; }
-        public string FilePath { get; set; }
-        public FileInfo Photo { get; set; }
+        public long PhotoId { get; set; }
         public List<LinkedItemDTO> Cast { get; set; }
         public List<LinkedItemDTO> Filmmakers { get; set; }
         public List<ForumElementDTO> ForumThreads { get; set; }

@@ -1,6 +1,6 @@
 <template>
     <v-container class="flex flex-center">
-        <v-form ref="form" v-model="valid">
+        <v-form ref="form">
             <v-text-field v-model="form.userName" label="Nazwa użytkownika"></v-text-field>
             <v-text-field v-model="form.password" type="password" label="Hasło"></v-text-field>
             <v-text-field v-model="form.repeatPassword" type="password" label="Powtórz hasło"></v-text-field>

@@ -62,12 +62,12 @@ namespace Fotoplastykon.BLL.Models
             CreateMap<Film, SearchDTO>()
                 .ForMember(d => d.Value, o => o.MapFrom(s => s.Title))
                 .ForMember(d => d.Key, o => o.MapFrom(s => s.PagePublicId))
-                .ForMember(d => d.Type, o => o.MapFrom(s => ItemType.User));
+                .ForMember(d => d.Type, o => o.MapFrom(s => ItemType.Film));
 
             CreateMap<FilmPerson, SearchDTO>()
                 .ForMember(d => d.Value, o => o.MapFrom(s => s.FirstName + " " + s.Surname))
                 .ForMember(d => d.Key, o => o.MapFrom(s => s.PagePublicId))
-                .ForMember(d => d.Type, o => o.MapFrom(s => ItemType.User));
+                .ForMember(d => d.Type, o => o.MapFrom(s => ItemType.FilmPerson));
         }
     }
 }

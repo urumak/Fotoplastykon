@@ -18,26 +18,17 @@ namespace Fotoplastykon.BLL.Services.Concrete
 
         public async Task<FilmPageDTO> GetFilmPage(string publicId)
         {
-            var film = Mapper.Map<FilmPageDTO>(Unit.Films.GetForPage(publicId));
-            //pobrać z bazy
-            //dokleić plik
-            return film;
+            return Mapper.Map<FilmPageDTO>(await Unit.Films.GetForPage(publicId));
         }
 
         public async Task<FilmPersonPageDTO> GetFilmPersonPage(string publicId)
         {
-            var person = Mapper.Map<FilmPersonPageDTO>(Unit.FilmPeople.GetForPage(publicId));
-            //pobrać z bazy
-            //dokleić plik
-            return person;
+            return  Mapper.Map<FilmPersonPageDTO>(await Unit.FilmPeople.GetForPage(publicId));
         }
 
         public async Task<UserPageDTO> GetUserPage(string publicId)
         {
-            var user = Mapper.Map<UserPageDTO>(Unit.Users.GetForPage(publicId));
-            //pobrać z bazy
-            //dokleić plik
-            return user;
+            return Mapper.Map<UserPageDTO>(await Unit.Users.GetForPage(publicId));
         }
     }
 }

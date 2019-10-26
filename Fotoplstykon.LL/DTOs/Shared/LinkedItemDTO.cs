@@ -11,8 +11,7 @@ namespace Fotoplastykon.BLL.DTOs.Shared
         public string Value { get; set; }
         public string Key { get; set; }
         public string Description { get; set; }
-        public string FilePath { get; set; }
-        public FileInfo Photo { get; set; }
+        public long PhotoId { get; set; }
         public ItemType Type { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace Fotoplastykon.BLL.DTOs.Pages
         public string Profession { get; set; }
         public decimal Rank { get; set; }
         public string FilePath { get; set; }
-        public FileInfo Photo { get; set; }
+        public long PhotoId { get; set; }
         public List<PersonInRoleDTO> Roles { get; set; }
         public List<ForumElementDTO> ForumThreads { get; set; }
     }

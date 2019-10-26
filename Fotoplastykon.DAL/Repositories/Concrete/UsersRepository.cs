@@ -54,7 +54,6 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
                 .ThenInclude(f => f.Film)
                 .Include(u => u.RatedPeople)
                 .ThenInclude(p => p.Person)
-                .Include(u => u.Photo)
                 .FirstOrDefaultAsync(u => u.PublicId == publicId);
         }
     }
