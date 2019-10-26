@@ -27,8 +27,9 @@ namespace Fotoplastykon.BLL.Services.Concrete
             return await Unit.Informations.GetWithCreator(id);
         }
 
-        public async Task AddComment(InformationComment comment)
+        public async Task AddComment(InformationComment comment, long userId)
         {
+            comment.CreatedById = userId;
             await Unit.InformationComments.Add(comment);
             await Unit.Complete();
         }
@@ -48,6 +49,16 @@ namespace Fotoplastykon.BLL.Services.Concrete
         public async Task<bool> CheckIfCommentExists(long id)
         {
             return await Unit.InformationComments.Get(id) != null;
+        }
+
+        public async Task<bool> CheckIfExists(long id)
+        {
+            return await Unit.Informations.Get(id) != null;
+        }
+
+        public async Task<List<InformationComment>> GetList(long informationId)
+        {
+            return Mapper.Map<List<InformationComment>>(await Unit.InformationComments.GetList(informationId));
         }
     }
 }

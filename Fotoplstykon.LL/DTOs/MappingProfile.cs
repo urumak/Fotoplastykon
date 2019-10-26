@@ -18,7 +18,6 @@ namespace Fotoplastykon.BLL.Models
             QuizMappings();
             FilmMappings();
             FilmPersonMappings();
-            InformationMappings();
             SearchMappings();
         }
 
@@ -44,12 +43,6 @@ namespace Fotoplastykon.BLL.Models
         private void FilmPersonMappings()
         {
             CreateMap<PersonMarkDTO, PersonMark>();
-        }
-
-        private void InformationMappings()
-        {
-            CreateMap<InformationComment, InformationComment>()
-                .ForMember(d => d.Id, o => o.Ignore());
         }
 
         private void SearchMappings()

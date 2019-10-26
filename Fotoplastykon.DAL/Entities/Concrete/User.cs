@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Fotoplastykon.DAL.Entities.Abstract;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Fotoplastykon.DAL.Entities.Concrete
 {
-    public class User : IEntity
+    public class User : IEntity, IAnonimisationable
     {
         public User()
         {
@@ -34,6 +35,7 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         public string Email { get; set; }
         public bool IsAdmin { get; set; }
         public long? PhotoId { get; set; }
+        public DateTime? AnonimisationDate { get; set; }
 
         public StoredFileInfo Photo { get; set; }
         public ICollection<FilmPageCreation> FilmPageCreations { get; set; }

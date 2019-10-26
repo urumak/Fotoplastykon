@@ -36,7 +36,15 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
 
         public virtual async Task Add(TEntity entity)
         {
-            await Context.Set<TEntity>().AddAsync(entity);
+            if(entity is IAuditable auditableEntity)
+            {
+                auditableEntity.DateCreated = DateTime.Now;
+                await Context.Set<IAuditable>().AddAsync(auditableEntity);
+            }
+            else
+            {
+                await Context.Set<TEntity>().AddAsync(entity);
+            }
         }
 
         public virtual async Task AddRange(IEnumerable<TEntity> entities)
