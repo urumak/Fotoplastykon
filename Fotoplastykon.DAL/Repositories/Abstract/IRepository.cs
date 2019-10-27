@@ -14,6 +14,7 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
         Task<IEnumerable<TEntity>> GetAll();
         Task<IEnumerable<TEntity>> Find(Expression<Func<TEntity, bool>> predicate);
         Task<IPaginationResult<TEntity>> GetPaginatedList(IPager pager);
+        Task<IPaginationResult<TEntity>> GetPaginatedList(IPager pager, Expression<Func<TEntity, bool>> predicate);
 
         Task Add(TEntity entity);
         Task AddRange(IEnumerable<TEntity> entities);

@@ -7,9 +7,8 @@ using System.Text;
 
 namespace Fotoplastykon.DAL.Entities.Concrete
 {
-    public class ForumThreadComment : IEntity, IRecoverable
+    public class ForumThreadComment : IEntity, IRecoverable, IAuditable
     {
-        //TODO: przerobić na soft delete
         public long Id { get; set; }
         public long CreatedById { get; set; }
         public DateTime DateCreated { get; set; }
@@ -23,7 +22,7 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         public ForumThread Thread { get; set; }
         public ForumThreadComment Parent { get; set; }
 
-        public ICollection<ForumThreadComment> Children { get; set; }
+        public ICollection<ForumThreadComment> Replies { get; set; }
     }
     internal class ForumThreadCommentMappings : IEntityTypeConfiguration<ForumThreadComment>
     {
@@ -31,7 +30,7 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         {
             builder.HasOne(p => p.CreatedBy).WithMany(p => p.ForumThreadComments).HasForeignKey(p => p.CreatedById).OnDelete(DeleteBehavior.Cascade);
             builder.HasOne(p => p.Thread).WithMany(p => p.Comments).HasForeignKey(p => p.ThreadId).OnDelete(DeleteBehavior.Cascade);
-            builder.HasOne(p => p.Parent).WithMany(p => p.Children).HasForeignKey(p => p.ParentId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(p => p.Parent).WithMany(p => p.Replies).HasForeignKey(p => p.ParentId).OnDelete(DeleteBehavior.Cascade);
             builder.ToTable("forum_thread_comments");
         }
     }

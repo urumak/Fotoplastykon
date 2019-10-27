@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Fotoplastykon.API.Areas.Public.Models.Forum;
 
 namespace Fotoplastykon.API.Areas.Public.Models
 {
@@ -20,6 +21,7 @@ namespace Fotoplastykon.API.Areas.Public.Models
             UsersMappings();
             InformationsMappings();
             QuizesMappings();
+            ForumMappings();
         }
 
         void UsersMappings()
@@ -53,6 +55,23 @@ namespace Fotoplastykon.API.Areas.Public.Models
             CreateMap<Quiz, Quizes.QuizModel>();
             CreateMap<QuizQuestion, Quizes.QuestionModel>();
             CreateMap<QuizAnswer, Quizes.AnswerModel>();
+        }
+
+        void ForumMappings()
+        {
+            CreateMap<ForumThread, ForumThreadModel>()
+                .ForMember(d => d.CreatorFullName, o => o.MapFrom(s => s.CreatedBy.FirstName + " " + s.CreatedBy.Surname))
+                .AfterMap((s, d) =>
+                {
+                    if (s.CreatedBy.AnonimisationDate.HasValue) d.CreatorFullName = Configuration["DeletedItems:ItemDescription"];
+                });
+
+            CreateMap<ForumThreadComment, ForumThreadCommentModel>()
+                .ForMember(d => d.CreatorFullName, o => o.MapFrom(s => s.CreatedBy.FirstName + " " + s.CreatedBy.Surname))
+                .AfterMap((s, d) =>
+                {
+                    if (s.CreatedBy.AnonimisationDate.HasValue) d.CreatorFullName = Configuration["DeletedItems:ItemDescription"];
+                });
         }
     }
 }

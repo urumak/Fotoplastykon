@@ -22,6 +22,8 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Abstract
         IFilmPeopleRepository FilmPeople { get; }
         IPersonMarksRepository PersonMarks { get; }
         IInformationCommentsRepository InformationComments { get; }
+        IForumThreadsRepository ForumThreads { get; }
+        IForumThreadCommentsRepository ForumThreadComments { get; }
         Task<int> Complete();
     }
 }

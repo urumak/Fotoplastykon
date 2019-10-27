@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Fotoplastykon.API.Areas.Public.Models;
 using Fotoplastykon.API.Areas.Public.Models.Informations;
 using Fotoplastykon.API.Extensions;
 using Fotoplastykon.BLL.Services.Abstract;
@@ -83,7 +84,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> UpdateComment([FromBody]CommentIdModel model)
+        public async Task<IActionResult> UpdateComment([FromBody]DeleteItemModel model)
         {
             if (!await Informations.CheckIfExists(model.Id)) return NotFound();
 

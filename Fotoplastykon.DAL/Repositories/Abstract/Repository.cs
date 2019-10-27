@@ -84,5 +84,10 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
         {
             return await Context.Set<TEntity>().GetPaginationResult(pager);
         }
+
+        public virtual async Task<IPaginationResult<TEntity>> GetPaginatedList(IPager pager, Expression<Func<TEntity, bool>> predicate)
+        {
+            return await Context.Set<TEntity>().Where(predicate).GetPaginationResult(pager);
+        }
     }
 }

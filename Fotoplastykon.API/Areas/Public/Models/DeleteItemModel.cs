@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Fotoplastykon.API.Areas.Public.Models.Informations
+namespace Fotoplastykon.API.Areas.Public.Models
 {
-    public class CommentIdModel
+    public class DeleteItemModel
     {
         public long Id { get; set; }
     }
