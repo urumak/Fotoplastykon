@@ -25,7 +25,8 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
             IPersonMarksRepository personMarks,
             IInformationCommentsRepository informationComments,
             IForumThreadsRepository forumThreads,
-            IForumThreadCommentsRepository forumThreadComments)
+            IForumThreadCommentsRepository forumThreadComments,
+            IMessagesRepository messages)
         {
             Context = context;
             Users = users;
@@ -44,6 +45,7 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
             InformationComments = informationComments;
             ForumThreads = forumThreads;
             ForumThreadComments = forumThreadComments;
+            Messages = messages;
         }
 
         public IUsersRepository Users { get; }
@@ -62,6 +64,7 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
         public IInformationCommentsRepository InformationComments { get; }
         public IForumThreadsRepository ForumThreads { get; }
         public IForumThreadCommentsRepository ForumThreadComments { get; }
+        public IMessagesRepository Messages { get; }
 
         private DbContext Context { get; }
 

@@ -7,12 +7,13 @@ using System.Text;
 
 namespace Fotoplastykon.DAL.Entities.Concrete
 {
-    public class Message : IEntity
+    public class Message : IEntity, IAuditable
     {
         public long Id { get; set; }
         public long SenderId { get; set; }
         public long ReceiverId { get; set; }
         public string MessageText { get; set; }
+        public DateTime DateCreated { get; set; }
 
         public User Sender { get; set; }
         public User Receiver { get; set; }

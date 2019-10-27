@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Fotoplastykon.API.Areas.Public.Models.Forum;
 using Fotoplastykon.API.Areas.Public.Models.Auth;
+using Fotoplastykon.API.Areas.Public.Models.Chat;
 
 namespace Fotoplastykon.API.Areas.Public.Models
 {
@@ -23,6 +24,7 @@ namespace Fotoplastykon.API.Areas.Public.Models
             InformationsMappings();
             QuizesMappings();
             ForumMappings();
+            ChatMappings();
         }
 
         void UsersMappings()
@@ -74,6 +76,12 @@ namespace Fotoplastykon.API.Areas.Public.Models
                 {
                     if (s.CreatedBy.AnonimisationDate.HasValue) d.CreatorFullName = Configuration["DeletedItems:ItemDescription"];
                 });
+        }
+
+        void ChatMappings()
+        {
+            CreateMap<MessageModel, Message>();
+            CreateMap<Message, MessageListItemModel>();
         }
     }
 }
