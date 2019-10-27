@@ -10,8 +10,6 @@ namespace Fotoplastykon.API.Areas.Public.Models.Pages
     {
         public string UserName { get; set; }
         public string FullName { get; set; }
-        public IFormFile Photo { get; set; }
-        public List<LinkedItemModel> PageCreations { get; set; }
         public List<LinkedItemModel> WatchedFilms { get; set; }
         public List<LinkedItemModel> RankedPeople { get; set; }
     }

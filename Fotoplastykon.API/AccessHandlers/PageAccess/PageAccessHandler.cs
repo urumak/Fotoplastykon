@@ -15,31 +15,31 @@ namespace Fotoplastykon.API.AccessHandlers.PageAccess
     {
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PageAccessRequirement requirement)
         {
-            var pagesClaim = context.User.FindFirst("CanEditPages");
+            //var pagesClaim = context.User.FindFirst("CanEditPages");
 
-            if (pagesClaim == null)
-            {
-                return;
-            }
+            //if (pagesClaim == null)
+            //{
+            //    return;
+            //}
 
-            var pagesIds = JsonConvert.DeserializeObject<List<string>>(pagesClaim.Value);
+            //var pagesIds = JsonConvert.DeserializeObject<List<string>>(pagesClaim.Value);
 
-            if (context.Resource is AuthorizationFilterContext authContext)
-            {
-                if(authContext.RouteData.Values["id"] != null)
-                {
-                    var pageId = authContext.RouteData.Values["id"].ToString();
+            //if (context.Resource is AuthorizationFilterContext authContext)
+            //{
+            //    if(authContext.RouteData.Values["id"] != null)
+            //    {
+            //        var pageId = authContext.RouteData.Values["id"].ToString();
 
-                    if (pagesIds.Contains(pageId))
-                    {
-                        context.Succeed(requirement);
-                    }
-                    else
-                    {
-                        context.Fail();
-                    }
-                }
-            }
+            //        if (pagesIds.Contains(pageId))
+            //        {
+            //            context.Succeed(requirement);
+            //        }
+            //        else
+            //        {
+            //            context.Fail();
+            //        }
+            //    }
+            //}
         }
     }
 }

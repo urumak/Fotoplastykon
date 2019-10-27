@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Fotoplastykon.DAL.Attributes;
 using Fotoplastykon.DAL.Entities.Abstract;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -25,11 +26,22 @@ namespace Fotoplastykon.DAL.Entities.Concrete
 
         public long Id { get; set; }
         public string PublicId { get; set; }
+
+        [Anonymise]
         public string UserName { get; set; }
+
+        [Anonymise]
         public string FirstName { get; set; }
+
+        [Anonymise]
         public string Surname { get; set; }
+
+        [Anonymise]
         public string PasswordHash { get; set; }
+
+        [Anonymise]
         public string Email { get; set; }
+
         public bool IsAdmin { get; set; }
         public long? PhotoId { get; set; }
         public DateTime? AnonimisationDate { get; set; }

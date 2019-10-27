@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Fotoplastykon.API.Areas.Public.Models.Forum;
+using Fotoplastykon.API.Areas.Public.Models.Auth;
 
 namespace Fotoplastykon.API.Areas.Public.Models
 {
@@ -30,6 +31,7 @@ namespace Fotoplastykon.API.Areas.Public.Models
             CreateMap<TokenDTO, Auth.TokenViewModel>();
             CreateMap<User, Users.ListItemModel>();
             CreateMap<User, Users.UserModel>();
+            CreateMap<User, UserProfileModel>();
         }
 
         void InformationsMappings()

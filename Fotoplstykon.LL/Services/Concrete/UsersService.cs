@@ -7,17 +7,23 @@ using Microsoft.AspNetCore.Identity;
 using Fotoplastykon.BLL.DTOs.Users;
 using System.Linq;
 using System.Threading.Tasks;
+using Fotoplastykon.BLL.Helpers;
+using Fotoplastykon.DAL.Storage;
 
 namespace Fotoplastykon.BLL.Services.Concrete
 {
     public class UsersService : Service, IUsersService
     {
         private IPasswordHasher<User> Hasher { get; }
+        private Anonymiser<User> Anonymiser { get; }
+        private Storekeeper Storekeeper { get; }
 
-        public UsersService(IUnitOfWork unit, IMapper mapper, IPasswordHasher<User> hasher)
+        public UsersService(IUnitOfWork unit, IMapper mapper, IPasswordHasher<User> hasher, Anonymiser<User> anonymiser, Storekeeper storekeeper)
             : base(unit, mapper)
         {
             Hasher = hasher;
+            Anonymiser = anonymiser;
+            Storekeeper = storekeeper;
         }
 
         public async Task<User> Get(long id)
@@ -57,6 +63,21 @@ namespace Fotoplastykon.BLL.Services.Concrete
         public async Task<bool> CheckIfExists(long id)
         {
             return await Unit.Users.Get(id) != null;
+        }
+
+        public async Task Anonymise(long id)
+        {
+            var user = await Unit.Users.Get(id);
+
+            if(user.PhotoId.HasValue)
+            {
+                var file = await Unit.Files.Get(user.PhotoId.Value);
+                Storekeeper.Remove(file.Name, file.RelativePath);
+                await Unit.Files.Remove(user.PhotoId.Value);
+            }
+
+            user = Anonymiser.Anonymise(user);
+            await Unit.Complete();
         }
 
         private async Task<bool> SetPassword(long id, string password)

@@ -89,7 +89,19 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
 
             if (user == null) return NotFound();
 
-            return Ok(user);
+            return Ok(Mapper.Map<UserProfileModel>(user));
+        }
+        #endregion
+
+        #region Anonymise()
+        [Route("anonymise")]
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Anonymise()
+        {
+            await Users.Anonymise(User.Id());
+            return Ok();
         }
         #endregion
     }

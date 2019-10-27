@@ -72,8 +72,6 @@ namespace Fotoplastykon.API.Extensions
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("AdminAccess", policy => policy.RequireClaim("IsAdmin", "True"));
-                options.AddPolicy("CanEditPages", policy =>
-                        policy.Requirements.Add(new PageAccessRequirement()));
             });
         }
     }

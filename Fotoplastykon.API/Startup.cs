@@ -23,6 +23,7 @@ using System.Security.Principal;
 using Microsoft.AspNetCore.Authorization;
 using Fotoplastykon.API.AccessHandlers.PageAccess;
 using Fotoplastykon.DAL.Storage;
+using Fotoplastykon.BLL.Helpers;
 
 namespace Fotoplastykon.API
 {
@@ -57,6 +58,7 @@ namespace Fotoplastykon.API
             services.RegisterAllTypes(typeof(IUnitOfWork).Assembly, "UnitOfWork");
             services.RegisterAllTypes(typeof(IUsersService).Assembly, "Service");
             services.AddTransient<IStorekeeper, Storekeeper>();
+            services.AddTransient<Anonymiser<User>>();
 
             services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 

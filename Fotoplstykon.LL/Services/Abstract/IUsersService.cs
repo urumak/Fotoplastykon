@@ -12,5 +12,6 @@ namespace Fotoplastykon.BLL.Services.Abstract
         Task<UserLoginDTO> GetForLoginByUserName(string userName);
         Task<List<User>> Search(string searchString);
         Task<bool> CheckIfExists(long id);
+        Task Anonymise(long id);
     }
 }
