@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Fotoplastykon.BLL.DTOs.Pages;
 using Fotoplastykon.BLL.Services.Abstract;
+using Fotoplastykon.DAL.Entities.Concrete;
+using Fotoplastykon.DAL.Enums;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
 using System;
 using System.Collections.Generic;

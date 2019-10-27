@@ -112,7 +112,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> Remove([FromBody]DeleteItemModel model)
+        public async Task<IActionResult> Remove([FromBody]ItemIdModel model)
         {
             if (!await ForumThreads.CheckIfExists(model.Id)) return NotFound();
 
@@ -152,7 +152,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> RemoveComment([FromBody]DeleteItemModel model)
+        public async Task<IActionResult> RemoveComment([FromBody]ItemIdModel model)
         {
             if (!await ForumThreads.CheckIfExists(model.Id)) return NotFound();
 

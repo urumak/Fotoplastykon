@@ -84,7 +84,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> UpdateComment([FromBody]DeleteItemModel model)
+        public async Task<IActionResult> UpdateComment([FromBody]ItemIdModel model)
         {
             if (!await Informations.CheckIfExists(model.Id)) return NotFound();
 

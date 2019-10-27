@@ -21,15 +21,12 @@ namespace Fotoplastykon.DAL
         public virtual DbSet<Friendship> Friendships { get; protected set; }
         public virtual DbSet<Invitation> Invitations { get; protected set; }
         public virtual DbSet<PersonInRole> PeopleInRoles { get; protected set; }
-        public virtual DbSet<FilmPageCreation> FilmPageCreations { get; protected set; }
-        public virtual DbSet<PersonPageCreation> PersonPageCreations { get; protected set; }
         public virtual DbSet<Information> Informations { get; protected set; }
         public virtual DbSet<InformationComment> InformationComments { get; protected set; }
         public virtual DbSet<FilmWatching> FilmWatchings { get; protected set; }
         public virtual DbSet<ForumThread> ForumThreads { get; protected set; }
         public virtual DbSet<ForumThreadComment> ForumThreadComments { get; protected set; }
         public virtual DbSet<Message> Messages { get; protected set; }
-        public virtual DbSet<PageCreationRequest> PageCreationRequests { get; protected set; }
         public virtual DbSet<PersonMark> PeopleMarks { get; protected set; }
         public virtual DbSet<Quiz> Quizes { get; protected set; }
         public virtual DbSet<QuizQuestion> QuizQuestions { get; protected set; }

@@ -27,11 +27,6 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
             return await DatabaseContext.Users.FirstOrDefaultAsync(u => u.UserName == name);
         }
 
-        public async Task<User> GetByUserNameWithPermissions(string name)
-        {
-            return await DatabaseContext.Users.Include(u => u.FilmPageCreations).FirstOrDefaultAsync(u => u.UserName == name);
-        }
-
         public async Task<List<User>> GetForSearch(string search, int limit = 10)
         {
             var users = await DatabaseContext.Users
@@ -46,10 +41,6 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
         public async Task<User> GetForPage(string publicId)
         {
             return await DatabaseContext.Users
-                .Include(u => u.PersonPageCreations)
-                .ThenInclude(c => c.Person)
-                .Include(u => u.FilmPageCreations)
-                .ThenInclude(c => c.Film)
                 .Include(u => u.FilmsWatched)
                 .ThenInclude(f => f.Film)
                 .Include(u => u.RatedPeople)

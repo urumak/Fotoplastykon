@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Fotoplastykon.API.Areas.Public.Models
 {
-    public class DeleteItemModel
+    public class ItemIdModel
     {
         public long Id { get; set; }
     }

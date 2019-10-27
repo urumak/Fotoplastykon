@@ -10,13 +10,10 @@ namespace Fotoplastykon.DAL.Entities.Concrete
     {
         public User()
         {
-            FilmPageCreations = new HashSet<FilmPageCreation>();
             InvitedFriends = new HashSet<Friendship>();
             AcceptedFriends = new HashSet<Friendship>();
             InvitationsSent = new HashSet<Invitation>();
             InvitationsReceived = new HashSet<Invitation>();
-            PersonPageCreations = new HashSet<PersonPageCreation>();
-            CreationRequests = new HashSet<PageCreationRequest>();
             ForumThreads = new HashSet<ForumThread>();
             ForumThreadComments = new HashSet<ForumThreadComment>();
             FilmsWatched = new HashSet<FilmWatching>();
@@ -38,13 +35,10 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         public DateTime? AnonimisationDate { get; set; }
 
         public StoredFileInfo Photo { get; set; }
-        public ICollection<FilmPageCreation> FilmPageCreations { get; set; }
-        public ICollection<PersonPageCreation> PersonPageCreations { get; set; }
         public ICollection<Friendship> InvitedFriends { get; set; }
         public ICollection<Friendship> AcceptedFriends { get; set; }
         public ICollection<Invitation> InvitationsSent { get; set; }
         public ICollection<Invitation> InvitationsReceived { get; set; }
-        public ICollection<PageCreationRequest> CreationRequests { get; set; }
         public ICollection<ForumThread> ForumThreads { get; set; }
         public ICollection<ForumThreadComment> ForumThreadComments { get; set; }
         public ICollection<FilmWatching> FilmsWatched { get; set; }

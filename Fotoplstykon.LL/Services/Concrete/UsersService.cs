@@ -39,7 +39,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
 
         public async Task<UserLoginDTO> GetForLoginByUserName(string userName)
         {
-            var user = await Unit.Users.GetByUserNameWithPermissions(userName);
+            var user = await Unit.Users.GetByUserName(userName);
             return Mapper.Map<UserLoginDTO>(user);
         }
 

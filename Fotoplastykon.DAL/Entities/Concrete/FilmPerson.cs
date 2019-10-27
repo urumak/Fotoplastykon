@@ -13,7 +13,6 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         public FilmPerson()
         {
             Roles = new HashSet<PersonInRole>();
-            PageCreations = new HashSet<PersonPageCreation>();
             ForumThreads = new HashSet<ForumThread>();
             Marks = new HashSet<PersonMark>();
         }
@@ -27,7 +26,6 @@ namespace Fotoplastykon.DAL.Entities.Concrete
 
         public StoredFileInfo Photo { get; set; }
         public ICollection<PersonInRole> Roles { get; set; }
-        public ICollection<PersonPageCreation> PageCreations { get; set; }
         public ICollection<ForumThread> ForumThreads { get; set; }
         public ICollection<PersonMark> Marks { get; set; }
     }

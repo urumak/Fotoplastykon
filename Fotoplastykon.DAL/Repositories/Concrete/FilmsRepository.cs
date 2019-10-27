@@ -32,11 +32,10 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
         public async Task<Film> GetForPage(string publicId)
         {
             return await DatabaseContext.Films
-                .Include(u => u.PeopleInRoles)
+                .Include(f => f.PeopleInRoles)
                 .ThenInclude(r => r.Person)
-                .Include(u => u.ForumThreads)
-                .Include(u => u.PageCreations)
-                .ThenInclude(c => c.User)
+                .Include(f => f.ForumThreads)
+                .ThenInclude(t => t.CreatedBy)
                 .Include(u => u.Watchings)
                 .FirstOrDefaultAsync(u => u.PagePublicId == publicId);
         }

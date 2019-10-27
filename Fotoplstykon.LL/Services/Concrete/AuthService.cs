@@ -40,7 +40,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
             if (!CheckPassword(password)) return result;
 
             result.CorrectCredentials = true;
-            result.Token = await CreateToken();
+            result.Token = CreateToken();
 
             return result;
         }
@@ -49,7 +49,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
         {
             if (!await FindUser(userId)) return null;
 
-            return await CreateToken();
+            return CreateToken();
         }
 
         private async Task<bool> FindUser(string userName)
@@ -73,12 +73,12 @@ namespace Fotoplastykon.BLL.Services.Concrete
             return result == PasswordVerificationResult.Success;
         }
 
-        private async Task<TokenDTO> CreateToken()
+        private TokenDTO CreateToken()
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var claims = await CreateClaims();
+            var claims = CreateClaims();
 
             var token = new JwtSecurityToken(
                 Configuration["Tokens:Issuer"],
@@ -97,26 +97,15 @@ namespace Fotoplastykon.BLL.Services.Concrete
             };
         }
 
-        private async Task<IEnumerable<Claim>> CreateClaims()
+        private IEnumerable<Claim> CreateClaims()
         {
-            var canEditPagesWithIds = await GetPagesIdsThatUserCanEdit();
-
             return new List<Claim>()
             {
                 new Claim(JwtRegisteredClaimNames.Sub, _user.Id.ToString()),
                 new Claim(ClaimTypes.Name, _user.UserName.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, _user.Email),
-                new Claim("CanEditPages", canEditPagesWithIds),
                 new Claim("IsAdmin", _user.IsAdmin.ToString())
             };
-        }
-
-        private async Task<string> GetPagesIdsThatUserCanEdit()
-        {
-            var filmPagesIds = await Unit.FilmPagesCreations.GetPagesIdsForUser(_user.Id);
-            var personPagesIds = await Unit.PersonPagesCreations.GetPagesIdsForUser(_user.Id);
-
-            return JsonConvert.SerializeObject(filmPagesIds.Concat(personPagesIds));
         }
     }
 }

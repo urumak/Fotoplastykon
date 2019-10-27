@@ -11,10 +11,8 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
     {
         public UnitOfWork(DatabaseContext context, 
             IUsersRepository users, 
-            IFilmPageCreationsRepository filmPagesCreations, 
             IInvitationsRepository invitations, 
             IFriendshipsRepository friendships,
-            IPersonPageCreationsRepository personPagesCreations,
             IInformationsRepository informations,
             IQuizesRepository quizes,
             IQuizQuestionsRepository quizQuestions,
@@ -31,10 +29,8 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
         {
             Context = context;
             Users = users;
-            FilmPagesCreations = filmPagesCreations;
             Friendships = friendships;
             Invitations = invitations;
-            PersonPagesCreations = personPagesCreations;
             Informations = informations;
             Quizes = quizes;
             QuizQuestions = quizQuestions;
@@ -51,10 +47,8 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
         }
 
         public IUsersRepository Users { get; }
-        public IFilmPageCreationsRepository FilmPagesCreations { get; }
         public IInvitationsRepository Invitations { get; }
         public IFriendshipsRepository Friendships { get; }
-        public IPersonPageCreationsRepository PersonPagesCreations { get; }
         public IQuizesRepository Quizes { get; }
         public IQuizQuestionsRepository QuizQuestions { get; }
         public IQuizAnswersRepository QuizAnswers { get; }

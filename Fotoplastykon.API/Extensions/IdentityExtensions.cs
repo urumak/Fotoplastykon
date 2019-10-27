@@ -27,12 +27,5 @@ namespace Fotoplastykon.API.Extensions
             return Convert.ToBoolean((identity as ClaimsIdentity).FindFirst("IsAdmin")?.Value);
         }
         #endregion
-
-        #region IsAdmin()
-        public static string CanEditPages(this IIdentity identity)
-        {
-            return (identity as ClaimsIdentity).FindFirst("CanEditPages")?.Value;
-        }
-        #endregion
     }
 }

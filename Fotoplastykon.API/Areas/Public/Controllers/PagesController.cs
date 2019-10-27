@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Fotoplastykon.API.Areas.Public.Models;
+using Fotoplastykon.API.Extensions;
 using Fotoplastykon.BLL.Services.Abstract;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,10 +15,14 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
     public class PagesController : ControllerBase
     {
         protected IPagesService Pages { get; }
+        protected IFilmsService Films { get; }
+        protected IFilmPeopleService FilmPeople { get; }
 
-        public PagesController(IPagesService pages)
+        public PagesController(IPagesService pages, IFilmsService films, IFilmPeopleService filmPeople)
         {
             Pages = pages;
+            Films = films;
+            FilmPeople = filmPeople;
         }
 
         [HttpGet("user/{id}")]
