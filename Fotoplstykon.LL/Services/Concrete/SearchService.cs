@@ -23,11 +23,17 @@ namespace Fotoplastykon.BLL.Services.Concrete
             var films = await Unit.Films.GetForSearch(search, limit);
             var filmPeople = await Unit.FilmPeople.GetForSearch(search, limit);
 
-            return Mapper.Map<List<SearchDTO>>(users)
+            var items = Mapper.Map<List<SearchDTO>>(users)
                 .Concat(Mapper.Map<List<SearchDTO>>(films))
                 .Concat(Mapper.Map<List<SearchDTO>>(filmPeople))
                 .OrderBy(m => m.Value)
                 .Take(limit)
+                .ToList();
+
+            var result = items.Where(x => x.Value.StartsWith(search)).OrderBy(x => x.Value);
+
+            return result.Concat(items.Where(x => !x.Value.StartsWith(search))
+                .OrderBy(x => x.Value))
                 .ToList();
         }
     }
