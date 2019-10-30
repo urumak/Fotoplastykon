@@ -73,7 +73,7 @@ namespace Fotoplastykon.DAL.Entities.Concrete
             builder.Property(p => p.Email).IsRequired().HasMaxLength(250);
             builder.Property(p => p.PasswordHash).HasMaxLength(300);
             builder.Property(p => p.IsAdmin).IsRequired().HasDefaultValue(false);
-            builder.HasOne(p => p.Photo).WithMany(p => p.UserPhotos).HasForeignKey(p => p.PhotoId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(p => p.Photo).WithMany(p => p.UserPhotos).HasForeignKey(p => p.PhotoId).OnDelete(DeleteBehavior.SetNull);
             builder.ToTable("users");
         }
     }

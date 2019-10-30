@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using Fotoplastykon.BLL.DTOs.Files;
 using Fotoplastykon.BLL.Services.Abstract;
 using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.DAL.Storage;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.StaticFiles;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,22 +24,30 @@ namespace Fotoplastykon.BLL.Services.Concrete
             Storekeeper = storekeeper;
         }
 
-        public async Task<FileInfo> Get(long id)
+        public async Task<FileDTO> Get(long id)
         {
             var fileInfo = await Unit.Files.Get(id);
             if (fileInfo == null) return null;
-            return Storekeeper.Get(fileInfo.Name, fileInfo.RelativePath);
+
+            var result = Mapper.Map<FileDTO>(fileInfo);
+            result.Content = Storekeeper.GetAllBytes(fileInfo.UniqueName, fileInfo.RelativePath);
+
+            return result;
         }
 
         public async Task<FileInfo> Add(IFormFile file, string relativePath = null)
         {
             var fileContent = GetFileContent(file);
-            var storedFile = Storekeeper.Add(fileContent, file.FileName);
+            var uniqueName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            var storedFile = Storekeeper.Add(fileContent, uniqueName);
+
             await Unit.Files.Add(new StoredFileInfo
             {
                 AbsolutePath = storedFile.FullName,
-                Name = storedFile.Name,
+                DisplayName = file.FileName,
                 PublicId = Guid.NewGuid().ToString(),
+                UniqueName = uniqueName,
+                MimeType = file.ContentType,
                 RelativePath = relativePath,
                 Size = fileContent.Length
             });
@@ -49,7 +59,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
         public async Task Remove(long id)
         {
             var fileInfo = await Unit.Files.Get(id);
-            Storekeeper.Remove(fileInfo.Name, fileInfo.RelativePath);
+            Storekeeper.Remove(fileInfo.UniqueName, fileInfo.RelativePath);
             await Unit.Files.Remove(id);
             await Unit.Complete();
         }

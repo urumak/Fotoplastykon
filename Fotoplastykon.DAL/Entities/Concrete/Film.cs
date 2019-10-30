@@ -34,7 +34,7 @@ namespace Fotoplastykon.DAL.Entities.Concrete
             builder.Property(p => p.Title).IsRequired().HasMaxLength(500);
             builder.Property(p => p.YearOfProduction).IsRequired();
             builder.Property(p => p.PagePublicId).IsRequired().HasMaxLength(80);
-            builder.HasOne(p => p.Photo).WithMany(p => p.FilmPhotos).HasForeignKey(p => p.PhotoId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(p => p.Photo).WithMany(p => p.FilmPhotos).HasForeignKey(p => p.PhotoId).OnDelete(DeleteBehavior.SetNull);
             builder.ToTable("films");
         }
     }

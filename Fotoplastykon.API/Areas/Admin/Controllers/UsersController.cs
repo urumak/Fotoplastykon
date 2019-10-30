@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Fotoplastykon.API.Areas.Admin.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/admin/users")]
     [ApiController]
     [Authorize(Policy = "AdminAccess")]
     public class UsersController : ControllerBase

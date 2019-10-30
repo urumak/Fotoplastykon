@@ -24,6 +24,7 @@ using Microsoft.AspNetCore.Authorization;
 using Fotoplastykon.API.AccessHandlers.PageAccess;
 using Fotoplastykon.DAL.Storage;
 using Fotoplastykon.BLL.Helpers;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace Fotoplastykon.API
 {
@@ -45,8 +46,6 @@ namespace Fotoplastykon.API
 
             services.AddMySqlDbContext<DatabaseContext>(Configuration.GetConnectionString("DefaultConnection"));
 
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
             services.SetAuthentication(Configuration["Tokens:Issuer"], Configuration["Tokens:Key"]);
             services.SetAuthorization();
 
@@ -61,6 +60,12 @@ namespace Fotoplastykon.API
             services.AddTransient<Anonymiser<User>>();
 
             services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+
+            services.AddSingleton(provider => new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new BLL.Models.MappingProfile(provider.GetService<IConfiguration>()));
+                cfg.AddProfile(new Areas.Public.Models.MappingProfile(provider.GetService<IConfiguration>()));
+            }).CreateMapper());
 
             services.AddCors(options =>
             {

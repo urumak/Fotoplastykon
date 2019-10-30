@@ -12,13 +12,23 @@ namespace Fotoplastykon.DAL.Storage
 
         public Storekeeper(IConfiguration configuration)
         {
-            BasePath = configuration["FileStorage:BasePath"];
+            BasePath = configuration["Files:BasePath"];
         }
 
         public FileInfo Get(string fileName, string relavivePath = null)
         {
             var path = Path.Combine(BasePath, relavivePath ?? "", fileName);
             return new FileInfo(path);
+        }
+
+        public byte[] GetAllBytes(string fileName, string relavivePath = null)
+        {
+            var path = Path.Combine(BasePath, relavivePath ?? "", fileName);
+            var file = new FileInfo(path);
+
+            if(file.Exists) return File.ReadAllBytes(path);
+
+            return new byte[0];
         }
 
         public List<FileInfo> Get(List<(string fileName, string relavivePath)> names)

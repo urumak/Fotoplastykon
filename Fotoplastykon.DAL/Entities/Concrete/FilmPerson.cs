@@ -35,7 +35,7 @@ namespace Fotoplastykon.DAL.Entities.Concrete
     {
         public void Configure(EntityTypeBuilder<FilmPerson> builder)
         {
-            builder.HasOne(p => p.Photo).WithMany(p => p.FilmPersonPhotos).HasForeignKey(p => p.PhotoId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(p => p.Photo).WithMany(p => p.FilmPersonPhotos).HasForeignKey(p => p.PhotoId).OnDelete(DeleteBehavior.SetNull);
             builder.ToTable("film_people");
         }
     }

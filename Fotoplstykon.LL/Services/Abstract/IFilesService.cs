@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Fotoplastykon.BLL.DTOs.Files;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +10,7 @@ namespace Fotoplastykon.BLL.Services.Abstract
 {
     public interface IFilesService
     {
-        Task<FileInfo> Get(long id);
+        Task<FileDTO> Get(long id);
         Task<FileInfo> Add(IFormFile file, string relativePath = null);
         Task Remove(long id);
         Task<bool> CheckIfExists(long id);

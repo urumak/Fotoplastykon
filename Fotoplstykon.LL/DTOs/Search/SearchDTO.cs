@@ -9,6 +9,7 @@ namespace Fotoplastykon.BLL.DTOs.Search
     {
         public string Value { get; set; }
         public string Key { get; set; }
+        public string PhotoUrl { get; set; }
         public ItemType Type { get; set; }
     }
 }

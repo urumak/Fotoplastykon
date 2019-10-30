@@ -16,9 +16,9 @@ namespace Fotoplastykon.BLL.Services.Concrete
     {
         private IPasswordHasher<User> Hasher { get; }
         private Anonymiser<User> Anonymiser { get; }
-        private Storekeeper Storekeeper { get; }
+        private IStorekeeper Storekeeper { get; }
 
-        public UsersService(IUnitOfWork unit, IMapper mapper, IPasswordHasher<User> hasher, Anonymiser<User> anonymiser, Storekeeper storekeeper)
+        public UsersService(IUnitOfWork unit, IMapper mapper, IPasswordHasher<User> hasher, Anonymiser<User> anonymiser, IStorekeeper storekeeper)
             : base(unit, mapper)
         {
             Hasher = hasher;
@@ -72,7 +72,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
             if(user.PhotoId.HasValue)
             {
                 var file = await Unit.Files.Get(user.PhotoId.Value);
-                Storekeeper.Remove(file.Name, file.RelativePath);
+                Storekeeper.Remove(file.DisplayName, file.RelativePath);
                 await Unit.Files.Remove(user.PhotoId.Value);
             }
 

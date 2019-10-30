@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Fotoplastykon.API.Areas.Admin.Models.Files;
+using Fotoplastykon.API.Areas.Public.Models;
 using Fotoplastykon.BLL.Services.Abstract;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Fotoplastykon.API.Areas.Admin.Controllers
+namespace Fotoplastykon.API.Areas.Public.Controllers
 {
-    [Route("api/admin/files")]
+    [Route("api/files")]
     [ApiController]
     public class FilesController : ControllerBase
     {
@@ -36,13 +36,13 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
         {
             var file = await Files.Get(id);
             if (file == null || file.Content.Length == 0) return NotFound();
-            return Ok();
+            return File(file.Content, file.ContentType, file.FileName);
         }
 
         [HttpDelete("")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> Remove([FromBody]FileIdModel model)
+        public async Task<IActionResult> Remove([FromBody]ItemIdModel model)
         {
             if (!await Files.CheckIfExists(model.Id)) return NotFound();
             await Files.Remove(model.Id);

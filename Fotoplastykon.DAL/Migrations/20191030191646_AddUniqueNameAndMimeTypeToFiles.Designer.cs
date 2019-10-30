@@ -3,14 +3,16 @@ using System;
 using Fotoplastykon.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Fotoplastykon.DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20191030191646_AddUniqueNameAndMimeTypeToFiles")]
+    partial class AddUniqueNameAndMimeTypeToFiles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -368,11 +370,11 @@ namespace Fotoplastykon.DAL.Migrations
                         .IsRequired()
                         .HasMaxLength(1000);
 
-                    b.Property<string>("DisplayName")
+                    b.Property<string>("MimeType")
                         .IsRequired()
                         .HasMaxLength(500);
 
-                    b.Property<string>("MimeType")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(500);
 
@@ -444,7 +446,7 @@ namespace Fotoplastykon.DAL.Migrations
                     b.HasOne("Fotoplastykon.DAL.Entities.Concrete.StoredFileInfo", "Photo")
                         .WithMany("FilmPhotos")
                         .HasForeignKey("PhotoId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Fotoplastykon.DAL.Entities.Concrete.FilmPerson", b =>
@@ -452,7 +454,7 @@ namespace Fotoplastykon.DAL.Migrations
                     b.HasOne("Fotoplastykon.DAL.Entities.Concrete.StoredFileInfo", "Photo")
                         .WithMany("FilmPersonPhotos")
                         .HasForeignKey("PhotoId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Fotoplastykon.DAL.Entities.Concrete.FilmWatching", b =>
@@ -624,7 +626,7 @@ namespace Fotoplastykon.DAL.Migrations
                     b.HasOne("Fotoplastykon.DAL.Entities.Concrete.StoredFileInfo", "Photo")
                         .WithMany("UserPhotos")
                         .HasForeignKey("PhotoId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
