@@ -10,5 +10,6 @@ namespace Fotoplastykon.API.Areas.Public.Models.Informations
         public long Id { get; set; }
         public string Title { get; set; }
         public string Introduction { get; set; }
+        public string PhotoUrl { get; set; }
     }
 }

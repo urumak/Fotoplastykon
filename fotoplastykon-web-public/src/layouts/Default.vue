@@ -21,8 +21,7 @@
                     @keyup="search()"
                     @change="onChange()"
                     no-data-text="Brak wyników"
-                    autocomplete="off"
-            >
+                    autocomplete="off">
                 <template slot="selection" slot-scope="data">
                     <v-flex xs2>
                         <v-avatar>

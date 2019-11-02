@@ -51,8 +51,7 @@
 <script lang="ts">
     import Vue from "vue";
     import Component from "vue-class-component";
-    import UsersService from "@/services/UsersService.ts";
-    import AuthService from "@/services/AuthService.ts";
+    import InformationService from "@/services/InformationService.ts";
 
     @Component({})
     export default class MainPageComponent extends Vue {

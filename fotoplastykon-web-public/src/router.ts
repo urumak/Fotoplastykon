@@ -15,9 +15,9 @@ const router = new Router({
       component: Home
     },
     {
-      path: '/informations',
-      name: 'informations',
-      component: () => import(/* webpackChunkName: "about" */ './views/Informations/MainPage.vue')
+      path: '/information',
+      name: 'information',
+      component: () => import(/* webpackChunkName: "about" */ './views/Information/MainPage.vue')
     },
     {
       path: '/login',
