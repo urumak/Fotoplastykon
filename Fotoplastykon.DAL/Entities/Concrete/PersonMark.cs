@@ -12,7 +12,7 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         public long Id { get; set; }
         public long UserId { get; set; }
         public long PersonId { get; set; }
-        public int Mark { get; set; }
+        public int? Mark { get; set; }
 
         public FilmPerson Person { get; set; }
         public User User { get; set; }

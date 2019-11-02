@@ -36,7 +36,7 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
                 .ThenInclude(r => r.Film)
                 .Include(u => u.ForumThreads)
                 .Include(u => u.Marks)
-                .FirstOrDefaultAsync(u => u.PagePublicId == publicId);
+                .FirstOrDefaultAsync(u => u.PublicId == publicId);
         }
     }
 }

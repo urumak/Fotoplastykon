@@ -9,7 +9,7 @@
     import Component from "vue-class-component";
 
     @Component({})
-    export default class FilmPageComponent extends Vue {
+    export default class FilmPersonPageComponent extends Vue {
         async created() {
             this.loadData();
         }

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Fotoplastykon.BLL.Helpers;
 using Fotoplastykon.DAL.Storage;
+using System;
 
 namespace Fotoplastykon.BLL.Services.Concrete
 {
@@ -34,6 +35,8 @@ namespace Fotoplastykon.BLL.Services.Concrete
         public async Task<bool> Add(AddUserDTO user)
         {
             var entity = Mapper.Map<User>(user);
+            entity.PublicId = Guid.NewGuid().ToString();
+
             await Unit.Users.Add(entity);
             await Unit.Complete();
 

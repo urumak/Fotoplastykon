@@ -1,22 +1,10 @@
 import Vue from 'vue';
+import {LinkedItem} from "@/interfaces/shared";
 
-/**
- * AuthService
- */
 export default class SearchService
 {
-    /**
-     * @returns Promise<number>
-     */
     public static async getOptions(text: string): Promise<LinkedItem[]>
     {
         return (await Vue.axios.get<LinkedItem[]>(`search/${text}`)).data;
     }
-}
-
-export interface LinkedItem
-{
-    key: string;
-    value: string;
-    photoUrl: string;
 }

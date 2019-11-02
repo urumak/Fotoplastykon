@@ -31,8 +31,9 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesDefaultResponseType]
         public async Task<IActionResult> GetUser(string id)
         {
-            await Pages.GetUserPage(id);
-            return Ok();
+            var page = await Pages.GetUserPage(id);
+            if (page == null) return NotFound();
+            return Ok(page);
         }
 
         [HttpGet("film/{id}")] 
@@ -41,8 +42,9 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesDefaultResponseType]
         public async Task<IActionResult> GetFilm(string id)
         {
-            await Pages.GetFilmPage(id);
-            return Ok();
+            var page = await Pages.GetFilmPage(id);
+            if (page == null) return NotFound();
+            return Ok(page);
         }
 
         [HttpGet("film-person/{id}")]
@@ -51,8 +53,9 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesDefaultResponseType]
         public async Task<IActionResult> GetFilmPerson(string id)
         {
-            await Pages.GetFilmPersonPage(id);
-            return Ok();
+            var page = await Pages.GetFilmPersonPage(id);
+            if (page == null) return NotFound();
+            return Ok(page);
         }
     }
 }

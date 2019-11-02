@@ -11,6 +11,9 @@ using Microsoft.Extensions.Configuration;
 using Fotoplastykon.API.Areas.Public.Models.Forum;
 using Fotoplastykon.API.Areas.Public.Models.Auth;
 using Fotoplastykon.API.Areas.Public.Models.Chat;
+using Fotoplastykon.API.Areas.Public.Models.Pages;
+using Fotoplastykon.DAL.Enums;
+using Fotoplastykon.BLL.Enums;
 
 namespace Fotoplastykon.API.Areas.Public.Models
 {
@@ -27,7 +30,7 @@ namespace Fotoplastykon.API.Areas.Public.Models
             ChatMappings();
         }
 
-        void UsersMappings()
+        private void UsersMappings()
         {
             CreateMap<Auth.RegisterModel, AddUserDTO>();
             CreateMap<TokenDTO, Auth.TokenViewModel>();
@@ -36,7 +39,7 @@ namespace Fotoplastykon.API.Areas.Public.Models
             CreateMap<User, UserProfileModel>();
         }
 
-        void InformationsMappings()
+        private void InformationsMappings()
         {
             CreateMap<Information, Informations.ListItemModel>();
             CreateMap<Information, Informations.InformationModel>()
@@ -54,14 +57,14 @@ namespace Fotoplastykon.API.Areas.Public.Models
             CreateMap<Informations.CommentFormModel, Information>();
         }
 
-        void QuizesMappings()
+        private void QuizesMappings()
         {
             CreateMap<Quiz, Quizes.QuizModel>();
             CreateMap<QuizQuestion, Quizes.QuestionModel>();
             CreateMap<QuizAnswer, Quizes.AnswerModel>();
         }
 
-        void ForumMappings()
+        private void ForumMappings()
         {
             CreateMap<ForumThread, ForumThreadModel>()
                 .ForMember(d => d.CreatorFullName, o => o.MapFrom(s => s.CreatedBy.FirstName + " " + s.CreatedBy.Surname))
@@ -78,7 +81,7 @@ namespace Fotoplastykon.API.Areas.Public.Models
                 });
         }
 
-        void ChatMappings()
+        private void ChatMappings()
         {
             CreateMap<MessageModel, Message>();
             CreateMap<Message, MessageListItemModel>();

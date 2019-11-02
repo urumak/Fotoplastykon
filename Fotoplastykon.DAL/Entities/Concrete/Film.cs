@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Fotoplastykon.DAL.Entities.Concrete
 {
-    public class Film : IEntity, IPage
+    public class Film : IEntity
     {
         public Film()
         {
@@ -18,7 +18,7 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         public long Id { get; set; }
         public string Title { get; set; }
         public int YearOfProduction { get; set; }
-        public string PagePublicId { get; set; }
+        public string PublicId { get; set; }
         public long? PhotoId { get; set; }
 
         public StoredFileInfo Photo { get; set; }
@@ -33,7 +33,7 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         {
             builder.Property(p => p.Title).IsRequired().HasMaxLength(500);
             builder.Property(p => p.YearOfProduction).IsRequired();
-            builder.Property(p => p.PagePublicId).IsRequired().HasMaxLength(80);
+            builder.Property(p => p.PublicId).IsRequired().HasMaxLength(80);
             builder.HasOne(p => p.Photo).WithMany(p => p.FilmPhotos).HasForeignKey(p => p.PhotoId).OnDelete(DeleteBehavior.SetNull);
             builder.ToTable("films");
         }

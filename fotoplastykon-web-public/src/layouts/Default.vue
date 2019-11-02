@@ -90,14 +90,15 @@
 <script lang="ts">
     import Vue from "vue";
     import Component from "vue-class-component";
-    import SearchService, {LinkedItem} from "@/services/SearchService.ts";
+    import SearchService from "@/services/SearchService.ts";
+    import { LinkedItem } from '@/interfaces/shared';
 
     @Component({})
     export default class Default extends Vue {
         private items : LinkedItem[] = [];
         private selectedItem : any = {};
         private searchInput : string = "";
-        private filesEndpoint = process.env.PUBLIC_FILES_ENDPOINT;
+
         async search() {
             console.log(this.selectedItem);
             if(this.searchInput.length > 0) this.items = await SearchService.getOptions(this.searchInput);

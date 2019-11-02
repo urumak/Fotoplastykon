@@ -11,6 +11,7 @@ namespace Fotoplastykon.API.Areas.Public.Models.Pages
         public string Title { get; set; }
         public int YearOfProduction { get; set; }
         public decimal Rank { get; set; }
+        public string PhotoUrl { get; set; }
         public List<LinkedItemModel> Cast { get; set; }
         public List<LinkedItemModel> Filmmakers { get; set; }
         public List<ForumElement> ForumThreads { get; set; }

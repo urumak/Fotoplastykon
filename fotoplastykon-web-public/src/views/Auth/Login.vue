@@ -17,7 +17,7 @@
     import Vue from "vue";
     import Component from "vue-class-component";
     import UsersService from "@/services/UsersService.ts";
-    import AuthService, { LoginModel } from "@/services/AuthService.ts";
+    import AuthService from "@/services/AuthService.ts";
     import Form from 'form-backend-validation';
 
     @Component({ name: 'login-component'})

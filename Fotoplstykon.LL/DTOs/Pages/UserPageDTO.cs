@@ -9,12 +9,12 @@ namespace Fotoplastykon.BLL.DTOs.Pages
 {
     public class UserPageDTO
     {
+        public long Id { get; set; }
         public string UserName { get; set; }
         public string FirstName { get; set; }
         public string Surname { get; set; }
-        public long PhotoId { get; set; }
-        public List<LinkedItemDTO> PageCreations { get; set; }
+        public string PhotoUrl { get; set; }
         public List<LinkedItemDTO> WatchedFilms { get; set; }
-        public List<LinkedItemDTO> RankedPeople { get; set; }
+        public List<LinkedItemDTO> RatedPeople { get; set; }
     }
 }

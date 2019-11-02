@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import {PasswordModel, RegisterModel, TokenModel} from "@/interfaces/auth";
 
 export default class AuthService
 {
@@ -52,42 +53,4 @@ export default class AuthService
     {
         await Vue.axios.post('auth/register', model);
     }
-}
-
-export interface TokenModel
-{
-    token: string;
-    refresh: string;
-    expires: string;
-}
-
-export interface RegisterModel
-{
-    userName: string;
-    email: string;
-    firstName: string;
-    surname: string;
-    password: string;
-    repeatPassword: string;
-}
-
-export interface LoginModel
-{
-    username: string;
-    password: string;
-    rememberMe: boolean;
-}
-
-export interface PasswordModel
-{
-    currentPassword: string;
-    newPassword: string;
-    repeatPassword: string;
-}
-
-export interface ResetModel
-{
-    email: string;
-    newPassword: string;
-    repeatPassword: string;
 }

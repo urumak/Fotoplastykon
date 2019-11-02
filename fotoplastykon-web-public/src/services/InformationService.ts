@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import {InformationModel} from "@/interfaces/information";
 
 export default class InformationService
 {
@@ -6,12 +7,4 @@ export default class InformationService
     {
         return (await Vue.axios.get<InformationModel[]>(`informations/${text}`)).data;
     }
-}
-
-export interface InformationModel
-{
-    id: number;
-    title: string;
-    introduction: string;
-    photoUrl: string;
 }

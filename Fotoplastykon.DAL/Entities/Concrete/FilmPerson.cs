@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Fotoplastykon.DAL.Entities.Concrete
 {
-    public class FilmPerson : IEntity, IPage
+    public class FilmPerson : IEntity
     {
         public FilmPerson()
         {
@@ -21,7 +21,7 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         public string FirstName { get; set; }
         public string Surname { get; set; }
         public Profession Profession { get; set; }
-        public string PagePublicId { get; set; }
+        public string PublicId { get; set; }
         public long? PhotoId { get; set; }
 
         public StoredFileInfo Photo { get; set; }

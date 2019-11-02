@@ -4,10 +4,11 @@ using System.Text;
 
 namespace Fotoplastykon.BLL.DTOs.Shared
 {
-    public class PersonInRoleDTO
+    public class CastMemberDTO
     {
-        public LinkedItemDTO LinkedItem { get; set; }
-        public string Role { get; set; }
+        public string PersonPublicId { get; set; }
+        public string FullName { get; set; }
         public string CharacterName { get; set; }
+        public string PhotoUrl { get; set; }
     }
 }

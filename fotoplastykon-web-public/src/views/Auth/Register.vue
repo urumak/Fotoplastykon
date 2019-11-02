@@ -15,7 +15,7 @@
 <script lang="ts">
     import Vue from "vue";
     import Component from "vue-class-component";
-    import AuthService, { RegisterModel } from "@/services/AuthService.ts";
+    import AuthService from "@/services/AuthService.ts";
     import Form from 'form-backend-validation';
 
     @Component({name: 'register-component'})

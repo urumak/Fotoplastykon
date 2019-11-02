@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Fotoplastykon.BLL.DTOs.Search;
+using Fotoplastykon.BLL.Enums;
 using Fotoplastykon.BLL.Services.Abstract;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
