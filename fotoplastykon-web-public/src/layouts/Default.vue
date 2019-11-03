@@ -13,12 +13,11 @@
                     v-model="selectedItem"
                     :search-input.sync="searchInput"
                     item-text="value"
-                    item-value="key"
+                    item-value="id"
                     dense
                     solo
                     clearable
-                    @keyup.enter="submit()"
-                    @keyup="search()"
+                    return-object
                     @change="onChange()"
                     no-data-text="Brak wyników"
                     autocomplete="off">
@@ -92,25 +91,27 @@
     import Component from "vue-class-component";
     import SearchService from "@/services/SearchService.ts";
     import { LinkedItem } from '@/interfaces/shared';
+    import { Watch } from 'vue-property-decorator';
 
     @Component({})
     export default class Default extends Vue {
         private items : LinkedItem[] = [];
-        private selectedItem : any = {};
+        private selectedItem : any = null;
         private searchInput : string = "";
 
+        @Watch('searchInput')
         async search() {
-            console.log(this.selectedItem);
-            if(this.searchInput.length > 0) this.items = await SearchService.getOptions(this.searchInput);
-            else this.items = [];
+            if (this.searchInput) {
+                this.items = await SearchService.getOptions(this.searchInput);
+            } else {
+                let temp : LinkedItem[] = [];
+                if(this.selectedItem) temp.push(this.selectedItem);
+                this.items = temp;
+            }
         }
 
         async onChange() {
-            console.log("change");
-        }
 
-        async submit() {
-            console.log("submit");
         }
     }
 </script>

@@ -1,6 +1,6 @@
 export interface LinkedItem
 {
-    key: string;
+    id: number;
     value: string;
     photoUrl: string;
 }

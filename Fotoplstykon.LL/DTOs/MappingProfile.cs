@@ -106,19 +106,16 @@ namespace Fotoplastykon.BLL.Models
         {
             CreateMap<User, SearchDTO>()
                 .ForMember(d => d.Value, o => o.MapFrom(s => s.FirstName + " " + s.Surname))
-                .ForMember(d => d.Key, o => o.MapFrom(s => s.PublicId))
                 .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.PhotoId : string.Empty))
                 .ForMember(d => d.Type, o => o.MapFrom(s => ItemType.User));
 
             CreateMap<Film, SearchDTO>()
                 .ForMember(d => d.Value, o => o.MapFrom(s => s.Title))
-                .ForMember(d => d.Key, o => o.MapFrom(s => s.PublicId))
                 .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.PhotoId : string.Empty))
                 .ForMember(d => d.Type, o => o.MapFrom(s => ItemType.Film));
 
             CreateMap<FilmPerson, SearchDTO>()
                 .ForMember(d => d.Value, o => o.MapFrom(s => s.FirstName + " " + s.Surname))
-                .ForMember(d => d.Key, o => o.MapFrom(s => s.PublicId))
                 .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.PhotoId : string.Empty))
                 .ForMember(d => d.Type, o => o.MapFrom(s => ItemType.FilmPerson));
         }

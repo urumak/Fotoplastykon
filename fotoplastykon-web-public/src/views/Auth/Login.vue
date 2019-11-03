@@ -1,6 +1,6 @@
 <template>
     <v-container class="flex flex-center">
-        <v-form ref="form" v-model="valid">
+        <v-form @keyup.enter="login()" ref="form">
             <v-text-field v-model="form.username" label="Nazwa użytkownika" required></v-text-field>
             <v-text-field type='password' v-model="form.password" label="Hasło" required></v-text-field>
             <v-checkbox
