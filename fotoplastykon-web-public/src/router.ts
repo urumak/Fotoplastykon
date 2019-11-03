@@ -28,6 +28,21 @@ const router = new Router({
       path: '/register',
       name: 'register',
       component: () => import(/* webpackChunkName: "about" */ './views/Auth/Register.vue')
+    },
+    {
+      path: '/films/:id',
+      name: 'film-page',
+      component: () => import(/* webpackChunkName: "about" */ './views/Films/FilmPage.vue')
+    },
+    {
+      path: '/film-people/:id',
+      name: 'film-person-page',
+      component: () => import(/* webpackChunkName: "about" */ './views/FilmPeople/FilmPersonPage.vue')
+    },
+    {
+      path: '/users/:id',
+      name: 'user-page',
+      component: () => import(/* webpackChunkName: "about" */ './views/Users/UserPage.vue')
     }
   ]
 });

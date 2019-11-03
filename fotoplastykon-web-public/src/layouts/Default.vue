@@ -2,7 +2,7 @@
     <div>
         <v-app-bar class="app-bar-standard" app>
             <v-toolbar-title class="headline text-uppercase">
-                <span class="font-weight-light">Fotoplastykon</span>
+                <router-link :to="{ name: 'information' }" class="font-weight-light home-link">Fotoplastykon</router-link>
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-autocomplete
@@ -90,12 +90,12 @@
     import Vue from "vue";
     import Component from "vue-class-component";
     import SearchService from "@/services/SearchService.ts";
-    import { LinkedItem } from '@/interfaces/shared';
+    import { SearchItem } from '@/interfaces/search';
     import { Watch } from 'vue-property-decorator';
 
     @Component({})
     export default class Default extends Vue {
-        private items : LinkedItem[] = [];
+        private items : SearchItem[] = [];
         private selectedItem : any = null;
         private searchInput : string = "";
 
@@ -104,14 +104,26 @@
             if (this.searchInput) {
                 this.items = await SearchService.getOptions(this.searchInput);
             } else {
-                let temp : LinkedItem[] = [];
+                let temp : SearchItem[] = [];
                 if(this.selectedItem) temp.push(this.selectedItem);
                 this.items = temp;
             }
         }
 
         async onChange() {
-
+            if(this.selectedItem) {
+                switch(this.selectedItem.type) {
+                    case 0:
+                        await this.$router.push({ name: 'film-page', params: { id: this.selectedItem.id }});
+                        break;
+                    case 1:
+                        await this.$router.push({ name: 'film-person-page', params: { id: this.selectedItem.id }});
+                        break;
+                    case 2:
+                        await this.$router.push({ name: 'user-page', params: { id: this.selectedItem.id }});
+                        break;
+                }
+            }
         }
     }
 </script>

@@ -1,6 +1,6 @@
 <template>
     <v-container class="flex flex-center">
-
+        <div>film person page</div>
     </v-container>
 </template>
 
@@ -9,7 +9,7 @@
     import Component from "vue-class-component";
 
     @Component({})
-    export default class UserPageComponent extends Vue {
+    export default class FilmPersonPageComponent extends Vue {
         async created() {
             this.loadData();
         }

@@ -1,6 +1,6 @@
 <template>
     <v-container class="flex flex-center">
-
+        <div>film page</div>
     </v-container>
 </template>
 
