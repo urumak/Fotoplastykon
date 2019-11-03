@@ -7,16 +7,32 @@
 <script lang="ts">
     import Vue from "vue";
     import Component from "vue-class-component";
+    import { UserPage } from '@/interfaces/users';
+    import UsersService from '@/services/UsersService';
 
     @Component({})
     export default class FilmPersonPageComponent extends Vue {
-        async created() {
-            this.loadData();
+        private userModel : UserPage = {
+            id: 0,
+            userName: '',
+            firstName: '',
+            surname: '',
+            photoUrl: '',
+            watchedFilms: [],
+            ratedPeople: []
+        };
+
+        private get id() : number {
+            return Number(this.$route.params.id || 0);
         }
 
-        async loadData(): Promise<boolean> {
+        async created() {
+            await this.loadData(this.id);
+        }
 
-            return true;
+        async loadData(id: number) {
+            this.userModel = await UsersService.getForPage(id);
+            console.log(this.userModel);
         }
     }
 </script>

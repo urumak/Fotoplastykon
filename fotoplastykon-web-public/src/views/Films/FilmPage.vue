@@ -1,22 +1,41 @@
 <template>
     <v-container class="flex flex-center">
-        <div>film page</div>
+        <v-card>
+            <div>film page</div>
+        </v-card>
     </v-container>
 </template>
 
 <script lang="ts">
     import Vue from "vue";
     import Component from "vue-class-component";
+    import { FilmPage } from '@/interfaces/films';
+    import FilmsService from '@/services/FilmsService';
 
     @Component({})
     export default class FilmPersonPageComponent extends Vue {
-        async created() {
-            this.loadData();
+        private filmModel : FilmPage = {
+            id: 0,
+            title: '',
+            yearOfProduction: 0,
+            rank: 0,
+            photoUrl: '',
+            cast: [],
+            filmmakers: [],
+            forumThreads: [],
+        };
+
+        private get id() : number {
+            return Number(this.$route.params.id || 0);
         }
 
-        async loadData(): Promise<boolean> {
+        async created() {
+            await this.loadData(this.id);
+        }
 
-            return true;
+        async loadData(id: number) {
+            this.filmModel = await FilmsService.getForPage(id);
+            console.log(this.filmModel);
         }
     }
 </script>

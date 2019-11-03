@@ -6,7 +6,7 @@ namespace Fotoplastykon.BLL.DTOs.Films
 {
     public class FilmmakerDTO
     {
-        public string PersonPublicId { get; set; }
+        public long PersonId { get; set; }
         public string FullName { get; set; }
         public string Profession { get; set; }
         public string PhotoUrl { get; set; }

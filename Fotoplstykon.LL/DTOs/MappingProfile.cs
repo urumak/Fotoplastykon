@@ -73,7 +73,6 @@ namespace Fotoplastykon.BLL.Models
                 .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.Person.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.Person.PhotoId : string.Empty));
 
             CreateMap<PersonInRole, FilmmakerDTO>()
-                .ForMember(d => d.PersonPublicId, o => o.MapFrom(s => s.Person.PublicId))
                 .ForMember(d => d.FullName, o => o.MapFrom(s => s.Person.FirstName + " " + s.Person.Surname))
                 .ForMember(d => d.Profession, o => o.MapFrom(s => s.Person.Profession.ToString()))
                 .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.Person.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.Person.PhotoId : string.Empty));
@@ -131,8 +130,6 @@ namespace Fotoplastykon.BLL.Models
         {
             CreateMap<ForumThread, ForumElementDTO>()
                 .ForMember(d => d.CreatedByName, o => o.MapFrom(s => s.CreatedBy.FirstName + " " + s.CreatedBy.Surname))
-                .ForMember(d => d.Title, o => o.MapFrom(s => s.Subject))
-                .ForMember(d => d.Text, o => o.MapFrom(s => s.Content))
                 .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.CreatedBy.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.CreatedBy.PhotoId : string.Empty));
         }
     }

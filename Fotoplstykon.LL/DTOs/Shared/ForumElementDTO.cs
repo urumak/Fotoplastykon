@@ -7,8 +7,8 @@ namespace Fotoplastykon.BLL.DTOs.Shared
 {
     public class ForumElementDTO
     {
-        public string Id { get; set; }
-        public string Title { get; set; }
+        public long Id { get; set; }
+        public string Subject { get; set; }
         public string Text { get; set; }
         public string CreatedByName { get; set; }
         public string PhotoUrl { get; set; }
