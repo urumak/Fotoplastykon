@@ -11,5 +11,6 @@ namespace Fotoplastykon.BLL.Services.Abstract
         Task Rate(PersonMarkDTO mark);
         Task<bool> CheckIfWatchingExists(long userId, long personId);
         Task<bool> CheckIfExists(long personId);
+        Task<FilmPersonPageDTO> GetForPage(long id);
     }
 }

@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Fotoplastykon.BLL.DTOs.Pages
+namespace Fotoplastykon.BLL.DTOs.Films
 {
-    public class FilmmakerDTO
+    public class CastMemberDTO
     {
-        public string PersonPublicId { get; set; }
+        public long PersonId { get; set; }
         public string FullName { get; set; }
-        public string Profession { get; set; }
+        public string CharacterName { get; set; }
         public string PhotoUrl { get; set; }
     }
 }

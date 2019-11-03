@@ -83,6 +83,11 @@ namespace Fotoplastykon.BLL.Services.Concrete
             await Unit.Complete();
         }
 
+        public async Task<UserPageDTO> GetForPage(long id)
+        {
+            return Mapper.Map<UserPageDTO>(await Unit.Users.GetForPage(id));
+        }
+
         private async Task<bool> SetPassword(long id, string password)
         {
             var user = await Unit.Users.Get(id);

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace Fotoplastykon.BLL.DTOs.Pages
+namespace Fotoplastykon.BLL.DTOs.Films
 {
     public class FilmPageDTO
     {

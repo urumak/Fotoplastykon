@@ -29,7 +29,7 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
             return films;
         }
 
-        public async Task<Film> GetForPage(string publicId)
+        public async Task<Film> GetForPage(long id)
         {
             return await DatabaseContext.Films
                 .Include(f => f.PeopleInRoles)
@@ -37,7 +37,7 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
                 .Include(f => f.ForumThreads)
                 .ThenInclude(t => t.CreatedBy)
                 .Include(u => u.Watchings)
-                .FirstOrDefaultAsync(u => u.PublicId == publicId);
+                .FirstOrDefaultAsync(u => u.Id == id);
         }
     }
 }

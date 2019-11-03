@@ -33,5 +33,10 @@ namespace Fotoplastykon.BLL.Services.Concrete
         {
             return await Unit.FilmPeople.Get(personId) != null;
         }
+
+        public async Task<FilmPersonPageDTO> GetForPage(long id)
+        {
+            return Mapper.Map<FilmPersonPageDTO>(await Unit.FilmPeople.GetForPage(id));
+        }
     }
 }

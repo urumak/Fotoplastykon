@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Fotoplastykon.API.Areas.Public.Controllers
 {
-    [Authorize]
     [Route("api/users")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -32,20 +31,11 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> Get(long id)
+        public async Task<IActionResult> GetUser(long id)
         {
-            var user = await Users.Get(id);
-            if (user == null) return NotFound();
-
-            return Ok(Mapper.Map<UserModel>(user));
-        }
-
-        [HttpGet("{search}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesDefaultResponseType]
-        public async Task<IActionResult> Search(string search)
-        {
-            return Ok(Mapper.Map<List<ListItemModel>>(await Users.Search(search)));
+            var page = await Users.GetForPage(id);
+            if (page == null) return NotFound();
+            return Ok(page);
         }
     }
 }

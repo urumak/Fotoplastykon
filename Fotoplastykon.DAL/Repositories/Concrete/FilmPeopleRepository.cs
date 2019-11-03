@@ -29,14 +29,14 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
             return people;
         }
 
-        public async Task<FilmPerson> GetForPage(string publicId)
+        public async Task<FilmPerson> GetForPage(long id)
         {
             return await DatabaseContext.FilmPeople
                 .Include(u => u.Roles)
                 .ThenInclude(r => r.Film)
                 .Include(u => u.ForumThreads)
                 .Include(u => u.Marks)
-                .FirstOrDefaultAsync(u => u.PublicId == publicId);
+                .FirstOrDefaultAsync(u => u.Id == id);
         }
     }
 }

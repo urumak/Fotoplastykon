@@ -19,6 +19,16 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
             FilmPeople = filmPeople;
         }
 
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> GetFilmPerson(long id)
+        {
+            var page = await FilmPeople.GetForPage(id);
+            if (page == null) return NotFound();
+            return Ok(page);
+        }
 
         [HttpPost("rate/{perdonId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
