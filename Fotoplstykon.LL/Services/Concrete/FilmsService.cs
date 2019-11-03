@@ -24,6 +24,12 @@ namespace Fotoplastykon.BLL.Services.Concrete
             await Unit.Complete();
         }
 
+        public async Task<int?> GetRate(long userId, long filmId)
+        {
+            var rating = await Unit.FilmWatchings.Get(userId, filmId);
+            return rating?.Mark;
+        }
+
         public async Task<bool> CheckIfWatchingExists(long userId, long filmId)
         {
             return await Unit.FilmWatchings.Get(userId, filmId) != null;

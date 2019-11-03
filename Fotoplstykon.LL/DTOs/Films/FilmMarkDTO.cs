@@ -8,6 +8,6 @@ namespace Fotoplastykon.BLL.DTOs.Films
     {
         public long UserId { get; set; }
         public long FilmId { get; set; }
-        public int Mark { get; set; }
+        public int? Mark { get; set; }
     }
 }

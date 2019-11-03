@@ -2,6 +2,13 @@
     <v-container class="flex flex-center">
         <v-card>
             <div>film page</div>
+            <v-rating
+                    v-model="rating"
+                    :length="10"
+                    color="purple"
+                    background-color="grey lighten-1"
+            ></v-rating>
+            <v-btn @click="rate()">Oceń</v-btn>
         </v-card>
     </v-container>
 </template>
@@ -25,6 +32,8 @@
             forumThreads: [],
         };
 
+        private rating: number = 0;
+
         private get id() : number {
             return Number(this.$route.params.id || 0);
         }
@@ -35,7 +44,12 @@
 
         async loadData(id: number) {
             this.filmModel = await FilmsService.getForPage(id);
-            console.log(this.filmModel);
+            let response = await FilmsService.getRate(id);
+            if(response) this.rating = response;
+        }
+
+        async rate() {
+            await FilmsService.rate(this.id, this.rating);
         }
     }
 </script>

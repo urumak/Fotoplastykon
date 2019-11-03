@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Fotoplastykon.API.Extensions;
+using Fotoplastykon.BLL.DTOs.Films;
 using Fotoplastykon.BLL.Services.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -31,15 +32,29 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
             return Ok(page);
         }
 
-        [HttpPost("rate/{filmId}")]
+        [HttpGet("get-rate/{filmId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> GetRate(long filmId)
+        {
+            if (!await Films.CheckIfExists(filmId)) return NotFound();
+            return Ok(await Films.GetRate(User.Id(), filmId));
+        }
+
+        [HttpPost("rate")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> Rate(long filmId)
+        public async Task<IActionResult> Rate(FilmMarkDTO model)
         {
-            if (!await Films.CheckIfExists(filmId)) return NotFound();
-            if (await Films.CheckIfWatchingExists(User.Id(), filmId)) return BadRequest("Użytkownik ocenił już film");
+            if (!await Films.CheckIfExists(model.FilmId)) return NotFound();
+            if (await Films.CheckIfWatchingExists(User.Id(), model.FilmId)) return BadRequest("Użytkownik ocenił już film");
+
+            model.UserId = User.Id();
+            await Films.Rate(model);
+
             return Ok();
         }
     }

@@ -9,7 +9,7 @@ namespace Fotoplastykon.BLL.DTOs.Shared
     {
         public long Id { get; set; }
         public string Subject { get; set; }
-        public string Text { get; set; }
+        public string Content { get; set; }
         public string CreatedByName { get; set; }
         public string PhotoUrl { get; set; }
     }
