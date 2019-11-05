@@ -12,5 +12,6 @@ namespace Fotoplastykon.BLL.DTOs.Shared
         public string Content { get; set; }
         public string CreatedByName { get; set; }
         public string PhotoUrl { get; set; }
+        public long CreatedById { get; set; }
     }
 }

@@ -63,7 +63,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
             if (!string.IsNullOrEmpty(authorization) && authorization.StartsWith("Bearer "))
             {
                 var user = User.Id();
-                var jwtValue = authorization.Replace("Bearer ", String.Empty);
+                var jwtValue = authorization.Replace("Bearer ", string.Empty);
 
                 if (new JwtSecurityTokenHandler().ReadToken(jwtValue) is JwtSecurityToken jwt)
                 {

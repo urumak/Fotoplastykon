@@ -11,7 +11,6 @@ namespace Fotoplastykon.BLL.Services.Abstract
         Task Rate(FilmMarkDTO mark);
         Task<bool> CheckIfWatchingExists(long userId, long filmId);
         Task<bool> CheckIfExists(long filmId);
-        Task<FilmPageDTO> GetForPage(long id);
-        Task<int?> GetRate(long userId, long filmId);
+        Task<FilmPageDTO> GetForPage(long filmId, long userId);
     }
 }

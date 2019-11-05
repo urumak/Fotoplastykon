@@ -12,7 +12,8 @@ namespace Fotoplastykon.BLL.DTOs.Films
         public long Id { get; set; }
         public string Title { get; set; }
         public int YearOfProduction { get; set; }
-        public decimal Rank { get; set; }
+        public decimal Rating { get; set; }
+        public decimal? UserRating { get; set; }
         public string PhotoUrl { get; set; }
         public List<CastMemberDTO> Cast { get; set; }
         public List<FilmmakerDTO> Filmmakers { get; set; }

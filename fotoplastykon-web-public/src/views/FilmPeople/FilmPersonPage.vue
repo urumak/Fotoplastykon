@@ -9,6 +9,7 @@
     import Component from "vue-class-component";
     import {FilmPersonPage} from '@/interfaces/filmPeople';
     import FilmPeopleService from '@/services/FilmPeopleService';
+    import { Watch } from 'vue-property-decorator';
 
     @Component({})
     export default class FilmPersonPageComponent extends Vue {
@@ -29,6 +30,11 @@
         }
 
         async created() {
+            await this.loadData(this.id);
+        }
+
+        @Watch('$route')
+        async reload() {
             await this.loadData(this.id);
         }
 

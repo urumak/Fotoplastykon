@@ -27,19 +27,9 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesDefaultResponseType]
         public async Task<IActionResult> GetFilm(long id)
         {
-            var page = await Films.GetForPage(id);
+            var page = await Films.GetForPage(id, User.Id());
             if (page == null) return NotFound();
             return Ok(page);
-        }
-
-        [HttpGet("get-rate/{filmId}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesDefaultResponseType]
-        public async Task<IActionResult> GetRate(long filmId)
-        {
-            if (!await Films.CheckIfExists(filmId)) return NotFound();
-            return Ok(await Films.GetRate(User.Id(), filmId));
         }
 
         [HttpPost("rate")]
@@ -50,7 +40,6 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         public async Task<IActionResult> Rate(FilmMarkDTO model)
         {
             if (!await Films.CheckIfExists(model.FilmId)) return NotFound();
-            if (await Films.CheckIfWatchingExists(User.Id(), model.FilmId)) return BadRequest("Użytkownik ocenił już film");
 
             model.UserId = User.Id();
             await Films.Rate(model);

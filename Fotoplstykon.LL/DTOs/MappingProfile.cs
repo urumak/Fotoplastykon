@@ -65,7 +65,7 @@ namespace Fotoplastykon.BLL.Models
             CreateMap<Film, FilmPageDTO>()
                 .ForMember(d => d.Filmmakers, o => o.MapFrom(s => s.PeopleInRoles.Where(x => x.Role != RoleType.Actor)))
                 .ForMember(d => d.Cast, o => o.MapFrom(s => s.PeopleInRoles.Where(x => x.Role == RoleType.Actor)))
-                .ForMember(d => d.Rank, o => o.MapFrom(s => s.Watchings.Select(x => x.Mark).Average()))
+                .ForMember(d => d.Rating, o => o.MapFrom(s => s.Watchings.Select(x => x.Mark).Average()))
                 .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.PhotoId : string.Empty));
 
             CreateMap<PersonInRole, CastMemberDTO>()

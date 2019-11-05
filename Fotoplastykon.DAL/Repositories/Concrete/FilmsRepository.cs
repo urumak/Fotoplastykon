@@ -34,8 +34,6 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
             return await DatabaseContext.Films
                 .Include(f => f.PeopleInRoles)
                 .ThenInclude(r => r.Person)
-                .Include(f => f.ForumThreads)
-                .ThenInclude(t => t.CreatedBy)
                 .Include(u => u.Watchings)
                 .FirstOrDefaultAsync(u => u.Id == id);
         }

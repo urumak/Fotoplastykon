@@ -38,7 +38,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         public async Task<IActionResult> Rate(long perdonId)
         {
             if (!await FilmPeople.CheckIfExists(perdonId)) return NotFound();
-            if (await FilmPeople.CheckIfWatchingExists(User.Id(), perdonId)) return BadRequest("Użytkownik ocenił już osobę");
+            
             return Ok();
         }
     }

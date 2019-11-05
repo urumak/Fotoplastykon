@@ -4,4 +4,5 @@ export interface ForumElement {
      content: string;
      createdByName: string;
      photoUrl: string;
+     createdById: number;
 }
