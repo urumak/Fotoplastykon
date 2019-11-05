@@ -20,9 +20,9 @@
                     color="purple"
                     background-color="grey lighten-1"
                     small
+                    @input="rate()"
             ></v-rating>
             <div>Twoja ocena {{ filmModel.userRating }}</div>
-            <v-btn @click="rate()">Oceń</v-btn>
             <p>Obsada</p>
             <div v-for="item in filmModel.cast" :key="'c' + item.personId">
                 <v-avatar>
@@ -65,6 +65,7 @@
             yearOfProduction: 0,
             rating: 0,
             userRating: 0,
+            ratingsCount: 0,
             photoUrl: '',
             cast: [],
             filmmakers: [],
@@ -90,6 +91,7 @@
 
         async rate() {
             await FilmsService.rate(this.id, this.filmModel.userRating);
+            this.filmModel.rating = await FilmsService.getRating(this.id);
         }
     }
 </script>

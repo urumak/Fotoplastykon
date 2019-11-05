@@ -6,8 +6,8 @@ export default class FilmsService {
         return (await Vue.axios.get<FilmPage>(`films/${id}`)).data;
     }
 
-    public static async getRate(id: number): Promise<number> {
-        return (await Vue.axios.get<number>(`films/get-rate/${id}`)).data;
+    public static async getRating(id: number): Promise<number> {
+        return (await Vue.axios.get<number>(`films/rating/${id}`)).data;
     }
 
     public static async rate(filmId: number, rating: number){

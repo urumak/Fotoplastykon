@@ -9,5 +9,6 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
     public interface IFilmWatchingsRepository : IRepository<FilmWatching>
     {
         Task<FilmWatching> Get(long userId, long filmId);
+        Task<decimal?> GetRating(long filmId);
     }
 }

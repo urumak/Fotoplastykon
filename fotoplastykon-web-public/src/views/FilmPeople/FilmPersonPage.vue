@@ -40,7 +40,6 @@
 
         async loadData(id: number) {
             this.filmPersonModel = await FilmPeopleService.getForPage(id);
-            console.log(this.filmPersonModel);
         }
     }
 </script>

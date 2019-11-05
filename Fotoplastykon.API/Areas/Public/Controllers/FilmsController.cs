@@ -32,6 +32,16 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
             return Ok(page);
         }
 
+        [HttpGet("rating/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> Getrating(long id)
+        {
+            if (!await Films.CheckIfExists(id)) return NotFound();
+            return Ok(await Films.GetRating(id));
+        }
+
         [HttpPost("rate")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

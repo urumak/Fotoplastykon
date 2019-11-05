@@ -12,5 +12,6 @@ namespace Fotoplastykon.BLL.Services.Abstract
         Task<bool> CheckIfWatchingExists(long userId, long filmId);
         Task<bool> CheckIfExists(long filmId);
         Task<FilmPageDTO> GetForPage(long filmId, long userId);
+        Task<decimal?> GetRating(long filmId);
     }
 }

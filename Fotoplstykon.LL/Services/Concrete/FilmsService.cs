@@ -49,5 +49,10 @@ namespace Fotoplastykon.BLL.Services.Concrete
 
             return film;
         }
+
+        public async Task<decimal?> GetRating(long filmId)
+        {
+            return await Unit.FilmWatchings.GetRating(filmId);
+        }
     }
 }

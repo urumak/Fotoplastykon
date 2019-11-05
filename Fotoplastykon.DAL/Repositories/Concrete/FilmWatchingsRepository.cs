@@ -23,5 +23,10 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
         {
             return await DatabaseContext.FilmWatchings.FirstOrDefaultAsync(f => f.FilmId == filmId && f.UserId == userId);
         }
+
+        public async Task<decimal?> GetRating(long filmId)
+        {
+            return await DatabaseContext.FilmWatchings.Where(f => f.FilmId == filmId).Select(f => f.Mark).AverageAsync();
+        }
     }
 }
