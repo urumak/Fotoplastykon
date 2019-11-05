@@ -20,6 +20,7 @@
                     color="purple"
                     background-color="grey lighten-1"
                     small
+                    hover
                     @input="rate()"
             ></v-rating>
             <div>Twoja ocena {{ filmModel.userRating }}</div>

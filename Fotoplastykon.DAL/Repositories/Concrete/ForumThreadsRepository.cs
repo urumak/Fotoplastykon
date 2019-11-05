@@ -30,6 +30,7 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
                 .Include(t => t.CreatedBy)
                 .Include(t => t.Comments)
                 .ThenInclude(c => c.Replies)
+                .Where(t => t.FilmId == filmId)
                 .OrderByDescending(t => t.Comments.Select(c => c.Replies).Count() + t.Comments.Count())
                 .Take(limit)
                 .ToListAsync();
