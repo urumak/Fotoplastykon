@@ -1,6 +1,47 @@
+<script src="../../interfaces/shared.ts"></script>
 <template>
     <v-container class="flex flex-center">
-        <div>user page</div>
+        <v-card>
+            <div>{{ userModel.firstName }}</div>
+            <div>{{ userModel.surname }}</div>
+            <div>{{ userModel.userName }}</div>
+            <div class="col-3">
+                <v-img v-if="userModel.photoUrl" contain :src="userModel.photoUrl"></v-img>
+                <v-img v-else src="@/assets/bird.jpg"></v-img>
+            </div>
+            <p>Ocenione filmy</p>
+            <div v-for="item in userModel.watchedFilms" :key="'c' + item.id">
+                <v-avatar>
+                    <v-img :src="item.photoUrl"></v-img>
+                </v-avatar>
+                <router-link :to="{ name: 'film-page', params: { id: item.id }}" class="font-weight-light home-link">{{ item.itemName }}</router-link>
+                <v-rating
+                        v-model="item.mark"
+                        :length="10"
+                        color="purple"
+                        background-color="grey lighten-1"
+                        half-increments
+                        readonly
+                ></v-rating>
+                <div>{{ item.mark }}</div>
+            </div>
+            <p>Ocenione osoby</p>
+            <div v-for="item in userModel.ratedPeople" :key="'p' + item.id">
+                <v-avatar>
+                    <v-img :src="item.photoUrl"></v-img>
+                </v-avatar>
+                <router-link :to="{ name: 'film-person-page', params: { id: item.id }}" class="font-weight-light home-link">{{ item.itemName }}</router-link>
+                <v-rating
+                        v-model="item.mark"
+                        :length="10"
+                        color="purple"
+                        background-color="grey lighten-1"
+                        half-increments
+                        readonly
+                ></v-rating>
+                <div>{{ item.mark }}</div>
+            </div>
+        </v-card>
     </v-container>
 </template>
 

@@ -3,8 +3,10 @@
         <v-card>
             <div>{{ filmPersonModel.firstName }}</div>
             <div>{{ filmPersonModel.surname }}</div>
-            <v-img v-if="filmPersonModel.photoUrl" :src="filmPersonModel.photoUrl" class="profile-photo"></v-img>
-            <v-img v-else src="@/assets/bird.jpg"></v-img>
+            <div class="col-3">
+                <v-img v-if="filmPersonModel.photoUrl" contain :src="filmPersonModel.photoUrl"></v-img>
+                <v-img v-else src="@/assets/bird.jpg"></v-img>
+            </div>
             <v-rating
                     v-model="filmPersonModel.rating"
                     :length="10"

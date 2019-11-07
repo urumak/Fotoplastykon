@@ -4,8 +4,10 @@
         <v-card>
             <div>{{ filmModel.title }}</div>
             <div>{{ filmModel.yearOfProduction }}</div>
-            <v-img v-if="filmModel.photoUrl" :src="filmModel.photoUrl"></v-img>
-            <v-img v-else src="@/assets/bird.jpg"></v-img>
+            <div class="col-3">
+                <v-img v-if="filmModel.photoUrl" :src="filmModel.photoUrl"></v-img>
+                <v-img v-else src="@/assets/bird.jpg"></v-img>
+            </div>
             <v-rating
                     v-model="filmModel.rating"
                     :length="10"
