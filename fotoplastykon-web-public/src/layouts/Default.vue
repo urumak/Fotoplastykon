@@ -101,8 +101,12 @@
 
         @Watch('searchInput')
         async search() {
-            if (this.searchInput) this.items = await SearchService.getOptions(this.searchInput);
-            else this.items = [];
+            if (this.searchInput){
+                this.items = await SearchService.getOptions(this.searchInput);
+            } else {
+                this.items = [];
+                this.selectedItem = {};
+            }
         }
 
         async onChange() {
