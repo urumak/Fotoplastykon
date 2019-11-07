@@ -83,21 +83,15 @@ namespace Fotoplastykon.BLL.Models
             CreateMap<PersonMarkDTO, PersonMark>();
 
             CreateMap<FilmPerson, FilmPersonPageDTO>()
-                .ForMember(d => d.Roles, o => o.MapFrom(s => s.Roles.Where(x => x.Role != RoleType.Actor)))
-                .ForMember(d => d.FilmMakings, o => o.MapFrom(s => s.Roles.Where(x => x.Role == RoleType.Actor)))
+                .ForMember(d => d.Roles, o => o.MapFrom(s => s.Roles))
                 .ForMember(d => d.Profession, o => o.MapFrom(s => s.Profession.ToString()))
-                .ForMember(d => d.Rank, o => o.MapFrom(s => s.Marks.Select(x => x.Mark).Average()))
+                .ForMember(d => d.Rating, o => o.MapFrom(s => s.Marks.Select(x => x.Mark).Average()))
                 .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.PhotoId : string.Empty));
 
             CreateMap<PersonInRole, RoleInFilmDTO>()
                 .ForMember(d => d.FilmName, o => o.MapFrom(s => s.Film.Title))
                 .ForMember(d => d.YearOfProduction, o => o.MapFrom(s => s.Film.YearOfProduction))
-                .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.Film.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.Film.PhotoId : string.Empty));
-
-            CreateMap<PersonInRole, FilmMakingDTO>()
-                .ForMember(d => d.FilmName, o => o.MapFrom(s => s.Film.Title))
-                .ForMember(d => d.Role, o => o.MapFrom(s => s.Role.ToString()))
-                .ForMember(d => d.YearOfProduction, o => o.MapFrom(s => s.Film.YearOfProduction))
+                .ForMember(d => d.RoleDescription, o => o.MapFrom(s => s.Role == RoleType.Actor ? s.CharacterName : s.Role.ToString()))
                 .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.Film.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.Film.PhotoId : string.Empty));
         }
 

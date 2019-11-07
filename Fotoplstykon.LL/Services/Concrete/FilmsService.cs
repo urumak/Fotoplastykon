@@ -42,7 +42,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
         public async Task<FilmPageDTO> GetForPage(long filmId, long userId)
         {
             var film = Mapper.Map<FilmPageDTO>(await Unit.Films.GetForPage(filmId));
-            film.ForumThreads = Mapper.Map<List<ForumElementDTO>>(await Unit.ForumThreads.GetTheMostPopular(filmId));
+            film.ForumThreads = Mapper.Map<List<ForumElementDTO>>(await Unit.ForumThreads.GetTheMostPopularForFilm(filmId));
 
             var userRating = await Unit.FilmWatchings.Get(userId, filmId);
             if (userRating != null) film.UserRating = userRating.Mark;

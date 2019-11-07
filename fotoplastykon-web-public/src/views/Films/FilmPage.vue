@@ -1,3 +1,4 @@
+<script src="../../interfaces/shared.ts"></script>
 <template>
     <v-container class="flex flex-center">
         <v-card>
@@ -66,7 +67,6 @@
             yearOfProduction: 0,
             rating: 0,
             userRating: 0,
-            ratingsCount: 0,
             photoUrl: '',
             cast: [],
             filmmakers: [],

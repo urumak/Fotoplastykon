@@ -8,7 +8,7 @@ namespace Fotoplastykon.BLL.DTOs.FilmPeople
     {
         public long FilmId { get; set; }
         public string FilmName { get; set; }
-        public string CharacterName { get; set; }
+        public string RoleDescription { get; set; }
         public int YearOfProduction { get; set; }
         public string PhotoUrl { get; set; }
     }

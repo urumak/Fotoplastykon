@@ -13,10 +13,10 @@ namespace Fotoplastykon.BLL.DTOs.FilmPeople
         public string FirstName { get; set; }
         public string Surname { get; set; }
         public string Profession { get; set; }
-        public decimal Rank { get; set; }
+        public decimal Rating { get; set; }
+        public decimal? UserRating { get; set; }
         public string PhotoUrl { get; set; }
         public List<RoleInFilmDTO> Roles { get; set; }
-        public List<FilmMakingDTO> FilmMakings { get; set; }
         public List<ForumElementDTO> ForumThreads { get; set; }
     }
 }

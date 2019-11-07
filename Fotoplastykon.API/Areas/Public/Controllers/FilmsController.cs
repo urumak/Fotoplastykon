@@ -36,7 +36,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> Getrating(long id)
+        public async Task<IActionResult> GetRating(long id)
         {
             if (!await Films.CheckIfExists(id)) return NotFound();
             return Ok(await Films.GetRating(id));
@@ -47,7 +47,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> Rate(FilmMarkDTO model)
+        public async Task<IActionResult> Rate([FromBody]FilmMarkDTO model)
         {
             if (!await Films.CheckIfExists(model.FilmId)) return NotFound();
 

@@ -21,16 +21,32 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
 
         public async Task<ForumThread> GetWithCommentsAndCreator(long id)
         {
-            return await DatabaseContext.ForumThreads.Include(t => t.CreatedBy).Include(t => t.Comments).ThenInclude(c => c.Replies).FirstOrDefaultAsync(t => t.Id == id);
+            return await DatabaseContext.ForumThreads
+                .Include(t => t.CreatedBy)
+                .Include(t => t.Comments)
+                .ThenInclude(c => c.Replies)
+                .FirstOrDefaultAsync(t => t.Id == id);
         }
 
-        public async Task<IEnumerable<ForumThread>> GetTheMostPopular(long filmId, int limit = 5)
+        public async Task<IEnumerable<ForumThread>> GetTheMostPopularForFilm(long filmId, int limit = 5)
         {
             return await DatabaseContext.ForumThreads
                 .Include(t => t.CreatedBy)
                 .Include(t => t.Comments)
                 .ThenInclude(c => c.Replies)
                 .Where(t => t.FilmId == filmId)
+                .OrderByDescending(t => t.Comments.Select(c => c.Replies).Count() + t.Comments.Count())
+                .Take(limit)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<ForumThread>> GetTheMostPopularForFilmPerson(long personId, int limit = 5)
+        {
+            return await DatabaseContext.ForumThreads
+                .Include(t => t.CreatedBy)
+                .Include(t => t.Comments)
+                .ThenInclude(c => c.Replies)
+                .Where(t => t.PersonId == personId)
                 .OrderByDescending(t => t.Comments.Select(c => c.Replies).Count() + t.Comments.Count())
                 .Take(limit)
                 .ToListAsync();

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Fotoplastykon.BLL.DTOs.FilmPeople;
+using Fotoplastykon.BLL.DTOs.Shared;
 using Fotoplastykon.BLL.Services.Abstract;
 using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
@@ -20,7 +21,11 @@ namespace Fotoplastykon.BLL.Services.Concrete
 
         public async Task Rate(PersonMarkDTO mark)
         {
-            await Unit.PersonMarks.Add(Mapper.Map<PersonMark>(mark));
+            var entity = await Unit.PersonMarks.Get(mark.UserId, mark.PersonId);
+
+            if (entity == null) await Unit.PersonMarks.Add(Mapper.Map<PersonMark>(mark));
+            else Mapper.Map(mark, entity);
+
             await Unit.Complete();
         }
 
@@ -34,9 +39,20 @@ namespace Fotoplastykon.BLL.Services.Concrete
             return await Unit.FilmPeople.Get(personId) != null;
         }
 
-        public async Task<FilmPersonPageDTO> GetForPage(long id)
+        public async Task<FilmPersonPageDTO> GetForPage(long personId, long userId)
         {
-            return Mapper.Map<FilmPersonPageDTO>(await Unit.FilmPeople.GetForPage(id));
+            var person = Mapper.Map<FilmPersonPageDTO>(await Unit.FilmPeople.GetForPage(personId));
+            person.ForumThreads = Mapper.Map<List<ForumElementDTO>>(await Unit.ForumThreads.GetTheMostPopularForFilmPerson(personId));
+
+            var userRating = await Unit.PersonMarks.Get(userId, personId);
+            if (userRating != null) person.UserRating = userRating.Mark;
+
+            return person;
+        }
+
+        public async Task<decimal?> GetRating(long personId)
+        {
+            return await Unit.PersonMarks.GetRating(personId);
         }
     }
 }

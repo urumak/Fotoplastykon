@@ -6,7 +6,6 @@ export interface FilmPage {
     yearOfProduction: number;
     rating: number;
     userRating: number;
-    ratingsCount: number;
     photoUrl: string;
     cast: CastMember[];
     filmmakers: Filmmaker[];
