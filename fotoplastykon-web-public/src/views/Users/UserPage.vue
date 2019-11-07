@@ -1,4 +1,3 @@
-<script src="../../interfaces/shared.ts"></script>
 <template>
     <v-container class="flex flex-center">
         <v-card>
@@ -9,6 +8,9 @@
                 <v-img v-if="userModel.photoUrl" contain :src="userModel.photoUrl"></v-img>
                 <v-img v-else src="@/assets/bird.jpg"></v-img>
             </div>
+            <v-btn v-if="isAlreadyAFriend()" @click="removeFriend()">Usuń z listy znajomych</v-btn>
+            <v-btn v-if="invitationSent()">Wysłano zaproszenie</v-btn>
+            <v-btn v-if="canInvite()" @click="inviteFriend()">Dodaj do znajomych</v-btn>
             <p>Ocenione filmy</p>
             <div v-for="item in userModel.watchedFilms" :key="'c' + item.id">
                 <v-avatar>
@@ -22,6 +24,7 @@
                         background-color="grey lighten-1"
                         half-increments
                         readonly
+                        small
                 ></v-rating>
                 <div>{{ item.mark }}</div>
             </div>
@@ -38,6 +41,7 @@
                         background-color="grey lighten-1"
                         half-increments
                         readonly
+                        small
                 ></v-rating>
                 <div>{{ item.mark }}</div>
             </div>
@@ -60,6 +64,8 @@
             firstName: '',
             surname: '',
             photoUrl: '',
+            isFriend: false,
+            invitationSent: false,
             watchedFilms: [],
             ratedPeople: []
         };
@@ -80,6 +86,33 @@
         async loadData(id: number) {
             this.userModel = await UsersService.getForPage(id);
             console.log(this.userModel);
+        }
+
+        async inviteFriend() {
+            await UsersService.inviteFriend(this.userModel.id);
+            this.userModel.isFriend = true;
+        }
+
+        async removeFriend() {
+            await UsersService.removeFriend(this.userModel.id);
+            this.userModel.isFriend = false;
+        }
+
+        canInvite() : boolean {
+            return (this as any).$auth.user().id != this.userModel.id
+                && !this.userModel.isFriend
+                && !this.userModel.invitationSent;
+        }
+
+        isAlreadyAFriend() : boolean {
+            return (this as any).$auth.user().id!= this.userModel.id
+                && this.userModel.isFriend;
+        }
+
+        invitationSent() : boolean {
+            return (this as any).$auth.user().id != this.userModel.id
+                && !this.userModel.isFriend
+                && this.userModel.invitationSent;
         }
     }
 </script>

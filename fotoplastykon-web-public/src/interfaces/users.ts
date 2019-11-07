@@ -11,6 +11,8 @@ export interface UserPage {
     firstName: string;
     surname: string;
     photoUrl: string;
+    isFriend: boolean;
+    invitationSent: boolean;
     watchedFilms: RankModel[];
     ratedPeople: RankModel[];
 }

@@ -9,4 +9,12 @@ export default class UsersService {
     public static async getForPage(id: number): Promise<UserPage> {
         return (await Vue.axios.get<UserPage>(`users/${id}`)).data;
     }
+
+    public static async inviteFriend(friendId: number){
+        await Vue.axios.post(`friendships/invite`, { friendId: friendId });
+    }
+
+    public static async removeFriend(friendId: number){
+        await Vue.axios.post(`friendships/remove-friend`, { friendId: friendId });
+    }
 }

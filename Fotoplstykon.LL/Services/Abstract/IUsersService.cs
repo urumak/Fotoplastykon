@@ -13,6 +13,6 @@ namespace Fotoplastykon.BLL.Services.Abstract
         Task<List<User>> Search(string searchString);
         Task<bool> CheckIfExists(long id);
         Task Anonymise(long id);
-        Task<UserPageDTO> GetForPage(long id);
+        Task<UserPageDTO> GetForPage(long id, long principalId);
     }
 }

@@ -1,4 +1,3 @@
-<script src="../../interfaces/shared.ts"></script>
 <template>
     <v-container class="flex flex-center">
         <v-card>

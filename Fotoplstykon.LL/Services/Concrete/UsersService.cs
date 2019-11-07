@@ -83,9 +83,13 @@ namespace Fotoplastykon.BLL.Services.Concrete
             await Unit.Complete();
         }
 
-        public async Task<UserPageDTO> GetForPage(long id)
+        public async Task<UserPageDTO> GetForPage(long id, long principalId)
         {
-            return Mapper.Map<UserPageDTO>(await Unit.Users.GetForPage(id));
+            var user = Mapper.Map<UserPageDTO>(await Unit.Users.GetForPage(id));
+            user.IsFriend = await Unit.Friendships.Get(user.Id, principalId) != null;
+            user.InvitationSent = await Unit.Invitations.Get(user.Id, principalId) != null;
+
+            return user;
         }
 
         private async Task<bool> SetPassword(long id, string password)

@@ -33,7 +33,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesDefaultResponseType]
         public async Task<IActionResult> GetUser(long id)
         {
-            var page = await Users.GetForPage(id);
+            var page = await Users.GetForPage(id, User.Id());
             if (page == null) return NotFound();
             return Ok(page);
         }

@@ -31,6 +31,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesDefaultResponseType]
         public async Task<IActionResult> Invite([FromBody]FriendIdModel model)
         {
+            if (model.FriendId == User.Id()) return BadRequest("Nie można wysłać zaproszenia do siebie");
             if (!await Users.CheckIfExists(model.FriendId)) return NotFound();
             if (await Friendships.CheckIfFriendshipExist(User.Id(), model.FriendId)) return BadRequest("Użytkownicy są już znajomymi.");
             await Friendships.InviteFriend(User.Id(), model.FriendId);
