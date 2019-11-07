@@ -101,13 +101,8 @@
 
         @Watch('searchInput')
         async search() {
-            if (this.searchInput) {
-                this.items = await SearchService.getOptions(this.searchInput);
-            } else {
-                let temp : SearchItem[] = [];
-                if(this.selectedItem) temp.push(this.selectedItem);
-                this.items = temp;
-            }
+            if (this.searchInput) this.items = await SearchService.getOptions(this.searchInput);
+            else this.items = [];
         }
 
         async onChange() {
