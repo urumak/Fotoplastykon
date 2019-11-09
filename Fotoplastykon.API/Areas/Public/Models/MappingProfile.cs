@@ -36,7 +36,8 @@ namespace Fotoplastykon.API.Areas.Public.Models
             CreateMap<TokenDTO, Auth.TokenViewModel>();
             CreateMap<User, Users.ListItemModel>();
             CreateMap<User, Users.UserModel>();
-            CreateMap<User, UserProfileModel>();
+            CreateMap<User, UserProfileModel>()
+               .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.PhotoId : string.Empty));
         }
 
         private void InformationsMappings()

@@ -73,7 +73,8 @@
                 <v-icon class="nav-icon">mdi-bell</v-icon>
             </v-badge>
             <v-avatar v-if="$auth.check()" class="nav-avatar mr-2" @click="$auth.logout()">
-                <v-img src="@/assets/bird.jpg"></v-img>
+                <v-img v-if="$auth.user().photoUrl" :src="$auth.user().photoUrl"></v-img>
+                <v-img v-else src="@/assets/bird.jpg"></v-img>
             </v-avatar>
         </v-app-bar>
         <v-content style="margin-top:60px;">
