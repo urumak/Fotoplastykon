@@ -29,5 +29,11 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
 
             return invitation;
         }
+
+        public async Task<Invitation> GetByInvitationRoles(long invitedId, long invitingId)
+        {
+            return await DatabaseContext.Invitations
+                .FirstOrDefaultAsync(f => f.InvitedId == invitedId && f.InvitingId == invitingId);
+        }
     }
 }

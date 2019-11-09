@@ -13,6 +13,7 @@ export interface UserPage {
     photoUrl: string;
     isFriend: boolean;
     invitationSent: boolean;
+    isInvitationSender: boolean;
     watchedFilms: RankModel[];
     ratedPeople: RankModel[];
 }

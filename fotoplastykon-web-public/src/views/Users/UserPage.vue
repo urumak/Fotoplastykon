@@ -9,7 +9,9 @@
                 <v-img v-else src="@/assets/bird.jpg"></v-img>
             </div>
             <v-btn v-if="isAlreadyAFriend()" @click="removeFriend()">Usuń z listy znajomych</v-btn>
-            <v-btn v-if="invitationSent()">Wysłano zaproszenie</v-btn>
+            <v-btn v-if="canCancelInvitation()" @click="cancelInvitation()">Anuluj zaproszenie</v-btn>
+            <v-btn v-if="canAcceptInvitation()" @click="acceptInvitation()">Przyjmij zaproszenie</v-btn>
+            <v-btn v-if="canAcceptInvitation()" @click="refuseInvitation()">Odrzuć zaproszenie</v-btn>
             <v-btn v-if="canInvite()" @click="inviteFriend()">Dodaj do znajomych</v-btn>
             <p>Ocenione filmy</p>
             <div v-for="item in userModel.watchedFilms" :key="'c' + item.id">
@@ -66,6 +68,7 @@
             photoUrl: '',
             isFriend: false,
             invitationSent: false,
+            isInvitationSender: false,
             watchedFilms: [],
             ratedPeople: []
         };
@@ -90,8 +93,27 @@
 
         async inviteFriend() {
             await UsersService.inviteFriend(this.userModel.id);
+            this.userModel.invitationSent = true;
+            this.userModel.isInvitationSender = true;
+        }
+
+        async cancelInvitation() {
+            await UsersService.cancelInvitation(this.userModel.id);
+            this.userModel.invitationSent = false;
+        }
+
+        async refuseInvitation() {
+            await UsersService.refuseInvitation(this.userModel.id);
+            this.userModel.invitationSent = false;
+            this.userModel.isFriend = false;
+        }
+
+        async acceptInvitation() {
+            await UsersService.acceptInvitation(this.userModel.id);
+            this.userModel.invitationSent = false;
             this.userModel.isFriend = true;
         }
+
 
         async removeFriend() {
             await UsersService.removeFriend(this.userModel.id);
@@ -109,10 +131,18 @@
                 && this.userModel.isFriend;
         }
 
-        invitationSent() : boolean {
+        canCancelInvitation() : boolean {
             return (this as any).$auth.user().id != this.userModel.id
                 && !this.userModel.isFriend
-                && this.userModel.invitationSent;
+                && this.userModel.invitationSent
+                && this.userModel.isInvitationSender;
+        }
+
+        canAcceptInvitation() : boolean {
+            return (this as any).$auth.user().id != this.userModel.id
+                && !this.userModel.isFriend
+                && this.userModel.invitationSent
+                && !this.userModel.isInvitationSender;
         }
     }
 </script>

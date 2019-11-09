@@ -45,20 +45,20 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesDefaultResponseType]
         public async Task<IActionResult> AcceptInvitation([FromBody]FriendIdModel model)
         {
-            if(!await Friendships.CheckIfInvitationExist(User.Id(), model.FriendId)) return NotFound();
+            if(!await Friendships.CheckIfInvitationExistByInvitationRoles(User.Id(), model.FriendId)) return NotFound();
             await Friendships.AcceptInvitation(User.Id(), model.FriendId);
 
             return Ok();
         }
 
-        [HttpPost("refuse-invitation")]
+        [HttpDelete("refuse-invitation")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         public async Task<IActionResult> RefuseInvitation([FromBody]FriendIdModel model)
         {
-            if (!await Friendships.CheckIfInvitationExist(User.Id(), model.FriendId)) return NotFound();
-            await Friendships.RefuseInvitation(User.Id(), model.FriendId);
+            if (!await Friendships.CheckIfInvitationExistByInvitationRoles(User.Id(), model.FriendId)) return NotFound();
+            await Friendships.RemoveInvitation(User.Id(), model.FriendId);
 
             return Ok();
         }
@@ -73,6 +73,19 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
             if (!await Friendships.CheckIfFriendshipExist(User.Id(), model.FriendId)) return NotFound();
 
             await Friendships.RemoveFriend(User.Id(), model.FriendId);
+            return Ok();
+        }
+
+        [HttpDelete("cancel-invitation")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> CancelInvitation([FromBody]FriendIdModel model)
+        {
+            if (!await Users.CheckIfExists(model.FriendId)) return NotFound();
+            if (!await Friendships.CheckIfInvitationExistByInvitationRoles(model.FriendId, User.Id())) return NotFound();
+
+            await Friendships.RemoveInvitation(User.Id(), model.FriendId);
             return Ok();
         }
     }

@@ -30,7 +30,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
 
         public async Task AcceptInvitation(long userId, long invitedId)
         {
-            var invitation = await Unit.Invitations.Get(u => u.InvitedId == invitedId && u.InvitingId == userId);
+            var invitation = await Unit.Invitations.Get(userId, invitedId);
 
             var friendship = new Friendship
             {
@@ -39,13 +39,6 @@ namespace Fotoplastykon.BLL.Services.Concrete
             };
 
             await Unit.Friendships.Add(friendship);
-            Unit.Invitations.Remove(invitation);
-            await Unit.Complete();
-        }
-
-        public async Task RefuseInvitation(long userId, long invitedId)
-        {
-            var invitation = await Unit.Invitations.Get(u => u.InvitedId == invitedId && u.InvitingId == userId);
             Unit.Invitations.Remove(invitation);
             await Unit.Complete();
         }
@@ -68,6 +61,18 @@ namespace Fotoplastykon.BLL.Services.Concrete
         public async Task<bool> CheckIfInvitationExist(long firstId, long secondId)
         {
             return await Unit.Invitations.Get(firstId, secondId) != null;
+        }
+
+        public async Task<bool> CheckIfInvitationExistByInvitationRoles(long invitedId, long invitingId)
+        {
+            return await Unit.Invitations.GetByInvitationRoles(invitedId, invitingId) != null;
+        }
+
+        public async Task RemoveInvitation(long userId, long friendId)
+        {
+            var invitation = await Unit.Invitations.Get(userId, friendId);
+            Unit.Invitations.Remove(invitation);
+            await Unit.Complete();
         }
     }
 }

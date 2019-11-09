@@ -16,6 +16,7 @@ namespace Fotoplastykon.BLL.DTOs.Users
         public string PhotoUrl { get; set; }
         public bool IsFriend { get; set; }
         public bool InvitationSent { get; set; }
+        public bool IsInvitationSender { get; set; }
         public List<RankModel> WatchedFilms { get; set; }
         public List<RankModel> RatedPeople { get; set; }
     }

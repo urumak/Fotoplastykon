@@ -86,8 +86,11 @@ namespace Fotoplastykon.BLL.Services.Concrete
         public async Task<UserPageDTO> GetForPage(long id, long principalId)
         {
             var user = Mapper.Map<UserPageDTO>(await Unit.Users.GetForPage(id));
+            var invitation = await Unit.Invitations.Get(user.Id, principalId);
+
             user.IsFriend = await Unit.Friendships.Get(user.Id, principalId) != null;
-            user.InvitationSent = await Unit.Invitations.Get(user.Id, principalId) != null;
+            user.InvitationSent = invitation != null;
+            if(user.InvitationSent) user.IsInvitationSender = invitation.InvitingId == principalId;
 
             return user;
         }

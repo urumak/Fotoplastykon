@@ -1,11 +1,7 @@
 import Vue from 'vue';
-import {UserModel, UserPage} from "@/interfaces/users"
+import {UserPage} from "@/interfaces/users"
 
 export default class UsersService {
-    public static async passwordExpires(): Promise<UserModel[]> {
-        return (await Vue.axios.get<UserModel[]>('auth/password-expires')).data;
-    }
-
     public static async getForPage(id: number): Promise<UserPage> {
         return (await Vue.axios.get<UserPage>(`users/${id}`)).data;
     }
@@ -15,6 +11,18 @@ export default class UsersService {
     }
 
     public static async removeFriend(friendId: number){
-        await Vue.axios.post(`friendships/remove-friend`, { friendId: friendId });
+        await Vue.axios.delete(`friendships/remove-friend`, { data: {friendId: friendId }});
+    }
+
+    public static async cancelInvitation(friendId: number){
+        await Vue.axios.delete(`friendships/cancel-invitation`, { data: {friendId: friendId }});
+    }
+
+    public static async acceptInvitation(friendId: number){
+        await Vue.axios.post(`friendships/accept-invitation`, { friendId: friendId });
+    }
+
+    public static async refuseInvitation(friendId: number){
+        await Vue.axios.delete(`friendships/refuse-invitation`, { data: {friendId: friendId }});
     }
 }
