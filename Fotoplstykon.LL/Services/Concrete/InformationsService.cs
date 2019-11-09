@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Fotoplastykon.BLL.DTOs.Information;
 using Fotoplastykon.BLL.Services.Abstract;
 using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
@@ -20,6 +21,11 @@ namespace Fotoplastykon.BLL.Services.Concrete
         public async Task<IPaginationResult<Information>> GetPaginatedList(IPager pager)
         {
             return await Unit.Informations.GetPaginatedList(pager);
+        }
+
+        public async Task<IEnumerable<ListItem>> GetListForMainPage(int limit = 5)
+        {
+            return Mapper.Map<IEnumerable<ListItem>>(await Unit.Informations.GetForMainPage(limit));
         }
 
         public async Task<Information> GetWithCreator(long id)
@@ -56,7 +62,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
             return await Unit.Informations.Get(id) != null;
         }
 
-        public async Task<List<InformationComment>> GetList(long informationId)
+        public async Task<List<InformationComment>> GetComments(long informationId)
         {
             return Mapper.Map<List<InformationComment>>(await Unit.InformationComments.GetList(informationId));
         }

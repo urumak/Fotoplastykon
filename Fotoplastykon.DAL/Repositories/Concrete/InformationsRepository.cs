@@ -23,5 +23,10 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
         {
             return await DatabaseContext.Informations.Include(i => i.CreatedBy).FirstOrDefaultAsync(i => i.Id == id);
         }
+
+        public async Task<IEnumerable<Information>> GetForMainPage(int limit = 5)
+        {
+            return await DatabaseContext.Informations.OrderByDescending(i => i.DateCreated).Take(limit).ToListAsync();
+        }
     }
 }

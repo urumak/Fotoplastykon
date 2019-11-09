@@ -21,6 +21,7 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         public ICollection<User> UserPhotos { get; set; }
         public ICollection<Film> FilmPhotos { get; set; }
         public ICollection<FilmPerson> FilmPersonPhotos { get; set; }
+        public ICollection<Information> InformationPhotos { get; set; }
     }
 
     internal class FileMappings : IEntityTypeConfiguration<StoredFileInfo>

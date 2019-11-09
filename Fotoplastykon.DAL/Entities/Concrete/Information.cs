@@ -15,8 +15,10 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         public string Title { get; set; }
         public string Introduction { get; set; }
         public string Content { get; set; }
+        public long? PhotoId { get; set; }
 
         public User CreatedBy { get; set; }
+        public StoredFileInfo Photo { get; set; }
     }
 
     internal class InformationMappings : IEntityTypeConfiguration<Information>
@@ -29,6 +31,7 @@ namespace Fotoplastykon.DAL.Entities.Concrete
             builder.Property(p => p.Title).IsRequired().HasMaxLength(250);
             builder.Property(p => p.Introduction);
             builder.HasOne(p => p.CreatedBy).WithMany(p => p.Informations).HasForeignKey(p => p.CreatedById).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(p => p.Photo).WithMany(p => p.InformationPhotos).HasForeignKey(p => p.PhotoId).OnDelete(DeleteBehavior.SetNull);
             builder.ToTable("informations");
         }
     }

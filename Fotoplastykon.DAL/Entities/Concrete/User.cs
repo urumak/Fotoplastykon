@@ -22,6 +22,7 @@ namespace Fotoplastykon.DAL.Entities.Concrete
             Scores = new HashSet<QuizScore>();
             Informations = new HashSet<Information>();
             InformationComments = new HashSet<InformationComment>();
+
         }
 
         public long Id { get; set; }

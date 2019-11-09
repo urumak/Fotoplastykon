@@ -14,14 +14,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Fotoplastykon.API.Areas.Public.Controllers
 {
-    [Route("api/informations")]
+    [Route("api/information")]
     [ApiController]
-    public class InformationsController : ControllerBase
+    public class InformationController : ControllerBase
     {
         private IInformationsService Informations { get; }
         private IMapper Mapper { get; }
 
-        public InformationsController(IInformationsService informations, IMapper mapper)
+        public InformationController(IInformationsService informations, IMapper mapper)
         {
             Informations = informations;
             Mapper = mapper;
@@ -39,6 +39,14 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
                 Pager = result.Pager,
                 Items = Mapper.Map<List<ListItemModel>>(result.Items)
             });
+        }
+
+        [HttpGet("main-page")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> GetListForMainPage()
+        {
+            return Ok(await Informations.GetListForMainPage());
         }
 
         [HttpGet("{id}")]

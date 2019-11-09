@@ -27,6 +27,7 @@ namespace Fotoplastykon.BLL.Models
             SearchMappings();
             FilesMappings();
             SharedMappings();
+            InformationMappings();
         }
 
         private void UserMappings()
@@ -125,6 +126,12 @@ namespace Fotoplastykon.BLL.Models
             CreateMap<ForumThread, ForumElementDTO>()
                 .ForMember(d => d.CreatedByName, o => o.MapFrom(s => s.CreatedBy.FirstName + " " + s.CreatedBy.Surname))
                 .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.CreatedBy.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.CreatedBy.PhotoId : string.Empty));
+        }
+
+        private void InformationMappings()
+        {
+            CreateMap<Information, DTOs.Information.ListItem>()
+               .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.PhotoId : string.Empty));
         }
     }
 }
