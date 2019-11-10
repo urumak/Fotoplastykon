@@ -4,9 +4,9 @@
             <div class="col-8">
                 <div v-for="item in items" :key="item.id" class="row">
                     <v-card class="my-card col-8">
-                        <div class="card-title">
+                        <router-link :to="{ name: 'information-details', params: { id: item.id}}" class="card-title">
                             {{ item.title }}
-                        </div>
+                        </router-link>
                         <div class="card-title-line"></div>
                         <div class="news-card-content">
                             {{ item.introduction }}
@@ -30,13 +30,13 @@
     import Vue from "vue";
     import Component from "vue-class-component";
     import InformationService from "@/services/InformationService.ts";
-    import { InformationModel } from '@/interfaces/information';
+    import { InformationListModel } from '@/interfaces/information';
     import {Pager} from '@/interfaces/pager';
     import merge from 'lodash/merge'
 
     @Component({})
-    export default class MainPageComponent extends Vue {
-        private items : InformationModel[] = [];
+    export default class InformationListComponent extends Vue {
+        private items : InformationListModel[] = [];
         private pageSizeOptions = [2,5,10,20];
 
         private get pager(): Pager
@@ -45,7 +45,7 @@
         }
 
         async created() {
-            this.loadData();
+            await this.loadData();
         }
 
         async loadData() {

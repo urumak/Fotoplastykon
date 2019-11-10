@@ -132,6 +132,22 @@ namespace Fotoplastykon.BLL.Models
         {
             CreateMap<Information, DTOs.Information.ListItem>()
                .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.PhotoId : string.Empty));
+
+            CreateMap<Information, DTOs.Information.InformationDTO>()
+                .ForMember(d => d.CreatedByName, o => o.MapFrom(s => s.CreatedBy.FirstName + " " + s.CreatedBy.Surname))
+                .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.PhotoId : string.Empty));
+
+            CreateMap<InformationComment, DTOs.Information.CommentDTO>()
+                .ForMember(d => d.CreatorFullName, o => o.MapFrom(s => s.CreatedBy.FirstName + " " + s.CreatedBy.Surname))
+                .ForMember(d => d.Replies, o => o.MapFrom(s => s.Replies))
+                .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.CreatedBy.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.CreatedBy.PhotoId : string.Empty))
+                .AfterMap((s, d) =>
+                {
+                    if (s.DateDeleted.HasValue) d.Content = Configuration["DeletedItems:UserDescription"];
+                    if (s.CreatedBy.AnonimisationDate.HasValue) d.CreatorFullName = Configuration["DeletedItems:ItemDescription"];
+                });
+
+            CreateMap<DTOs.Information.CommentFormDTO, InformationComment>();
         }
     }
 }

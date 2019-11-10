@@ -20,8 +20,13 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
 
         public async Task<List<InformationComment>> GetList(long informationId)
         {
-            return await DatabaseContext.InformationComments.Include(c => c.Replies).Include(c => c.CreatedBy)
-                .Where(c => c.ParentId == null).ToListAsync();
+            return await DatabaseContext.InformationComments
+                .Include(c => c.Replies)
+                .ThenInclude(c => c.CreatedBy)
+                .Include(c => c.CreatedBy)
+                .Where(c => c.ParentId == null && c.InformationId == informationId)
+                .OrderByDescending(c => c.DateCreated)
+                .ToListAsync();
         }
     }
 }

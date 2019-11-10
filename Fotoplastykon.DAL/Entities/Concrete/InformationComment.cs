@@ -22,6 +22,7 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         public string Content { get; set; }
         public DateTime? DateDeleted { get; set; }
 
+        public Information Information { get; set; }
         public InformationComment Parent { get; set; }
         public User CreatedBy { get; set; }
         public ICollection<InformationComment> Replies { get; set; }
@@ -32,6 +33,7 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         public void Configure(EntityTypeBuilder<InformationComment> builder)
         {
             builder.HasOne(p => p.Parent).WithMany(p => p.Replies).HasForeignKey(p => p.ParentId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(p => p.Information).WithMany(p => p.Comments).HasForeignKey(p => p.InformationId).OnDelete(DeleteBehavior.Cascade);
             builder.HasOne(p => p.CreatedBy).WithMany(p => p.InformationComments).HasForeignKey(p => p.CreatedById).OnDelete(DeleteBehavior.Cascade);
             builder.ToTable("information_comments");
         }

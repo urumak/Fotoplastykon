@@ -9,6 +9,11 @@ namespace Fotoplastykon.DAL.Entities.Concrete
 {
     public class Information : IEntity
     {
+        public Information()
+        {
+            Comments = new HashSet<InformationComment>();
+        }
+
         public long Id { get; set; }
         public long CreatedById { get; set; }
         public DateTime DateCreated { get; set; }
@@ -19,6 +24,7 @@ namespace Fotoplastykon.DAL.Entities.Concrete
 
         public User CreatedBy { get; set; }
         public StoredFileInfo Photo { get; set; }
+        public ICollection<InformationComment> Comments { get; set; }
     }
 
     internal class InformationMappings : IEntityTypeConfiguration<Information>

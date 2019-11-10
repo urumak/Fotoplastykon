@@ -20,6 +20,11 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/Information/MainPage.vue')
     },
     {
+      path: '/information/:id',
+      name: 'information-details',
+      component: () => import(/* webpackChunkName: "about" */ './views/Information/InformationDetails.vue')
+    },
+    {
       path: '/information/list',
       name: 'information-list',
       component: () => import(/* webpackChunkName: "about" */ './views/Information/List.vue')

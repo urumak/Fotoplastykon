@@ -4,9 +4,9 @@
             <div class="col-8">
                 <div v-for="(item, i) in Items" :key="item.id" class="row">
                     <v-card v-if="i % 2 !== 0" class="my-card col-8">
-                        <div class="card-title">
+                        <router-link :to="{ name: 'information-details', params: { id: item.id}}" class="card-title">
                             {{ item.title }}
-                        </div>
+                        </router-link>
                         <div class="card-title-line"></div>
                         <div class="news-card-content">
                             {{ item.introduction }}
@@ -16,9 +16,9 @@
                     </v-img>
                     <v-img v-if="i % 2 === 0" class="news-img-reflection" :src="item.photoUrl" contain></v-img>
                     <v-card v-if="i % 2 === 0" class="my-card col-8">
-                        <div class="card-title">
+                        <router-link :to="{ name: 'information-details', params: { id: item.id}}" class="card-title">
                             {{ item.title }}
-                        </div>
+                        </router-link>
                         <div class="card-title-line"></div>
                         <div class="news-card-content-reflection">
                             {{ item.introduction }}
@@ -39,14 +39,14 @@
     import Vue from "vue";
     import Component from "vue-class-component";
     import InformationService from "@/services/InformationService.ts";
-    import { InformationModel } from '@/interfaces/information';
+    import { InformationListModel } from '@/interfaces/information';
 
     @Component({})
     export default class MainPageComponent extends Vue {
-        private Items : InformationModel[] = [];
+        private Items : InformationListModel[] = [];
 
         async created() {
-            this.loadData();
+            await this.loadData();
         }
 
         async loadData() {

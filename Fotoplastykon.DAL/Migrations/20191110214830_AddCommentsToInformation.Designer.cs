@@ -3,14 +3,16 @@ using System;
 using Fotoplastykon.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Fotoplastykon.DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20191110214830_AddCommentsToInformation")]
+    partial class AddCommentsToInformation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -207,8 +209,6 @@ namespace Fotoplastykon.DAL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedById");
-
-                    b.HasIndex("InformationId");
 
                     b.HasIndex("ParentId");
 
@@ -545,7 +545,7 @@ namespace Fotoplastykon.DAL.Migrations
 
                     b.HasOne("Fotoplastykon.DAL.Entities.Concrete.Information", "Information")
                         .WithMany("Comments")
-                        .HasForeignKey("InformationId")
+                        .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Fotoplastykon.DAL.Entities.Concrete.InformationComment", "Parent")

@@ -34,15 +34,19 @@ namespace Fotoplastykon.BLL.Services.Concrete
             return Mapper.Map<IEnumerable<ListItem>>(await Unit.Informations.GetForMainPage(limit));
         }
 
-        public async Task<Information> GetWithCreator(long id)
+        public async Task<InformationDTO> GetWithCreatorAndComments(long id)
         {
-            return await Unit.Informations.GetWithCreator(id);
+            var information = Mapper.Map<InformationDTO>(await Unit.Informations.GetWithCreator(id));
+            information.Comments = Mapper.Map<List<CommentDTO>>(await Unit.InformationComments.GetList(id));
+
+            return information;
         }
 
-        public async Task AddComment(InformationComment comment, long userId)
+        public async Task AddComment(CommentFormDTO comment, long userId)
         {
-            comment.CreatedById = userId;
-            await Unit.InformationComments.Add(comment);
+            var entity = Mapper.Map<InformationComment>(comment);
+            entity.CreatedById = userId;
+            await Unit.InformationComments.Add(entity);
             await Unit.Complete();
         }
         public async Task RemoveComment(long id)
@@ -51,7 +55,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
             await Unit.Complete();
         }
 
-        public async Task UpdateComment(long id, InformationComment comment)
+        public async Task UpdateComment(long id, CommentFormDTO comment)
         {
             var entity = await Unit.InformationComments.Get(id);
             Mapper.Map(comment, entity);

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Fotoplastykon.API.Areas.Public.Models.Informations
+namespace Fotoplastykon.BLL.DTOs.Information
 {
-    public class InformationModel
+    public class InformationDTO
     {
         public long Id { get; set; }
         public string CreatedByName { get; set; }
@@ -13,5 +13,7 @@ namespace Fotoplastykon.API.Areas.Public.Models.Informations
         public string Title { get; set; }
         public string Introduction { get; set; }
         public string Content { get; set; }
+        public string PhotoUrl { get; set; }
+        public List<CommentDTO> Comments { get; set; }
     }
 }

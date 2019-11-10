@@ -12,10 +12,10 @@ namespace Fotoplastykon.BLL.Services.Abstract
     {
         Task<IPaginationResult<ListItem>> GetPaginatedList(IPager pager);
         Task<IEnumerable<ListItem>> GetListForMainPage(int limit = 5);
-        Task<Information> GetWithCreator(long id);
-        Task AddComment(InformationComment comment, long userId);
+        Task<InformationDTO> GetWithCreatorAndComments(long id);
+        Task AddComment(CommentFormDTO comment, long userId);
         Task RemoveComment(long id);
-        Task UpdateComment(long id, InformationComment comment);
+        Task UpdateComment(long id, CommentFormDTO comment);
         Task<bool> CheckIfCommentExists(long id);
         Task<bool> CheckIfExists(long id);
     }

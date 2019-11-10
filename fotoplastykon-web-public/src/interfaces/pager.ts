@@ -7,7 +7,7 @@ export class Pager
 
     public pageIndex : number;
     public pageSize : number;
-    public totalRows : number = 0;
+    public totalRows : number = 1;
 
     public get totalPages(): number {
         return Math.ceil(this.totalRows / this.pageSize);
