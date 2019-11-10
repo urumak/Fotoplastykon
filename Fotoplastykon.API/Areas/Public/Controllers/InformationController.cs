@@ -32,13 +32,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesDefaultResponseType]
         public async Task<IActionResult> GetPaginatedList([FromQuery]Pager pager)
         {
-            var result = await Informations.GetPaginatedList(pager);
-
-            return Ok(new PaginationResult<ListItemModel>
-            {
-                Pager = result.Pager,
-                Items = Mapper.Map<List<ListItemModel>>(result.Items)
-            });
+            return Ok(await Informations.GetPaginatedList(pager));
         }
 
         [HttpGet("main-page")]

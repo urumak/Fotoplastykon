@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Fotoplastykon.BLL.Services.Abstract;
 using Fotoplastykon.DAL.Entities.Concrete;
+using Fotoplastykon.DAL.Enums;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
 using Fotoplastykon.Tools.Pager;
 using System;
@@ -23,7 +24,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
             return await Unit.Messages.GetPaginatedList(
                 pager,
                 m => (m.SenderId == userId && m.ReceiverId == friendId) || (m.ReceiverId == userId && m.SenderId == friendId),
-                s => s.DateCreated);
+                s => s.DateCreated, OrderDirection.DESC);
         }
 
         public async Task WriteMessage(long userId, Message message)

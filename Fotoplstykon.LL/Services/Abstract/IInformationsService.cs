@@ -10,7 +10,7 @@ namespace Fotoplastykon.BLL.Services.Abstract
 {
     public interface IInformationsService
     {
-        Task<IPaginationResult<Information>> GetPaginatedList(IPager pager);
+        Task<IPaginationResult<ListItem>> GetPaginatedList(IPager pager);
         Task<IEnumerable<ListItem>> GetListForMainPage(int limit = 5);
         Task<Information> GetWithCreator(long id);
         Task AddComment(InformationComment comment, long userId);

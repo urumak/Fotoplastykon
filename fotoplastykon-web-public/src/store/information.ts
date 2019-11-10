@@ -1,8 +1,8 @@
-import Pager from "@/interfaces/pager";
+import {Pager} from "@/interfaces/pager";
 
 export default {
     namespaced: true,
     state: {
-        pager: new Pager(1, 20)
+        pager: new Pager(1, 2)
     }
 }

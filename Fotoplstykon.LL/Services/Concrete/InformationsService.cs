@@ -2,6 +2,7 @@
 using Fotoplastykon.BLL.DTOs.Information;
 using Fotoplastykon.BLL.Services.Abstract;
 using Fotoplastykon.DAL.Entities.Concrete;
+using Fotoplastykon.DAL.Enums;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
 using Fotoplastykon.Tools.Pager;
 using System;
@@ -18,9 +19,14 @@ namespace Fotoplastykon.BLL.Services.Concrete
         {
         }
 
-        public async Task<IPaginationResult<Information>> GetPaginatedList(IPager pager)
+        public async Task<IPaginationResult<ListItem>> GetPaginatedList(IPager pager)
         {
-            return await Unit.Informations.GetPaginatedList(pager);
+            var data = await Unit.Informations.GetPaginatedList(pager, i => i.DateCreated, OrderDirection.DESC);
+            return new PaginationResult<ListItem>
+            {
+                Items = Mapper.Map< IEnumerable<ListItem>>(data.Items),
+                Pager = data.Pager
+            };
         }
 
         public async Task<IEnumerable<ListItem>> GetListForMainPage(int limit = 5)

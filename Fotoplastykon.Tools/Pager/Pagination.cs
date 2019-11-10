@@ -16,7 +16,7 @@ namespace Fotoplastykon.Tools.Pager
             return new PaginationResult<T>
             {
                 Pager = pager,
-                Items = await query.Skip(pager.PageIndex * pager.PageSize).Take(pager.PageSize).ToListAsync()
+                Items = await query.Skip((pager.PageIndex - 1) * pager.PageSize).Take(pager.PageSize).ToListAsync()
             };
         }
     }

@@ -127,3 +127,4 @@ declare module "vue-progressbar"
 
 declare module 'form-backend-validation';
 declare module '@websanova/vue-auth';
+declare module 'lodash/merge'

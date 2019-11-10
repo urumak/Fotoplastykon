@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Fotoplastykon.DAL.Entities.Abstract;
+using Fotoplastykon.DAL.Enums;
 using Fotoplastykon.Tools.Pager;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -90,9 +91,16 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
             return await Context.Set<TEntity>().Where(predicate).GetPaginationResult(pager);
         }
 
-        public virtual async Task<IPaginationResult<TEntity>> GetPaginatedList(IPager pager, Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, object>> orderExpression)
+        public virtual async Task<IPaginationResult<TEntity>> GetPaginatedList(IPager pager, Expression<Func<TEntity, object>> orderExpression, OrderDirection direction)
         {
-            return await Context.Set<TEntity>().Where(predicate).OrderBy(orderExpression).GetPaginationResult(pager);
+            if (direction == OrderDirection.ASC) return await Context.Set<TEntity>().OrderBy(orderExpression).GetPaginationResult(pager);
+            return await Context.Set<TEntity>().OrderByDescending(orderExpression).GetPaginationResult(pager);
+        }
+
+        public virtual async Task<IPaginationResult<TEntity>> GetPaginatedList(IPager pager, Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, object>> orderExpression, OrderDirection direction)
+        {
+            if (direction == OrderDirection.ASC) return await Context.Set<TEntity>().Where(predicate).OrderBy(orderExpression).GetPaginationResult(pager);
+            return await Context.Set<TEntity>().Where(predicate).OrderByDescending(orderExpression).GetPaginationResult(pager);
         }
     }
 }
