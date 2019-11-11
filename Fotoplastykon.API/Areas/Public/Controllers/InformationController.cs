@@ -61,7 +61,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         public async Task<IActionResult> AddComment([FromBody]CommentDTO model)
         {
             if (!await Informations.CheckIfExists(model.InformationId)) return NotFound();
-            if (model.ParentId.HasValue && !await Informations.CheckIfExists(model.ParentId.Value)) return NotFound();
+            if (model.ParentId.HasValue && !await Informations.CheckIfCommentExists(model.ParentId.Value)) return NotFound();
 
             return Ok(await Informations.AddComment(model, User.Id()));
         }

@@ -33,4 +33,6 @@ export interface InformationCommentModel
     photoUrl: string;
     tempContent: string;
     createdById: number;
+    isDeleted: boolean;
+    isReplyAdding: boolean;
 }

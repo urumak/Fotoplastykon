@@ -25,7 +25,7 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
                 .ThenInclude(c => c.CreatedBy)
                 .Include(c => c.CreatedBy)
                 .Where(c => c.ParentId == null && c.InformationId == informationId)
-                .OrderByDescending(c => c.DateCreated)
+                .OrderBy(c => c.DateCreated)
                 .ToListAsync();
         }
     }

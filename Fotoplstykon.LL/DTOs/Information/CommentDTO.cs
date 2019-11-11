@@ -14,6 +14,7 @@ namespace Fotoplastykon.BLL.DTOs.Information
         public string Content { get; set; }
         public long InformationId { get; set; }
         public long? ParentId { get; set; }
+        public bool IsDeleted { get; set; }
         public DateTime DateCreated { get; set; }
         public List<CommentDTO> Replies { get; set; }
     }

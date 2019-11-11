@@ -139,7 +139,7 @@ namespace Fotoplastykon.BLL.Models
 
             CreateMap<InformationComment, DTOs.Information.CommentDTO>()
                 .ForMember(d => d.CreatorFullName, o => o.MapFrom(s => s.CreatedBy.FirstName + " " + s.CreatedBy.Surname))
-                .ForMember(d => d.Replies, o => o.MapFrom(s => s.Replies))
+                .ForMember(d => d.Replies, o => o.MapFrom(s => s.Replies.OrderBy(r => r.DateCreated)))
                 .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.CreatedBy.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.CreatedBy.PhotoId : string.Empty))
                 .AfterMap((s, d) =>
                 {

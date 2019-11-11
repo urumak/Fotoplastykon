@@ -33,6 +33,7 @@
                         <v-btn v-if="!item.editMode && isCommentCreator(item.createdById)" @click="edit(item.id)">Edytuj</v-btn>
                         <v-btn v-if="!item.editMode && isCommentCreator(item.createdById)" @click="removeComment(item.id)">Usuń</v-btn>
                         <v-btn v-if="item.editMode && isCommentCreator(item.createdById)" @click="cancelEdit(item.id)">Anuluj</v-btn>
+                        <v-btn v-if="!item.editMode"  @click="newCommentReply(item.id)">Odpowiedz</v-btn>
                         <div v-if="!item.editMode">{{item.content}}</div>
                         <v-textarea v-if="item.editMode" label="Komentarz" v-model="item.content" auto-grow outlined rows="5" row-height="15"></v-textarea>
                         <v-btn v-if="item.editMode" @click="submitComment(item)">Zapisz</v-btn>
@@ -43,9 +44,9 @@
                             </v-avatar>
                             <router-link :to="{ name: 'user-page', params: { id: reply.createdById }}" class="font-weight-light home-link">{{ reply.creatorFullName }}</router-link>
                             <div>{{reply.dateCreated}}</div>
-                            <v-btn v-if="!reply.editMode && isCommentCreator(reply.createdById)" @click="edit(reply.id)">Edytuj</v-btn>
+                            <v-btn v-if="!reply.editMode && isCommentCreator(reply.createdById)" @click="editReply(reply.id, item.id)">Edytuj</v-btn>
                             <v-btn v-if="!reply.editMode && isCommentCreator(reply.createdById)" @click="removeComment(reply.id)">Usuń</v-btn>
-                            <v-btn v-if="reply.editMode && isCommentCreator(reply.createdById)"  @click="cancelEdit(reply.id)">Anuluj</v-btn>
+                            <v-btn v-if="reply.editMode && isCommentCreator(reply.createdById)"  @click="cancelEditReply(reply.id, item.id)">Anuluj</v-btn>
                             <div v-if="!reply.editMode">{{reply.content}}</div>
                             <v-textarea v-if="reply.editMode" label="Komentarz" v-model="reply.content" auto-grow outlined rows="5" row-height="15"></v-textarea>
                             <v-btn v-if="reply.editMode" @click="submitComment(reply)">Zapisz</v-btn>
@@ -107,21 +108,17 @@
             this.model.comments = (await InformationService.get(this.id)).comments;
         }
 
-        newComment(parentId?: number) {
-            this.model.comments.splice(0, 0, {
-                id: 0,
-                creatorFullName: (this as any).$auth.user().firstName + ' ' + (this as any).$auth.user().surname,
-                informationId: this.id,
-                parentId: parentId,
-                content: '',
-                dateCreated: new Date(),
-                replies: [],
-                photoUrl: (this as any).$auth.user().photoUrl,
-                editMode: true,
-                tempContent: '',
-                createdById: (this as any).$auth.user().id
-            });
+        newComment() {
+            this.model.comments.splice(0, 0, this.getNewComment() );
             this.isCommentAdding = true;
+        }
+
+        newCommentReply(parentId: number) {
+            let item = this.model.comments.find(x => x.id === parentId);
+            if(item) {
+                item.replies.splice(0, 0, this.getNewComment(parentId));
+                item.isReplyAdding = true;
+            }
         }
 
         cancelComment(){
@@ -136,8 +133,20 @@
                 item.editMode = true;
                 item.tempContent = item.content;
             }
-            this.model.comments = [];
-            this.model.comments = tmpArray;
+            this.updateComments(tmpArray);
+        }
+
+        editReply(id: number, parentId: number){
+            let tmpArray = this.model.comments;
+            let item = tmpArray.find(x => x.id === parentId);
+            if(item) {
+                let reply = item.replies.find(x => x.id === id);
+                if(reply) {
+                    reply.editMode = true;
+                    reply.tempContent = reply.content;
+                }
+            }
+            this.updateComments(tmpArray);
         }
 
         cancelEdit(id: number){
@@ -147,12 +156,52 @@
                 item.editMode = false;
                 item.content = item.tempContent;
             }
-            this.model.comments = [];
-            this.model.comments = tmpArray;
+            this.updateComments(tmpArray);
+        }
+
+        cancelEditReply(id: number, parentId: number){
+            let tmpArray = this.model.comments;
+            let item = tmpArray.find(x => x.id === parentId);
+            if(item) {
+                let reply = item.replies.find(x => x.id === id);
+                if(reply) {
+                    if(reply.id !== 0) {
+                        reply.editMode = false;
+                        reply.content = reply.tempContent;
+                    } else {
+                        item.replies.splice(0, 1);
+                        item.isReplyAdding = false;
+                    }
+                }
+            }
+            this.updateComments(tmpArray);
         }
 
         isCommentCreator(commentCreatorId: number) : boolean {
             return (this as any).$auth.user().id === commentCreatorId;
+        }
+
+        getNewComment(parentId?: number) : InformationCommentModel {
+            return {
+                id: 0,
+                creatorFullName: (this as any).$auth.user().firstName + ' ' + (this as any).$auth.user().surname,
+                informationId: this.id,
+                parentId: parentId,
+                content: '',
+                dateCreated: new Date(),
+                replies: [],
+                photoUrl: (this as any).$auth.user().photoUrl,
+                editMode: true,
+                tempContent: '',
+                createdById: (this as any).$auth.user().id,
+                isDeleted: false,
+                isReplyAdding: false
+            }
+        }
+
+        updateComments(tmpArray: InformationCommentModel[]) {
+            this.model.comments = [];
+            this.model.comments = tmpArray;
         }
     }
 </script>
