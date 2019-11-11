@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Fotoplastykon.BLL.DTOs.Forum;
 using Fotoplastykon.BLL.Services.Abstract;
 using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
@@ -17,34 +18,30 @@ namespace Fotoplastykon.BLL.Services.Concrete
         {
         }
 
-        public async Task<IPaginationResult<ForumThread>> GetList(IPager pager)
+        public async Task<IPaginationResult<ForumListItemDTO>> GetList(IPager pager)
         {
-            return await Unit.ForumThreads.GetPaginatedList(pager);
+            var data = await Unit.ForumThreads.GetPaginatedList(pager, t => t.DateCreated, DAL.Enums.OrderDirection.DESC);
+            return new PaginationResult<ForumListItemDTO>
+            {
+                Items = Mapper.Map<IEnumerable<ForumListItemDTO>>(data.Items),
+                Pager = data.Pager
+            };
         }
 
-        public async Task<IPaginationResult<ForumThread>> GetListForFilm(IPager pager, long filmId)
+        public async Task<ForumThreadDTO> Get(long id)
         {
-            return await Unit.ForumThreads.GetPaginatedList(pager, t => t.FilmId == filmId);
+            return Mapper.Map<ForumThreadDTO>(await Unit.ForumThreads.GetWithCommentsAndCreator(id));
         }
 
-        public async Task<IPaginationResult<ForumThread>> GetListForFilmPerson(IPager pager, long filmPersonId)
+        public async Task Add(ForumThreadDTO thread, long userId)
         {
-            return await Unit.ForumThreads.GetPaginatedList(pager, t => t.PersonId == filmPersonId);
-        }
-
-        public async Task<ForumThread> Get(long id)
-        {
-            return await Unit.ForumThreads.GetWithCommentsAndCreator(id);
-        }
-
-        public async Task Add(ForumThread thread, long userId)
-        {
-            thread.CreatedById = userId;
-            await Unit.ForumThreads.Add(thread);
+            var entity = Mapper.Map<ForumThread>(thread);
+            entity.CreatedById = userId;
+            await Unit.ForumThreads.Add(entity);
             await Unit.Complete();
         }
 
-        public async Task Update(long id, ForumThread thread)
+        public async Task Update(long id, ForumThreadDTO thread)
         {
             var entity = await Unit.ForumThreads.Get(id);
             Mapper.Map(thread, entity);
@@ -57,14 +54,15 @@ namespace Fotoplastykon.BLL.Services.Concrete
             await Unit.Complete();
         }
 
-        public async Task AddComment(ForumThreadComment comment, long userId)
+        public async Task AddComment(ForumThreadCommentDTO comment, long userId)
         {
-            comment.CreatedById = userId;
-            await Unit.ForumThreadComments.Add(comment);
+            var entity = Mapper.Map<ForumThreadComment>(comment);
+            entity.CreatedById = userId;
+            await Unit.ForumThreadComments.Add(entity);
             await Unit.Complete();
         }
 
-        public async Task UpdateComment(long id, ForumThreadComment comment)
+        public async Task UpdateComment(long id, ForumThreadCommentDTO comment)
         {
             var entity = await Unit.ForumThreadComments.Get(id);
             Mapper.Map(comment, entity);
@@ -87,9 +85,9 @@ namespace Fotoplastykon.BLL.Services.Concrete
             return await Unit.ForumThreadComments.Get(commentId) != null;
         }
 
-        public async Task<ForumThreadComment> GetComment(long id)
+        public async Task<ForumThreadCommentDTO> GetComment(long id)
         {
-            return await Unit.ForumThreadComments.Get(id);
+            return Mapper.Map<ForumThreadCommentDTO>(await Unit.ForumThreadComments.Get(id));
         }
     }
 }

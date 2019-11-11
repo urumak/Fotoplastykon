@@ -1,4 +1,5 @@
-﻿using Fotoplastykon.DAL.Entities.Concrete;
+﻿using Fotoplastykon.BLL.DTOs.Forum;
+using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.Tools.Pager;
 using System;
 using System.Collections.Generic;
@@ -9,16 +10,14 @@ namespace Fotoplastykon.BLL.Services.Abstract
 {
     public interface IForumService
     {
-        Task<IPaginationResult<ForumThread>> GetList(IPager pager);
-        Task<IPaginationResult<ForumThread>> GetListForFilm(IPager pager, long filmId);
-        Task<IPaginationResult<ForumThread>> GetListForFilmPerson(IPager pager, long filmPersonId);
-        Task<ForumThread> Get(long id);
-        Task<ForumThreadComment> GetComment(long id);
-        Task Add(ForumThread thread, long userId);
-        Task Update(long id, ForumThread thread);
+        Task<IPaginationResult<ForumListItemDTO>> GetList(IPager pager);
+        Task<ForumThreadDTO> Get(long id);
+        Task<ForumThreadCommentDTO> GetComment(long id);
+        Task Add(ForumThreadDTO thread, long userId);
+        Task Update(long id, ForumThreadDTO thread);
         Task Remove(long id);
-        Task AddComment(ForumThreadComment comment, long userId);
-        Task UpdateComment(long id, ForumThreadComment comment);
+        Task AddComment(ForumThreadCommentDTO comment, long userId);
+        Task UpdateComment(long id, ForumThreadCommentDTO comment);
         Task RemoveComment(long id);
         Task<bool> CheckIfExists(long id);
         Task<bool> CheckIfCommentExists(long commentId);

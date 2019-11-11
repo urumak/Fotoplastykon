@@ -28,6 +28,7 @@ namespace Fotoplastykon.BLL.Models
             FilesMappings();
             SharedMappings();
             InformationMappings();
+            ForumMappings();
         }
 
         private void UserMappings()
@@ -141,6 +142,7 @@ namespace Fotoplastykon.BLL.Models
                 .ForMember(d => d.CreatorFullName, o => o.MapFrom(s => s.CreatedBy.FirstName + " " + s.CreatedBy.Surname))
                 .ForMember(d => d.Replies, o => o.MapFrom(s => s.Replies.OrderBy(r => r.DateCreated)))
                 .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.CreatedBy.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.CreatedBy.PhotoId : string.Empty))
+                .ForMember(d => d.IsDeleted, o => o.MapFrom(s => s.DateDeleted.HasValue))
                 .AfterMap((s, d) =>
                 {
                     if (s.DateDeleted.HasValue) d.Content = Configuration["DeletedItems:ItemDescription"];
@@ -153,6 +155,39 @@ namespace Fotoplastykon.BLL.Models
                 .ForMember(d => d.DateCreated, o => o.Ignore())
                 .ForMember(d => d.DateDeleted, o => o.Ignore())
                 .ForMember(d => d.Replies, o => o.Ignore());
+        }
+
+        private void ForumMappings()
+        {
+            CreateMap<ForumThread, DTOs.Forum.ForumListItemDTO>()
+                .ForMember(d => d.CreatorFullName, o => o.MapFrom(s => s.CreatedBy.FirstName + " " + s.CreatedBy.Surname))
+                .ForMember(d => d.IsDeleted, o => o.MapFrom(s => s.DateDeleted.HasValue))
+                .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.CreatedBy.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.CreatedBy.PhotoId : string.Empty)).AfterMap((s, d) =>
+                {
+                    if (s.CreatedBy.AnonimisationDate.HasValue) d.CreatorFullName = Configuration["DeletedItems:ItemDescription"];
+                });
+
+            CreateMap<ForumThread, DTOs.Forum.ForumThreadDTO>()
+                .ForMember(d => d.CreatorFullName, o => o.MapFrom(s => s.CreatedBy.FirstName + " " + s.CreatedBy.Surname))
+                .ForMember(d => d.IsDeleted, o => o.MapFrom(s => s.DateDeleted.HasValue))
+                .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.CreatedBy.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.CreatedBy.PhotoId : string.Empty))
+                .AfterMap((s, d) =>
+                {
+                    if (s.CreatedBy.AnonimisationDate.HasValue) d.CreatorFullName = Configuration["DeletedItems:ItemDescription"];
+                })
+                .ReverseMap()
+                .ForMember(d => d.CreatedById, o => o.Ignore())
+                .ForMember(d => d.Id, o => o.Ignore())
+                .ForMember(d => d.DateCreated, o => o.Ignore());
+
+            CreateMap<ForumThreadComment, DTOs.Forum.ForumThreadCommentDTO>()
+                .ForMember(d => d.CreatorFullName, o => o.MapFrom(s => s.CreatedBy.FirstName + " " + s.CreatedBy.Surname))
+                .ForMember(d => d.IsDeleted, o => o.MapFrom(s => s.DateDeleted.HasValue))
+                .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.CreatedBy.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.CreatedBy.PhotoId : string.Empty))
+                .AfterMap((s, d) =>
+                {
+                    if (s.CreatedBy.AnonimisationDate.HasValue) d.CreatorFullName = Configuration["DeletedItems:ItemDescription"];
+                });
         }
     }
 }

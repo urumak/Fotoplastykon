@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Fotoplastykon.API.Areas.Public.Models;
-using Fotoplastykon.API.Areas.Public.Models.Forum;
 using Fotoplastykon.API.Extensions;
+using Fotoplastykon.BLL.DTOs.Forum;
 using Fotoplastykon.BLL.Services.Abstract;
 using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.Tools.Pager;
@@ -19,12 +19,10 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
     public class ForumController : ControllerBase
     {
         private IForumService ForumThreads { get; }
-        private IMapper Mapper { get; }
 
-        public ForumController(IForumService forumThreads, IMapper mapper)
+        public ForumController(IForumService forumThreads)
         {
             ForumThreads = forumThreads;
-            Mapper = mapper;
         }
 
         [HttpGet("")]
@@ -32,41 +30,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesDefaultResponseType]
         public async Task<IActionResult> GetPaginatedList([FromQuery]IPager pager)
         {
-            var result = await ForumThreads.GetList(pager);
-
-            return Ok(new PaginationResult<ForumThreadModel>
-            {
-                Pager = result.Pager,
-                Items = Mapper.Map<List<ForumThreadModel>>(result.Items)
-            });
-        }
-
-        [HttpGet("film")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesDefaultResponseType]
-        public async Task<IActionResult> GetPaginatedListForFilm([FromQuery]IPager pager, long filmId)
-        {
-            var result = await ForumThreads.GetListForFilm(pager, filmId);
-
-            return Ok(new PaginationResult<ForumThreadModel>
-            {
-                Pager = result.Pager,
-                Items = Mapper.Map<List<ForumThreadModel>>(result.Items)
-            });
-        }
-
-        [HttpGet("film-person")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesDefaultResponseType]
-        public async Task<IActionResult> GetPaginatedListForFilmPerson([FromQuery]IPager pager, long personId)
-        {
-            var result = await ForumThreads.GetListForFilmPerson(pager, personId);
-
-            return Ok(new PaginationResult<ForumThreadModel>
-            {
-                Pager = result.Pager,
-                Items = Mapper.Map<List<ForumThreadModel>>(result.Items)
-            });
+            return Ok(await ForumThreads.GetList(pager));
         }
 
         [HttpGet("{id}")]
@@ -78,19 +42,19 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
             var result = await ForumThreads.Get(id);
             if (result == null) return NotFound();
 
-            return Ok(Mapper.Map<ForumThreadModel>(result));
+            return Ok(result);
         }
 
         [HttpPost("")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> Add([FromBody]ForumThreadCommentModel model)
+        public async Task<IActionResult> Add([FromBody]ForumThreadCommentDTO model)
         {
             if (!await ForumThreads.CheckIfExists(model.ForumThreadId)) return NotFound();
             if (model.ParentId.HasValue && !await ForumThreads.CheckIfExists(model.ParentId.Value)) return NotFound();
 
-            await ForumThreads.AddComment(Mapper.Map<ForumThreadComment>(model), User.Id());
+            await ForumThreads.AddComment(model, User.Id());
 
             return Ok();
         }
@@ -99,11 +63,11 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> Update([FromBody]ForumThreadCommentModel model)
+        public async Task<IActionResult> Update([FromBody]ForumThreadCommentDTO model)
         {
             if (!await ForumThreads.CheckIfExists(model.Id)) return NotFound();
 
-            await ForumThreads.UpdateComment(model.Id, Mapper.Map<ForumThreadComment>(model));
+            await ForumThreads.UpdateComment(model.Id, model);
 
             return Ok();
         }
@@ -125,12 +89,12 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> AddComment([FromBody]ForumThreadCommentModel model)
+        public async Task<IActionResult> AddComment([FromBody]ForumThreadCommentDTO model)
         {
             if (!await ForumThreads.CheckIfExists(model.ForumThreadId)) return NotFound();
             if (model.ParentId.HasValue && !await ForumThreads.CheckIfExists(model.ParentId.Value)) return NotFound();
 
-            await ForumThreads.AddComment(Mapper.Map<ForumThreadComment>(model), User.Id());
+            await ForumThreads.AddComment(model, User.Id());
 
             return Ok();
         }
@@ -139,11 +103,11 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> UpdateComment([FromBody]ForumThreadCommentModel model)
+        public async Task<IActionResult> UpdateComment([FromBody]ForumThreadCommentDTO model)
         {
             if (!await ForumThreads.CheckIfExists(model.Id)) return NotFound();
 
-            await ForumThreads.UpdateComment(model.Id, Mapper.Map<ForumThreadComment>(model));
+            await ForumThreads.UpdateComment(model.Id, model);
 
             return Ok();
         }
