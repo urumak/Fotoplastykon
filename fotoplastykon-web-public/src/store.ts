@@ -1,13 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import information from "@/store/information";
+import pager from "@/store/pager";
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
   strict: false,
   modules: {
-    information: information
+    information: pager,
+    forum: pager
   }
 });
 

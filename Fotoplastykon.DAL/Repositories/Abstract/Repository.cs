@@ -104,5 +104,17 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
             if (direction == OrderDirection.ASC) return await Context.Set<TEntity>().Where(predicate).OrderBy(orderExpression).GetPaginationResult(pager);
             return await Context.Set<TEntity>().Where(predicate).OrderByDescending(orderExpression).GetPaginationResult(pager);
         }
+
+        public virtual async Task<IPaginationResult<TEntity>> GetPaginatedList(IPager pager, Expression<Func<TEntity, object>> includeExpression, Expression<Func<TEntity, object>> orderExpression, OrderDirection direction)
+        {
+            if (direction == OrderDirection.ASC) return await Context.Set<TEntity>().Include(includeExpression).OrderBy(orderExpression).GetPaginationResult(pager);
+            return await Context.Set<TEntity>().Include(includeExpression).OrderByDescending(orderExpression).GetPaginationResult(pager);
+        }
+
+        public virtual async Task<IPaginationResult<TEntity>> GetPaginatedList(IPager pager, Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, object>> includeExpression, Expression<Func<TEntity, object>> orderExpression, OrderDirection direction)
+        {
+            if (direction == OrderDirection.ASC) return await Context.Set<TEntity>().Include(includeExpression).Where(predicate).OrderBy(orderExpression).GetPaginationResult(pager);
+            return await Context.Set<TEntity>().Include(includeExpression).Where(predicate).OrderByDescending(orderExpression).GetPaginationResult(pager);
+        }
     }
 }

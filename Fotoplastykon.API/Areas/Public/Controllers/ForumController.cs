@@ -28,7 +28,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [HttpGet("")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> GetPaginatedList([FromQuery]IPager pager)
+        public async Task<IActionResult> GetPaginatedList([FromQuery]Pager pager)
         {
             return Ok(await ForumThreads.GetList(pager));
         }

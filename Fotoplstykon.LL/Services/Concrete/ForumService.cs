@@ -20,7 +20,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
 
         public async Task<IPaginationResult<ForumListItemDTO>> GetList(IPager pager)
         {
-            var data = await Unit.ForumThreads.GetPaginatedList(pager, t => t.DateCreated, DAL.Enums.OrderDirection.DESC);
+            var data = await Unit.ForumThreads.GetPaginatedList(pager, t => t.CreatedBy, t => t.DateCreated, DAL.Enums.OrderDirection.DESC);
             return new PaginationResult<ForumListItemDTO>
             {
                 Items = Mapper.Map<IEnumerable<ForumListItemDTO>>(data.Items),

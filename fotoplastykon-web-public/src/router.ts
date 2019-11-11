@@ -53,7 +53,17 @@ const router = new Router({
       path: '/users/:id',
       name: 'user-page',
       component: () => import(/* webpackChunkName: "about" */ './views/Users/UserPage.vue')
-    }
+    },
+    {
+      path: '/forum',
+      name: 'forum',
+      component: () => import(/* webpackChunkName: "about" */ './views/Forum/ForumList.vue')
+    },
+    {
+      path: '/forum/:id',
+      name: 'forum-thread',
+      component: () => import(/* webpackChunkName: "about" */ './views/Forum/ForumThread.vue')
+    },
   ]
 });
 
