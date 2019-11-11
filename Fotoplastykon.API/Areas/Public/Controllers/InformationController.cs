@@ -9,6 +9,7 @@ using Fotoplastykon.BLL.DTOs.Information;
 using Fotoplastykon.BLL.Services.Abstract;
 using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.Tools.Pager;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -57,38 +58,37 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> AddComment([FromBody]CommentFormDTO model)
+        public async Task<IActionResult> AddComment([FromBody]CommentDTO model)
         {
             if (!await Informations.CheckIfExists(model.InformationId)) return NotFound();
             if (model.ParentId.HasValue && !await Informations.CheckIfExists(model.ParentId.Value)) return NotFound();
 
-            await Informations.AddComment(model, User.Id());
+            return Ok(await Informations.AddComment(model, User.Id()));
+        }
+
+        [HttpPost("comment/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        [Authorize(Policy = "InformationCommentCreator")]
+        public async Task<IActionResult> UpdateComment(long id, [FromBody]CommentDTO model)
+        {
+            if (!await Informations.CheckIfCommentExists(id)) return NotFound();
+
+            await Informations.UpdateComment(id, model);
 
             return Ok();
         }
 
-        [HttpPost("comment")]
+        [HttpDelete("comment/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> UpdateComment([FromBody]CommentFormDTO model)
+        public async Task<IActionResult> DeleteComment(long id)
         {
-            if (!await Informations.CheckIfExists(model.Id)) return NotFound();
+            if (!await Informations.CheckIfCommentExists(id)) return NotFound();
 
-            await Informations.UpdateComment(model.Id, model);
-
-            return Ok();
-        }
-
-        [HttpDelete("comment")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesDefaultResponseType]
-        public async Task<IActionResult> UpdateComment([FromBody]ItemIdModel model)
-        {
-            if (!await Informations.CheckIfExists(model.Id)) return NotFound();
-
-            await Informations.RemoveComment(model.Id);
+            await Informations.RemoveComment(id);
 
             return Ok();
         }

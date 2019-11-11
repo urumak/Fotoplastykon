@@ -13,6 +13,7 @@ namespace Fotoplastykon.BLL.Services.Abstract
         Task<IPaginationResult<ForumThread>> GetListForFilm(IPager pager, long filmId);
         Task<IPaginationResult<ForumThread>> GetListForFilmPerson(IPager pager, long filmPersonId);
         Task<ForumThread> Get(long id);
+        Task<ForumThreadComment> GetComment(long id);
         Task Add(ForumThread thread, long userId);
         Task Update(long id, ForumThread thread);
         Task Remove(long id);

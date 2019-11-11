@@ -42,12 +42,14 @@ namespace Fotoplastykon.BLL.Services.Concrete
             return information;
         }
 
-        public async Task AddComment(CommentFormDTO comment, long userId)
+        public async Task<long> AddComment(CommentDTO comment, long userId)
         {
             var entity = Mapper.Map<InformationComment>(comment);
             entity.CreatedById = userId;
-            await Unit.InformationComments.Add(entity);
+            entity = await Unit.InformationComments.Add(entity);
             await Unit.Complete();
+
+            return entity.Id;
         }
         public async Task RemoveComment(long id)
         {
@@ -55,7 +57,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
             await Unit.Complete();
         }
 
-        public async Task UpdateComment(long id, CommentFormDTO comment)
+        public async Task UpdateComment(long id, CommentDTO comment)
         {
             var entity = await Unit.InformationComments.Get(id);
             Mapper.Map(comment, entity);
@@ -75,6 +77,11 @@ namespace Fotoplastykon.BLL.Services.Concrete
         public async Task<List<InformationComment>> GetComments(long informationId)
         {
             return Mapper.Map<List<InformationComment>>(await Unit.InformationComments.GetList(informationId));
+        }
+
+        public async Task<InformationComment> GetComment(long id)
+        {
+            return await Unit.InformationComments.Get(id);
         }
     }
 }

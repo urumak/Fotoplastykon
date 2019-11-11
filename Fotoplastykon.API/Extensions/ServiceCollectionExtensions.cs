@@ -1,5 +1,7 @@
-﻿using Fotoplastykon.API.AccessHandlers.PageAccess;
+﻿using Fotoplastykon.API.AccessHandlers.CreatorAccess;
 using Fotoplastykon.BLL.Services.Abstract;
+using Fotoplastykon.DAL.Entities.Concrete;
+using Fotoplastykon.DAL.Repositories.Abstract;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -69,9 +71,20 @@ namespace Fotoplastykon.API.Extensions
 
         public static void SetAuthorization(this IServiceCollection services)
         {
+            var provider = services.BuildServiceProvider();
+
+            var forum = provider.GetService<IForumService>();
+            var information = provider.GetService<IInformationsService>();
+
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("AdminAccess", policy => policy.RequireClaim("IsAdmin", "True"));
+                options.AddPolicy("InformationCommentCreator", policy =>
+                       policy.Requirements.Add(new CommentCreatorRequirement(information)));
+                options.AddPolicy("ThreadCreator", policy =>
+                       policy.Requirements.Add(new ForumThreadRequirement(forum)));
+                options.AddPolicy("ThreadCommentCreator", policy =>
+                       policy.Requirements.Add(new ForumThreadCommentRequirement(forum)));
             });
         }
     }

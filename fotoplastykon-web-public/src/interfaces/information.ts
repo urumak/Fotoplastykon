@@ -24,7 +24,13 @@ export interface InformationCommentModel
 {
     id: number;
     creatorFullName: string;
+    informationId: number;
+    parentId?: number;
     content: string;
     dateCreated: Date;
+    editMode?: boolean,
     replies: InformationCommentModel[];
+    photoUrl: string;
+    tempContent: string;
+    createdById: number;
 }

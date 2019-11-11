@@ -19,7 +19,7 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
         Task<IPaginationResult<TEntity>> GetPaginatedList(IPager pager, Expression<Func<TEntity, object>> orderExpression, OrderDirection direction);
         Task<IPaginationResult<TEntity>> GetPaginatedList(IPager pager, Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, object>> orderExpression, OrderDirection direction);
 
-        Task Add(TEntity entity);
+        Task<TEntity> Add(TEntity entity);
         Task AddRange(IEnumerable<TEntity> entities);
 
         void Remove(TEntity entity);

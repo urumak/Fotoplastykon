@@ -86,5 +86,10 @@ namespace Fotoplastykon.BLL.Services.Concrete
         {
             return await Unit.ForumThreadComments.Get(commentId) != null;
         }
+
+        public async Task<ForumThreadComment> GetComment(long id)
+        {
+            return await Unit.ForumThreadComments.Get(id);
+        }
     }
 }

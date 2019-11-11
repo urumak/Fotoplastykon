@@ -21,7 +21,8 @@
                     <div>
                         {{ model.content }}
                     </div>
-                    <v-textarea label="Dodaj komentarz" auto-grow outlined rows="5" row-height="15"></v-textarea>
+                    <v-btn v-if="!isCommentAdding" @click="newComment()">Nowy komentarz</v-btn>
+                    <v-btn v-else @click="cancelComment()">Anuluj</v-btn>
                     <v-card v-for="item in model.comments" :key="item.id">
                         <v-avatar>
                             <v-img :src="item.photoUrl" contain>
@@ -29,15 +30,25 @@
                         </v-avatar>
                         <router-link :to="{ name: 'user-page', params: { id: item.createdById }}" class="font-weight-light home-link">{{ item.creatorFullName }}</router-link>
                         <div>{{item.dateCreated}}</div>
-                        <div>{{item.content}}</div>
-                        <v-card v-for="reply in item.replies" :key="reply.id">
+                        <v-btn v-if="!item.editMode && isCommentCreator(item.createdById)" @click="edit(item.id)">Edytuj</v-btn>
+                        <v-btn v-if="!item.editMode && isCommentCreator(item.createdById)" @click="removeComment(item.id)">Usuń</v-btn>
+                        <v-btn v-if="item.editMode && isCommentCreator(item.createdById)" @click="cancelEdit(item.id)">Anuluj</v-btn>
+                        <div v-if="!item.editMode">{{item.content}}</div>
+                        <v-textarea v-if="item.editMode" label="Komentarz" v-model="item.content" auto-grow outlined rows="5" row-height="15"></v-textarea>
+                        <v-btn v-if="item.editMode" @click="submitComment(item)">Zapisz</v-btn>
+                        <v-card style="margin-left: 20px" v-for="reply in item.replies" :key="'r' + reply.id">
                             <v-avatar>
                                 <v-img :src="reply.photoUrl" contain>
                                 </v-img>
                             </v-avatar>
                             <router-link :to="{ name: 'user-page', params: { id: reply.createdById }}" class="font-weight-light home-link">{{ reply.creatorFullName }}</router-link>
                             <div>{{reply.dateCreated}}</div>
-                            <div>{{reply.content}}</div>
+                            <v-btn v-if="!reply.editMode && isCommentCreator(reply.createdById)" @click="edit(reply.id)">Edytuj</v-btn>
+                            <v-btn v-if="!reply.editMode && isCommentCreator(reply.createdById)" @click="removeComment(reply.id)">Usuń</v-btn>
+                            <v-btn v-if="reply.editMode && isCommentCreator(reply.createdById)"  @click="cancelEdit(reply.id)">Anuluj</v-btn>
+                            <div v-if="!reply.editMode">{{reply.content}}</div>
+                            <v-textarea v-if="reply.editMode" label="Komentarz" v-model="reply.content" auto-grow outlined rows="5" row-height="15"></v-textarea>
+                            <v-btn v-if="reply.editMode" @click="submitComment(reply)">Zapisz</v-btn>
                         </v-card>
                     </v-card>
                 </v-card>
@@ -54,7 +65,7 @@
     import Vue from "vue";
     import Component from "vue-class-component";
     import InformationService from "@/services/InformationService.ts";
-    import { InformationModel } from '@/interfaces/information';
+    import { InformationModel, InformationCommentModel } from '@/interfaces/information';
 
     @Component({})
     export default class InformationDetailsComponent extends Vue {
@@ -69,6 +80,8 @@
             comments: []
         };
 
+        private isCommentAdding: boolean = false;
+
         private get id() : number {
             return Number(this.$route.params.id || 0);
         }
@@ -79,6 +92,67 @@
 
         async loadData(id: number) {
             this.model = await InformationService.get(id);
+        }
+
+        async submitComment(item: InformationCommentModel) {
+            if(item.id === 0) item.id = await InformationService.addComment(item);
+            else await InformationService.updateComment(item);
+            item.editMode = false;
+            this.isCommentAdding = false;
+            this.model.comments = (await InformationService.get(this.id)).comments;
+        }
+
+        async removeComment(id: number) {
+            await InformationService.removeComment(id);
+            this.model.comments = (await InformationService.get(this.id)).comments;
+        }
+
+        newComment(parentId?: number) {
+            this.model.comments.splice(0, 0, {
+                id: 0,
+                creatorFullName: (this as any).$auth.user().firstName + ' ' + (this as any).$auth.user().surname,
+                informationId: this.id,
+                parentId: parentId,
+                content: '',
+                dateCreated: new Date(),
+                replies: [],
+                photoUrl: (this as any).$auth.user().photoUrl,
+                editMode: true,
+                tempContent: '',
+                createdById: (this as any).$auth.user().id
+            });
+            this.isCommentAdding = true;
+        }
+
+        cancelComment(){
+            this.model.comments.splice(0, 1);
+            this.isCommentAdding = false;
+        }
+
+        edit(id: number){
+            let tmpArray = this.model.comments;
+            let item = tmpArray.find(x => x.id === id);
+            if(item) {
+                item.editMode = true;
+                item.tempContent = item.content;
+            }
+            this.model.comments = [];
+            this.model.comments = tmpArray;
+        }
+
+        cancelEdit(id: number){
+            let tmpArray = this.model.comments;
+            let item = tmpArray.find(x => x.id === id);
+            if(item) {
+                item.editMode = false;
+                item.content = item.tempContent;
+            }
+            this.model.comments = [];
+            this.model.comments = tmpArray;
+        }
+
+        isCommentCreator(commentCreatorId: number) : boolean {
+            return (this as any).$auth.user().id === commentCreatorId;
         }
     }
 </script>

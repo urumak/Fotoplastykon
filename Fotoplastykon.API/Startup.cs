@@ -21,10 +21,10 @@ using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using System.Security.Principal;
 using Microsoft.AspNetCore.Authorization;
-using Fotoplastykon.API.AccessHandlers.PageAccess;
 using Fotoplastykon.DAL.Storage;
 using Fotoplastykon.BLL.Helpers;
 using Microsoft.AspNetCore.StaticFiles;
+using Fotoplastykon.API.AccessHandlers.CreatorAccess;
 
 namespace Fotoplastykon.API
 {
@@ -46,12 +46,15 @@ namespace Fotoplastykon.API
 
             services.AddMySqlDbContext<DatabaseContext>(Configuration.GetConnectionString("DefaultConnection"));
 
-            services.SetAuthentication(Configuration["Tokens:Issuer"], Configuration["Tokens:Key"]);
-            services.SetAuthorization();
-
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IPrincipal>(provider => provider.GetService<IHttpContextAccessor>().HttpContext?.User ?? new ClaimsPrincipal());
-            services.AddTransient<IAuthorizationHandler, PageAccessHandler>();
+            services.AddTransient<IAuthorizationHandler, CreatorAccessHandler>();
+
+            services.AddSingleton(provider => new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new BLL.Models.MappingProfile(provider.GetService<IConfiguration>()));
+                cfg.AddProfile(new Areas.Public.Models.MappingProfile(provider.GetService<IConfiguration>()));
+            }).CreateMapper());
 
             services.RegisterAllTypes(typeof(IRepository<IEntity>).Assembly, "Repository");
             services.RegisterAllTypes(typeof(IUnitOfWork).Assembly, "UnitOfWork");
@@ -59,13 +62,10 @@ namespace Fotoplastykon.API
             services.AddTransient<IStorekeeper, Storekeeper>();
             services.AddTransient<Anonymiser<User>>();
 
-            services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+            services.SetAuthentication(Configuration["Tokens:Issuer"], Configuration["Tokens:Key"]);
+            services.SetAuthorization();
 
-            services.AddSingleton(provider => new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new BLL.Models.MappingProfile(provider.GetService<IConfiguration>()));
-                cfg.AddProfile(new Areas.Public.Models.MappingProfile(provider.GetService<IConfiguration>()));
-            }).CreateMapper());
+            services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
             services.AddCors(options =>
             {

@@ -35,16 +35,18 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
             return await Context.Set<TEntity>().Where(predicate).ToListAsync();
         }
 
-        public virtual async Task Add(TEntity entity)
+        public virtual async Task<TEntity> Add(TEntity entity)
         {
             if(entity is IAuditable auditableEntity)
             {
                 auditableEntity.DateCreated = DateTime.Now;
-                await Context.Set<IAuditable>().AddAsync(auditableEntity);
+                var entry = await Context.Set<IAuditable>().AddAsync(auditableEntity);
+                return entry.Entity as TEntity;
             }
             else
             {
-                await Context.Set<TEntity>().AddAsync(entity);
+                var entry = await Context.Set<TEntity>().AddAsync(entity);
+                return entry.Entity;
             }
         }
 

@@ -143,11 +143,16 @@ namespace Fotoplastykon.BLL.Models
                 .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.CreatedBy.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.CreatedBy.PhotoId : string.Empty))
                 .AfterMap((s, d) =>
                 {
-                    if (s.DateDeleted.HasValue) d.Content = Configuration["DeletedItems:UserDescription"];
-                    if (s.CreatedBy.AnonimisationDate.HasValue) d.CreatorFullName = Configuration["DeletedItems:ItemDescription"];
+                    if (s.DateDeleted.HasValue) d.Content = Configuration["DeletedItems:ItemDescription"];
+                    if (s.CreatedBy.AnonimisationDate.HasValue) d.CreatorFullName = Configuration["DeletedItems:UserDescription"];
                 });
 
-            CreateMap<DTOs.Information.CommentFormDTO, InformationComment>();
+            CreateMap<DTOs.Information.CommentDTO, InformationComment>()
+                .ForMember(d => d.CreatedById, o => o.Ignore())
+                .ForMember(d => d.Id, o => o.Ignore())
+                .ForMember(d => d.DateCreated, o => o.Ignore())
+                .ForMember(d => d.DateDeleted, o => o.Ignore())
+                .ForMember(d => d.Replies, o => o.Ignore());
         }
     }
 }
