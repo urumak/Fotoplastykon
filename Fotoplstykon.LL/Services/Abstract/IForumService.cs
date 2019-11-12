@@ -13,7 +13,7 @@ namespace Fotoplastykon.BLL.Services.Abstract
         Task<IPaginationResult<ForumListItemDTO>> GetList(IPager pager);
         Task<ForumThreadDTO> Get(long id);
         Task<ForumThreadCommentDTO> GetComment(long id);
-        Task Add(ForumThreadDTO thread, long userId);
+        Task<long> Add(ForumThreadDTO thread, long userId);
         Task Update(long id, ForumThreadDTO thread);
         Task Remove(long id);
         Task AddComment(ForumThreadCommentDTO comment, long userId);

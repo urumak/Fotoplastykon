@@ -2,13 +2,15 @@
     <v-container class="flex flex-center">
         <v-row>
             <div class="col-8">
+                <v-btn :to="{ name: 'forum-thread', params: { id: 0 }}">Dodaj</v-btn>
                 <div v-for="item in items" :key="item.id" class="row">
                     <v-card class="my-card col-8">
+                        <v-btn v-if="canDelete(item)" @click="deleteItem(item.id)">Usuń</v-btn>
                         <v-avatar>
                             <v-img :src="item.photoUrl"></v-img>
                         </v-avatar>
-                        <div>{{ item.subject }}</div>
-                        <router-link :to="{ name: 'user-page', params: { id: item.createdById }}" class="font-weight-light home-link">{{ item.createdByFullName }}</router-link>
+                        <router-link :to="{ name: 'user-page', params: { id: item.createdById }}" class="font-weight-light home-link">{{ item.createdByName }}</router-link>
+                        <div><router-link :to="{ name: 'forum-thread', params: { id: item.id }}" class="font-weight-light home-link">{{ item.subject }}</router-link></div>
                         <div>{{ item.content }}</div>
                     </v-card>
                 </div>
@@ -52,6 +54,11 @@
             this.pager.setTotalRows(response.pager.totalRows);
         }
 
+        async deleteItem(id: number) {
+            await ForumService.remove(id);
+            await this.loadData();
+        }
+
         async paginate(index: number) {
             this.pager.setPageIndex(index);
             await this.loadData();
@@ -61,6 +68,10 @@
         async changePageSize() {
             await this.loadData();
             window.scrollTo(0,0);
+        }
+
+        canDelete(item: ForumThreadModel): boolean {
+            return (this as any).$auth.user().id === item.createdById;
         }
     }
 </script>

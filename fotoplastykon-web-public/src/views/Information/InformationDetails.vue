@@ -30,9 +30,9 @@
                         </v-avatar>
                         <router-link :to="{ name: 'user-page', params: { id: item.createdById }}" class="font-weight-light home-link">{{ item.creatorFullName }}</router-link>
                         <div>{{item.dateCreated}}</div>
-                        <v-btn v-if="!item.editMode && isCommentCreator(item.createdById)" @click="edit(item.id)">Edytuj</v-btn>
+                        <v-btn v-if="!item.editMode && isCommentCreator(item.createdById)" @click="edit(item)">Edytuj</v-btn>
                         <v-btn v-if="!item.editMode && isCommentCreator(item.createdById)" @click="removeComment(item.id)">Usuń</v-btn>
-                        <v-btn v-if="item.editMode && isCommentCreator(item.createdById)" @click="cancelEdit(item.id)">Anuluj</v-btn>
+                        <v-btn v-if="item.editMode && isCommentCreator(item.createdById)" @click="cancelEdit(item)">Anuluj</v-btn>
                         <v-btn v-if="!item.editMode"  @click="newCommentReply(item.id)">Odpowiedz</v-btn>
                         <div v-if="!item.editMode">{{item.content}}</div>
                         <v-textarea v-if="item.editMode" label="Komentarz" v-model="item.content" auto-grow outlined rows="5" row-height="15"></v-textarea>
@@ -44,9 +44,9 @@
                             </v-avatar>
                             <router-link :to="{ name: 'user-page', params: { id: reply.createdById }}" class="font-weight-light home-link">{{ reply.creatorFullName }}</router-link>
                             <div>{{reply.dateCreated}}</div>
-                            <v-btn v-if="!reply.editMode && isCommentCreator(reply.createdById)" @click="editReply(reply.id, item.id)">Edytuj</v-btn>
+                            <v-btn v-if="!reply.editMode && isCommentCreator(reply.createdById)" @click="edit(reply)">Edytuj</v-btn>
                             <v-btn v-if="!reply.editMode && isCommentCreator(reply.createdById)" @click="removeComment(reply.id)">Usuń</v-btn>
-                            <v-btn v-if="reply.editMode && isCommentCreator(reply.createdById)"  @click="cancelEditReply(reply.id, item.id)">Anuluj</v-btn>
+                            <v-btn v-if="reply.editMode && isCommentCreator(reply.createdById)"  @click="cancelEdit(reply)">Anuluj</v-btn>
                             <div v-if="!reply.editMode">{{reply.content}}</div>
                             <v-textarea v-if="reply.editMode" label="Komentarz" v-model="reply.content" auto-grow outlined rows="5" row-height="15"></v-textarea>
                             <v-btn v-if="reply.editMode" @click="submitComment(reply)">Zapisz</v-btn>
@@ -95,12 +95,16 @@
             this.model = await InformationService.get(id);
         }
 
+        async reloadComments() {
+            this.model.comments = (await InformationService.get(this.id)).comments;
+        }
+
         async submitComment(item: InformationCommentModel) {
             if(item.id === 0) item.id = await InformationService.addComment(item);
             else await InformationService.updateComment(item);
             item.editMode = false;
             this.isCommentAdding = false;
-            this.model.comments = (await InformationService.get(this.id)).comments;
+            await this.reloadComments();
         }
 
         async removeComment(id: number) {
@@ -126,56 +130,16 @@
             this.isCommentAdding = false;
         }
 
-        edit(id: number){
-            let tmpArray = this.model.comments;
-            let item = tmpArray.find(x => x.id === id);
-            if(item) {
-                item.editMode = true;
-                item.tempContent = item.content;
-            }
-            this.updateComments(tmpArray);
+        edit(item: InformationCommentModel){
+            item.editMode = true;
+            (this as any).$forceUpdate();
         }
 
-        editReply(id: number, parentId: number){
-            let tmpArray = this.model.comments;
-            let item = tmpArray.find(x => x.id === parentId);
-            if(item) {
-                let reply = item.replies.find(x => x.id === id);
-                if(reply) {
-                    reply.editMode = true;
-                    reply.tempContent = reply.content;
-                }
-            }
-            this.updateComments(tmpArray);
+        async cancelEdit(item: InformationCommentModel){
+            item.editMode = false;
+            await this.reloadComments();
         }
 
-        cancelEdit(id: number){
-            let tmpArray = this.model.comments;
-            let item = tmpArray.find(x => x.id === id);
-            if(item) {
-                item.editMode = false;
-                item.content = item.tempContent;
-            }
-            this.updateComments(tmpArray);
-        }
-
-        cancelEditReply(id: number, parentId: number){
-            let tmpArray = this.model.comments;
-            let item = tmpArray.find(x => x.id === parentId);
-            if(item) {
-                let reply = item.replies.find(x => x.id === id);
-                if(reply) {
-                    if(reply.id !== 0) {
-                        reply.editMode = false;
-                        reply.content = reply.tempContent;
-                    } else {
-                        item.replies.splice(0, 1);
-                        item.isReplyAdding = false;
-                    }
-                }
-            }
-            this.updateComments(tmpArray);
-        }
 
         isCommentCreator(commentCreatorId: number) : boolean {
             return (this as any).$auth.user().id === commentCreatorId;
@@ -192,16 +156,10 @@
                 replies: [],
                 photoUrl: (this as any).$auth.user().photoUrl,
                 editMode: true,
-                tempContent: '',
                 createdById: (this as any).$auth.user().id,
                 isDeleted: false,
                 isReplyAdding: false
             }
-        }
-
-        updateComments(tmpArray: InformationCommentModel[]) {
-            this.model.comments = [];
-            this.model.comments = tmpArray;
         }
     }
 </script>

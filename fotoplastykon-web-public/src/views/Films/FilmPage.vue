@@ -5,7 +5,7 @@
             <div>{{ filmModel.yearOfProduction }}</div>
             <div class="col-3">
                 <v-img v-if="filmModel.photoUrl" :src="filmModel.photoUrl"></v-img>
-                <v-img v-else src="@/assets/bird.jpg"></v-img>
+                <v-img v-else src="@/assets/subPhoto.png"></v-img>
             </div>
             <v-rating
                     v-model="filmModel.rating"

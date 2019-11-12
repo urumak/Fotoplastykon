@@ -25,7 +25,7 @@
                     <v-flex xs2>
                         <v-avatar>
                             <v-img v-if="data.item.photoUrl != null && data.item.photoUrl.length != 0" :src='data.item.photoUrl'></v-img>
-                            <v-img v-else src="@/assets/bird.jpg"></v-img>
+                            <v-img v-else src="@/assets/subPhoto.png"></v-img>
                         </v-avatar>
                     </v-flex>
                     <v-flex class='ml-1'>
@@ -35,7 +35,7 @@
                 <template slot="item" slot-scope="data">
                     <v-avatar>
                         <v-img v-if="data.item.photoUrl != null && data.item.photoUrl.length != 0" :src='data.item.photoUrl'></v-img>
-                        <v-img v-else src="@/assets/bird.jpg"></v-img>
+                        <v-img v-else src="@/assets/subPhoto.png"></v-img>
                     </v-avatar>
                         <v-flex v-html="data.item.value"></v-flex>
                 </template>
@@ -74,7 +74,7 @@
             </v-badge>
             <v-avatar v-if="$auth.check()" class="nav-avatar mr-2" @click="$auth.logout()">
                 <v-img v-if="$auth.user().photoUrl" :src="$auth.user().photoUrl"></v-img>
-                <v-img v-else src="@/assets/bird.jpg"></v-img>
+                <v-img v-else src="@/assets/subPhoto.png"></v-img>
             </v-avatar>
         </v-app-bar>
         <v-content style="margin-top:60px;">

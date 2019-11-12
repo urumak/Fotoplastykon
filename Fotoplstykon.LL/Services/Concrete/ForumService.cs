@@ -33,12 +33,14 @@ namespace Fotoplastykon.BLL.Services.Concrete
             return Mapper.Map<ForumThreadDTO>(await Unit.ForumThreads.GetWithCommentsAndCreator(id));
         }
 
-        public async Task Add(ForumThreadDTO thread, long userId)
+        public async Task<long> Add(ForumThreadDTO thread, long userId)
         {
             var entity = Mapper.Map<ForumThread>(thread);
             entity.CreatedById = userId;
-            await Unit.ForumThreads.Add(entity);
+            entity = await Unit.ForumThreads.Add(entity);
             await Unit.Complete();
+
+            return entity.Id;
         }
 
         public async Task Update(long id, ForumThreadDTO thread)

@@ -10,7 +10,7 @@ namespace Fotoplastykon.BLL.DTOs.Forum
         public long Id { get; set; }
         public long ForumThreadId { get; set; }
         public long? ParentId { get; set; }
-        public string CreatorFullName { get; set; }
+        public string CreatedByName { get; set; }
         public string PhotoUrl { get; set; }
         public long CreatedById { get; set; }
         public DateTime DateCreated { get; set; }

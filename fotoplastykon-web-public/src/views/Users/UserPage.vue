@@ -6,7 +6,7 @@
             <div>{{ userModel.userName }}</div>
             <div class="col-3">
                 <v-img v-if="userModel.photoUrl" contain :src="userModel.photoUrl"></v-img>
-                <v-img v-else src="@/assets/bird.jpg"></v-img>
+                <v-img v-else src="@/assets/subPhoto.png"></v-img>
             </div>
             <v-btn v-if="isAlreadyAFriend()" @click="removeFriend()">Usuń z listy znajomych</v-btn>
             <v-btn v-if="canCancelInvitation()" @click="cancelInvitation()">Anuluj zaproszenie</v-btn>

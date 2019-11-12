@@ -9,20 +9,20 @@ export interface ForumThreadModel
     photoUrl: string;
     content: string;
     createdById: number;
+    editMode: boolean;
     comments: ForumThreadCommentModel[];
 }
 
 export interface ForumThreadCommentModel
 {
     id: number;
-    creatorFullName: string;
+    createdByName: string;
     forumThreadId: number;
     parentId?: number;
     content: string;
     dateCreated: Date;
     editMode?: boolean;
     photoUrl: string;
-    tempContent: string;
     createdById: number;
     isDeleted: boolean;
     isReplyAdding: boolean;

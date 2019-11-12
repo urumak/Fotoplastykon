@@ -29,7 +29,6 @@ export interface InformationCommentModel
     editMode?: boolean,
     replies: InformationCommentModel[];
     photoUrl: string;
-    tempContent: string;
     createdById: number;
     isDeleted: boolean;
     isReplyAdding: boolean;

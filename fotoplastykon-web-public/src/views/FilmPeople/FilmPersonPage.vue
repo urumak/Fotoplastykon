@@ -5,7 +5,7 @@
             <div>{{ filmPersonModel.surname }}</div>
             <div class="col-3">
                 <v-img v-if="filmPersonModel.photoUrl" contain :src="filmPersonModel.photoUrl"></v-img>
-                <v-img v-else src="@/assets/bird.jpg"></v-img>
+                <v-img v-else src="@/assets/subPhoto.png"></v-img>
             </div>
             <v-rating
                     v-model="filmPersonModel.rating"

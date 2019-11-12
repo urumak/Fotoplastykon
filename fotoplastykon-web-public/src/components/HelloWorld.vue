@@ -97,7 +97,7 @@
                 semper fermentum.
               </div>
             </v-card>
-            <v-img class="news-img" src="@/assets/bird.jpg" contain> </v-img>
+            <v-img class="news-img" src="@/assets/subPhoto.png" contain> </v-img>
           </div>
           <div class="row">
             <v-img

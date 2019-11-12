@@ -49,38 +49,33 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> Add([FromBody]ForumThreadCommentDTO model)
+        public async Task<IActionResult> Add([FromBody]ForumThreadDTO model)
         {
-            if (!await ForumThreads.CheckIfExists(model.ForumThreadId)) return NotFound();
-            if (model.ParentId.HasValue && !await ForumThreads.CheckIfExists(model.ParentId.Value)) return NotFound();
+            return Ok(await ForumThreads.Add(model, User.Id()));
+        }
 
-            await ForumThreads.AddComment(model, User.Id());
+        [HttpPost("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> Update(long id, [FromBody]ForumThreadDTO model)
+        {
+            if (!await ForumThreads.CheckIfExists(id)) return NotFound();
+
+            await ForumThreads.Update(id, model);
 
             return Ok();
         }
 
-        [HttpPost("")]
+        [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> Update([FromBody]ForumThreadCommentDTO model)
+        public async Task<IActionResult> Remove(long id)
         {
-            if (!await ForumThreads.CheckIfExists(model.Id)) return NotFound();
+            if (!await ForumThreads.CheckIfExists(id)) return NotFound();
 
-            await ForumThreads.UpdateComment(model.Id, model);
-
-            return Ok();
-        }
-
-        [HttpDelete("")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesDefaultResponseType]
-        public async Task<IActionResult> Remove([FromBody]ItemIdModel model)
-        {
-            if (!await ForumThreads.CheckIfExists(model.Id)) return NotFound();
-
-            await ForumThreads.Remove(model.Id);
+            await ForumThreads.Remove(id);
 
             return Ok();
         }
