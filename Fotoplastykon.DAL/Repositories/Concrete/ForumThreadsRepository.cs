@@ -19,7 +19,7 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
 
         private DatabaseContext DatabaseContext => Context as DatabaseContext;
 
-        public async Task<ForumThread> GetWithCommentsAndCreator(long id)
+        public async Task<ForumThread> GetWithCreator(long id)
         {
             return await DatabaseContext.ForumThreads
                 .Include(t => t.CreatedBy)

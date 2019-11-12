@@ -17,7 +17,7 @@ export interface ForumThreadCommentModel
 {
     id: number;
     createdByName: string;
-    forumThreadId: number;
+    threadId: number;
     parentId?: number;
     content: string;
     dateCreated: Date;

@@ -8,7 +8,7 @@ namespace Fotoplastykon.BLL.DTOs.Forum
     public class ForumThreadCommentDTO
     {
         public long Id { get; set; }
-        public long ForumThreadId { get; set; }
+        public long ThreadId { get; set; }
         public long? ParentId { get; set; }
         public string CreatedByName { get; set; }
         public string PhotoUrl { get; set; }

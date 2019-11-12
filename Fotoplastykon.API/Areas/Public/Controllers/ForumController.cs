@@ -86,36 +86,36 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesDefaultResponseType]
         public async Task<IActionResult> AddComment([FromBody]ForumThreadCommentDTO model)
         {
-            if (!await ForumThreads.CheckIfExists(model.ForumThreadId)) return NotFound();
-            if (model.ParentId.HasValue && !await ForumThreads.CheckIfExists(model.ParentId.Value)) return NotFound();
+            if (!await ForumThreads.CheckIfExists(model.ThreadId)) return NotFound();
+            if (model.ParentId.HasValue && !await ForumThreads.CheckIfCommentExists(model.ParentId.Value)) return NotFound();
 
             await ForumThreads.AddComment(model, User.Id());
 
             return Ok();
         }
 
-        [HttpPost("comment")]
+        [HttpPost("comment/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> UpdateComment([FromBody]ForumThreadCommentDTO model)
+        public async Task<IActionResult> UpdateComment(long id, [FromBody]ForumThreadCommentDTO model)
         {
-            if (!await ForumThreads.CheckIfExists(model.Id)) return NotFound();
+            if (!await ForumThreads.CheckIfCommentExists(id)) return NotFound();
 
-            await ForumThreads.UpdateComment(model.Id, model);
+            await ForumThreads.UpdateComment(id, model);
 
             return Ok();
         }
 
-        [HttpDelete("comment")]
+        [HttpDelete("comment/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> RemoveComment([FromBody]ItemIdModel model)
+        public async Task<IActionResult> RemoveComment(long id)
         {
-            if (!await ForumThreads.CheckIfExists(model.Id)) return NotFound();
+            if (!await ForumThreads.CheckIfCommentExists(id)) return NotFound();
 
-            await ForumThreads.RemoveComment(model.Id);
+            await ForumThreads.RemoveComment(id);
 
             return Ok();
         }
