@@ -89,14 +89,15 @@
         }
 
         async saveChanges() {
-            if(this.id !== 0) {
-                await ForumService.update(this.model);
-                await this.loadData(this.id);
-            } else {
+            if (this.id === 0) {
                 let id = await ForumService.add(this.model);
                 await this.loadData(id);
                 console.log(id);
-                await this.$router.push({ name: 'forum-thread', params: { id: id } });
+                // @ts-ignore
+                await this.$router.push({name: 'forum-thread', params: {id: id}});
+            } else {
+                await ForumService.update(this.model);
+                await this.loadData(this.id);
             }
 
         }
