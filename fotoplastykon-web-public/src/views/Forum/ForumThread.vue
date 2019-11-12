@@ -3,8 +3,10 @@
         <v-row>
             <div class="col-8">
                 <v-card class="my-card col-8">
+                    <v-textarea v-if="model.editMode" label="Temat" v-model="model.subject" auto-grow outlined rows="1" row-height="15"></v-textarea>
                     <v-textarea v-if="model.editMode" label="Treść" v-model="model.content" auto-grow outlined rows="20" row-height="15"></v-textarea>
                     <v-btn v-if="showEditButton()" @click="enableEditMode()">Edytuj</v-btn>
+                    <div v-if="!model.editMode">{{model.subject}}</div>
                     <div v-if="!model.editMode">{{model.content}}</div>
                     <v-btn v-if="showCancelAndSaveButton()" @click="disableEditMode()">Anuluj</v-btn>
                     <v-btn v-if="showCancelAndSaveButton()" @click="saveChanges()">Zapisz</v-btn>
