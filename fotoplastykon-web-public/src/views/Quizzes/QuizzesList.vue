@@ -44,7 +44,6 @@
             let response = await QuizzesService.getList(this.pager);
             this.items = response.items;
             this.pager.setTotalRows(response.pager.totalRows);
-            console.log(this.items);
         }
 
         async paginate(index: number) {

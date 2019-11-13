@@ -88,7 +88,6 @@
 
         async loadData(id: number) {
             this.userModel = await UsersService.getForPage(id);
-            console.log(this.userModel);
         }
 
         async inviteFriend() {

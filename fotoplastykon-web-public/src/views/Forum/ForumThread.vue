@@ -92,7 +92,7 @@
             if (this.id === 0) {
                 let id = await ForumService.add(this.model);
                 await this.loadData(id);
-                console.log(id);
+                
                 // @ts-ignore
                 await this.$router.push({name: 'forum-thread', params: {id: id}});
             } else {

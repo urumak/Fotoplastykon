@@ -21,14 +21,28 @@
                     </div>
                 </v-card>
                 <v-card v-if="quizState === 2" class="my-card col-8">
-                    <div>{{resultModel.name}}</div>
-                    <div>{{resultModel.points + "/" + resultModel.questions.length}}</div>
-                    <div v-for="item in resultModel.questions" :key="item.id" >
-                        <div>{{item.questionText}}</div>
-                        <div v-for="answer in item.answers" :key="'a' + answer.id">
-                            <div v-if="answer.isCorrect" style="color: green">{{answer.answerText}}</div>
-                            <div v-if="!answer.isCorrect && answer.isSelected" style="color: red">{{answer.answerText}}</div>
-                            <div v-if="!answer.isCorrect && !answer.isSelected">{{answer.answerText}}</div>
+                    <div class="col-6 float-left">
+                        <div>{{resultModel.name}}</div>
+                        <div>{{resultModel.points + "/" + resultModel.questions.length}}</div>
+                        <div>"Twoje odpoweidzi"</div>
+                        <div v-for="item in resultModel.questions" :key="item.id" >
+                            <div>{{item.questionText}}</div>
+                            <div v-for="answer in item.answers" :key="'a' + answer.id">
+                                <div v-if="answer.isCorrect && answer.isSelected" style="color: green">{{answer.answerText}}</div>
+                                <div v-if="!answer.isCorrect && answer.isSelected" style="color: red">{{answer.answerText}}</div>
+                                <div v-if="answer.isCorrect && !answer.isSelected">{{answer.answerText}}</div>
+                                <div v-if="!answer.isCorrect && !answer.isSelected">{{answer.answerText}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 float-right">
+                        <div class="mt-12">"Poprawne odpoweidzi"</div>
+                        <div v-for="item in resultModel.questions" :key="item.id" >
+                            <div>{{item.questionText}}</div>
+                            <div v-for="answer in item.answers" :key="'a' + answer.id">
+                                <div v-if="answer.isCorrect" style="color: green">{{answer.answerText}}</div>
+                                <div v-else>{{answer.answerText}}</div>
+                            </div>
                         </div>
                     </div>
                     <v-btn :to="{ name: 'quizzes' }">Wróć do listy</v-btn>
@@ -93,13 +107,11 @@
         nextQuestion() {
             if(this.questionIndex !== this.quiz.questions.length - 1) (this.questionIndex)++;
             this.currentQuestion = this.quiz.questions[this.questionIndex];
-            console.log(this.quiz);
         }
 
         previousQuestion() {
             if(this.questionIndex !== 0) (this.questionIndex)--;
             this.currentQuestion = this.quiz.questions[this.questionIndex];
-            console.log(this.quiz);
         }
 
         async submitQuiz() {
