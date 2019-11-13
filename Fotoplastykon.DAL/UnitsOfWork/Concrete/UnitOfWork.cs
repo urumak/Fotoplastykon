@@ -14,7 +14,7 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
             IInvitationsRepository invitations, 
             IFriendshipsRepository friendships,
             IInformationsRepository informations,
-            IQuizesRepository quizes,
+            IQuizzesRepository quizes,
             IQuizQuestionsRepository quizQuestions,
             IQuizAnswersRepository quizAnswers,
             IQuizScoresRepository quizScores,
@@ -51,7 +51,7 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
         public IUsersRepository Users { get; }
         public IInvitationsRepository Invitations { get; }
         public IFriendshipsRepository Friendships { get; }
-        public IQuizesRepository Quizes { get; }
+        public IQuizzesRepository Quizes { get; }
         public IQuizQuestionsRepository QuizQuestions { get; }
         public IQuizAnswersRepository QuizAnswers { get; }
         public IQuizScoresRepository QuizScores { get; }

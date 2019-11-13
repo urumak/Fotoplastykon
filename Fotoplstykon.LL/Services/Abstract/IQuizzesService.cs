@@ -1,4 +1,4 @@
-﻿using Fotoplastykon.BLL.DTOs.Quizes;
+﻿using Fotoplastykon.BLL.DTOs.Quizzes;
 using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.Tools.Pager;
 using System;
@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Fotoplastykon.BLL.Services.Abstract
 {
-    public interface IQuizesService
+    public interface IQuizzesService
     {
         Task<Quiz> GetFull(long id);
-        Task<IPaginationResult<Quiz>> GetPaginatedList(IPager pager);
+        Task<IPaginationResult<ListItemModel>> GetPaginatedList(IPager pager);
         Task<bool> CheckIfQuizExists(long id);
-        Task<ResultDTO> SubmitQuiz(long quizId, long userId, IEnumerable<UserAnswerDTO> answers);
+        Task<QuizResultDTO> SubmitQuiz(long quizId, long userId, QuizModel quizModel);
     }
 }

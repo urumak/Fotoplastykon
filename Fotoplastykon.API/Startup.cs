@@ -60,6 +60,7 @@ namespace Fotoplastykon.API
             services.RegisterAllTypes(typeof(IUnitOfWork).Assembly, "UnitOfWork");
             services.RegisterAllTypes(typeof(IUsersService).Assembly, "Service");
             services.AddTransient<IStorekeeper, Storekeeper>();
+            services.AddTransient<QuizResultGenerator>();
             services.AddTransient<Anonymiser<User>>();
 
             services.SetAuthentication(Configuration["Tokens:Issuer"], Configuration["Tokens:Key"]);

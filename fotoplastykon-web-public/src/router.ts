@@ -64,6 +64,16 @@ const router = new Router({
       name: 'forum-thread',
       component: () => import(/* webpackChunkName: "about" */ './views/Forum/ForumThread.vue')
     },
+    {
+      path: '/quizzes',
+      name: 'quizzes',
+      component: () => import(/* webpackChunkName: "about" */ './views/Quizzes/QuizzesList.vue')
+    },
+    {
+      path: '/quiz/:id',
+      name: 'quiz',
+      component: () => import(/* webpackChunkName: "about" */ './views/Quizzes/Quiz.vue')
+    }
   ]
 });
 

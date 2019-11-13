@@ -24,7 +24,7 @@ namespace Fotoplastykon.DAL.Entities.Concrete
     {
         public void Configure(EntityTypeBuilder<Quiz> builder)
         {
-            builder.ToTable("quizes");
+            builder.ToTable("quizzes");
         }
     }
 }

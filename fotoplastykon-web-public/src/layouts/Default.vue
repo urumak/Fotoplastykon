@@ -50,7 +50,7 @@
             <v-btn v-if="$auth.check()" :to="{ name: 'forum' }" class="mr-2" text>
                 <span>Forum</span>
             </v-btn>
-            <v-btn v-if="$auth.check()" class="mr-2" text>
+            <v-btn v-if="$auth.check()" :to="{ name: 'quizzes' }" class="mr-2" text>
                 <span>Quizy</span>
             </v-btn>
             <v-spacer></v-spacer>

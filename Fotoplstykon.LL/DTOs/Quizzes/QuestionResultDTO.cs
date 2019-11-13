@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Fotoplastykon.BLL.DTOs.Quizes
+namespace Fotoplastykon.BLL.DTOs.Quizzes
 {
     public class QuestionResultDTO
     {

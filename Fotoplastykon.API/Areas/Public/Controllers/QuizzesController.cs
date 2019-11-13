@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Fotoplastykon.API.Areas.Public.Models.Quizes;
 using Fotoplastykon.API.Extensions;
-using Fotoplastykon.BLL.DTOs.Quizes;
+using Fotoplastykon.BLL.DTOs.Quizzes;
 using Fotoplastykon.BLL.Services.Abstract;
 using Fotoplastykon.Tools.Pager;
 using Microsoft.AspNetCore.Http;
@@ -13,16 +12,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Fotoplastykon.API.Areas.Public.Controllers
 {
-    [Route("api/quizes")]
+    [Route("api/quizzes")]
     [ApiController]
-    public class QuizesController : ControllerBase
+    public class QuizzesController : ControllerBase
     {
-        private IQuizesService Quizes { get; }
+        private IQuizzesService Quizzes { get; }
         private IMapper Mapper { get; }
 
-        public QuizesController(IQuizesService quizes, IMapper mapper)
+        public QuizzesController(IQuizzesService quizzes, IMapper mapper)
         {
-            Quizes = quizes;
+            Quizzes = quizzes;
             Mapper = mapper;
         }
 
@@ -31,13 +30,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesDefaultResponseType]
         public async Task<IActionResult> GetPaginatedList([FromQuery]Pager pager)
         {
-            var result = await Quizes.GetPaginatedList(pager);
-
-            return Ok(new PaginationResult<ListItemModel>
-            {
-                Pager = result.Pager,
-                Items = Mapper.Map<List<ListItemModel>>(result.Items)
-            });
+            return Ok(await Quizzes.GetPaginatedList(pager));
         }
 
         [HttpGet("{id}")]
@@ -46,7 +39,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesDefaultResponseType]
         public async Task<IActionResult> Get(long id)
         {
-            var result = await Quizes.GetFull(id);
+            var result = await Quizzes.GetFull(id);
             if (result == null) return NotFound();
 
             return Ok(Mapper.Map<QuizModel>(result));
@@ -56,11 +49,11 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> SubmitQuiz(long id, [FromBody]List<UserAnswerDTO> answers)
+        public async Task<IActionResult> SubmitQuiz(long id, [FromBody]QuizModel quizModel)
         {
-            if (!await Quizes.CheckIfQuizExists(id)) return NotFound();
+            if (!await Quizzes.CheckIfQuizExists(id)) return NotFound();
 
-            return Ok(await Quizes.SubmitQuiz(id, User.Id(), answers));
+            return Ok(await Quizzes.SubmitQuiz(id, User.Id(), quizModel));
         }
     }
 }

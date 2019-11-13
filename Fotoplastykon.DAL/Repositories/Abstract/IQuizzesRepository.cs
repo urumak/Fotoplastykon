@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Fotoplastykon.DAL.Repositories.Abstract
 {
-    public interface IQuizesRepository : IRepository<Quiz>
+    public interface IQuizzesRepository : IRepository<Quiz>
     {
         Task<Quiz> GetFullQuiz(long id);
     }

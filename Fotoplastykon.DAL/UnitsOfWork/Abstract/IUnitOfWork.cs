@@ -10,7 +10,7 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Abstract
         IInvitationsRepository Invitations { get; }
         IFriendshipsRepository Friendships { get; }
         IInformationsRepository Informations { get; }
-        IQuizesRepository Quizes { get; }
+        IQuizzesRepository Quizes { get; }
         IQuizQuestionsRepository QuizQuestions { get; }
         IQuizAnswersRepository QuizAnswers { get; }
         IQuizScoresRepository QuizScores { get; }

@@ -3,7 +3,7 @@ using AutoMapper;
 using Fotoplastykon.BLL.Enums;
 using Fotoplastykon.BLL.DTOs.FilmPeople;
 using Fotoplastykon.BLL.DTOs.Films;
-using Fotoplastykon.BLL.DTOs.Quizes;
+using Fotoplastykon.BLL.DTOs.Quizzes;
 using Fotoplastykon.BLL.DTOs.Search;
 using Fotoplastykon.BLL.DTOs.Users;
 using Fotoplastykon.DAL.Entities.Concrete;
@@ -29,6 +29,7 @@ namespace Fotoplastykon.BLL.Models
             SharedMappings();
             InformationMappings();
             ForumMappings();
+            QuizzesMappings();
         }
 
         private void UserMappings()
@@ -194,6 +195,17 @@ namespace Fotoplastykon.BLL.Models
                 .ReverseMap()
                 .ForMember(d => d.Id, o => o.Ignore())
                 .ForMember(d => d.Replies, o => o.Ignore());
+        }
+
+        private void QuizzesMappings()
+        {
+            CreateMap<Quiz, QuizModel>();
+            CreateMap<Quiz, ListItemModel>();
+            CreateMap<QuizQuestion, QuestionModel>();
+            CreateMap<QuizAnswer, AnswerModel>();
+            CreateMap<QuestionModel, QuestionResultDTO>();
+            CreateMap<AnswerModel, AnswerResultDTO>()
+                .ForMember(d => d.IsCorrect, o => o.Ignore());
         }
     }
 }

@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Fotoplastykon.DAL.Repositories.Concrete
 {
-    public class QuizesRepository : Repository<Quiz>, IQuizesRepository
+    public class QuizzesRepository : Repository<Quiz>, IQuizzesRepository
     {
-        public QuizesRepository(DatabaseContext context)
+        public QuizzesRepository(DatabaseContext context)
             : base(context)
         {
         }

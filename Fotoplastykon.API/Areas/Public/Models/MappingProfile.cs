@@ -23,7 +23,6 @@ namespace Fotoplastykon.API.Areas.Public.Models
         {
             Configuration = configuration;
             UsersMappings();
-            QuizesMappings();
             ChatMappings();
         }
 
@@ -35,13 +34,6 @@ namespace Fotoplastykon.API.Areas.Public.Models
             CreateMap<User, Users.UserModel>();
             CreateMap<User, UserProfileModel>()
                .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.PhotoId : string.Empty));
-        }
-
-        private void QuizesMappings()
-        {
-            CreateMap<Quiz, Quizes.QuizModel>();
-            CreateMap<QuizQuestion, Quizes.QuestionModel>();
-            CreateMap<QuizAnswer, Quizes.AnswerModel>();
         }
 
         private void ChatMappings()
