@@ -27,7 +27,7 @@ namespace Fotoplastykon.API.AccessHandlers.CreatorAccess
                 if (authContext.RouteData.Values["id"] != null)
                 {
                     var itemId = Convert.ToInt64(authContext.RouteData.Values["id"]);
-                    var itemCreatorId = await requirement.GetIdsOfCreatedEntities(itemId);
+                    var itemCreatorId = await requirement.GetCreatedById(itemId);
 
                     if (itemCreatorId == null) context.Succeed(requirement);
                     if (itemCreatorId == Convert.ToInt64(userId)) context.Succeed(requirement);

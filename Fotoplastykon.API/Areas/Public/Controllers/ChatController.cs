@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Fotoplastykon.API.Areas.Public.Hubs;
 using Fotoplastykon.API.Areas.Public.Models.Chat;
 using Fotoplastykon.API.Extensions;
 using Fotoplastykon.BLL.Services.Abstract;
@@ -10,6 +11,7 @@ using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.Tools.Pager;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Fotoplastykon.API.Areas.Public.Controllers
 {
@@ -21,13 +23,15 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         protected IMapper Mapper { get; }
         protected IUsersService Users { get; }
         protected IFriendshipsService Friendships { get; }
+        protected IHubContext<ChatHub, IChatHub> HubContext { get; }
 
-        public ChatController(IChatService chat, IMapper mapper, IUsersService users, IFriendshipsService friendships)
+        public ChatController(IChatService chat, IMapper mapper, IUsersService users, IFriendshipsService friendships, IHubContext<ChatHub, IChatHub> hubContext)
         {
             Chat = chat;
             Mapper = mapper;
             Users = users;
             Friendships = friendships;
+            HubContext = hubContext;
         }
 
         [HttpGet("{friendId}")]

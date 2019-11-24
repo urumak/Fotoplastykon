@@ -8,6 +8,6 @@ namespace Fotoplastykon.API.AccessHandlers.CreatorAccess
 {
     public interface ICreatorAccessRequirement : IAuthorizationRequirement
     {
-        Task<long?> GetIdsOfCreatedEntities(long userId);
+        Task<long?> GetCreatedById(long userId);
     }
 }

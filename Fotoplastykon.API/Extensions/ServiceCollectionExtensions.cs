@@ -66,6 +66,18 @@ namespace Fotoplastykon.API.Extensions
                     RequireExpirationTime = true,
                     ClockSkew = new TimeSpan(0, 5, 0)
                 };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = ctx =>
+                    {
+                        if (ctx.Request.Query.ContainsKey("access_token"))
+                        {
+                            ctx.Token = ctx.Request.Query["access_token"];
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
             });
         }
 

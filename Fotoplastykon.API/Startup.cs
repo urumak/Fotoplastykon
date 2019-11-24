@@ -25,6 +25,7 @@ using Fotoplastykon.DAL.Storage;
 using Fotoplastykon.BLL.Helpers;
 using Microsoft.AspNetCore.StaticFiles;
 using Fotoplastykon.API.AccessHandlers.CreatorAccess;
+using Fotoplastykon.API.Areas.Public.Hubs;
 
 namespace Fotoplastykon.API
 {
@@ -75,9 +76,12 @@ namespace Fotoplastykon.API
                 {
                     builder.WithOrigins(Configuration["Cors:Frontend"])
                         .AllowAnyHeader()
-                        .AllowAnyMethod();
+                        .AllowAnyMethod()
+                        .AllowCredentials();
                 });
             });
+
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -90,6 +94,13 @@ namespace Fotoplastykon.API
 
             app.UseCors(FrontendCors);
             app.UseAuthentication();
+
+
+            app.UseSignalR(route =>
+            {
+                route.MapHub<ChatHub>("/hubs/chat");
+            });
+
             app.UseMvc();
         }
     }

@@ -13,7 +13,7 @@ namespace Fotoplastykon.API.AccessHandlers.CreatorAccess
         {
             Forum = forum;
         }
-        public async Task<long?> GetIdsOfCreatedEntities(long itemId)
+        public async Task<long?> GetCreatedById(long itemId)
         {
             return (await Forum.GetComment(itemId))?.CreatedById;
         }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Fotoplastykon.BLL.DTOs.Search;
 using Fotoplastykon.BLL.Services.Abstract;
+using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
 using System;
 using System.Collections.Generic;
@@ -19,21 +20,29 @@ namespace Fotoplastykon.BLL.Services.Concrete
 
         public async Task<List<SearchDTO>> Search(string search, int limit = 10)
         {
-            var users = await Unit.Users.GetForSearch(search, limit);
-            var films = await Unit.Films.GetForSearch(search, limit);
-            var filmPeople = await Unit.FilmPeople.GetForSearch(search, limit);
-
-            var items = Mapper.Map<List<SearchDTO>>(users)
-                .Concat(Mapper.Map<List<SearchDTO>>(films))
-                .Concat(Mapper.Map<List<SearchDTO>>(filmPeople))
-                .OrderBy(m => m.Value)
-                .Take(limit)
-                .ToList();
-
+            var (users, films, filmPeople) = await GetSearchItems(search, limit);
+            var items = ConcatSearchList((users, films, filmPeople), limit);
             var result = items.Where(x => x.Value.StartsWith(search)).OrderBy(x => x.Value);
 
             return result.Concat(items.Where(x => !x.Value.StartsWith(search))
                 .OrderBy(x => x.Value))
+                .ToList();
+        }
+
+        private async Task<(List<User>, List<Film>, List<FilmPerson>)> GetSearchItems(string search, int limit)
+        {
+            return (await Unit.Users.GetForSearch(search, limit),
+                await Unit.Films.GetForSearch(search, limit),
+                await Unit.FilmPeople.GetForSearch(search, limit));
+        }
+
+        private List<SearchDTO> ConcatSearchList((List<User> users, List<Film> films, List<FilmPerson> filmPeople) items, int limit)
+        {
+            return Mapper.Map<List<SearchDTO>>(items.users)
+                .Concat(Mapper.Map<List<SearchDTO>>(items.films))
+                .Concat(Mapper.Map<List<SearchDTO>>(items.filmPeople))
+                .OrderBy(m => m.Value)
+                .Take(limit)
                 .ToList();
         }
     }
