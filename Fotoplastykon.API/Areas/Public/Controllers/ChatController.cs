@@ -24,14 +24,16 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         protected IUsersService Users { get; }
         protected IFriendshipsService Friendships { get; }
         protected IHubContext<ChatHub, IChatHub> HubContext { get; }
+        private ISignalRService SignalRService { get; set; }
 
-        public ChatController(IChatService chat, IMapper mapper, IUsersService users, IFriendshipsService friendships, IHubContext<ChatHub, IChatHub> hubContext)
+        public ChatController(IChatService chat, IMapper mapper, IUsersService users, IFriendshipsService friendships, ISignalRService signalRService, IHubContext<ChatHub, IChatHub> hubContext)
         {
             Chat = chat;
             Mapper = mapper;
             Users = users;
             Friendships = friendships;
             HubContext = hubContext;
+            SignalRService = signalRService;
         }
 
         [HttpGet("{friendId}")]
@@ -46,16 +48,20 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
             return Ok(Mapper.Map<List<MessageListItemModel>>(result.Items));
         }
 
-        [HttpPost("")]
+        [HttpPost("{receiverId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> WriteMessage([FromBody]MessageModel model)
+        public async Task<IActionResult> WriteMessage(long receiverId, [FromBody]MessageModel model)
         {
-            if (!await Users.CheckIfExists(model.ReceiverId)) return NotFound();
-            if (!await Friendships.CheckIfFriendshipExist(User.Id(), model.ReceiverId)) return NotFound();
+            if (!await Users.CheckIfExists(receiverId)) return NotFound();
+            if (!await Friendships.CheckIfFriendshipExist(User.Id(), receiverId)) return NotFound();
 
             await Chat.WriteMessage(User.Id(), Mapper.Map<Message>(model));
+
+            await HubContext.Clients.Users(await SignalRService.GetUserConnections(receiverId))
+                .AddChatMessage(User.Id(), model.MessageText);
+
             return Ok();
         }
     }

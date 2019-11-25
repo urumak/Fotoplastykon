@@ -7,6 +7,6 @@ namespace Fotoplastykon.API.Areas.Public.Hubs
 {
     public interface IChatHub
     {
-        Task ChatMessageReceived(string username, string message);
+        Task AddChatMessage(long userId, string message);
     }
 }

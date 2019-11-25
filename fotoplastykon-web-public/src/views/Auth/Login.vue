@@ -37,7 +37,8 @@
                 },
                 data: this.form,
                 rememberMe: this.rememberMe
-            });
+            }).then(() =>
+                Vue.prototype.startSignalR((this as any).$auth.token()));
         }
     }
 </script>

@@ -72,7 +72,7 @@
                 </template>
                 <v-icon class="nav-icon">mdi-bell</v-icon>
             </v-badge>
-            <v-avatar v-if="$auth.check()" class="nav-avatar mr-2" @click="$auth.logout()">
+            <v-avatar v-if="$auth.check()" class="nav-avatar mr-2" @click="logout()">
                 <v-img v-if="$auth.user().photoUrl" :src="$auth.user().photoUrl"></v-img>
                 <v-img v-else src="@/assets/subPhoto.png"></v-img>
             </v-avatar>
@@ -124,6 +124,11 @@
                         break;
                 }
             }
+        }
+
+        logout() {
+            (this as any).$auth.logout();
+            Vue.prototype.stopSignalR();
         }
     }
 </script>
