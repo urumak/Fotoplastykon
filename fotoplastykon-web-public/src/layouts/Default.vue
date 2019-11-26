@@ -37,7 +37,7 @@
                         <v-img v-if="data.item.photoUrl != null && data.item.photoUrl.length != 0" :src='data.item.photoUrl'></v-img>
                         <v-img v-else src="@/assets/subPhoto.png"></v-img>
                     </v-avatar>
-                        <v-flex v-html="data.item.value"></v-flex>
+                    <v-flex v-html="data.item.value"></v-flex>
                 </template>
             </v-autocomplete>
             <v-spacer></v-spacer>
@@ -79,9 +79,145 @@
         </v-app-bar>
         <v-content style="margin-top:60px;">
             <v-container class="float-right flex flex-center">
-                <slot />
+                <div class="row">
+                    <div class="col-lg-8">
+                        <slot />
+                    </div>
+                </div>
+                <div class="row chat-area">
+                    <chat-dialog class="chat-window"></chat-dialog>
+                    <chat-dialog class="chat-window"></chat-dialog>
+                    <chat-dialog class="chat-window"></chat-dialog>
+                </div>
             </v-container>
             <div class="float-left film-tape">
+            </div>
+            <div class="chat-container v-list">
+                <v-list>
+                    <v-list-item-group class="chat-list">
+                        <v-list-item>
+                            <v-list-item-avatar>
+                                <v-img src="@/assets/subPhoto.png"></v-img>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <v-list-item-title>I'm a list item</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-list-item-avatar>
+                                <v-img src="@/assets/subPhoto.png"></v-img>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <v-list-item-title>I'm a list item</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-list-item-avatar>
+                                <v-img src="@/assets/subPhoto.png"></v-img>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <v-list-item-title>I'm a list item</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-list-item-avatar>
+                                <v-img src="@/assets/subPhoto.png"></v-img>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <v-list-item-title>I'm a list item</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-list-item-avatar>
+                                <v-img src="@/assets/subPhoto.png"></v-img>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <v-list-item-title>I'm a list item</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-list-item-avatar>
+                                <v-img src="@/assets/subPhoto.png"></v-img>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <v-list-item-title>I'm a list item</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-list-item-avatar>
+                                <v-img src="@/assets/subPhoto.png"></v-img>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <v-list-item-title>I'm a list item</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-list-item-avatar>
+                                <v-img src="@/assets/subPhoto.png"></v-img>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <v-list-item-title>I'm a list item</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-list-item-avatar>
+                                <v-img src="@/assets/subPhoto.png"></v-img>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <v-list-item-title>I'm a list item</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-list-item-avatar>
+                                <v-img src="@/assets/subPhoto.png"></v-img>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <v-list-item-title>I'm a list item</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-list-item-avatar>
+                                <v-img src="@/assets/subPhoto.png"></v-img>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <v-list-item-title>I'm a list item</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-list-item-avatar>
+                                <v-img src="@/assets/subPhoto.png"></v-img>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <v-list-item-title>I'm a list item</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-list-item-avatar>
+                                <v-img src="@/assets/subPhoto.png"></v-img>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <v-list-item-title>I'm a list item</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-list-item-avatar>
+                                <v-img src="@/assets/subPhoto.png"></v-img>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <v-list-item-title>I'm a list item</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-list-item-avatar>
+                                <v-img src="@/assets/subPhoto.png"></v-img>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <v-list-item-title>I'm a list item</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                    </v-list-item-group>
+                </v-list>
+                <v-text-field label="Szukaj" hide-details solo class="chat-search"></v-text-field>
             </div>
         </v-content>
     </div>
@@ -93,8 +229,9 @@
     import SearchService from "@/services/SearchService.ts";
     import { SearchItem } from '@/interfaces/search';
     import { Watch } from 'vue-property-decorator';
+    import ChatDialog from '@/views/Chat/ChatWindow.vue';
 
-    @Component({})
+    @Component({components: { 'chat-dialog': ChatDialog }})
     export default class Default extends Vue {
         private items : SearchItem[] = [];
         private selectedItem : any = null;
@@ -125,6 +262,8 @@
                 }
             }
         }
+
+
 
         logout() {
             (this as any).$auth.logout();

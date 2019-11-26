@@ -123,10 +123,6 @@
             </v-card>
           </div>
         </div>
-        <v-col> </v-col>
-        <div class="float-right col-3 right-slider">
-          <v-card class="vertical-slider"> </v-card>
-        </div>
       </v-row>
     </div>
 </template>

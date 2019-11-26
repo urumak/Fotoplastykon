@@ -1,59 +1,51 @@
 <template>
-    <v-container class="flex flex-center">
-        <v-row>
-            <div class="col-8">
-                <v-card v-if="quizState === 0" class="my-card col-8">
-                    <v-btn @click="startQuiz()">Rozpocznij</v-btn>
-                </v-card>
-                <v-card v-if="quizState === 1" class="my-card col-8">
-                    <div>
-                        <div>{{currentQuestion.questionText}}</div>
-                        <span v-if="currentQuestion.isMultichoice">(więcej niż jedna odpowiedź)</span>
-                        <div v-if="!currentQuestion.isMultichoice">
-                            <v-checkbox hide-details v-for="(answer, i) in currentQuestion.answers" :key="answer.id" :label="answer.answerText" v-model="currentQuestion.answers[i].isSelected" @change="updateAnswers(answer.id)"></v-checkbox>
-                        </div>
-                        <div v-else>
-                            <v-checkbox hide-details v-for="(answer, i) in currentQuestion.answers" :key="answer.id" :label="answer.answerText" v-model="currentQuestion.answers[i].isSelected" @change="updateAnswers(answer.id)"></v-checkbox>
-                        </div>
-                        <v-btn v-if="canGoToPreviousQuestion()" @click="previousQuestion()">Poprzednie</v-btn>
-                        <v-btn v-if="canGoToNextQuestion()" @click="nextQuestion()">Następne</v-btn>
-                        <v-btn v-if="canSubmitQuiz()" @click="submitQuiz()">Następne</v-btn>
-                    </div>
-                </v-card>
-                <v-card v-if="quizState === 2" class="my-card col-8">
-                    <div class="col-6 float-left">
-                        <div>{{resultModel.name}}</div>
-                        <div>{{resultModel.points + "/" + resultModel.questions.length}}</div>
-                        <div>"Twoje odpoweidzi"</div>
-                        <div v-for="item in resultModel.questions" :key="item.id" >
-                            <div>{{item.questionText}}</div>
-                            <div v-for="answer in item.answers" :key="'a' + answer.id">
-                                <div v-if="answer.isCorrect && answer.isSelected" style="color: green">{{answer.answerText}}</div>
-                                <div v-if="!answer.isCorrect && answer.isSelected" style="color: red">{{answer.answerText}}</div>
-                                <div v-if="answer.isCorrect && !answer.isSelected">{{answer.answerText}}</div>
-                                <div v-if="!answer.isCorrect && !answer.isSelected">{{answer.answerText}}</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 float-right">
-                        <div class="mt-12">"Poprawne odpoweidzi"</div>
-                        <div v-for="item in resultModel.questions" :key="item.id" >
-                            <div>{{item.questionText}}</div>
-                            <div v-for="answer in item.answers" :key="'a' + answer.id">
-                                <div v-if="answer.isCorrect" style="color: green">{{answer.answerText}}</div>
-                                <div v-else>{{answer.answerText}}</div>
-                            </div>
-                        </div>
-                    </div>
-                    <v-btn :to="{ name: 'quizzes' }">Wróć do listy</v-btn>
-                </v-card>
+    <div>
+        <v-card v-if="quizState === 0" class="my-card">
+            <v-btn @click="startQuiz()">Rozpocznij</v-btn>
+        </v-card>
+        <v-card v-if="quizState === 1" class="my-card">
+            <div>
+                <div>{{currentQuestion.questionText}}</div>
+                <span v-if="currentQuestion.isMultichoice">(więcej niż jedna odpowiedź)</span>
+                <div v-if="!currentQuestion.isMultichoice">
+                    <v-checkbox hide-details v-for="(answer, i) in currentQuestion.answers" :key="answer.id" :label="answer.answerText" v-model="currentQuestion.answers[i].isSelected" @change="updateAnswers(answer.id)"></v-checkbox>
+                </div>
+                <div v-else>
+                    <v-checkbox hide-details v-for="(answer, i) in currentQuestion.answers" :key="answer.id" :label="answer.answerText" v-model="currentQuestion.answers[i].isSelected" @change="updateAnswers(answer.id)"></v-checkbox>
+                </div>
+                <v-btn v-if="canGoToPreviousQuestion()" @click="previousQuestion()">Poprzednie</v-btn>
+                <v-btn v-if="canGoToNextQuestion()" @click="nextQuestion()">Następne</v-btn>
+                <v-btn v-if="canSubmitQuiz()" @click="submitQuiz()">Następne</v-btn>
             </div>
-            <v-col></v-col>
-            <div class="float-right col-3 right-slider">
-                <v-card class="vertical-slider"></v-card>
+        </v-card>
+        <v-card v-if="quizState === 2" class="my-card col-8">
+            <div class="col-6 float-left">
+                <div>{{resultModel.name}}</div>
+                <div>{{resultModel.points + "/" + resultModel.questions.length}}</div>
+                <div>"Twoje odpoweidzi"</div>
+                <div v-for="item in resultModel.questions" :key="item.id" >
+                    <div>{{item.questionText}}</div>
+                    <div v-for="answer in item.answers" :key="'a' + answer.id">
+                        <div v-if="answer.isCorrect && answer.isSelected" style="color: green">{{answer.answerText}}</div>
+                        <div v-if="!answer.isCorrect && answer.isSelected" style="color: red">{{answer.answerText}}</div>
+                        <div v-if="answer.isCorrect && !answer.isSelected">{{answer.answerText}}</div>
+                        <div v-if="!answer.isCorrect && !answer.isSelected">{{answer.answerText}}</div>
+                    </div>
+                </div>
             </div>
-        </v-row>
-    </v-container>
+            <div class="col-6 float-right">
+                <div class="mt-12">"Poprawne odpoweidzi"</div>
+                <div v-for="item in resultModel.questions" :key="item.id" >
+                    <div>{{item.questionText}}</div>
+                    <div v-for="answer in item.answers" :key="'a' + answer.id">
+                        <div v-if="answer.isCorrect" style="color: green">{{answer.answerText}}</div>
+                        <div v-else>{{answer.answerText}}</div>
+                    </div>
+                </div>
+            </div>
+            <v-btn :to="{ name: 'quizzes' }">Wróć do listy</v-btn>
+        </v-card>
+    </div>
 </template>
 
 <script lang="ts">

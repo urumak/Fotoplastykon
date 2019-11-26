@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Fotoplastykon.API.Areas.Public.Hubs
 {
+    [Authorize]
     public class ChatHub : Hub<IChatHub>
     {
         public ISignalRService SignalRService { get; set; }
@@ -17,12 +18,6 @@ namespace Fotoplastykon.API.Areas.Public.Hubs
         public ChatHub(ISignalRService signalRService)
         {
             SignalRService = signalRService;
-        }
-
-        [Authorize]
-        public async Task SendChatMessage(List<string> usersIds, string message)
-        {
-            await Clients.Users(usersIds).AddChatMessage(Context.User.Id(), message);
         }
 
         public override Task OnConnectedAsync()

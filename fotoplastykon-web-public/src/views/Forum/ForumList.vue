@@ -1,28 +1,20 @@
 <template>
-    <v-container class="flex flex-center">
-        <v-row>
-            <div class="col-8">
-                <v-btn :to="{ name: 'forum-thread', params: { id: 0 }}">Dodaj</v-btn>
-                <div v-for="item in items" :key="item.id" class="row">
-                    <v-card class="my-card col-8">
-                        <v-btn v-if="canDelete(item)" @click="deleteItem(item.id)">Usuń</v-btn>
-                        <v-avatar>
-                            <v-img :src="item.photoUrl"></v-img>
-                        </v-avatar>
-                        <router-link :to="{ name: 'user-page', params: { id: item.createdById }}" class="font-weight-light home-link">{{ item.createdByName }}</router-link>
-                        <div><router-link :to="{ name: 'forum-thread', params: { id: item.id }}" class="font-weight-light home-link">{{ item.subject }}</router-link></div>
-                        <div>{{ item.content }}</div>
-                    </v-card>
-                </div>
-                <v-btn v-for="i in pager.totalPages" :key="'p' + i" @click="paginate(i)">{{i}}</v-btn>
-                <v-select :items="pageSizeOptions" v-model="pager.pageSize" solo @change="changePageSize()"></v-select>
-            </div>
-            <v-col></v-col>
-            <div class="float-right col-3 right-slider">
-                <v-card class="vertical-slider"></v-card>
-            </div>
-        </v-row>
-    </v-container>
+    <div>
+        <v-btn :to="{ name: 'forum-thread', params: { id: 0 }}">Dodaj</v-btn>
+        <div v-for="item in items" :key="item.id" class="row">
+            <v-card class="my-card">
+                <v-btn v-if="canDelete(item)" @click="deleteItem(item.id)">Usuń</v-btn>
+                <v-avatar>
+                    <v-img :src="item.photoUrl"></v-img>
+                </v-avatar>
+                <router-link :to="{ name: 'user-page', params: { id: item.createdById }}" class="font-weight-light home-link">{{ item.createdByName }}</router-link>
+                <div><router-link :to="{ name: 'forum-thread', params: { id: item.id }}" class="font-weight-light home-link">{{ item.subject }}</router-link></div>
+                <div>{{ item.content }}</div>
+            </v-card>
+        </div>
+        <v-btn v-for="i in pager.totalPages" :key="'p' + i" @click="paginate(i)">{{i}}</v-btn>
+        <v-select :items="pageSizeOptions" v-model="pager.pageSize" solo @change="changePageSize()"></v-select>
+    </div>
 </template>
 
 <script lang="ts">

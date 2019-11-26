@@ -1,29 +1,21 @@
 <template>
-    <v-container class="flex flex-center">
-        <v-row>
-            <div class="col-8">
-                <div v-for="item in items" :key="item.id" class="row">
-                    <v-card class="my-card col-8">
-                        <router-link :to="{ name: 'information-details', params: { id: item.id}}" class="card-title">
-                            {{ item.title }}
-                        </router-link>
-                        <div class="card-title-line"></div>
-                        <div class="news-card-content">
-                            {{ item.introduction }}
-                        </div>
-                    </v-card>
-                    <v-img class="news-img" :src="item.photoUrl" contain>
-                    </v-img>
+    <div>
+        <div v-for="item in items" :key="item.id" class="row">
+            <v-card class="my-card col-8">
+                <router-link :to="{ name: 'information-details', params: { id: item.id}}" class="card-title">
+                    {{ item.title }}
+                </router-link>
+                <div class="card-title-line"></div>
+                <div class="news-card-content">
+                    {{ item.introduction }}
                 </div>
-                <v-btn v-for="i in pager.totalPages" :key="'p' + i" @click="paginate(i)">{{i}}</v-btn>
-                <v-select :items="pageSizeOptions" v-model="pager.pageSize" solo @change="changePageSize()"></v-select>
-            </div>
-            <v-col></v-col>
-            <div class="float-right col-3 right-slider">
-                <v-card class="vertical-slider"></v-card>
-            </div>
-        </v-row>
-    </v-container>
+            </v-card>
+            <v-img class="news-img" :src="item.photoUrl" contain>
+            </v-img>
+        </div>
+        <v-btn v-for="i in pager.totalPages" :key="'p' + i" @click="paginate(i)">{{i}}</v-btn>
+        <v-select :items="pageSizeOptions" v-model="pager.pageSize" solo @change="changePageSize()"></v-select>
+    </div>
 </template>
 
 <script lang="ts">

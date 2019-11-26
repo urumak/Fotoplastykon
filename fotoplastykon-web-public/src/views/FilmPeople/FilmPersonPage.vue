@@ -1,49 +1,47 @@
 <template>
-    <v-container class="flex flex-center">
-        <v-card>
-            <div>{{ filmPersonModel.firstName }}</div>
-            <div>{{ filmPersonModel.surname }}</div>
-            <div class="col-3">
-                <v-img v-if="filmPersonModel.photoUrl" contain :src="filmPersonModel.photoUrl"></v-img>
-                <v-img v-else src="@/assets/subPhoto.png"></v-img>
-            </div>
-            <v-rating
-                    v-model="filmPersonModel.rating"
-                    :length="10"
-                    color="purple"
-                    background-color="grey lighten-1"
-                    half-increments
-                    readonly
-            ></v-rating>
-            <div>Średnia ocena {{ filmPersonModel.rating }}</div>
-            <v-rating
-                    v-model="filmPersonModel.userRating"
-                    :length="10"
-                    color="purple"
-                    background-color="grey lighten-1"
-                    small
-                    hover
-                    @input="rate()"
-            ></v-rating>
-            <div>Twoja ocena {{ filmPersonModel.userRating }}</div>
-            <p>Filmy</p>
-            <div v-for="item in filmPersonModel.roles" :key="'f' + item.filmId">
-                <v-avatar>
-                    <v-img :src="item.photoUrl"></v-img>
-                </v-avatar>
-                <router-link :to="{ name: 'film-page', params: { id: item.filmId }}" class="font-weight-light home-link">{{ item.filmName }} - {{ item.roleDescription }}</router-link>
-            </div>
-            <p>Dyskusje</p>
-            <div v-for="item in filmPersonModel.forumThreads" :key="'d' + item.id">
-                <v-avatar>
-                    <v-img :src="item.photoUrl"></v-img>
-                </v-avatar>
-                <div>{{ item.subject }}</div>
-                <router-link :to="{ name: 'user-page', params: { id: item.createdById }}" class="font-weight-light home-link">{{ item.createdByName }}</router-link>
-                <div>{{ item.content }}</div>
-            </div>
-        </v-card>
-    </v-container>
+    <v-card>
+        <div>{{ filmPersonModel.firstName }}</div>
+        <div>{{ filmPersonModel.surname }}</div>
+        <div class="col-3">
+            <v-img v-if="filmPersonModel.photoUrl" contain :src="filmPersonModel.photoUrl"></v-img>
+            <v-img v-else src="@/assets/subPhoto.png"></v-img>
+        </div>
+        <v-rating
+                v-model="filmPersonModel.rating"
+                :length="10"
+                color="purple"
+                background-color="grey lighten-1"
+                half-increments
+                readonly
+        ></v-rating>
+        <div>Średnia ocena {{ filmPersonModel.rating }}</div>
+        <v-rating
+                v-model="filmPersonModel.userRating"
+                :length="10"
+                color="purple"
+                background-color="grey lighten-1"
+                small
+                hover
+                @input="rate()"
+        ></v-rating>
+        <div>Twoja ocena {{ filmPersonModel.userRating }}</div>
+        <p>Filmy</p>
+        <div v-for="item in filmPersonModel.roles" :key="'f' + item.filmId">
+            <v-avatar>
+                <v-img :src="item.photoUrl"></v-img>
+            </v-avatar>
+            <router-link :to="{ name: 'film-page', params: { id: item.filmId }}" class="font-weight-light home-link">{{ item.filmName }} - {{ item.roleDescription }}</router-link>
+        </div>
+        <p>Dyskusje</p>
+        <div v-for="item in filmPersonModel.forumThreads" :key="'d' + item.id">
+            <v-avatar>
+                <v-img :src="item.photoUrl"></v-img>
+            </v-avatar>
+            <div>{{ item.subject }}</div>
+            <router-link :to="{ name: 'user-page', params: { id: item.createdById }}" class="font-weight-light home-link">{{ item.createdByName }}</router-link>
+            <div>{{ item.content }}</div>
+        </div>
+    </v-card>
 </template>
 
 <script lang="ts">

@@ -1,54 +1,46 @@
 <template>
-    <v-container class="flex flex-center">
-        <v-row>
-            <div class="col-8">
-                <v-card class="my-card col-8">
-                    <v-textarea v-if="model.editMode" label="Temat" v-model="model.subject" auto-grow outlined rows="1" row-height="15"></v-textarea>
-                    <v-textarea v-if="model.editMode" label="Treść" v-model="model.content" auto-grow outlined rows="20" row-height="15"></v-textarea>
-                    <v-btn v-if="showEditButton()" @click="enableEditMode()">Edytuj</v-btn>
-                    <div v-if="!model.editMode">{{model.subject}}</div>
-                    <div v-if="!model.editMode">{{model.content}}</div>
-                    <v-btn v-if="showCancelAndSaveButton()" @click="disableEditMode()">Anuluj</v-btn>
-                    <v-btn v-if="showCancelAndSaveButton()" @click="saveChanges()">Zapisz</v-btn>
-                </v-card>
-                <v-btn v-if="!isCommentAdding" @click="newComment()">Nowy komentarz</v-btn>
-                <v-btn v-else @click="cancelComment()">Anuluj</v-btn>
-                <v-card v-for="item in model.comments" :key="item.id">
-                    <v-avatar>
-                        <v-img :src="item.photoUrl" contain>
-                        </v-img>
-                    </v-avatar>
-                    <router-link :to="{ name: 'user-page', params: { id: item.createdById }}" class="font-weight-light home-link">{{ item.creatorFullName }}</router-link>
-                    <div>{{item.dateCreated}}</div>
-                    <v-btn v-if="!item.editMode && isCommentCreator(item.createdById) && !item.isDeleted" @click="edit(item)">Edytuj</v-btn>
-                    <v-btn v-if="!item.editMode && isCommentCreator(item.createdById) && !item.isDeleted" @click="removeComment(item.id)">Usuń</v-btn>
-                    <v-btn v-if="item.editMode && isCommentCreator(item.createdById) && !item.isDeleted" @click="cancelEdit(item)">Anuluj</v-btn>
-                    <v-btn v-if="!item.editMode && !item.isDeleted"  @click="newCommentReply(item.id)">Odpowiedz</v-btn>
-                    <div v-if="!item.editMode">{{item.content}}</div>
-                    <v-textarea v-if="item.editMode" label="Komentarz" v-model="item.content" auto-grow outlined rows="5" row-height="15"></v-textarea>
-                    <v-btn v-if="item.editMode" @click="submitComment(item)">Zapisz</v-btn>
-                    <v-card style="margin-left: 20px" v-for="reply in item.replies" :key="'r' + reply.id">
-                        <v-avatar>
-                            <v-img :src="reply.photoUrl" contain>
-                            </v-img>
-                        </v-avatar>
-                        <router-link :to="{ name: 'user-page', params: { id: reply.createdById }}" class="font-weight-light home-link">{{ reply.creatorFullName }}</router-link>
-                        <div>{{reply.dateCreated}}</div>
-                        <v-btn v-if="!reply.editMode && isCommentCreator(reply.createdById)" @click="edit(reply)">Edytuj</v-btn>
-                        <v-btn v-if="!reply.editMode && isCommentCreator(reply.createdById)" @click="removeComment(reply.id)">Usuń</v-btn>
-                        <v-btn v-if="reply.editMode && isCommentCreator(reply.createdById)"  @click="cancelEdit(reply)">Anuluj</v-btn>
-                        <div v-if="!reply.editMode">{{reply.content}}</div>
-                        <v-textarea v-if="reply.editMode" label="Komentarz" v-model="reply.content" auto-grow outlined rows="5" row-height="15"></v-textarea>
-                        <v-btn v-if="reply.editMode" @click="submitComment(reply)">Zapisz</v-btn>
-                    </v-card>
-                </v-card>
-            </div>
-            <v-col></v-col>
-            <div class="float-right col-3 right-slider">
-                <v-card class="vertical-slider"></v-card>
-            </div>
-        </v-row>
-    </v-container>
+    <div>
+        <v-card class="my-card">
+            <v-textarea v-if="model.editMode" label="Temat" v-model="model.subject" auto-grow outlined rows="1" row-height="15"></v-textarea>
+            <v-textarea v-if="model.editMode" label="Treść" v-model="model.content" auto-grow outlined rows="20" row-height="15"></v-textarea>
+            <v-btn v-if="showEditButton()" @click="enableEditMode()">Edytuj</v-btn>
+            <div v-if="!model.editMode">{{model.subject}}</div>
+            <div v-if="!model.editMode">{{model.content}}</div>
+            <v-btn v-if="showCancelAndSaveButton()" @click="disableEditMode()">Anuluj</v-btn>
+            <v-btn v-if="showCancelAndSaveButton()" @click="saveChanges()">Zapisz</v-btn>
+        </v-card>
+        <v-btn v-if="!isCommentAdding" @click="newComment()">Nowy komentarz</v-btn>
+        <v-btn v-else @click="cancelComment()">Anuluj</v-btn>
+        <v-card v-for="item in model.comments" :key="item.id">
+            <v-avatar>
+                <v-img :src="item.photoUrl" contain>
+                </v-img>
+            </v-avatar>
+            <router-link :to="{ name: 'user-page', params: { id: item.createdById }}" class="font-weight-light home-link">{{ item.creatorFullName }}</router-link>
+            <div>{{item.dateCreated}}</div>
+            <v-btn v-if="!item.editMode && isCommentCreator(item.createdById) && !item.isDeleted" @click="edit(item)">Edytuj</v-btn>
+            <v-btn v-if="!item.editMode && isCommentCreator(item.createdById) && !item.isDeleted" @click="removeComment(item.id)">Usuń</v-btn>
+            <v-btn v-if="item.editMode && isCommentCreator(item.createdById) && !item.isDeleted" @click="cancelEdit(item)">Anuluj</v-btn>
+            <v-btn v-if="!item.editMode && !item.isDeleted"  @click="newCommentReply(item.id)">Odpowiedz</v-btn>
+            <div v-if="!item.editMode">{{item.content}}</div>
+            <v-textarea v-if="item.editMode" label="Komentarz" v-model="item.content" auto-grow outlined rows="5" row-height="15"></v-textarea>
+            <v-btn v-if="item.editMode" @click="submitComment(item)">Zapisz</v-btn>
+            <v-card style="margin-left: 20px" v-for="reply in item.replies" :key="'r' + reply.id">
+                <v-avatar>
+                    <v-img :src="reply.photoUrl" contain>
+                    </v-img>
+                </v-avatar>
+                <router-link :to="{ name: 'user-page', params: { id: reply.createdById }}" class="font-weight-light home-link">{{ reply.creatorFullName }}</router-link>
+                <div>{{reply.dateCreated}}</div>
+                <v-btn v-if="!reply.editMode && isCommentCreator(reply.createdById)" @click="edit(reply)">Edytuj</v-btn>
+                <v-btn v-if="!reply.editMode && isCommentCreator(reply.createdById)" @click="removeComment(reply.id)">Usuń</v-btn>
+                <v-btn v-if="reply.editMode && isCommentCreator(reply.createdById)"  @click="cancelEdit(reply)">Anuluj</v-btn>
+                <div v-if="!reply.editMode">{{reply.content}}</div>
+                <v-textarea v-if="reply.editMode" label="Komentarz" v-model="reply.content" auto-grow outlined rows="5" row-height="15"></v-textarea>
+                <v-btn v-if="reply.editMode" @click="submitComment(reply)">Zapisz</v-btn>
+            </v-card>
+        </v-card>
+    </div>
 </template>
 
 <script lang="ts">
@@ -92,7 +84,7 @@
             if (this.id === 0) {
                 let id = await ForumService.add(this.model);
                 await this.loadData(id);
-                
+
                 // @ts-ignore
                 await this.$router.push({name: 'forum-thread', params: {id: id}});
             } else {

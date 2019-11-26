@@ -54,7 +54,6 @@ namespace Fotoplastykon.BLL.Services.Concrete
 
         public async Task<List<User>> Search(string searchString)
         {
-            //TODO: poprawić wyszukiwanie tak, żeby dało się szukać po imieniu i nazwisku
             var users = await Unit.Users
                 .Find(u => u.UserName.Contains(searchString)
                     || u.FirstName.Contains(searchString)

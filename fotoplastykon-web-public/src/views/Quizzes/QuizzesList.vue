@@ -1,21 +1,13 @@
 <template>
-    <v-container class="flex flex-center">
-        <v-row>
-            <div class="col-8">
-                <div v-for="item in items" :key="item.id" class="row">
-                    <v-card class="my-card col-8">
-                        <router-link :to="{ name: 'quiz', params: { id: item.id }}" class="font-weight-light home-link">{{ item.name }}</router-link>
-                    </v-card>
-                </div>
-                <v-btn v-for="i in pager.totalPages" :key="'p' + i" @click="paginate(i)">{{i}}</v-btn>
-                <v-select :items="pageSizeOptions" v-model="pager.pageSize" solo @change="changePageSize()"></v-select>
-            </div>
-            <v-col></v-col>
-            <div class="float-right col-3 right-slider">
-                <v-card class="vertical-slider"></v-card>
-            </div>
-        </v-row>
-    </v-container>
+    <div>
+        <div v-for="item in items" :key="item.id" class="row">
+            <v-card class="my-card">
+                <router-link :to="{ name: 'quiz', params: { id: item.id }}" class="font-weight-light home-link">{{ item.name }}</router-link>
+            </v-card>
+        </div>
+        <v-btn v-for="i in pager.totalPages" :key="'p' + i" @click="paginate(i)">{{i}}</v-btn>
+        <v-select :items="pageSizeOptions" v-model="pager.pageSize" solo @change="changePageSize()"></v-select>
+    </div>
 </template>
 
 <script lang="ts">
