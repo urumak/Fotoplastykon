@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using Fotoplastykon.BLL.DTOs.Shared;
 using Fotoplastykon.BLL.Services.Abstract;
 using Fotoplastykon.DAL.Entities.Concrete;
+using Fotoplastykon.DAL.Enums;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
+using Fotoplastykon.Tools.InfiniteScroll;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -73,6 +76,16 @@ namespace Fotoplastykon.BLL.Services.Concrete
             var invitation = await Unit.Invitations.Get(userId, friendId);
             Unit.Invitations.Remove(invitation);
             await Unit.Complete();
+        }
+
+        public async Task<IInfiniteScrollResult<LinkedItemDTO>> GetFriends(IInfiniteScroll scroll, long userId)
+        {
+            var data = await Unit.Users.GetListForInfiniteScroll(scroll, u => u.AcceptedFriends, q => q.FirstName, OrderDirection.ASC);
+            return new InfiniteScrollResult<LinkedItemDTO>
+            {
+                Items = Mapper.Map<IEnumerable<LinkedItemDTO>>(data.Items),
+                Scroll = data.Scroll
+            };
         }
     }
 }

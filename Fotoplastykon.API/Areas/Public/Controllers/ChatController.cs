@@ -43,9 +43,9 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         public async Task<IActionResult> GetUser(IPager pager, long friendId)
         {
             if (!await Friendships.CheckIfFriendshipExist(User.Id(), friendId)) return NotFound();
-            var result = await Chat.GetMessages(pager, User.Id(), friendId);
+            //var result = await Chat.GetMessages(pager, User.Id(), friendId);
 
-            return Ok(Mapper.Map<List<MessageListItemModel>>(result.Items));
+            return Ok(/*Mapper.Map<List<MessageListItemModel>>(result.Items)*/);
         }
 
         [HttpPost("{receiverId}")]

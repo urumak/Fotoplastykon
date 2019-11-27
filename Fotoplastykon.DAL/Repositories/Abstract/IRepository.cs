@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Fotoplastykon.DAL.Entities.Abstract;
 using Fotoplastykon.DAL.Enums;
 using Fotoplastykon.Tools.Pager;
+using Fotoplastykon.Tools.InfiniteScroll;
 
 namespace Fotoplastykon.DAL.Repositories.Abstract
 {
@@ -14,12 +15,20 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
         Task<TEntity> Get(Expression<Func<TEntity, bool>> predicate);
         Task<IEnumerable<TEntity>> GetAll();
         Task<IEnumerable<TEntity>> Find(Expression<Func<TEntity, bool>> predicate);
+
         Task<IPaginationResult<TEntity>> GetPaginatedList(IPager pager);
         Task<IPaginationResult<TEntity>> GetPaginatedList(IPager pager, Expression<Func<TEntity, bool>> predicate);
         Task<IPaginationResult<TEntity>> GetPaginatedList(IPager pager, Expression<Func<TEntity, object>> orderExpression, OrderDirection direction);
         Task<IPaginationResult<TEntity>> GetPaginatedList(IPager pager, Expression<Func<TEntity, object>> includeExpression, Expression<Func<TEntity, object>> orderExpression, OrderDirection direction);
         Task<IPaginationResult<TEntity>> GetPaginatedList(IPager pager, Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, object>> includeExpression, Expression<Func<TEntity, object>> orderExpression, OrderDirection direction);
         Task<IPaginationResult<TEntity>> GetPaginatedList(IPager pager, Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, object>> orderExpression, OrderDirection direction);
+
+        Task<IInfiniteScrollResult<TEntity>> GetListForInfiniteScroll(IInfiniteScroll scroll);
+        Task<IInfiniteScrollResult<TEntity>> GetListForInfiniteScroll(IInfiniteScroll scroll, Expression<Func<TEntity, bool>> predicate);
+        Task<IInfiniteScrollResult<TEntity>> GetListForInfiniteScroll(IInfiniteScroll scroll, Expression<Func<TEntity, object>> orderExpression, OrderDirection direction);
+        Task<IInfiniteScrollResult<TEntity>> GetListForInfiniteScroll(IInfiniteScroll scroll, Expression<Func<TEntity, object>> includeExpression, Expression<Func<TEntity, object>> orderExpression, OrderDirection direction);
+        Task<IInfiniteScrollResult<TEntity>> GetListForInfiniteScroll(IInfiniteScroll scroll, Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, object>> includeExpression, Expression<Func<TEntity, object>> orderExpression, OrderDirection direction);
+        Task<IInfiniteScrollResult<TEntity>> GetListForInfiniteScroll(IInfiniteScroll scroll, Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, object>> orderExpression, OrderDirection direction);
 
         Task<TEntity> Add(TEntity entity);
         Task AddRange(IEnumerable<TEntity> entities);

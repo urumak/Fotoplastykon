@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Fotoplastykon.DAL.Entities.Abstract;
 using Fotoplastykon.DAL.Enums;
 using Fotoplastykon.Tools.Pager;
+using Fotoplastykon.Tools.InfiniteScroll;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -115,6 +116,40 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
         {
             if (direction == OrderDirection.ASC) return await Context.Set<TEntity>().Include(includeExpression).Where(predicate).OrderBy(orderExpression).GetPaginationResult(pager);
             return await Context.Set<TEntity>().Include(includeExpression).Where(predicate).OrderByDescending(orderExpression).GetPaginationResult(pager);
+        }
+
+        public virtual async Task<IInfiniteScrollResult<TEntity>> GetListForInfiniteScroll(IInfiniteScroll scroll)
+        {
+            return await Context.Set<TEntity>().GetInfiniteScrollResult(scroll);
+        }
+
+        public virtual async Task<IInfiniteScrollResult<TEntity>> GetListForInfiniteScroll(IInfiniteScroll scroll, Expression<Func<TEntity, bool>> predicate)
+        {
+            return await Context.Set<TEntity>().Where(predicate).GetInfiniteScrollResult(scroll);
+        }
+
+        public virtual async Task<IInfiniteScrollResult<TEntity>> GetListForInfiniteScroll(IInfiniteScroll scroll, Expression<Func<TEntity, object>> orderExpression, OrderDirection direction)
+        {
+            if (direction == OrderDirection.ASC) return await Context.Set<TEntity>().OrderBy(orderExpression).GetInfiniteScrollResult(scroll);
+            return await Context.Set<TEntity>().OrderByDescending(orderExpression).GetInfiniteScrollResult(scroll);
+        }
+
+        public virtual async Task<IInfiniteScrollResult<TEntity>> GetListForInfiniteScroll(IInfiniteScroll scroll, Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, object>> orderExpression, OrderDirection direction)
+        {
+            if (direction == OrderDirection.ASC) return await Context.Set<TEntity>().Where(predicate).OrderBy(orderExpression).GetInfiniteScrollResult(scroll);
+            return await Context.Set<TEntity>().Where(predicate).OrderByDescending(orderExpression).GetInfiniteScrollResult(scroll);
+        }
+
+        public virtual async Task<IInfiniteScrollResult<TEntity>> GetListForInfiniteScroll(IInfiniteScroll scroll, Expression<Func<TEntity, object>> includeExpression, Expression<Func<TEntity, object>> orderExpression, OrderDirection direction)
+        {
+            if (direction == OrderDirection.ASC) return await Context.Set<TEntity>().Include(includeExpression).OrderBy(orderExpression).GetInfiniteScrollResult(scroll);
+            return await Context.Set<TEntity>().Include(includeExpression).OrderByDescending(orderExpression).GetInfiniteScrollResult(scroll);
+        }
+
+        public virtual async Task<IInfiniteScrollResult<TEntity>> GetListForInfiniteScroll(IInfiniteScroll scroll, Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, object>> includeExpression, Expression<Func<TEntity, object>> orderExpression, OrderDirection direction)
+        {
+            if (direction == OrderDirection.ASC) return await Context.Set<TEntity>().Include(includeExpression).Where(predicate).OrderBy(orderExpression).GetInfiniteScrollResult(scroll);
+            return await Context.Set<TEntity>().Include(includeExpression).Where(predicate).OrderByDescending(orderExpression).GetInfiniteScrollResult(scroll);
         }
     }
 }

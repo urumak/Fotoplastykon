@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Fotoplastykon.BLL.DTOs.Shared;
 using Fotoplastykon.BLL.DTOs.Users;
 using Fotoplastykon.DAL.Entities.Concrete;
+using Fotoplastykon.Tools.InfiniteScroll;
 
 namespace Fotoplastykon.BLL.Services.Abstract
 {

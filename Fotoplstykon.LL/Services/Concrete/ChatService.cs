@@ -3,7 +3,7 @@ using Fotoplastykon.BLL.Services.Abstract;
 using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.DAL.Enums;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
-using Fotoplastykon.Tools.Pager;
+using Fotoplastykon.Tools.InfiniteScroll;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,10 +19,10 @@ namespace Fotoplastykon.BLL.Services.Concrete
 
         }
 
-        public async Task<IPaginationResult<Message>> GetMessages(IPager pager, long userId, long friendId)
+        public async Task<IInfiniteScrollResult<Message>> GetMessages(IInfiniteScroll scroll, long userId, long friendId)
         {
-            return await Unit.Messages.GetPaginatedList(
-                pager,
+            return await Unit.Messages.GetListForInfiniteScroll(
+                scroll,
                 m => (m.SenderId == userId && m.ReceiverId == friendId) || (m.ReceiverId == userId && m.SenderId == friendId),
                 s => s.DateCreated, OrderDirection.DESC);
         }

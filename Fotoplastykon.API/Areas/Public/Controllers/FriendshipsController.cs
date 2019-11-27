@@ -8,6 +8,7 @@ using Fotoplastykon.API.Extensions;
 using Fotoplastykon.BLL.Services.Abstract;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Fotoplastykon.Tools.InfiniteScroll;
 
 namespace Fotoplastykon.API.Areas.Public.Controllers
 {
@@ -22,6 +23,14 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         {
             Friendships = friendships;
             Users = users;
+        }
+
+        [HttpGet("")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> GetUserFriends([FromQuery]InfiniteScroll scroll, [FromQuery]long userId)
+        {
+            return Ok(await Friendships.GetFriends(scroll, userId));
         }
 
         [HttpPost("invite")]

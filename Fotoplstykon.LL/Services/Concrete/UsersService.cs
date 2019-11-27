@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using Fotoplastykon.BLL.Helpers;
 using Fotoplastykon.DAL.Storage;
 using System;
+using Fotoplastykon.Tools.InfiniteScroll;
+using Fotoplastykon.BLL.DTOs.Shared;
 
 namespace Fotoplastykon.BLL.Services.Concrete
 {
