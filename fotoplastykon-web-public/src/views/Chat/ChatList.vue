@@ -81,7 +81,9 @@
 
         async loadFriends() {
             let response = await ChatService.getFriends(this.scroll);
-            this.$store.state.chat.friends = this.$store.state.chat.friends.concat(response.items);
+            if(this.$store.state.chat.friends) this.$store.state.chat.friends = this.$store.state.chat.friends.concat(response.items);
+            else this.$store.state.chat.friends = response.items;
+
             this.scroll.setRowsLoaded(this.friends.length);
         }
 

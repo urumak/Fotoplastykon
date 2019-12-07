@@ -139,8 +139,9 @@
         }
 
         logout() {
-            (this as any).$auth.logout();
             Vue.prototype.stopSignalR();
+            this.$store.commit('resetState', this.$store.state);
+            (this as any).$auth.logout();
         }
     }
 </script>
