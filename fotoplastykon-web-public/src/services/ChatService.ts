@@ -4,7 +4,6 @@ import merge from "lodash/merge";
 import {ChatListItem} from "@/interfaces/chat";
 import {InfiniteResult, InfiniteScroll} from "@/interfaces/infiniteScroll";
 import {Quiz, QuizResult} from "@/interfaces/quizes";
-import pager from "@/store/pager";
 
 export default class ChatService {
     public static async getFriends(scroll: InfiniteScroll): Promise<InfiniteResult<ChatListItem>> {

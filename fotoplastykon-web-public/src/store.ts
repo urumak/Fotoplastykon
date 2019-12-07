@@ -15,7 +15,7 @@ const mutations = {
     state.forum = StoreHelper.getDefaultForumState();
     state.quizzes = StoreHelper.getDefaultQuizzesState();
   }
-}
+};
 
 const store = new Vuex.Store({
   strict: false,
