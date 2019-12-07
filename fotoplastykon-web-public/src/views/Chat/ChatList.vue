@@ -1,0 +1,105 @@
+<template>
+    <div @scroll="pullMoreFriends" class="chat-container v-list">
+        <v-list>
+            <v-list-item-group class="chat-list">
+                <v-list-item v-for="item in friends" :key="'cia' + item.id">
+                    <v-list-item-avatar>
+                        <v-img v-if="item.photoUrl != null && item.photoUrl.length != 0" :src='item.photoUrl'></v-img>
+                        <v-img v-else src="@/assets/subPhoto.png"></v-img>
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                        <v-list-item-title>{{ item.nameAndSurname }}</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item v-for="item in friends" :key="'cib' + item.id">
+                    <v-list-item-avatar>
+                        <v-img v-if="item.photoUrl != null && item.photoUrl.length != 0" :src='item.photoUrl'></v-img>
+                        <v-img v-else src="@/assets/subPhoto.png"></v-img>
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                        <v-list-item-title>{{ item.nameAndSurname }}</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item v-for="item in friends" :key="'cic' + item.id">
+                    <v-list-item-avatar>
+                        <v-img v-if="item.photoUrl != null && item.photoUrl.length != 0" :src='item.photoUrl'></v-img>
+                        <v-img v-else src="@/assets/subPhoto.png"></v-img>
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                        <v-list-item-title>{{ item.nameAndSurname }}</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item v-for="item in friends" :key="'cid' + item.id">
+                    <v-list-item-avatar>
+                        <v-img v-if="item.photoUrl != null && item.photoUrl.length != 0" :src='item.photoUrl'></v-img>
+                        <v-img v-else src="@/assets/subPhoto.png"></v-img>
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                        <v-list-item-title>{{ item.nameAndSurname }}</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item v-for="item in friends" :key="'cie' + item.id">
+                    <v-list-item-avatar>
+                        <v-img v-if="item.photoUrl != null && item.photoUrl.length != 0" :src='item.photoUrl'></v-img>
+                        <v-img v-else src="@/assets/subPhoto.png"></v-img>
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                        <v-list-item-title>{{ item.nameAndSurname }}</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-list-item-group>
+        </v-list>
+        <v-text-field label="Szukaj" v-model="searchInput" hide-details solo class="chat-search"></v-text-field>
+    </div>
+</template>
+
+<script lang="ts">
+    import Vue from "vue";
+    import Component from "vue-class-component";
+    import ChatService from '@/services/ChatService.ts'
+    import {ChatListItem} from '@/interfaces/chat';
+    import {InfiniteScroll} from '@/interfaces/infiniteScroll';
+    import { Watch } from 'vue-property-decorator';
+
+    @Component({})
+    export default class ChatList extends Vue {
+        private searchInput : string = "";
+
+        async created() {
+            await this.loadFriends();
+        }
+
+        private get scroll(): InfiniteScroll
+        {
+            return this.$store.state.chat.infiniteScroll;
+        }
+
+        private get friends(): ChatListItem[]
+        {
+            return this.$store.state.chat.friends;
+        }
+
+        async loadFriends() {
+            let response = await ChatService.getFriends(this.scroll);
+            this.$store.state.chat.friends = this.$store.state.chat.friends.concat(response.items);
+            this.scroll.setRowsLoaded(this.friends.length);
+        }
+
+        async pullMoreFriends(event: any) {
+            if(event.target.scrollTop + event.target.clientHeight >= event.target.scrollHeight) {
+                await this.loadFriends();
+            }
+        }
+
+        @Watch('searchInput')
+        async search() {
+            if (this.searchInput){
+                this.$store.state.chat.friends = await ChatService.searchFriends(this.searchInput);
+            } else {
+                this.scroll.restore();
+                this.$store.state.chat.friends = [];
+                await this.loadFriends();
+            }
+        }
+    }
+</script>

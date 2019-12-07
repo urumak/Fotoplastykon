@@ -1,4 +1,5 @@
 ﻿using Fotoplastykon.DAL.Entities.Concrete;
+using Fotoplastykon.Tools.InfiniteScroll;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,5 +11,7 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
     {
         Task<Friendship> Get(long firstId, long secondId);
         Task<Friendship> GetByIvitingAndInvitedId(long invitingId, long invitedId);
+        Task<IInfiniteScrollResult<User>> GetListForInfiniteScroll(IInfiniteScroll scroll, long userId);
+        Task<List<User>> SearchForFriends(string searchInput, long userId, int limit = 20);
     }
 }

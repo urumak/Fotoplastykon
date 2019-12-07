@@ -11,6 +11,7 @@ using Fotoplastykon.BLL.DTOs.Files;
 using Microsoft.Extensions.Configuration;
 using Fotoplastykon.BLL.DTOs.Shared;
 using Fotoplastykon.DAL.Enums;
+using Fotoplastykon.BLL.DTOs.Chat;
 
 namespace Fotoplastykon.BLL.Models
 {
@@ -30,6 +31,7 @@ namespace Fotoplastykon.BLL.Models
             InformationMappings();
             ForumMappings();
             QuizzesMappings();
+            ChatMappings();
         }
 
         private void UserMappings()
@@ -195,6 +197,13 @@ namespace Fotoplastykon.BLL.Models
                 .ReverseMap()
                 .ForMember(d => d.Id, o => o.Ignore())
                 .ForMember(d => d.Replies, o => o.Ignore());
+        }
+
+        private void ChatMappings()
+        {
+            CreateMap<User, ChatListItemDTO>()
+                .ForMember(d => d.NameAndSurname, o => o.MapFrom(s => s.FirstName + " " + s.Surname))
+                .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.PhotoId : string.Empty));
         }
 
         private void QuizzesMappings()

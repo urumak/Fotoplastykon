@@ -28,9 +28,9 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [HttpGet("")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> GetUserFriends([FromQuery]InfiniteScroll scroll, [FromQuery]long userId)
+        public async Task<IActionResult> GetUserFriends([FromQuery]InfiniteScroll scroll)
         {
-            return Ok(await Friendships.GetFriends(scroll, userId));
+            return Ok(await Friendships.GetFriends(scroll, User.Id()));
         }
 
         [HttpPost("invite")]
