@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Fotoplastykon.BLL.DTOs.Shared;
 using Fotoplastykon.DAL.Enums;
 using Fotoplastykon.BLL.DTOs.Chat;
+using Fotoplastykon.BLL.DTOs.SignalR;
 
 namespace Fotoplastykon.BLL.Models
 {
@@ -32,6 +33,7 @@ namespace Fotoplastykon.BLL.Models
             ForumMappings();
             QuizzesMappings();
             ChatMappings();
+            SignalRMappings();
         }
 
         private void UserMappings()
@@ -215,6 +217,16 @@ namespace Fotoplastykon.BLL.Models
             CreateMap<QuestionModel, QuestionResultDTO>();
             CreateMap<AnswerModel, AnswerResultDTO>()
                 .ForMember(d => d.IsCorrect, o => o.Ignore());
+        }
+
+        private void SignalRMappings()
+        {
+            CreateMap<SignalRConnectionDTO, SignalRConnection>()
+                .ForMember(d => d.DateDeleted, o => o.Ignore())
+                .ForMember(d => d.DateCreated, o => o.Ignore())
+                .ForMember(d => d.User, o => o.Ignore())
+                .ForMember(d => d.Id, o => o.Ignore())
+                .ReverseMap();
         }
     }
 }

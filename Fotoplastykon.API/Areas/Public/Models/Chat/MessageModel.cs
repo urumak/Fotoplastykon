@@ -10,7 +10,6 @@ namespace Fotoplastykon.API.Areas.Public.Models.Chat
 {
     public class MessageModel : IValidatableObject
     {
-        public long ReceiverId { get; set; }
         public string MessageText { get; set; }
 
         public IEnumerable<ValidationResult> Validate(System.ComponentModel.DataAnnotations.ValidationContext validationContext)

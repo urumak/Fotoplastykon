@@ -95,13 +95,11 @@ namespace Fotoplastykon.API
             app.UseCors(FrontendCors);
             app.UseAuthentication();
 
-
+            app.UseMvc();
             app.UseSignalR(route =>
             {
                 route.MapHub<ChatHub>("/hubs/chat");
             });
-
-            app.UseMvc();
         }
     }
 }

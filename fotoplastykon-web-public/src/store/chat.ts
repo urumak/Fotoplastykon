@@ -4,6 +4,7 @@ export default {
     namespaced: true,
     state: {
         infiniteScroll: new InfiniteScroll(2),
-        friends: []
+        friends: [],
+        activeWindows: []
     }
 }

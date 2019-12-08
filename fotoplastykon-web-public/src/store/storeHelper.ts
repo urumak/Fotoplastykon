@@ -7,7 +7,8 @@ export default class StoreHelper
     {
         return {
             infiniteScroll: new InfiniteScroll(2),
-            friends: []
+            friends: [],
+            activeWindows: []
         }
     }
 

@@ -2,43 +2,7 @@
     <div @scroll="pullMoreFriends" class="chat-container v-list">
         <v-list>
             <v-list-item-group class="chat-list">
-                <v-list-item v-for="item in friends" :key="'cia' + item.id">
-                    <v-list-item-avatar>
-                        <v-img v-if="item.photoUrl != null && item.photoUrl.length != 0" :src='item.photoUrl'></v-img>
-                        <v-img v-else src="@/assets/subPhoto.png"></v-img>
-                    </v-list-item-avatar>
-                    <v-list-item-content>
-                        <v-list-item-title>{{ item.nameAndSurname }}</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-                <v-list-item v-for="item in friends" :key="'cib' + item.id">
-                    <v-list-item-avatar>
-                        <v-img v-if="item.photoUrl != null && item.photoUrl.length != 0" :src='item.photoUrl'></v-img>
-                        <v-img v-else src="@/assets/subPhoto.png"></v-img>
-                    </v-list-item-avatar>
-                    <v-list-item-content>
-                        <v-list-item-title>{{ item.nameAndSurname }}</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-                <v-list-item v-for="item in friends" :key="'cic' + item.id">
-                    <v-list-item-avatar>
-                        <v-img v-if="item.photoUrl != null && item.photoUrl.length != 0" :src='item.photoUrl'></v-img>
-                        <v-img v-else src="@/assets/subPhoto.png"></v-img>
-                    </v-list-item-avatar>
-                    <v-list-item-content>
-                        <v-list-item-title>{{ item.nameAndSurname }}</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-                <v-list-item v-for="item in friends" :key="'cid' + item.id">
-                    <v-list-item-avatar>
-                        <v-img v-if="item.photoUrl != null && item.photoUrl.length != 0" :src='item.photoUrl'></v-img>
-                        <v-img v-else src="@/assets/subPhoto.png"></v-img>
-                    </v-list-item-avatar>
-                    <v-list-item-content>
-                        <v-list-item-title>{{ item.nameAndSurname }}</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-                <v-list-item v-for="item in friends" :key="'cie' + item.id">
+                <v-list-item v-for="item in friends" :key="'ci' + item.id" @click="addChatWindow(item)">
                     <v-list-item-avatar>
                         <v-img v-if="item.photoUrl != null && item.photoUrl.length != 0" :src='item.photoUrl'></v-img>
                         <v-img v-else src="@/assets/subPhoto.png"></v-img>
@@ -57,7 +21,7 @@
     import Vue from "vue";
     import Component from "vue-class-component";
     import ChatService from '@/services/ChatService.ts'
-    import {ChatListItem} from '@/interfaces/chat';
+    import {ChatListItem, ChatWindowModel} from '@/interfaces/chat';
     import {InfiniteScroll} from '@/interfaces/infiniteScroll';
     import { Watch } from 'vue-property-decorator';
 
@@ -101,6 +65,23 @@
                 this.scroll.restore();
                 this.$store.state.chat.friends = [];
                 await this.loadFriends();
+            }
+        }
+
+        addChatWindow(item: ChatListItem)
+        {
+            let chatWindow = null;
+            if(this.$store.state.chat.activeWindows) chatWindow = this.$store.state.chat.activeWindows.find((x: ChatWindowModel) => x.id == item.id);
+
+            if(!chatWindow)
+            {
+                this.$store.state.chat.activeWindows.push(
+                    {
+                        id: item.id,
+                        nameAndSurname: item.nameAndSurname,
+                        photoUrl: item.nameAndSurname,
+                        messages: []
+                    });
             }
         }
     }

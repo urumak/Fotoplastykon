@@ -50,7 +50,7 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
                 return entry.Entity;
             }
         }
-
+        
         public virtual async Task AddRange(IEnumerable<TEntity> entities)
         {
             await Context.Set<TEntity>().AddRangeAsync(entities);

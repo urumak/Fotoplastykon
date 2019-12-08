@@ -6,8 +6,8 @@ Vue.use(x =>
 {
     // use a new Vue instance as the interface for Vue components to receive/send SignalR events
     // this way every component can listen to events or send new events using this.$questionHub
-    const questionHub = new Vue()
-    Vue.prototype.$questionHub = questionHub
+    const chatHub = new Vue()
+    Vue.prototype.$chatHub = chatHub
 
     // Provide methods to connect/disconnect from the SignalR hub
     let connection : any = null;
@@ -24,8 +24,8 @@ Vue.use(x =>
             .configureLogging(LogLevel.Information)
             .build()
 
-        connection.on('ChatMessageReceived', (username : string, text : string) => {
-            questionHub.$emit('chat-message-received', { username, text })
+        connection.on('ChatMessageReceived', (userId : number, text : string) => {
+            chatHub.$emit('chat-message-received', { userId, text })
         })
 
         // You need to call connection.start() to establish the connection but the client wont handle reconnecting for you!
@@ -47,6 +47,7 @@ Vue.use(x =>
         manuallyClosed = false
         start()
     }
+
     Vue.prototype.stopSignalR = () => {
         if (!startedPromise) return
 
@@ -54,13 +55,5 @@ Vue.use(x =>
         return startedPromise
             .then(() => connection.stop())
             .then(() => { startedPromise = null })
-    }
-
-    (questionHub as any).sendMessage = (message : any) => {
-        if (!startedPromise) return
-
-        return startedPromise
-            .then(() => connection.invoke('SendChatMessage', message))
-            .catch(console.error)
     }
 });

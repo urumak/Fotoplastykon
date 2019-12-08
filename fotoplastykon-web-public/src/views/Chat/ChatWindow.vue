@@ -65,7 +65,7 @@
     import { Watch } from 'vue-property-decorator';
 
     @Component({})
-    export default class ChatDialogComponent extends Vue {
+    export default class ChatWindow extends Vue {
         private expanded = false;
 
         close() {
@@ -74,7 +74,6 @@
 
         toggle() {
             this.expanded = !this.expanded;
-            console.log(this.expanded);
         }
     }
 </script>

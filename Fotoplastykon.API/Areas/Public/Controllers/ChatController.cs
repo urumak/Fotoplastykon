@@ -79,7 +79,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
             await Chat.WriteMessage(User.Id(), Mapper.Map<Message>(model));
 
             await HubContext.Clients.Users(await SignalRService.GetUserConnections(receiverId))
-                .AddChatMessage(User.Id(), model.MessageText);
+                .ChatMessageReceived(User.Id(), model.MessageText);
 
             return Ok();
         }

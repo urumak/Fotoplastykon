@@ -84,11 +84,7 @@
                         <slot />
                     </div>
                 </div>
-                <div class="row chat-area">
-                    <chat-dialog class="chat-window"></chat-dialog>
-                    <chat-dialog class="chat-window"></chat-dialog>
-                    <chat-dialog class="chat-window"></chat-dialog>
-                </div>
+                <chat-windows></chat-windows>
             </v-container>
             <div class="float-left film-tape">
             </div>
@@ -103,10 +99,10 @@
     import SearchService from "@/services/SearchService.ts";
     import { SearchItem } from '@/interfaces/search';
     import { Watch } from 'vue-property-decorator';
-    import ChatDialog from '@/views/Chat/ChatWindow.vue';
+    import ChatWindows from '@/views/Chat/ChatWindows.vue';
     import ChatList from '@/views/Chat/ChatList.vue';
 
-    @Component({components: { 'chat-dialog': ChatDialog, 'chat-list': ChatList }})
+    @Component({components: { 'chat-windows': ChatWindows, 'chat-list': ChatList }})
     export default class Default extends Vue {
         private items : SearchItem[] = [];
         private selectedItem : any = null;
