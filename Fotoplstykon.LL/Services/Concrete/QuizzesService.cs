@@ -37,7 +37,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
             var data = await Unit.Quizes.GetPaginatedList(pager, q => q.Name, OrderDirection.ASC);
             return new PaginationResult<ListItemModel>
             {
-                Items = Mapper.Map<IEnumerable<ListItemModel>>(data.Items),
+                Items = Mapper.Map<List<ListItemModel>>(data.Items),
                 Pager = data.Pager
             };
         }

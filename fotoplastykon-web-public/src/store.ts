@@ -9,12 +9,7 @@ import StoreHelper from "@/store/storeHelper";
 Vue.use(Vuex);
 
 const mutations = {
-  resetState (state: any) {
-    state.chat = StoreHelper.getDefaultChatState();
-    state.information = StoreHelper.getDefaultInformationState();
-    state.forum = StoreHelper.getDefaultForumState();
-    state.quizzes = StoreHelper.getDefaultQuizzesState();
-  }
+
 };
 
 const store = new Vuex.Store({

@@ -6,6 +6,7 @@ using AutoMapper;
 using Fotoplastykon.API.Areas.Public.Hubs;
 using Fotoplastykon.API.Areas.Public.Models.Chat;
 using Fotoplastykon.API.Extensions;
+using Fotoplastykon.BLL.DTOs.Chat;
 using Fotoplastykon.BLL.Services.Abstract;
 using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.Tools.InfiniteScroll;
@@ -56,6 +57,15 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         public async Task<IActionResult> GetFriends([FromQuery]InfiniteScroll scroll)
         {
             return Ok(await Chat.GetFriends(scroll, User.Id()));
+        }
+
+        [HttpGet("chat-windows")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> GetForChatWindows([FromQuery]GetForChatWindowsModel model)
+        {
+            return Ok(await Chat.GetForChatWindows(model.FriendsIds, User.Id()));
         }
 
         [HttpGet("search-friends/{searchInput}")]

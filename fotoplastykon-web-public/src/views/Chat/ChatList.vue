@@ -30,7 +30,7 @@
         private searchInput : string = "";
 
         async created() {
-            await this.loadFriends();
+            if(!this.$store.state.chat.friends || this.$store.state.chat.friends.length === 0) await this.loadFriends();
         }
 
         private get scroll(): InfiniteScroll
@@ -79,7 +79,7 @@
                     {
                         id: item.id,
                         nameAndSurname: item.nameAndSurname,
-                        photoUrl: item.nameAndSurname,
+                        photoUrl: item.photoUrl,
                         messages: []
                     });
             }

@@ -25,7 +25,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
             var data = await Unit.Informations.GetPaginatedList(pager, i => i.DateCreated, OrderDirection.DESC);
             return new PaginationResult<ListItem>
             {
-                Items = Mapper.Map< IEnumerable<ListItem>>(data.Items),
+                Items = Mapper.Map<List<ListItem>>(data.Items),
                 Pager = data.Pager
             };
         }

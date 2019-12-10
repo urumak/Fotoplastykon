@@ -13,6 +13,7 @@ using Fotoplastykon.BLL.DTOs.Shared;
 using Fotoplastykon.DAL.Enums;
 using Fotoplastykon.BLL.DTOs.Chat;
 using Fotoplastykon.BLL.DTOs.SignalR;
+using Fotoplastykon.BLL.DTOs.Messages;
 
 namespace Fotoplastykon.BLL.Models
 {
@@ -206,6 +207,14 @@ namespace Fotoplastykon.BLL.Models
             CreateMap<User, ChatListItemDTO>()
                 .ForMember(d => d.NameAndSurname, o => o.MapFrom(s => s.FirstName + " " + s.Surname))
                 .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.PhotoId : string.Empty));
+
+            CreateMap<Message, MessageDTO>()
+                .ForMember(d => d.IsSender, o => o.Ignore());
+
+            CreateMap<User, ChatWindowModel>()
+                .ForMember(d => d.NameAndSurname, o => o.MapFrom(s => s.FirstName + " " + s.Surname))
+                .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.PhotoId : string.Empty))
+                .ForMember(d => d.Messages, o => o.Ignore());
         }
 
         private void QuizzesMappings()

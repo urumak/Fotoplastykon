@@ -13,6 +13,7 @@ namespace Fotoplastykon.BLL.Services.Abstract
         Task<IInfiniteScrollResult<Message>> GetMessages(IInfiniteScroll scroll, long userId, long friendId);
         Task WriteMessage(long userId, Message message);
         Task<IInfiniteScrollResult<ChatListItemDTO>> GetFriends(IInfiniteScroll scroll, long userId);
+        Task<List<ChatWindowModel>> GetForChatWindows(List<long> friendsIds, long principalId);
         Task<List<ChatListItemDTO>> SearchFriends(string searchInput, long userId, int limit = 20);
     }
 }

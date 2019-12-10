@@ -1,5 +1,6 @@
 ﻿using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.DAL.Repositories.Abstract;
+using Fotoplastykon.Tools.InfiniteScroll;
 using Fotoplastykon.Tools.Pager;
 using System;
 using System.Collections.Generic;
@@ -18,5 +19,14 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
         }
 
         private DatabaseContext DatabaseContext => Context as DatabaseContext;
+
+        public async Task<IInfiniteScrollResult<Message>> GetListForInfiniteScroll(IInfiniteScroll scroll, long principalId, long friendId)
+        {
+            return await DatabaseContext.Messages
+                .Where(m => (m.ReceiverId == principalId && m.SenderId == friendId)
+                        || (m.ReceiverId == friendId && m.SenderId == principalId))
+                .OrderByDescending(m => m.DateCreated)
+                .GetInfiniteScrollResult(scroll);
+        }
     }
 }

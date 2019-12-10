@@ -1,6 +1,6 @@
 <template>
     <div class="row chat-area">
-        <chat-window class="chat-window" v-for="item in windows" :key="'cw' + item.id"></chat-window>
+        <chat-window class="chat-window" v-for="item in windows" :key="'cw' + item.id" :model="item"></chat-window>
     </div>
 </template>
 
@@ -18,6 +18,8 @@
         }
 
         created () {
+            if(!localStorage.chatWindows) localStorage.chatWindows = '[]';
+
             (this as any).$chatHub.$on('chat-message-received', this.onMessageReceived);
         }
 
@@ -27,6 +29,10 @@
 
         onMessageReceived() {
             console.log('halko here');
+        }
+
+        closeWindow(id: number) {
+            this.$store.state.chat.activeWindows = this.$store.state.chat.activeWindows.filter((x: ChatWindowModel) => x.id === id);
         }
     }
 </script>

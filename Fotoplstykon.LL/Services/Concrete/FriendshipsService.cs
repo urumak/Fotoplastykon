@@ -83,7 +83,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
             var data = await Unit.Users.GetListForInfiniteScroll(scroll, u => u.AcceptedFriends, q => q.FirstName, OrderDirection.ASC);
             return new InfiniteScrollResult<LinkedItemDTO>
             {
-                Items = Mapper.Map<IEnumerable<LinkedItemDTO>>(data.Items),
+                Items = Mapper.Map<List<LinkedItemDTO>>(data.Items),
                 Scroll = data.Scroll
             };
         }

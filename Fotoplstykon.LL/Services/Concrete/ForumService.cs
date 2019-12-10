@@ -23,7 +23,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
             var data = await Unit.ForumThreads.GetPaginatedList(pager, t => t.CreatedBy, t => t.DateCreated, DAL.Enums.OrderDirection.DESC);
             return new PaginationResult<ForumListItemDTO>
             {
-                Items = Mapper.Map<IEnumerable<ForumListItemDTO>>(data.Items),
+                Items = Mapper.Map<List<ForumListItemDTO>>(data.Items),
                 Pager = data.Pager
             };
         }
