@@ -63,9 +63,9 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> GetForChatWindows([FromQuery]GetForChatWindowsModel model)
+        public async Task<IActionResult> GetForChatWindows([FromQuery]List<long> friendsIds)
         {
-            return Ok(await Chat.GetForChatWindows(model.FriendsIds, User.Id()));
+            return Ok(await Chat.GetForChatWindows(friendsIds, User.Id()));
         }
 
         [HttpGet("search-friends/{searchInput}")]

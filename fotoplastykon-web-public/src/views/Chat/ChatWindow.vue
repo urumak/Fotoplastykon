@@ -7,7 +7,8 @@
                     <v-img v-else src="@/assets/subPhoto.png"></v-img>
                 </v-avatar>
                 {{ model.nameAndSurname }}
-                <v-icon class="nav-icon" @click="close()">mdi-close</v-icon></v-toolbar>
+                <v-spacer></v-spacer>
+                <v-icon @click="close()">mdi-close</v-icon></v-toolbar>
             <div v-if="expanded" class="chat-messages">
                 <div>test</div>
                 <div>test</div>
@@ -79,11 +80,15 @@
         }}) private model!: ChatWindowModel;
 
         created() {
-
+            console.log(this.model);
         }
 
         close() {
             this.$store.state.chat.activeWindows = this.$store.state.chat.activeWindows.filter((x: ChatWindowModel) => x.id !== this.model.id);
+
+            let windowsTmp = JSON.parse(localStorage.chatWindows);
+            windowsTmp = windowsTmp.filter((x: number) => x !== this.model.id);
+            localStorage.chatWindows = JSON.stringify(windowsTmp);
         }
 
         toggle() {

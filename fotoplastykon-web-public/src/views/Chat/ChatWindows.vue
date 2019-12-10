@@ -9,6 +9,7 @@
     import Component from "vue-class-component";
     import ChatWindow from '@/views/Chat/ChatWindow.vue';
     import {ChatWindowModel} from '@/interfaces/chat';
+    import ChatService from '@/services/ChatService';
 
     @Component({components: { 'chat-window': ChatWindow}})
     export default class ChatWindows extends Vue {
@@ -17,9 +18,10 @@
             return this.$store.state.chat.activeWindows;
         }
 
-        created () {
+        async created () {
             if(!localStorage.chatWindows) localStorage.chatWindows = '[]';
-
+            console.log()
+            this.$store.state.chat.activeWindows = await ChatService.getForWindows(JSON.parse(localStorage.chatWindows)) || [];
             (this as any).$chatHub.$on('chat-message-received', this.onMessageReceived);
         }
 
@@ -29,10 +31,6 @@
 
         onMessageReceived() {
             console.log('halko here');
-        }
-
-        closeWindow(id: number) {
-            this.$store.state.chat.activeWindows = this.$store.state.chat.activeWindows.filter((x: ChatWindowModel) => x.id === id);
         }
     }
 </script>

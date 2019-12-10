@@ -54,9 +54,9 @@ namespace Fotoplastykon.BLL.Services.Concrete
 
         public async Task<List<ChatWindowModel>> GetForChatWindows(List<long> friendsIds, long principalId)
         {
-            var friends = Mapper.Map<List<ChatWindowModel>>(await Unit.Users.Get(x => friendsIds.Contains(x.Id)));
+            var friends = Mapper.Map<List<ChatWindowModel>>(await Unit.Users.Find(x => friendsIds.Contains(x.Id)));
             
-            foreach (var friend in friends)
+            foreach (var friend in friends ?? new List<ChatWindowModel>())
             {
                 var data = await Unit.Messages.GetListForInfiniteScroll(new InfiniteScroll(), principalId, friend.Id);
                 friend.Messages = new InfiniteScrollResult<MessageDTO>

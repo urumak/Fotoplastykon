@@ -19,9 +19,8 @@ export class InfiniteScroll
     }
 }
 
-export interface InfiniteResult<T>
+export interface InfiniteScrollResult<T>
 {
     scroll: InfiniteScroll;
     items: T[];
 }
-

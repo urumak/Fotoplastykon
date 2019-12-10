@@ -71,10 +71,12 @@
         addChatWindow(item: ChatListItem)
         {
             let chatWindow = null;
+            console.log(this.$store.state.chat.activeWindows);
             if(this.$store.state.chat.activeWindows) chatWindow = this.$store.state.chat.activeWindows.find((x: ChatWindowModel) => x.id == item.id);
 
             if(!chatWindow)
             {
+                console.log(this.$store.state.chat.activeWindows);
                 this.$store.state.chat.activeWindows.push(
                     {
                         id: item.id,
@@ -82,6 +84,10 @@
                         photoUrl: item.photoUrl,
                         messages: []
                     });
+
+                let windowsTmp = JSON.parse(localStorage.chatWindows);
+                windowsTmp.push(item.id);
+                localStorage.chatWindows = JSON.stringify(windowsTmp);
             }
         }
     }
