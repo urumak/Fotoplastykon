@@ -79,7 +79,7 @@
         </v-app-bar>
         <v-content style="margin-top:60px;">
             <v-container class="float-right flex flex-center">
-                <div class="row">
+                <div class="row  main-content">
                     <div class="col-lg-8">
                         <slot />
                     </div>

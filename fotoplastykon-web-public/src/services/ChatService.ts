@@ -18,7 +18,7 @@ export default class ChatService {
         let qs = require('qs');
 
         return (await Vue.axios.get<ChatWindowModel[]>(`chat/chat-windows`,{params: {friendsIds: friendsIds}, paramsSerializer:function(params) {
-                return qs.stringify(params, {arrayFormat: 'repeat'})
+                return qs.stringify(params, { arrayFormat: 'repeat' })
             }})).data;
     }
 }

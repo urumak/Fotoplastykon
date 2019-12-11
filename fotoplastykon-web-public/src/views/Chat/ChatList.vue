@@ -68,22 +68,14 @@
             }
         }
 
-        addChatWindow(item: ChatListItem)
+        async addChatWindow(item: ChatListItem)
         {
             let chatWindow = null;
-            console.log(this.$store.state.chat.activeWindows);
-            if(this.$store.state.chat.activeWindows) chatWindow = this.$store.state.chat.activeWindows.find((x: ChatWindowModel) => x.id == item.id);
+            if(this.$store.state.chat.activeWindows && this.$store.state.chat.activeWindows.length !== 0) chatWindow = this.$store.state.chat.activeWindows.find((x: ChatWindowModel) => x.id == item.id);
 
             if(!chatWindow)
             {
-                console.log(this.$store.state.chat.activeWindows);
-                this.$store.state.chat.activeWindows.push(
-                    {
-                        id: item.id,
-                        nameAndSurname: item.nameAndSurname,
-                        photoUrl: item.photoUrl,
-                        messages: []
-                    });
+                this.$store.state.chat.activeWindows.push((await ChatService.getForWindows([item.id]))[0]);
 
                 let windowsTmp = JSON.parse(localStorage.chatWindows);
                 windowsTmp.push(item.id);

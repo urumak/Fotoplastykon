@@ -58,7 +58,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
             
             foreach (var friend in friends ?? new List<ChatWindowModel>())
             {
-                var data = await Unit.Messages.GetListForInfiniteScroll(new InfiniteScroll(), principalId, friend.Id);
+                var data = await Unit.Messages.GetListForInfiniteScroll(new InfiniteScroll { UnitSize = 20 }, principalId, friend.Id);
                 friend.Messages = new InfiniteScrollResult<MessageDTO>
                 {
                     Items = new List<MessageDTO>(),

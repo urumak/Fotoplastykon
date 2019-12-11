@@ -20,7 +20,6 @@
 
         async created () {
             if(!localStorage.chatWindows) localStorage.chatWindows = '[]';
-            console.log()
             this.$store.state.chat.activeWindows = await ChatService.getForWindows(JSON.parse(localStorage.chatWindows)) || [];
             (this as any).$chatHub.$on('chat-message-received', this.onMessageReceived);
         }

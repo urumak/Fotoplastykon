@@ -19,7 +19,7 @@ export interface Message
 {
     id: number;
     messageText: string;
-    isPrincipalSender: boolean;
+    isSender: boolean;
     dateCreated: Date;
 }
 

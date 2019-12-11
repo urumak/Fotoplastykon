@@ -9,8 +9,9 @@
     color black !important
     text-decoration none
 
-.row + .row
-    margin-top: 3em
+.main-content
+    .row + .row
+        margin-top: 3em
 
 .film-tape
     width: 150px
@@ -225,3 +226,22 @@ html .landing-page
 
 .chat-window-avatar
     padding 5px
+
+.chat-window
+    .message-row
+        margin-top: 0px
+        padding-top 0px
+        padding-bottom 0px
+        font-size 12px
+        display: flow-root
+
+    .message-row + .message-row
+        margin-top: 4px
+
+.chat-messages
+    padding 5px
+
+.message-card
+    padding 4px
+    box-shadow: -.1px -.1px -.1px -.1px rgba(0,0,0,.2)
+    max-width 70%

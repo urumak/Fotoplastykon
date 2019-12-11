@@ -9,52 +9,10 @@
                 {{ model.nameAndSurname }}
                 <v-spacer></v-spacer>
                 <v-icon @click="close()">mdi-close</v-icon></v-toolbar>
-            <div v-if="expanded" class="chat-messages">
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
-                <div>test</div>
+            <div v-if="expanded" class="chat-messages" ref="window">
+                <div v-for="item in model.messages.items" :key="'cw' + item.id" class="col-12 message-row">
+                    <v-card :class="'message-card' + (item.isSender ? ' float-right' : ' primary')">{{ item.messageText }}</v-card>
+                </div>
             </div>
             <v-text-field v-if="expanded" label="Napisz wiadomość" hide-details solo></v-text-field>
         </v-card>
@@ -70,6 +28,10 @@
 
     @Component({})
     export default class ChatWindow extends Vue {
+        $refs!: {
+            window: any;
+        };
+
         private expanded = true;
 
         @Prop({default: {
@@ -80,11 +42,16 @@
         }}) private model!: ChatWindowModel;
 
         created() {
-            console.log(this.model);
+
+        }
+
+        mounted() {
+            this.$refs.window.scrollTop = this.$refs.window.scrollHeight;
         }
 
         close() {
-            this.$store.state.chat.activeWindows = this.$store.state.chat.activeWindows.filter((x: ChatWindowModel) => x.id !== this.model.id);
+            if(this.$store.state.chat.activeWindows.length == 1) this.$store.state.chat.activeWindows = [];
+            else this.$store.state.chat.activeWindows = this.$store.state.chat.activeWindows.filter((x: ChatWindowModel) => x.id !== this.model.id);
 
             let windowsTmp = JSON.parse(localStorage.chatWindows);
             windowsTmp = windowsTmp.filter((x: number) => x !== this.model.id);
