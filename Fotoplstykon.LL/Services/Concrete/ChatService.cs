@@ -30,11 +30,13 @@ namespace Fotoplastykon.BLL.Services.Concrete
                 s => s.DateCreated, OrderDirection.DESC);
         }
 
-        public async Task WriteMessage(long userId, Message message)
+        public async Task<MessageDTO> WriteMessage(long userId, Message message)
         {
             message.SenderId = userId;
-            await Unit.Messages.Add(message);
+            message = await Unit.Messages.Add(message);
             await Unit.Complete();
+
+            return Mapper.Map<Message, MessageDTO>(message, a => a.AfterMap((s, d) => d.IsSender = true));
         }
 
         public async Task<IInfiniteScrollResult<ChatListItemDTO>> GetFriends(IInfiniteScroll scroll, long userId)

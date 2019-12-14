@@ -2,18 +2,20 @@ export class InfiniteScroll
 {
     constructor(unitSize: number) {
         this.unitSize = unitSize;
+        Object.setPrototypeOf(this, new.target.prototype);
     }
 
     public unitSize : number;
     public rowsLoaded : number = 0;
 
-    public setUnitSize(unitSize: number) {
+    setUnitSize(unitSize: number) {
         this.unitSize = unitSize;
     }
-    public setRowsLoaded(rowsLoaded: number) {
+    setRowsLoaded(rowsLoaded: number) {
         this.rowsLoaded = rowsLoaded;
     }
-    public restore(unitSize?: number, rowsLoaded?: number) {
+
+    restore(unitSize?: number, rowsLoaded?: number) {
         this.unitSize = unitSize ? unitSize : 20;
         this.rowsLoaded = rowsLoaded ? rowsLoaded : 0;
     }

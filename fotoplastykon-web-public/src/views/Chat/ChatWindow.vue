@@ -10,11 +10,11 @@
                 <v-spacer></v-spacer>
                 <v-icon @click="close()">mdi-close</v-icon></v-toolbar>
             <div v-if="expanded" class="chat-messages" ref="window">
-                <div v-for="item in model.messages.items" :key="'cw' + item.id" class="col-12 message-row">
+                <div v-for="item in messages" :key="'cw' + item.id" class="col-12 message-row">
                     <v-card :class="'message-card' + (item.isSender ? ' float-right' : ' primary')">{{ item.messageText }}</v-card>
                 </div>
             </div>
-            <v-text-field v-if="expanded" label="Napisz wiadomość" hide-details solo></v-text-field>
+            <v-text-field v-if="expanded" v-model="currentMessage" label="Napisz wiadomość" @keyup.enter.native="sendMessage()" hide-details solo></v-text-field>
         </v-card>
     </div>
 </template>
@@ -24,7 +24,8 @@
     import Component from "vue-class-component";
     import { mapGetters } from "vuex";
     import { Watch, Prop } from 'vue-property-decorator';
-    import { ChatWindowModel } from '@/interfaces/chat';
+    import { ChatWindowModel, Message } from '@/interfaces/chat';
+    import ChatService from '@/services/ChatService';
 
     @Component({})
     export default class ChatWindow extends Vue {
@@ -33,6 +34,7 @@
         };
 
         private expanded = true;
+        private currentMessage = '';
 
         @Prop({default: {
             id: 0,
@@ -41,11 +43,28 @@
             messages: []
         }}) private model!: ChatWindowModel;
 
+        private get messages() : Message[]
+        {
+            return this.model.messages.items.sort((first: Message, second: Message) => {
+                if (first.dateCreated < second.dateCreated ){
+                    return -1;
+                }
+                if (first.dateCreated > second.dateCreated ){
+                    return 1;
+                }
+                return 0;
+            });
+        }
+
         created() {
 
         }
 
         mounted() {
+            this.$refs.window.scrollTop = this.$refs.window.scrollHeight;
+        }
+
+        updated() {
             this.$refs.window.scrollTop = this.$refs.window.scrollHeight;
         }
 
@@ -60,6 +79,16 @@
 
         toggle() {
             this.expanded = !this.expanded;
+        }
+
+        async sendMessage() {
+            let message = await ChatService.sendMessage({
+                receiverId: this.model.id,
+                messageText: this.currentMessage,
+            });
+
+            this.model.messages.items.push(message);
+            this.currentMessage = '';
         }
     }
 </script>

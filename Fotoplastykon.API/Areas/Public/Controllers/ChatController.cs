@@ -81,17 +81,17 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> WriteMessage(long receiverId, [FromBody]MessageModel model)
+        public async Task<IActionResult> SendMessage([FromBody]MessageModel model)
         {
-            if (!await Users.CheckIfExists(receiverId)) return NotFound();
-            if (!await Friendships.CheckIfFriendshipExist(User.Id(), receiverId)) return NotFound();
+            if (!await Users.CheckIfExists(model.ReceiverId)) return NotFound();
+            if (!await Friendships.CheckIfFriendshipExist(User.Id(), model.ReceiverId)) return NotFound();
 
-            await Chat.WriteMessage(User.Id(), Mapper.Map<Message>(model));
+            var message = await Chat.WriteMessage(User.Id(), Mapper.Map<Message>(model));
 
-            await HubContext.Clients.Users(await SignalRService.GetUserConnections(receiverId))
+            await HubContext.Clients.Users(await SignalRService.GetUserConnections(model.ReceiverId))
                 .ChatMessageReceived(User.Id(), model.MessageText);
 
-            return Ok();
+            return Ok(message);
         }
     }
 }

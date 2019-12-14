@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import {Pager, PaginationResult} from "@/interfaces/pager";
 import merge from "lodash/merge";
-import {ChatListItem, ChatWindowModel} from "@/interfaces/chat";
+import {ChatListItem, ChatWindowModel, Message, SendMessage} from "@/interfaces/chat";
 import {InfiniteScrollResult, InfiniteScroll} from "@/interfaces/infiniteScroll";
 import {Quiz, QuizResult} from "@/interfaces/quizes";
 
@@ -20,5 +20,9 @@ export default class ChatService {
         return (await Vue.axios.get<ChatWindowModel[]>(`chat/chat-windows`,{params: {friendsIds: friendsIds}, paramsSerializer:function(params) {
                 return qs.stringify(params, { arrayFormat: 'repeat' })
             }})).data;
+    }
+
+    public static async sendMessage(message: SendMessage): Promise<Message> {
+        return (await Vue.axios.post<Message>(`chat/send-message`, message)).data;
     }
 }

@@ -23,4 +23,10 @@ export interface Message
     dateCreated: Date;
 }
 
+export interface SendMessage
+{
+    receiverId: number;
+    messageText: string;
+}
+
 
