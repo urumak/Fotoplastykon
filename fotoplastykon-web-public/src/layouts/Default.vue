@@ -41,10 +41,10 @@
                 </template>
             </v-autocomplete>
             <v-spacer></v-spacer>
-            <v-btn v-if="$auth.check()" class="mr-2" text>
+            <v-btn class="mr-2" text>
                 <span>Filmy</span>
             </v-btn>
-            <v-btn v-if="$auth.check()" class="mr-2" text>
+            <v-btn class="mr-2" text>
                 <span>Ludzie kina</span>
             </v-btn>
             <v-btn v-if="$auth.check()" :to="{ name: 'forum' }" class="mr-2" text>
@@ -88,7 +88,7 @@
             </v-container>
             <div class="float-left film-tape">
             </div>
-            <chat-list></chat-list>
+            <chat-list v-if="$auth.check()"></chat-list>
         </v-content>
     </div>
 </template>
@@ -137,6 +137,7 @@
         logout() {
             Vue.prototype.stopSignalR();
             this.$store.commit('resetState', this.$store.state);
+            localStorage.clear();
             (this as any).$auth.logout();
         }
     }

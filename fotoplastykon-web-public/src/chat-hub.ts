@@ -1,6 +1,7 @@
 import { HubConnectionBuilder, LogLevel } from '@aspnet/signalr';
 import Vue from 'vue';
 import {HubConnection} from "@aspnet/signalr/src/HubConnection";
+import {Message} from "@/interfaces/chat";
 
 Vue.use(x =>
 {
@@ -24,9 +25,10 @@ Vue.use(x =>
             .configureLogging(LogLevel.Information)
             .build()
 
-        connection.on('ChatMessageReceived', (userId : number, text : string) => {
-            chatHub.$emit('chat-message-received', { userId, text })
-        })
+        connection.on('ChatMessageReceived', (senderId : number, message: Message) => {
+            chatHub.$emit('chat-message-received', senderId, message)
+        });
+        console.log(connection)
 
         // You need to call connection.start() to establish the connection but the client wont handle reconnecting for you!
         // Docs recommend listening onclose and handling it there.

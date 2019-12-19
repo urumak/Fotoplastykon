@@ -1,4 +1,5 @@
 ﻿using Fotoplastykon.API.Extensions;
+using Fotoplastykon.BLL.DTOs.Messages;
 using Fotoplastykon.BLL.DTOs.SignalR;
 using Fotoplastykon.BLL.Services.Abstract;
 using Fotoplastykon.DAL;
@@ -15,12 +16,10 @@ namespace Fotoplastykon.API.Areas.Public.Hubs
     public class ChatHub : Hub<IChatHub>
     {
         public ISignalRService SignalRService { get; set; }
-        public DatabaseContext DbContext { get; set; }
 
-        public ChatHub(ISignalRService signalRService, DatabaseContext dbContext)
+        public ChatHub(ISignalRService signalRService)
         {
             SignalRService = signalRService;
-            DbContext = dbContext;
         }
 
         public override async Task OnConnectedAsync()
@@ -32,12 +31,6 @@ namespace Fotoplastykon.API.Areas.Public.Hubs
                 ConnectionId = Context.ConnectionId
             });
 
-            //DbContext.SignalRConnections.Add(new DAL.Entities.Concrete.SignalRConnection
-            //{
-            //    UserId = Context.User.Id(),
-            //    UserAgent = Context.GetHttpContext().Request.Headers["User-Agent"],
-            //    ConnectionId = Context.ConnectionId
-            //});
             await base.OnConnectedAsync();
         }
 

@@ -7,6 +7,7 @@ using Fotoplastykon.API.Areas.Public.Hubs;
 using Fotoplastykon.API.Areas.Public.Models.Chat;
 using Fotoplastykon.API.Extensions;
 using Fotoplastykon.BLL.DTOs.Chat;
+using Fotoplastykon.BLL.DTOs.Messages;
 using Fotoplastykon.BLL.Services.Abstract;
 using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.Tools.InfiniteScroll;
@@ -87,9 +88,16 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
             if (!await Friendships.CheckIfFriendshipExist(User.Id(), model.ReceiverId)) return NotFound();
 
             var message = await Chat.WriteMessage(User.Id(), Mapper.Map<Message>(model));
+            var messageForReceiver = new MessageDTO();
+            messageForReceiver = new MessageDTO
+            {
+                MessageText = message.MessageText,
+                DateCreated = message.DateCreated,
+                Id = message.Id
+            };
 
-            await HubContext.Clients.Users(await SignalRService.GetUserConnections(model.ReceiverId))
-                .ChatMessageReceived(User.Id(), model.MessageText);
+            await HubContext.Clients.Clients(await SignalRService.GetUserConnections(model.ReceiverId))
+                .ChatMessageReceived(User.Id(), messageForReceiver);
 
             return Ok(message);
         }

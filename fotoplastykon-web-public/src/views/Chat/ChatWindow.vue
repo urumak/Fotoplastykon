@@ -24,7 +24,7 @@
     import Component from "vue-class-component";
     import { mapGetters } from "vuex";
     import { Watch, Prop } from 'vue-property-decorator';
-    import { ChatWindowModel, Message } from '@/interfaces/chat';
+    import { ChatWindowModel, Message, MessageReceived } from '@/interfaces/chat';
     import ChatService from '@/services/ChatService';
 
     @Component({})
@@ -56,8 +56,8 @@
             });
         }
 
-        created() {
-
+        async created () {
+            (this as any).$chatHub.$on('chat-message-received', this.onMessageReceived);
         }
 
         mounted() {
@@ -66,6 +66,10 @@
 
         updated() {
             this.$refs.window.scrollTop = this.$refs.window.scrollHeight;
+        }
+
+        beforeDestroy () {
+            (this as any).$chatHub.$off('chat-message-received', this.onMessageReceived);
         }
 
         close() {
@@ -89,6 +93,10 @@
 
             this.model.messages.items.push(message);
             this.currentMessage = '';
+        }
+
+        onMessageReceived(senderId: number, message: Message) {
+            if(senderId == this.model.id) this.model.messages.items.push(message);
         }
     }
 </script>
