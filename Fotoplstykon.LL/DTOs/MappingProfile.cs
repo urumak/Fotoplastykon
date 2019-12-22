@@ -221,6 +221,10 @@ namespace Fotoplastykon.BLL.Models
                 .ForMember(d => d.ReceiverId, o => o.MapFrom(s => s.ReceiverId))
                 .ForMember(d => d.SenderId, o => o.MapFrom(s => s.SenderId))
                 .ForAllOtherMembers(o => o.Ignore());
+
+            CreateMap<Message, LastMessage>()
+                .ForMember(d => d.NameAndSurname, o => o.MapFrom(s => s.Sender.FirstName + " " + s.Sender.Surname))
+                .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.Sender.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.Sender.PhotoId : string.Empty));
         }
 
         private void QuizzesMappings()

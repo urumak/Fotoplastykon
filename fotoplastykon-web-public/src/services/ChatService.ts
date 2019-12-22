@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import {Pager, PaginationResult} from "@/interfaces/pager";
 import merge from "lodash/merge";
-import {ChatListItem, ChatWindowModel, Message, SendMessage} from "@/interfaces/chat";
+import {ChatListItem, ChatWindowModel, LastMessage, Message, SendMessage} from "@/interfaces/chat";
 import {InfiniteScrollResult, InfiniteScroll} from "@/interfaces/infiniteScroll";
 import {Quiz, QuizResult} from "@/interfaces/quizes";
 
@@ -32,5 +32,9 @@ export default class ChatService {
 
     public static async updateLastReadingDate(senderId: number) {
         return (await Vue.axios.post(`chat/update-last-reading-date/${senderId}`)).data;
+    }
+
+    public static async getLastMessagesForEachFriend(scroll: InfiniteScroll): Promise<InfiniteScrollResult<LastMessage>> {
+        return (await Vue.axios.get<InfiniteScrollResult<LastMessage>>(`chat/get-last-messages`,{params: merge({}, scroll)})).data;
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <div @scroll="pullMoreFriends" class="chat-container v-list">
+    <div @scroll="pullMoreFriends" class="chat-container v-list custom-scroll">
         <v-list>
             <v-list-item-group class="chat-list">
                 <v-list-item v-for="item in friends" :key="'ci' + item.id" @click="addChatWindow(item)">

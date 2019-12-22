@@ -60,8 +60,8 @@
             <v-btn v-if="!$auth.check()" text  class="mr-2" :to="{name:'home'}">
                 <span>Zarejestruj się</span>
             </v-btn>
-            <notifications-popover :notifications-count="$store.state.chat.unreadMessagesFromIds.length" :icon="'mdi-chat'"></notifications-popover>
-            <notifications-popover :notifications-count="0" :icon="'mdi-bell'"></notifications-popover>
+            <messages-popover></messages-popover>
+            <notifications-popover></notifications-popover>
             <profile-popover></profile-popover>
         </v-app-bar>
         <v-content style="margin-top:60px;">
@@ -92,22 +92,19 @@
     import ProfilePopover from '@/components/ProfilePopover.vue';
     import ChatService from '@/services/ChatService';
     import { Message } from '@/interfaces/chat';
+    import MessagesPopover from '@/components/MessagesPopover.vue';
 
     @Component({components: {
         'chat-windows': ChatWindows,
         'chat-list': ChatList,
         'notifications-popover': NotificationsPopover,
+        'messages-popover': MessagesPopover,
         'profile-popover': ProfilePopover
     }})
     export default class Default extends Vue {
         private items : SearchItem[] = [];
         private selectedItem : any = null;
         private searchInput : string = "";
-
-        async created() {
-            (this as any).$chatHub.$on('chat-message-received', this.onMessageReceived);
-            this.$store.state.chat.unreadMessagesFromIds = await ChatService.getUnreadMessagesUsersIds();
-        }
 
         @Watch('searchInput')
         async search() {
@@ -133,13 +130,6 @@
                         break;
                 }
             }
-        }
-
-        onMessageReceived(senderId: number, message: Message) {
-            let windows = JSON.parse(localStorage.chatWindows);
-            if(!this.$store.state.chat.unreadMessagesFromIds.includes(senderId)
-                && !windows.includes(senderId)
-                && senderId !== (this as any).$auth.user().id) this.$store.state.chat.unreadMessagesFromIds.push(senderId);
         }
     }
 </script>

@@ -10,7 +10,7 @@
                     <template v-if="notificationsCount > 0"  v-slot:badge>
                         <span>{{ notificationsCount }}</span>
                     </template>
-                    <v-icon class="nav-icon" v-on="on">{{ icon }}</v-icon>
+                    <v-icon class="nav-icon" v-on="on">mdi-bell</v-icon>
                 </v-badge>
             </template>
             <div>
@@ -40,7 +40,6 @@
     export default class NotificationsPopover extends Vue {
         private messages = ["sdddfs", 'daswdas', 'dsadasd'];
 
-        @Prop({default: 0}) private notificationsCount!: number;
-        @Prop({default: ''}) private icon!: string;
+        private notificationsCount: number = 0;
     }
 </script>

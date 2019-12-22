@@ -29,4 +29,15 @@ export interface SendMessage
     messageText: string;
 }
 
+export interface LastMessage
+{
+    id: number;
+    messageText: string;
+    senderId: number;
+    unread: boolean;
+    photoUrl: string;
+    nameAndSurname: string;
+    dateCreated: Date;
+}
+
 

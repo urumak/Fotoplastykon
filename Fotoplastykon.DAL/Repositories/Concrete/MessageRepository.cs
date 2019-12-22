@@ -37,19 +37,20 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
                     (m.Receiver.UnreadMessages.FirstOrDefault(x => x.SenderId == m.SenderId) == null 
                         || m.Receiver.UnreadMessages.FirstOrDefault(x => x.SenderId == m.SenderId).LastReadingDate == null 
                         || m.Receiver.UnreadMessages.FirstOrDefault(x => x.SenderId == m.SenderId).LastReadingDate < m.DateCreated))
-                .GroupBy(a => a.SenderId)
+                .GroupBy(m => m.SenderId)
                 .OrderByDescending(m => m.Max(o => o.DateCreated))
-                .Select(a => a.FirstOrDefault())
+                .Select(m => m.FirstOrDefault())
                 .ToListAsync();
         }
 
-        public async Task<IInfiniteScrollResult<Message>> GetLastMessagesFromEachFriend(IInfiniteScroll scroll, long receiverId)
+        public async Task<IInfiniteScrollResult<Message>> GetLastMessagesForEachFriend(IInfiniteScroll scroll, long receiverId)
         {
             return await DatabaseContext.Messages
+                .Include(m => m.Sender)
                 .Where(m => m.ReceiverId == receiverId)
-                .GroupBy(a => a.SenderId)
+                .GroupBy(m => m.SenderId)
                 .OrderByDescending(m => m.Max(o => o.DateCreated))
-                .Select(a => a.FirstOrDefault())
+                .Select(m => m.LastOrDefault())
                 .GetInfiniteScrollResult(scroll);
         }
     }

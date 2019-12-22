@@ -9,5 +9,6 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
     public interface IMessagesReadingsRepository : IRepository<MessagesReading>
     {
         Task<List<MessagesReading>> GetByReceiverId(long receiverId);
+        Task<List<MessagesReading>> GetByReceiverAndSendersIds(long receiverId, List<long> sendersIds);
     }
 }

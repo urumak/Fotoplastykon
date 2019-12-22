@@ -123,5 +123,14 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
             await Chat.UpdateLastReadingDate(senderId, User.Id());
             return Ok();
         }
+
+        [HttpGet("get-last-messages")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> GetLastMessages([FromQuery]InfiniteScroll scroll)
+        {
+            return Ok(await Chat.GetLastMessages(scroll, User.Id()));
+        }
     }
 }

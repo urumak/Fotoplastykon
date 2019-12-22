@@ -88,12 +88,23 @@ namespace Fotoplastykon.BLL.Services.Concrete
             return lastUnreadMesssageFromEachFriend.Select(x => x.SenderId).ToList();
         }
 
-        public async Task<IInfiniteScrollResult<MessageDTO>> GetLastMessages(IInfiniteScroll scroll, long receiverId)
+        public async Task<IInfiniteScrollResult<LastMessage>> GetLastMessages(IInfiniteScroll scroll, long receiverId)
         {
-            var data = await Unit.Messages.GetLastMessagesFromEachFriend(scroll, receiverId);
-            return new InfiniteScrollResult<MessageDTO>
+            var data = await Unit.Messages.GetLastMessagesForEachFriend(scroll, receiverId);
+            var readings = await Unit.MessagesReadings
+                .GetByReceiverAndSendersIds(receiverId, data.Items.Select(x => x.SenderId).ToList());
+
+            var items = Mapper.Map<List<LastMessage>>(data.Items);
+
+            foreach(var item in items)
             {
-                Items = Mapper.Map<List<MessageDTO>>(data.Items),
+                var reading = readings.FirstOrDefault(x => x.SenderId == item.SenderId);
+                item.Unread = reading.LastReadingDate.HasValue ? item.DateCreated > reading.LastReadingDate.Value : true;
+            }
+
+            return new InfiniteScrollResult<LastMessage>
+            {
+                Items = items,
                 Scroll = data.Scroll
             };
         }

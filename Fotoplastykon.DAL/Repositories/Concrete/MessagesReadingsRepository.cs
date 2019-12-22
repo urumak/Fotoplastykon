@@ -22,5 +22,12 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
         {
             return await DatabaseContext.MessagesReadings.Where(r => r.ReceiverId == receiverId).ToListAsync();
         }
+
+        public async Task<List<MessagesReading>> GetByReceiverAndSendersIds(long receiverId, List<long> sendersIds)
+        {
+            return await DatabaseContext.MessagesReadings
+                .Where(r => r.ReceiverId == receiverId && sendersIds.Contains(r.SenderId))
+                .ToListAsync();
+        }
     }
 }
