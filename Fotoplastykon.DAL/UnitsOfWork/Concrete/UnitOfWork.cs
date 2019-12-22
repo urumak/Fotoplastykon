@@ -27,7 +27,8 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
             IForumThreadsRepository forumThreads,
             IForumThreadCommentsRepository forumThreadComments,
             IMessagesRepository messages,
-            ISignalRConnectionsRepository signalRConnections)
+            ISignalRConnectionsRepository signalRConnections,
+            IMessagesReadingsRepository messagesReadings)
         {
             Context = context;
             Users = users;
@@ -48,6 +49,7 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
             ForumThreadComments = forumThreadComments;
             Messages = messages;
             SignalRConnections = signalRConnections;
+            MessagesReadings = messagesReadings;
         }
 
         public IUsersRepository Users { get; }
@@ -68,6 +70,8 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
         public IForumThreadCommentsRepository ForumThreadComments { get; }
         public IMessagesRepository Messages { get; }
         public ISignalRConnectionsRepository SignalRConnections { get; }
+
+        public IMessagesReadingsRepository MessagesReadings { get; }
 
         private DbContext Context { get; }
 

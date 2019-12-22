@@ -16,5 +16,8 @@ namespace Fotoplastykon.BLL.Services.Abstract
         Task<IInfiniteScrollResult<ChatListItemDTO>> GetFriends(IInfiniteScroll scroll, long userId);
         Task<List<ChatWindowModel>> GetForChatWindows(List<long> friendsIds, long principalId);
         Task<List<ChatListItemDTO>> SearchFriends(string searchInput, long userId, int limit = 20);
+        Task<List<long>> GetUnreadMessagesUsersIds(long receiverId);
+        Task<IInfiniteScrollResult<MessageDTO>> GetLastMessages(IInfiniteScroll scroll, long receiverId);
+        Task UpdateLastReadingDate(long senderId, long receiverId);
     }
 }

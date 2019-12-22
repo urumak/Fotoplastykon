@@ -41,9 +41,9 @@ Vue.use(x =>
                 })
             return startedPromise
         }
-        connection.onclose(() => {
+        connection.onclose(() => setTimeout(() => {
             if (!manuallyClosed) start()
-        })
+        },5000))
 
         // Start everything
         manuallyClosed = false

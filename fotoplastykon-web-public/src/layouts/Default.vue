@@ -60,22 +60,9 @@
             <v-btn v-if="!$auth.check()" text  class="mr-2" :to="{name:'home'}">
                 <span>Zarejestruj się</span>
             </v-btn>
-            <v-badge v-if="$auth.check()" class="mr-4" color="red" overlap>
-                <template v-slot:badge>
-                <span>1</span>
-                </template>
-                <v-icon class="nav-icon">mdi-chat</v-icon>
-            </v-badge>
-            <v-badge v-if="$auth.check()" color="red" class="mr-4" overlap>
-                <template v-slot:badge>
-                <span>1</span>
-                </template>
-                <v-icon class="nav-icon">mdi-bell</v-icon>
-            </v-badge>
-            <v-avatar v-if="$auth.check()" class="nav-avatar mr-2" @click="logout()">
-                <v-img v-if="$auth.user().photoUrl" :src="$auth.user().photoUrl"></v-img>
-                <v-img v-else src="@/assets/subPhoto.png"></v-img>
-            </v-avatar>
+            <notifications-popover :notifications-count="$store.state.chat.unreadMessagesFromIds.length" :icon="'mdi-chat'"></notifications-popover>
+            <notifications-popover :notifications-count="0" :icon="'mdi-bell'"></notifications-popover>
+            <profile-popover></profile-popover>
         </v-app-bar>
         <v-content style="margin-top:60px;">
             <v-container class="float-right flex flex-center">
@@ -101,12 +88,26 @@
     import { Watch } from 'vue-property-decorator';
     import ChatWindows from '@/views/Chat/ChatWindows.vue';
     import ChatList from '@/views/Chat/ChatList.vue';
+    import NotificationsPopover from '@/components/NotificationsPopover.vue';
+    import ProfilePopover from '@/components/ProfilePopover.vue';
+    import ChatService from '@/services/ChatService';
+    import { Message } from '@/interfaces/chat';
 
-    @Component({components: { 'chat-windows': ChatWindows, 'chat-list': ChatList }})
+    @Component({components: {
+        'chat-windows': ChatWindows,
+        'chat-list': ChatList,
+        'notifications-popover': NotificationsPopover,
+        'profile-popover': ProfilePopover
+    }})
     export default class Default extends Vue {
         private items : SearchItem[] = [];
         private selectedItem : any = null;
         private searchInput : string = "";
+
+        async created() {
+            (this as any).$chatHub.$on('chat-message-received', this.onMessageReceived);
+            this.$store.state.chat.unreadMessagesFromIds = await ChatService.getUnreadMessagesUsersIds();
+        }
 
         @Watch('searchInput')
         async search() {
@@ -134,11 +135,11 @@
             }
         }
 
-        logout() {
-            Vue.prototype.stopSignalR();
-            this.$store.commit('resetState', this.$store.state);
-            localStorage.clear();
-            (this as any).$auth.logout();
+        onMessageReceived(senderId: number, message: Message) {
+            let windows = JSON.parse(localStorage.chatWindows);
+            if(!this.$store.state.chat.unreadMessagesFromIds.includes(senderId)
+                && !windows.includes(senderId)
+                && senderId !== (this as any).$auth.user().id) this.$store.state.chat.unreadMessagesFromIds.push(senderId);
         }
     }
 </script>

@@ -78,6 +78,15 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
             return Ok(await Chat.SearchFriends(searchInput, User.Id()));
         }
 
+        [HttpGet("get-unread-messages-users-ids")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> GetUnreadMessagesCount()
+        {
+            return Ok(await Chat.GetUnreadMessagesUsersIds(User.Id()));
+        }
+
         [HttpPost("{receiverId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -96,10 +105,23 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
                 Id = message.Id
             };
 
+            await HubContext.Clients.Clients(await SignalRService.GetUserConnections(User.Id()))
+                .ChatMessageReceived(model.ReceiverId, message);
+
             await HubContext.Clients.Clients(await SignalRService.GetUserConnections(model.ReceiverId))
                 .ChatMessageReceived(User.Id(), messageForReceiver);
 
-            return Ok(message);
+            return Ok();
+        }
+
+        [HttpPost("update-last-reading-date/{senderId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> UpdateLastReadingDate(long senderId)
+        {
+            await Chat.UpdateLastReadingDate(senderId, User.Id());
+            return Ok();
         }
     }
 }

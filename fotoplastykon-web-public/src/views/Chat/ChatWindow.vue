@@ -14,7 +14,15 @@
                     <v-card :class="'message-card' + (item.isSender ? ' float-right' : ' primary')">{{ item.messageText }}</v-card>
                 </div>
             </div>
-            <v-text-field v-if="expanded" v-model="currentMessage" label="Napisz wiadomość" @keyup.enter.native="sendMessage()" hide-details solo></v-text-field>
+            <v-text-field
+                    v-if="expanded"
+                    v-model="currentMessage"
+                    label="Napisz wiadomość"
+                    @keyup.enter.native="sendMessage()"
+                    @focus="onFocus()"
+                    @blur="hasFocus = false"
+                    hide-details solo>
+            </v-text-field>
         </v-card>
     </div>
 </template>
@@ -24,7 +32,7 @@
     import Component from "vue-class-component";
     import { mapGetters } from "vuex";
     import { Watch, Prop } from 'vue-property-decorator';
-    import { ChatWindowModel, Message, MessageReceived } from '@/interfaces/chat';
+    import { ChatWindowModel, Message } from '@/interfaces/chat';
     import ChatService from '@/services/ChatService';
 
     @Component({})
@@ -35,6 +43,7 @@
 
         private expanded = true;
         private currentMessage = '';
+        private hasFocus = true;
 
         @Prop({default: {
             id: 0,
@@ -58,6 +67,7 @@
 
         async created () {
             (this as any).$chatHub.$on('chat-message-received', this.onMessageReceived);
+            await this.readMessages();
         }
 
         mounted() {
@@ -86,17 +96,27 @@
         }
 
         async sendMessage() {
-            let message = await ChatService.sendMessage({
+            await ChatService.sendMessage({
                 receiverId: this.model.id,
                 messageText: this.currentMessage,
             });
 
-            this.model.messages.items.push(message);
             this.currentMessage = '';
         }
 
         onMessageReceived(senderId: number, message: Message) {
+            if(!this.hasFocus && senderId !== (this as any).$auth.user().id) this.$store.state.chat.unreadMessagesFromIds.push(senderId);
             if(senderId == this.model.id) this.model.messages.items.push(message);
+        }
+
+        async onFocus() {
+            this.hasFocus = true;
+            this.readMessages();
+        }
+
+        async readMessages() {
+            this.$store.state.chat.unreadMessagesFromIds = this.$store.state.chat.unreadMessagesFromIds.filter((x: number) => x !== this.model.id);
+            await ChatService.updateLastReadingDate(this.model.id);
         }
     }
 </script>

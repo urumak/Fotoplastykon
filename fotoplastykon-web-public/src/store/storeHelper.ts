@@ -6,7 +6,8 @@ export default class StoreHelper {
         return {
             infiniteScroll: new InfiniteScroll(20),
             friends: [],
-            activeWindows: []
+            activeWindows: [],
+            unreadMessagesFromIds: []
         }
     }
 

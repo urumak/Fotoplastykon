@@ -24,6 +24,7 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Abstract
         IForumThreadCommentsRepository ForumThreadComments { get; }
         IMessagesRepository Messages { get; }
         ISignalRConnectionsRepository SignalRConnections { get; }
+        IMessagesReadingsRepository MessagesReadings { get; }
         Task<int> Complete();
     }
 }

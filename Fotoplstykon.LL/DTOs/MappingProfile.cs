@@ -14,6 +14,7 @@ using Fotoplastykon.DAL.Enums;
 using Fotoplastykon.BLL.DTOs.Chat;
 using Fotoplastykon.BLL.DTOs.SignalR;
 using Fotoplastykon.BLL.DTOs.Messages;
+using System;
 
 namespace Fotoplastykon.BLL.Models
 {
@@ -215,6 +216,11 @@ namespace Fotoplastykon.BLL.Models
                 .ForMember(d => d.NameAndSurname, o => o.MapFrom(s => s.FirstName + " " + s.Surname))
                 .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.PhotoId : string.Empty))
                 .ForMember(d => d.Messages, o => o.Ignore());
+
+            CreateMap<Message, MessagesReading>()
+                .ForMember(d => d.ReceiverId, o => o.MapFrom(s => s.ReceiverId))
+                .ForMember(d => d.SenderId, o => o.MapFrom(s => s.SenderId))
+                .ForAllOtherMembers(o => o.Ignore());
         }
 
         private void QuizzesMappings()

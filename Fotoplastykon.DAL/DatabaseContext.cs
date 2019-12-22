@@ -34,6 +34,7 @@ namespace Fotoplastykon.DAL
         public virtual DbSet<QuizScore> QuizScores { get; protected set; }
         public virtual DbSet<StoredFileInfo> Files { get; protected set; }
         public virtual DbSet<SignalRConnection> SignalRConnections { get; protected set; }
+        public virtual DbSet<MessagesReading> MessagesReadings { get; protected set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -73,5 +73,36 @@ namespace Fotoplastykon.BLL.Services.Concrete
 
             return friends;
         }
+
+        public async Task<List<long>> GetUnreadMessagesUsersIds(long receiverId)
+        {
+            var lastUnreadMesssageFromEachFriend = await Unit.Messages.GetLastUnreadMessagesFromEachFriend(receiverId);
+            var readings = await Unit.MessagesReadings.GetByReceiverId(receiverId);
+
+            var messagesWithNoHistory = lastUnreadMesssageFromEachFriend
+                .Where(m => !readings.Select(r => r.SenderId).Contains(m.SenderId));
+
+            await Unit.MessagesReadings.AddRange(Mapper.Map<List<MessagesReading>>(messagesWithNoHistory));
+            await Unit.Complete();
+
+            return lastUnreadMesssageFromEachFriend.Select(x => x.SenderId).ToList();
+        }
+
+        public async Task<IInfiniteScrollResult<MessageDTO>> GetLastMessages(IInfiniteScroll scroll, long receiverId)
+        {
+            var data = await Unit.Messages.GetLastMessagesFromEachFriend(scroll, receiverId);
+            return new InfiniteScrollResult<MessageDTO>
+            {
+                Items = Mapper.Map<List<MessageDTO>>(data.Items),
+                Scroll = data.Scroll
+            };
+        }
+
+        public async Task UpdateLastReadingDate(long senderId, long receiverId)
+        {
+            var reading = await Unit.MessagesReadings.Get(x => x.SenderId == senderId && x.ReceiverId == receiverId);
+            reading.LastReadingDate = DateTime.Now;
+            await Unit.Complete();
+        }
     }
 }

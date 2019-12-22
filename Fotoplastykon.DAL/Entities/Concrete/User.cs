@@ -62,6 +62,8 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         public ICollection<Information> Informations { get; set; }
         public ICollection<InformationComment> InformationComments { get; set; }
         public ICollection<SignalRConnection> SignalRConnections { get; set; }
+        public ICollection<MessagesReading> UnreadMessages { get; set; }
+        public ICollection<MessagesReading> UnreadSentMessages { get; set; }
     }
 
     internal class UserMappings : IEntityTypeConfiguration<User>

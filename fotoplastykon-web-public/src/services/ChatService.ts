@@ -22,7 +22,15 @@ export default class ChatService {
             }})).data;
     }
 
-    public static async sendMessage(message: SendMessage): Promise<Message> {
-        return (await Vue.axios.post<Message>(`chat/send-message`, message)).data;
+    public static async sendMessage(message: SendMessage) {
+        return (await Vue.axios.post(`chat/send-message`, message)).data;
+    }
+
+    public static async getUnreadMessagesUsersIds(): Promise<number[]> {
+        return (await Vue.axios.get<number[]>(`chat/get-unread-messages-users-ids`)).data;
+    }
+
+    public static async updateLastReadingDate(senderId: number) {
+        return (await Vue.axios.post(`chat/update-last-reading-date/${senderId}`)).data;
     }
 }

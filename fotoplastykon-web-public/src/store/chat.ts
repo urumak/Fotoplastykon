@@ -5,6 +5,7 @@ export default {
     state: {
         infiniteScroll: new InfiniteScroll(20),
         friends: [],
-        activeWindows: []
+        activeWindows: [],
+        unreadMessagesFromIds: []
     }
 }
