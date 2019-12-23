@@ -26,10 +26,10 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         protected IMapper Mapper { get; }
         protected IUsersService Users { get; }
         protected IFriendshipsService Friendships { get; }
-        protected IHubContext<ChatHub, IChatHub> HubContext { get; }
+        protected IHubContext<NotificationsHub, INotificationsHub> HubContext { get; }
         private ISignalRService SignalRService { get; set; }
 
-        public ChatController(IChatService chat, IMapper mapper, IUsersService users, IFriendshipsService friendships, ISignalRService signalRService, IHubContext<ChatHub, IChatHub> hubContext)
+        public ChatController(IChatService chat, IMapper mapper, IUsersService users, IFriendshipsService friendships, ISignalRService signalRService, IHubContext<NotificationsHub, INotificationsHub> hubContext)
         {
             Chat = chat;
             Mapper = mapper;
@@ -43,7 +43,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> GetMessages(InfiniteScroll scroll, long friendId)
+        public async Task<IActionResult> GetMessages(long friendId, [FromQuery]InfiniteScroll scroll)
         {
             if (!await Friendships.CheckIfFriendshipExist(User.Id(), friendId)) return NotFound();
             var result = await Chat.GetMessages(scroll, User.Id(), friendId);

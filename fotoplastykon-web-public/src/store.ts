@@ -4,7 +4,9 @@ import information from "@/store/information";
 import quizzes from "@/store/quizzes";
 import forum from "@/store/forum";
 import chat from "@/store/chat";
+import notifications from "@/store/notifications";
 import StoreHelper from "@/store/storeHelper";
+import storeHelper from "@/store/storeHelper";
 
 Vue.use(Vuex);
 
@@ -14,6 +16,7 @@ const mutations = {
     state.information = StoreHelper.getDefaultInformationState();
     state.forum = StoreHelper.getDefaultForumState();
     state.quizzes = StoreHelper.getDefaultQuizzesState();
+    state.notifications = storeHelper.getDefaultNotificationsState();
   }
 };
 
@@ -23,7 +26,8 @@ const store = new Vuex.Store({
     information: information,
     forum: forum,
     quizzes: quizzes,
-    chat: chat
+    chat: chat,
+    notifications: notifications
   },
   mutations: mutations
 });

@@ -13,11 +13,11 @@ using System.Threading.Tasks;
 namespace Fotoplastykon.API.Areas.Public.Hubs
 {
     [Authorize]
-    public class ChatHub : Hub<IChatHub>
+    public class NotificationsHub : Hub<INotificationsHub>
     {
         public ISignalRService SignalRService { get; set; }
 
-        public ChatHub(ISignalRService signalRService)
+        public NotificationsHub(ISignalRService signalRService)
         {
             SignalRService = signalRService;
         }

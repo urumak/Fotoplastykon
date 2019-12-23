@@ -36,6 +36,8 @@ namespace Fotoplastykon.DAL
         public virtual DbSet<SignalRConnection> SignalRConnections { get; protected set; }
         public virtual DbSet<MessagesReading> MessagesReadings { get; protected set; }
         public virtual DbSet<Conversation> Conversations { get; protected set; }
+        public virtual DbSet<InvitationNotification> InvitationNotifications { get; protected set; }
+        public virtual DbSet<NotificationsReading> NotificationsReadings { get; protected set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

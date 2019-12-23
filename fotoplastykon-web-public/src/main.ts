@@ -5,7 +5,7 @@ import store from './store'
 import 'vuetify/dist/vuetify.min.css'
 import './css/app.styl'
 import '@/bootstrap/axios';
-import '@/chat-hub'
+import '@/notifications-hub'
 import vuetify from '@/plugins/vuetify';
 import Default from './layouts/Default.vue';
 import Landing from './layouts/Landing.vue';

@@ -26,7 +26,8 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Abstract
         ISignalRConnectionsRepository SignalRConnections { get; }
         IMessagesReadingsRepository MessagesReadings { get; }
         IConversationsRepository Conversations { get; }
-
+        IInvitationNotificationsRepository InvitationNotifications { get; }
+        INotificationsReadingsRepository NotificationsReadings { get; }
         Task<int> Complete();
     }
 }

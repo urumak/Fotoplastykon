@@ -7,19 +7,38 @@
                 :nudge-width="300">
             <template v-slot:activator="{ on }">
                 <v-badge class="mr-4" color="red" overlap>
-                    <template v-if="notificationsCount > 0"  v-slot:badge>
-                        <span>{{ notificationsCount }}</span>
+                    <template v-if="$store.state.notifications.count > 0"  v-slot:badge>
+                        <span>{{ $store.state.notifications.count }}</span>
                     </template>
-                    <v-icon class="nav-icon" v-on="on">mdi-bell</v-icon>
+                    <v-icon class="nav-icon" v-on="on" @click="loadData()">mdi-bell</v-icon>
                 </v-badge>
             </template>
             <div>
                 <v-list>
                     <v-list-item
-                            v-for="(item, index) in messages"
+                            v-for="(item, index) in notifications"
                             :key="index"
                     >
-                        <v-list-item-title>{{ item }}</v-list-item-title>
+                        <v-list-item-avatar>
+                            <v-img v-if="item.photoUrl != null && item.photoUrl.length != 0" :src='item.photoUrl'></v-img>
+                            <v-img v-else src="@/assets/subPhoto.png"></v-img>
+                        </v-list-item-avatar>
+                        <v-list-item-content>
+                            <v-list-item-title>{{ item.nameAndSurname }}</v-list-item-title>
+                            <v-list-item-subtitle v-if="isInvitationToAccept(item)">
+                                {{ item.nameAndSurname + ' wysłał/a Ci zaproszenie do grona znajomych.' }}
+                                <v-row>
+                                    <v-btn class="primary" @click="acceptInvitation(item)">Zaakceptuj</v-btn>
+                                    <v-btn class="secondary" @click="refuseInvitation(item)">Odrzuć</v-btn>
+                                </v-row>
+                            </v-list-item-subtitle>
+                            <v-list-item-subtitle v-if="isAcceptedInvitation(item)">
+                                {{ item.nameAndSurname + ' zaakceptował/a Twoje zaproszenie do grona znajomych.' }}
+                            </v-list-item-subtitle>
+                            <v-list-item-subtitle v-if="isOldInvitation(item)">
+                                {{ item.nameAndSurname + ' wysłał/a Ci zaproszenie do grona znajomych.' }}
+                            </v-list-item-subtitle>
+                        </v-list-item-content>
                     </v-list-item>
                 </v-list>
             </div>
@@ -35,11 +54,52 @@
     import Vue from "vue";
     import Component from "vue-class-component";
     import { Prop } from 'vue-property-decorator';
+    import { NotificationModel } from '@/interfaces/notifications';
+    import { InfiniteScroll } from '@/interfaces/infiniteScroll';
+    import NotificationsService from '@/services/NotificationsService';
+    import UsersService from '@/services/UsersService';
 
     @Component({})
     export default class NotificationsPopover extends Vue {
-        private messages = ["sdddfs", 'daswdas', 'dsadasd'];
+        $refs!: {
+            lasNotifications: any;
+        };
 
-        private notificationsCount: number = 0;
+        private notifications : NotificationModel[] = [];
+        private infiniteScroll : InfiniteScroll = new InfiniteScroll(2);
+
+        async created() {
+            //(this as any).$chatHub.$on('chat-message-received', this.onMessageReceived);
+            this.$store.state.notifications.count = await NotificationsService.getNotificationsCount();
+        }
+
+        async loadData() {
+            if(this.$refs.lasNotifications) this.$refs.lasNotifications.scrollTop = 0;
+            this.infiniteScroll.setRowsLoaded(0);
+            this.notifications = (await NotificationsService.getNotifications(this.infiniteScroll)).items;
+            this.infiniteScroll.setRowsLoaded(this.notifications.length);
+        }
+
+        isInvitationToAccept(item: NotificationModel) {
+            return item.canAccept;
+        }
+
+        isAcceptedInvitation(item: NotificationModel) {
+            return item.type === 1;
+        }
+
+        isOldInvitation(item: NotificationModel) {
+            return item.type === 0 && !item.canAccept;
+        }
+
+        async acceptInvitation(item: NotificationModel) {
+            await UsersService.acceptInvitation(item.friendId);
+            item.canAccept = false;
+        }
+
+        async refuseInvitation(item: NotificationModel) {
+            await UsersService.refuseInvitation(item.friendId);
+            item.canAccept = false;
+        }
     }
 </script>

@@ -18,7 +18,7 @@ Vue.use(x =>
     Vue.prototype.startSignalR = (jwtToken : any) => {
         connection = new HubConnectionBuilder()
             .withUrl(
-                process.env.VUE_APP_HUBS_URL + '/chat',
+                process.env.VUE_APP_HUBS_URL + '/notifications',
                 //@ts-ignore
                 jwtToken ? { accessTokenFactory: () => jwtToken } : null
             )

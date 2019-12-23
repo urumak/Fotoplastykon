@@ -29,4 +29,10 @@ export default class StoreHelper {
             pager: new Pager(1, 2)
         }
     }
+
+    public static getDefaultNotificationsState(): any {
+        return {
+            count: 0
+        }
+    }
 }

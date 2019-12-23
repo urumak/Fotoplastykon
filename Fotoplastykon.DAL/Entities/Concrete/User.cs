@@ -52,6 +52,7 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         public DateTime? AnonimisationDate { get; set; }
 
         public StoredFileInfo Photo { get; set; }
+        public NotificationsReading NotificationsReading { get; set; }
         public ICollection<Friendship> InvitedFriends { get; set; }
         public ICollection<Friendship> AcceptedFriends { get; set; }
         public ICollection<Invitation> InvitationsSent { get; set; }
@@ -70,6 +71,8 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         public ICollection<MessagesReading> UnreadSentMessages { get; set; }
         public ICollection<Conversation> ConversationsFirst { get; set; }
         public ICollection<Conversation> ConversationsSecond { get; set; }
+        public ICollection<InvitationNotification> InvitationsNotifications { get; set; }
+        public ICollection<InvitationNotification> InvitationsNotificationsSent { get; set; }
     }
 
     internal class UserMappings : IEntityTypeConfiguration<User>

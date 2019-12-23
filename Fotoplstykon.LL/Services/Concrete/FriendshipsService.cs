@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Fotoplastykon.BLL.DTOs.Friendships;
 using Fotoplastykon.BLL.DTOs.Shared;
 using Fotoplastykon.BLL.Services.Abstract;
 using Fotoplastykon.DAL.Entities.Concrete;
@@ -7,6 +8,7 @@ using Fotoplastykon.DAL.UnitsOfWork.Abstract;
 using Fotoplastykon.Tools.InfiniteScroll;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,13 +23,19 @@ namespace Fotoplastykon.BLL.Services.Concrete
 
         public async Task InviteFriend(long userId, long friendId)
         {
-            var invitation = new Invitation
+            await Unit.Invitations.Add(new Invitation
             {
                 InvitingId = userId,
                 InvitedId = friendId
-            };
+            });
 
-            await Unit.Invitations.Add(invitation);
+            await Unit.InvitationNotifications.Add(new InvitationNotification
+            {
+                FriendId = userId,
+                UserId = friendId,
+                Type = NotificationType.InvitationSent
+            });
+
             await Unit.Complete();
         }
 
@@ -35,13 +43,19 @@ namespace Fotoplastykon.BLL.Services.Concrete
         {
             var invitation = await Unit.Invitations.Get(userId, invitedId);
 
-            var friendship = new Friendship
+            await Unit.Friendships.Add(new Friendship
             {
                 InvitingId = invitation.InvitingId,
                 InvitedId = invitation.InvitedId
-            };
+            });
 
-            await Unit.Friendships.Add(friendship);
+            await Unit.InvitationNotifications.Add(new InvitationNotification
+            {
+                FriendId = userId,
+                UserId = invitedId,
+                Type = NotificationType.InvitationAccepted
+            });
+
             Unit.Invitations.Remove(invitation);
             await Unit.Complete();
         }
@@ -74,7 +88,11 @@ namespace Fotoplastykon.BLL.Services.Concrete
         public async Task RemoveInvitation(long userId, long friendId)
         {
             var invitation = await Unit.Invitations.Get(userId, friendId);
+            var notification = await Unit.InvitationNotifications.Get(i => i.FriendId == userId && i.UserId == friendId);
+
             Unit.Invitations.Remove(invitation);
+            Unit.InvitationNotifications.Remove(notification);
+
             await Unit.Complete();
         }
 
@@ -87,5 +105,11 @@ namespace Fotoplastykon.BLL.Services.Concrete
                 Scroll = data.Scroll
             };
         }
+
+        public async Task<List<InvitationDTO>> GetInvitations(long userId)
+        {
+            return Mapper.Map<List<InvitationDTO>>(await Unit.Invitations.GetInvitations(userId));
+        }
+
     }
 }

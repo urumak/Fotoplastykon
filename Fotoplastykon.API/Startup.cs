@@ -98,7 +98,7 @@ namespace Fotoplastykon.API
             app.UseMvc();
             app.UseSignalR(route =>
             {
-                route.MapHub<ChatHub>("/hubs/chat");
+                route.MapHub<NotificationsHub>("/hubs/notifications");
             });
         }
     }

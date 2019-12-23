@@ -10,5 +10,6 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
     {
         Task<Invitation> Get(long firstId, long secondId);
         Task<Invitation> GetByInvitationRoles(long invitedId, long invitingId);
+        Task<List<Invitation>> GetInvitations(long invitedId);
     }
 }

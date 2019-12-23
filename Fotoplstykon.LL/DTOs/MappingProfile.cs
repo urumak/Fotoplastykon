@@ -15,6 +15,7 @@ using Fotoplastykon.BLL.DTOs.Chat;
 using Fotoplastykon.BLL.DTOs.SignalR;
 using Fotoplastykon.BLL.DTOs.Messages;
 using System;
+using Fotoplastykon.BLL.DTOs.Notifications;
 
 namespace Fotoplastykon.BLL.Models
 {
@@ -36,6 +37,7 @@ namespace Fotoplastykon.BLL.Models
             QuizzesMappings();
             ChatMappings();
             SignalRMappings();
+            NotificationsMappings();
         }
 
         private void UserMappings()
@@ -242,6 +244,13 @@ namespace Fotoplastykon.BLL.Models
                 .ForMember(d => d.User, o => o.Ignore())
                 .ForMember(d => d.Id, o => o.Ignore())
                 .ReverseMap();
+        }
+
+        private void NotificationsMappings()
+        {
+            CreateMap<InvitationNotification, NotificationDTO>()
+                .ForMember(d => d.NameAndSurname, o => o.MapFrom(s => s.Friend.FirstName + " " + s.Friend.Surname))
+                .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.Friend.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.Friend.PhotoId : string.Empty));
         }
     }
 }

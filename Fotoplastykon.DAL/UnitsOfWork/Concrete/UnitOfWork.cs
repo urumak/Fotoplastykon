@@ -29,7 +29,9 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
             IMessagesRepository messages,
             ISignalRConnectionsRepository signalRConnections,
             IMessagesReadingsRepository messagesReadings,
-            IConversationsRepository conversations)
+            IConversationsRepository conversations,
+            IInvitationNotificationsRepository invitationNotifications,
+            INotificationsReadingsRepository notificationsReadings)
         {
             Context = context;
             Users = users;
@@ -52,6 +54,8 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
             SignalRConnections = signalRConnections;
             MessagesReadings = messagesReadings;
             Conversations = conversations;
+            InvitationNotifications = invitationNotifications;
+            NotificationsReadings = notificationsReadings;
         }
 
         public IUsersRepository Users { get; }
@@ -74,6 +78,8 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
         public ISignalRConnectionsRepository SignalRConnections { get; }
         public IMessagesReadingsRepository MessagesReadings { get; }
         public IConversationsRepository Conversations { get; }
+        public IInvitationNotificationsRepository InvitationNotifications { get; }
+        public INotificationsReadingsRepository NotificationsReadings { get; }
 
         private DbContext Context { get; }
 

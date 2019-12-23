@@ -35,5 +35,11 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
             return await DatabaseContext.Invitations
                 .FirstOrDefaultAsync(f => f.InvitedId == invitedId && f.InvitingId == invitingId);
         }
+
+        public async Task<List<Invitation>> GetInvitations(long invitedId)
+        {
+            return await DatabaseContext.Invitations
+                .Where(f => f.InvitedId == invitedId).ToListAsync();
+        }
     }
 }
