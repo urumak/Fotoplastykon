@@ -13,7 +13,7 @@
                     <v-icon class="nav-icon" v-on="on" @click="loadData()">mdi-chat</v-icon>
                 </v-badge>
             </template>
-            <div style="max-height: 100px" @scroll="pullMoreMessages" class="custom-scroll" ref="lastMessages">
+            <div @scroll="pullMoreMessages" class="custom-scroll" ref="lastMessages">
                 <v-list>
                     <v-list-item
                             v-for="(item, index) in messages"
@@ -27,7 +27,7 @@
                         </v-list-item-avatar>
                         <v-list-item-content>
                             <v-list-item-title>{{ item.nameAndSurname }}</v-list-item-title>
-                            <v-list-item-subtitle>{{ item.messageText }}</v-list-item-subtitle>
+                            <v-list-item-subtitle>{{ getListItemSubtitlePrefix(item) + item.messageText }}</v-list-item-subtitle>
                         </v-list-item-content>
                     </v-list-item>
                 </v-list>
@@ -70,7 +70,7 @@
         }
 
         async loadData() {
-            this.$refs.lastMessages.scrollTop = 0;
+            if(this.$refs.lastMessages) this.$refs.lastMessages.scrollTop = 0;
             this.infiniteScroll.setRowsLoaded(0);
             this.messages = (await ChatService.getLastMessagesForEachFriend(this.infiniteScroll)).items;
             this.infiniteScroll.setRowsLoaded(this.messages.length);
@@ -91,16 +91,20 @@
             item.unread = false;
             let chatWindow = null;
             if(this.$store.state.chat.activeWindows && this.$store.state.chat.activeWindows.length !== 0)
-                chatWindow = this.$store.state.chat.activeWindows.find((x: LastMessage) => x.id == item.senderId);
+                chatWindow = this.$store.state.chat.activeWindows.find((x: LastMessage) => x.id == item.friendId);
 
             if(!chatWindow)
             {
-                this.$store.state.chat.activeWindows.push((await ChatService.getForWindows([item.senderId]))[0]);
+                this.$store.state.chat.activeWindows.push((await ChatService.getForWindows([item.friendId]))[0]);
 
                 let windowsTmp = JSON.parse(localStorage.chatWindows);
-                windowsTmp.push(item.senderId);
+                windowsTmp.push(item.friendId);
                 localStorage.chatWindows = JSON.stringify(windowsTmp);
             }
+        }
+
+        getListItemSubtitlePrefix(item: LastMessage) {
+            return item.senderId !== (this as any).$auth.user().id ? (item.nameAndSurname + ': ') : 'Ty: ';
         }
     }
 </script>

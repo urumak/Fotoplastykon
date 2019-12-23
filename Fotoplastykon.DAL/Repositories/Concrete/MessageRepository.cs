@@ -43,11 +43,12 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
                 .ToListAsync();
         }
 
-        public async Task<IInfiniteScrollResult<Message>> GetLastMessagesForEachFriend(IInfiniteScroll scroll, long receiverId)
+        public async Task<IInfiniteScrollResult<Message>> GetLastMessagesForEachFriend(IInfiniteScroll scroll, long userId)
         {
             return await DatabaseContext.Messages
                 .Include(m => m.Sender)
-                .Where(m => m.ReceiverId == receiverId)
+                .Include(m => m.Receiver)
+                .Where(m => m.ReceiverId == userId || m.SenderId == userId)
                 .GroupBy(m => m.SenderId)
                 .OrderByDescending(m => m.Max(o => o.DateCreated))
                 .Select(m => m.LastOrDefault())

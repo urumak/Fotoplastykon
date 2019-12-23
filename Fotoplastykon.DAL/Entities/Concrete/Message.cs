@@ -17,6 +17,7 @@ namespace Fotoplastykon.DAL.Entities.Concrete
 
         public User Sender { get; set; }
         public User Receiver { get; set; }
+        public Conversation Conversation  { get; set; }
     }
 
     internal class MessageMappings : IEntityTypeConfiguration<Message>

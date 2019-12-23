@@ -8,6 +8,7 @@ namespace Fotoplastykon.BLL.DTOs.Messages
     {
         public long Id { get; set; }
         public long SenderId { get; set; }
+        public long FriendId { get; set; }
         public bool Unread { get; set; }
         public string PhotoUrl { get; set; }
         public string MessageText { get; set; }

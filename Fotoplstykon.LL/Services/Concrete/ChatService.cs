@@ -11,15 +11,17 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
 
 namespace Fotoplastykon.BLL.Services.Concrete
 {
     public class ChatService : Service, IChatService
     {
-        public ChatService(IUnitOfWork unit, IMapper mapper)
+        private IConfiguration Configuration { get; }
+        public ChatService(IUnitOfWork unit, IMapper mapper, IConfiguration configuration)
             : base(unit, mapper)
         {
-
+            Configuration = configuration;
         }
 
         public async Task<IInfiniteScrollResult<Message>> GetMessages(IInfiniteScroll scroll, long userId, long friendId)
@@ -34,6 +36,22 @@ namespace Fotoplastykon.BLL.Services.Concrete
         {
             message.SenderId = userId;
             message = await Unit.Messages.Add(message);
+
+            var conversation = await Unit.Conversations.Get(userId, message.ReceiverId);
+            if (conversation == null)
+            {
+                await Unit.Conversations.Add(new Conversation
+                {
+                    FirstUserId = userId,
+                    SecondUserId = message.ReceiverId,
+                    LastMessageId = message.Id
+                });
+            }
+            else
+            {
+                conversation.LastMessageId = message.Id;
+            }
+
             await Unit.Complete();
 
             return Mapper.Map<Message, MessageDTO>(message, a => a.AfterMap((s, d) => d.IsSender = true));
@@ -88,19 +106,12 @@ namespace Fotoplastykon.BLL.Services.Concrete
             return lastUnreadMesssageFromEachFriend.Select(x => x.SenderId).ToList();
         }
 
-        public async Task<IInfiniteScrollResult<LastMessage>> GetLastMessages(IInfiniteScroll scroll, long receiverId)
+        public async Task<IInfiniteScrollResult<LastMessage>> GetLastMessages(IInfiniteScroll scroll, long userId)
         {
-            var data = await Unit.Messages.GetLastMessagesForEachFriend(scroll, receiverId);
-            var readings = await Unit.MessagesReadings
-                .GetByReceiverAndSendersIds(receiverId, data.Items.Select(x => x.SenderId).ToList());
+            var data = await Unit.Conversations.GetLastMessagesForEachFriend(scroll, userId);
+            var readings = await Unit.MessagesReadings.GetByReceiverId(userId);
 
-            var items = Mapper.Map<List<LastMessage>>(data.Items);
-
-            foreach(var item in items)
-            {
-                var reading = readings.FirstOrDefault(x => x.SenderId == item.SenderId);
-                item.Unread = reading.LastReadingDate.HasValue ? item.DateCreated > reading.LastReadingDate.Value : true;
-            }
+            var items = MapLastMessages(data.Items, readings);
 
             return new InfiniteScrollResult<LastMessage>
             {
@@ -114,6 +125,46 @@ namespace Fotoplastykon.BLL.Services.Concrete
             var reading = await Unit.MessagesReadings.Get(x => x.SenderId == senderId && x.ReceiverId == receiverId);
             reading.LastReadingDate = DateTime.Now;
             await Unit.Complete();
+        }
+
+        private List<LastMessage> MapLastMessages(List<Conversation> data, List<MessagesReading> readings)
+        {
+            var items = new List<LastMessage>();
+
+            foreach (var item in data)
+            {
+                var reading = readings.FirstOrDefault(r => r.SenderId == item.LastMessage.SenderId);
+                if(reading != null)
+                {
+                    items.Add(new LastMessage
+                    {
+                        FriendId = item.LastMessage.SenderId,
+                        SenderId = item.LastMessage.SenderId,
+                        DateCreated = item.LastMessage.DateCreated,
+                        Id = item.LastMessage.Id,
+                        MessageText = item.LastMessage.MessageText,
+                        NameAndSurname = item.LastMessage.Sender.FirstName + " " + item.LastMessage.Sender.Surname,
+                        PhotoUrl = item.LastMessage.Sender.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + item.LastMessage.Sender.PhotoId : string.Empty,
+                        Unread = reading.LastReadingDate < item.LastMessage.DateCreated
+                    });
+                }
+                else
+                {
+                    items.Add(new LastMessage
+                    {
+                        FriendId = item.LastMessage.ReceiverId,
+                        SenderId = item.LastMessage.SenderId,
+                        DateCreated = item.LastMessage.DateCreated,
+                        Id = item.LastMessage.Id,
+                        MessageText = item.LastMessage.MessageText,
+                        NameAndSurname = item.LastMessage.Receiver.FirstName + " " + item.LastMessage.Receiver.Surname,
+                        PhotoUrl = item.LastMessage.Receiver.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + item.LastMessage.Receiver.PhotoId : string.Empty,
+                        Unread = false
+                    });
+                }
+            }
+
+            return items;
         }
     }
 }

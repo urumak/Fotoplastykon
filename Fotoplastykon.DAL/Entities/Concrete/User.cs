@@ -22,7 +22,11 @@ namespace Fotoplastykon.DAL.Entities.Concrete
             Scores = new HashSet<QuizScore>();
             Informations = new HashSet<Information>();
             InformationComments = new HashSet<InformationComment>();
-
+            SignalRConnections = new HashSet<SignalRConnection>();
+            UnreadMessages = new HashSet<MessagesReading>();
+            UnreadSentMessages = new HashSet<MessagesReading>();
+            ConversationsFirst = new HashSet<Conversation>();
+            ConversationsSecond = new HashSet<Conversation>();
         }
 
         public long Id { get; set; }
@@ -64,6 +68,8 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         public ICollection<SignalRConnection> SignalRConnections { get; set; }
         public ICollection<MessagesReading> UnreadMessages { get; set; }
         public ICollection<MessagesReading> UnreadSentMessages { get; set; }
+        public ICollection<Conversation> ConversationsFirst { get; set; }
+        public ICollection<Conversation> ConversationsSecond { get; set; }
     }
 
     internal class UserMappings : IEntityTypeConfiguration<User>

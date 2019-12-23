@@ -34,6 +34,7 @@ export interface LastMessage
     id: number;
     messageText: string;
     senderId: number;
+    friendId: number;
     unread: boolean;
     photoUrl: string;
     nameAndSurname: string;
