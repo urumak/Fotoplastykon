@@ -39,16 +39,15 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
             SignalRService = signalRService;
         }
 
-        [HttpGet("{friendId}")]
+        [HttpGet("messages/{friendId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         public async Task<IActionResult> GetMessages(long friendId, [FromQuery]InfiniteScroll scroll)
         {
             if (!await Friendships.CheckIfFriendshipExist(User.Id(), friendId)) return NotFound();
-            var result = await Chat.GetMessages(scroll, User.Id(), friendId);
 
-            return Ok(Mapper.Map<List<MessageListItemModel>>(result.Items));
+            return Ok(await Chat.GetMessages(scroll, User.Id(), friendId));
         }
 
         [HttpGet("friends")]

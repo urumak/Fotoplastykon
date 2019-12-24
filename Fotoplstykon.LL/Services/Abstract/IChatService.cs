@@ -11,7 +11,7 @@ namespace Fotoplastykon.BLL.Services.Abstract
 {
     public interface IChatService
     {
-        Task<IInfiniteScrollResult<Message>> GetMessages(IInfiniteScroll scroll, long userId, long friendId);
+        Task<IInfiniteScrollResult<MessageDTO>> GetMessages(IInfiniteScroll scroll, long userId, long friendId);
         Task<MessageDTO> WriteMessage(long userId, Message message);
         Task<IInfiniteScrollResult<ChatListItemDTO>> GetFriends(IInfiniteScroll scroll, long userId);
         Task<List<ChatWindowModel>> GetForChatWindows(List<long> friendsIds, long principalId);

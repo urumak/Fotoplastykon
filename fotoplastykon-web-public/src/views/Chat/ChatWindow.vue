@@ -8,10 +8,12 @@
                 </v-avatar>
                 {{ model.nameAndSurname }}
                 <v-spacer></v-spacer>
-                <v-icon @click="close()">mdi-close</v-icon></v-toolbar>
-            <div v-if="expanded" class="chat-messages" ref="window">
-                <div v-for="item in messages" :key="'cw' + item.id" class="col-12 message-row">
-                    <v-card :class="'message-card' + (item.isSender ? ' float-right' : ' primary')">{{ item.messageText }}</v-card>
+                <v-icon @click="close()" aria-label="asdasd">mdi-close</v-icon></v-toolbar>
+            <div v-if="expanded" class="chat-messages">
+                <div class="content" ref="window" @scroll="pullMoreMessages">
+                    <div v-for="item in messages" :key="'cw' + item.id" class="col-12 message-row">
+                        <v-card :class="'message-card' + (item.isSender ? ' float-right' : ' float-left primary')">{{ item.messageText }}</v-card>
+                    </div>
                 </div>
             </div>
             <v-text-field
@@ -34,6 +36,7 @@
     import { Watch, Prop } from 'vue-property-decorator';
     import { ChatWindowModel, Message } from '@/interfaces/chat';
     import ChatService from '@/services/ChatService';
+    import { InfiniteScroll } from '@/interfaces/infiniteScroll';
 
     @Component({})
     export default class ChatWindow extends Vue {
@@ -44,25 +47,41 @@
         private expanded = true;
         private currentMessage = '';
         private hasFocus = true;
+        private stopGoingBackToBottom = false;
+        private oldScrollHeight = 0;
 
         @Prop({default: {
             id: 0,
             nameAndSurname: '',
             photoUrl: '',
-            messages: []
+            messages: {
+                infiniteScroll: new InfiniteScroll(20),
+                items: []
+            }
         }}) private model!: ChatWindowModel;
 
         private get messages() : Message[]
         {
             return this.model.messages.items.sort((first: Message, second: Message) => {
-                if (first.dateCreated < second.dateCreated ){
+                if (first.dateCreated < second.dateCreated) {
                     return -1;
                 }
-                if (first.dateCreated > second.dateCreated ){
+                if (first.dateCreated > second.dateCreated) {
                     return 1;
                 }
                 return 0;
             });
+        }
+
+        async pullMoreMessages(event: any) {
+            if(event.target.scrollTop >= 0) this.oldScrollHeight = this.$refs.window.scrollHeight;
+            this.stopGoingBackToBottom = true;
+            if(event.target.scrollTop === 0) {
+                this.model.messages.scroll.rowsLoaded = this.model.messages.items.length;
+                let response = await ChatService.getMessages(this.model.messages.scroll, this.model.id);
+                if(this.model.messages.items) this.model.messages.items = this.model.messages.items.concat(response.items);
+                else this.model.messages.items = response.items;
+            }
         }
 
         async created () {
@@ -71,11 +90,13 @@
         }
 
         mounted() {
-            this.$refs.window.scrollTop = this.$refs.window.scrollHeight;
+            if(this.$refs.window) this.$refs.window.scrollTop = this.$refs.window.scrollHeight;
         }
 
         updated() {
-            this.$refs.window.scrollTop = this.$refs.window.scrollHeight;
+            if(this.$refs.window && !this.stopGoingBackToBottom) this.$refs.window.scrollTop = this.$refs.window.scrollHeight;
+            else this.$refs.window.scrollTop = this.$refs.window.scrollHeight - this.oldScrollHeight;
+            this.stopGoingBackToBottom = false;
         }
 
         beforeDestroy () {

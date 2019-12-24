@@ -24,12 +24,18 @@ namespace Fotoplastykon.BLL.Services.Concrete
             Configuration = configuration;
         }
 
-        public async Task<IInfiniteScrollResult<Message>> GetMessages(IInfiniteScroll scroll, long userId, long friendId)
+        public async Task<IInfiniteScrollResult<MessageDTO>> GetMessages(IInfiniteScroll scroll, long userId, long friendId)
         {
-            return await Unit.Messages.GetListForInfiniteScroll(
+            var data = await Unit.Messages.GetListForInfiniteScroll(
                 scroll,
                 m => (m.SenderId == userId && m.ReceiverId == friendId) || (m.ReceiverId == userId && m.SenderId == friendId),
                 s => s.DateCreated, OrderDirection.DESC);
+
+            return new InfiniteScrollResult<MessageDTO>
+            {
+                Items = Mapper.Map<List<MessageDTO>>(data.Items),
+                Scroll = data.Scroll
+            };
         }
 
         public async Task<MessageDTO> WriteMessage(long userId, Message message)

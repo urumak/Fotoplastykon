@@ -10,6 +10,10 @@ export default class ChatService {
         return (await Vue.axios.get<InfiniteScrollResult<ChatListItem>>(`chat/friends`,{params: merge({}, scroll)})).data;
     }
 
+    public static async getMessages(scroll: InfiniteScroll, friendId: number): Promise<InfiniteScrollResult<Message>> {
+        return (await Vue.axios.get<InfiniteScrollResult<Message>>(`chat/messages/${friendId}`,{params: merge({}, scroll)})).data;
+    }
+
     public static async searchFriends(searchInput: string): Promise<ChatListItem[]> {
         return (await Vue.axios.get<ChatListItem[]>(`chat/search-friends/${searchInput}`)).data;
     }
