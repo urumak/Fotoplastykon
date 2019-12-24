@@ -20,7 +20,7 @@
                     v-if="expanded"
                     v-model="currentMessage"
                     label="Napisz wiadomość"
-                    @keyup.enter.native="sendMessage()"
+                    @keyup="onKeyUp"
                     @focus="onFocus()"
                     @blur="hasFocus = false"
                     hide-details solo>
@@ -47,8 +47,8 @@
         private expanded = true;
         private currentMessage = '';
         private hasFocus = true;
-        private stopGoingBackToBottom = false;
         private oldScrollHeight = 0;
+        private keepScrollPosition = false;
 
         @Prop({default: {
             id: 0,
@@ -74,8 +74,8 @@
         }
 
         async pullMoreMessages(event: any) {
+            this.keepScrollPosition = true;
             if(event.target.scrollTop >= 0) this.oldScrollHeight = this.$refs.window.scrollHeight;
-            this.stopGoingBackToBottom = true;
             if(event.target.scrollTop === 0) {
                 this.model.messages.scroll.rowsLoaded = this.model.messages.items.length;
                 let response = await ChatService.getMessages(this.model.messages.scroll, this.model.id);
@@ -94,9 +94,11 @@
         }
 
         updated() {
-            if(this.$refs.window && !this.stopGoingBackToBottom) this.$refs.window.scrollTop = this.$refs.window.scrollHeight;
-            else this.$refs.window.scrollTop = this.$refs.window.scrollHeight - this.oldScrollHeight;
-            this.stopGoingBackToBottom = false;
+            if(this.$refs.window) {
+                if(this.keepScrollPosition) this.$refs.window.scrollTop = this.$refs.window.scrollHeight - this.oldScrollHeight;
+                else this.$refs.window.scrollTop = this.$refs.window.scrollHeight;
+            }
+            this.keepScrollPosition = false;
         }
 
         beforeDestroy () {
@@ -117,6 +119,13 @@
             this.hasFocus = false;
         }
 
+        async onKeyUp(event: any) {
+            this.keepScrollPosition = false;
+            if(event.code === 'Enter'){
+                this.sendMessage();
+            }
+        }
+
         async sendMessage() {
             await ChatService.sendMessage({
                 receiverId: this.model.id,
@@ -127,11 +136,13 @@
         }
 
         onMessageReceived(senderId: number, message: Message) {
+            this.keepScrollPosition = false;
             if(!this.hasFocus && !this.expanded && senderId !== (this as any).$auth.user().id) this.$store.state.chat.unreadMessagesFromIds.push(senderId);
             if(senderId == this.model.id) this.model.messages.items.push(message);
         }
 
         async onFocus() {
+            this.keepScrollPosition = false;
             this.hasFocus = true;
             this.readMessages();
         }
