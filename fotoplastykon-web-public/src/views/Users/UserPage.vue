@@ -18,7 +18,7 @@
                 <v-avatar>
                     <v-img :src="item.photoUrl"></v-img>
                 </v-avatar>
-                <router-link :to="{ name: 'film-page', params: { id: item.id }}" class="font-weight-light home-link">{{ item.itemName }}</router-link>
+                <router-link :to="{ name: 'film-page', params: { id: item.id }}" class="font-weight-light custom-link">{{ item.itemName }}</router-link>
                 <v-rating
                         v-model="item.mark"
                         :length="10"
@@ -35,7 +35,7 @@
                 <v-avatar>
                     <v-img :src="item.photoUrl"></v-img>
                 </v-avatar>
-                <router-link :to="{ name: 'film-person-page', params: { id: item.id }}" class="font-weight-light home-link">{{ item.itemName }}</router-link>
+                <router-link :to="{ name: 'film-person-page', params: { id: item.id }}" class="font-weight-light custom-link">{{ item.itemName }}</router-link>
                 <v-rating
                         v-model="item.mark"
                         :length="10"
@@ -57,6 +57,8 @@
     import { UserPage } from '@/interfaces/users';
     import UsersService from '@/services/UsersService';
     import { Watch } from 'vue-property-decorator';
+    import ChatService from '@/services/ChatService';
+    import { InfiniteScroll } from '@/interfaces/infiniteScroll';
 
     @Component({})
     export default class FilmPersonPageComponent extends Vue {

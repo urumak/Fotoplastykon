@@ -7,6 +7,6 @@ export default {
         friends: [],
         activeWindows: [],
         unreadMessagesFromIds: [],
-        notificationsInfiniteScroll: new InfiniteScroll(2)
+        notificationsInfiniteScroll: new InfiniteScroll(20)
     }
 }

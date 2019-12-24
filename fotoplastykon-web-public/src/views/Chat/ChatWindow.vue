@@ -93,6 +93,7 @@
 
         toggle() {
             this.expanded = !this.expanded;
+            this.hasFocus = false;
         }
 
         async sendMessage() {
@@ -105,7 +106,7 @@
         }
 
         onMessageReceived(senderId: number, message: Message) {
-            if(!this.hasFocus && senderId !== (this as any).$auth.user().id) this.$store.state.chat.unreadMessagesFromIds.push(senderId);
+            if(!this.hasFocus && !this.expanded && senderId !== (this as any).$auth.user().id) this.$store.state.chat.unreadMessagesFromIds.push(senderId);
             if(senderId == this.model.id) this.model.messages.items.push(message);
         }
 

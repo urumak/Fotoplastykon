@@ -2,7 +2,7 @@
     <div>
         <v-app-bar class="app-bar-standard" app>
             <v-toolbar-title class="headline text-uppercase">
-                <router-link :to="{ name: 'information' }" class="font-weight-light home-link">Fotoplastykon</router-link>
+                <router-link :to="{ name: 'information' }" class="font-weight-light custom-link">Fotoplastykon</router-link>
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-autocomplete

@@ -2,13 +2,14 @@ import { HubConnectionBuilder, LogLevel } from '@aspnet/signalr';
 import Vue from 'vue';
 import {HubConnection} from "@aspnet/signalr/src/HubConnection";
 import {Message} from "@/interfaces/chat";
+import {NotificationModel} from "@/interfaces/notifications";
 
 Vue.use(x =>
 {
     // use a new Vue instance as the interface for Vue components to receive/send SignalR events
     // this way every component can listen to events or send new events using this.$questionHub
-    const chatHub = new Vue()
-    Vue.prototype.$chatHub = chatHub
+    const chatHub = new Vue();
+    Vue.prototype.$chatHub = chatHub;
 
     // Provide methods to connect/disconnect from the SignalR hub
     let connection : any = null;
@@ -23,12 +24,23 @@ Vue.use(x =>
                 jwtToken ? { accessTokenFactory: () => jwtToken } : null
             )
             .configureLogging(LogLevel.Information)
-            .build()
+            .build();
 
         connection.on('ChatMessageReceived', (senderId : number, message: Message) => {
             chatHub.$emit('chat-message-received', senderId, message)
         });
-        console.log(connection)
+
+        connection.on('NotificationReceived', (notification: NotificationModel) => {
+            chatHub.$emit('notification-received', notification)
+        });
+
+        connection.on('RefreshNotifications', (notificationId: number) => {
+            chatHub.$emit('refresh-notifications', notificationId)
+        });
+
+        connection.on('RefreshChatList', () => {
+            chatHub.$emit('refresh-chat-list')
+        });
 
         // You need to call connection.start() to establish the connection but the client wont handle reconnecting for you!
         // Docs recommend listening onclose and handling it there.
@@ -38,22 +50,22 @@ Vue.use(x =>
                 .catch((err : any) => {
                     console.error('Failed to connect with hub', err)
                     return new Promise((resolve, reject) => setTimeout(() => start().then(resolve).catch(reject), 5000))
-                })
+                });
             return startedPromise
         }
         connection.onclose(() => setTimeout(() => {
             if (!manuallyClosed) start()
-        },5000))
+        },5000));
 
         // Start everything
-        manuallyClosed = false
+        manuallyClosed = false;
         start()
-    }
+    };
 
     Vue.prototype.stopSignalR = () => {
-        if (!startedPromise) return
+        if (!startedPromise) return;
 
-        manuallyClosed = true
+        manuallyClosed = true;
         return startedPromise
             .then(() => connection.stop())
             .then(() => { startedPromise = null })

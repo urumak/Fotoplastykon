@@ -1,4 +1,5 @@
-﻿using Fotoplastykon.BLL.DTOs.Shared;
+﻿using Fotoplastykon.BLL.DTOs.Notifications;
+using Fotoplastykon.BLL.DTOs.Shared;
 using Fotoplastykon.Tools.InfiniteScroll;
 using System;
 using System.Collections.Generic;
@@ -9,10 +10,10 @@ namespace Fotoplastykon.BLL.Services.Abstract
 {
     public interface IFriendshipsService
     {
-        Task InviteFriend(long userId, long friendId);
-        Task AcceptInvitation(long userId, long invitingId);
+        Task<NotificationDTO> InviteFriend(long userId, long friendId);
+        Task<NotificationDTO> AcceptInvitation(long userId, long invitingId);
         Task RemoveFriend(long userId, long friendId);
-        Task RemoveInvitation(long userId, long friendId);
+        Task<long> RemoveInvitation(long userId, long friendId);
         Task<bool> CheckIfFriendshipExist(long firstId, long secondId);
         Task<bool> CheckIfInvitationExist(long firstId, long secondId);
         Task<bool> CheckIfInvitationExistByInvitationRoles(long invitedId, long invitingId);

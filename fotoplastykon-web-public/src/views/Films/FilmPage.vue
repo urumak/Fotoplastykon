@@ -30,14 +30,14 @@
             <v-avatar>
                 <v-img :src="item.photoUrl"></v-img>
             </v-avatar>
-            <router-link :to="{ name: 'film-person-page', params: { id: item.personId }}" class="font-weight-light home-link">{{ item.fullName }} - {{ item.characterName }}</router-link>
+            <router-link :to="{ name: 'film-person-page', params: { id: item.personId }}" class="font-weight-light custom-link">{{ item.fullName }} - {{ item.characterName }}</router-link>
         </div>
         <p>Twórcy</p>
         <div v-for="item in filmModel.filmmakers" :key="'m' + item.personId">
             <v-avatar>
                 <v-img :src="item.photoUrl"></v-img>
             </v-avatar>
-            <router-link :to="{ name: 'film-person-page', params: { id: item.personId }}" class="font-weight-light home-link">{{ item.fullName }} - {{ item.profession }}</router-link>
+            <router-link :to="{ name: 'film-person-page', params: { id: item.personId }}" class="font-weight-light custom-link">{{ item.fullName }} - {{ item.profession }}</router-link>
         </div>
         <p>Dyskusje</p>
         <div v-for="item in filmModel.forumThreads" :key="'d' + item.id">
@@ -45,7 +45,7 @@
                 <v-img :src="item.photoUrl"></v-img>
             </v-avatar>
             <div>{{ item.subject }}</div>
-            <router-link :to="{ name: 'user-page', params: { id: item.createdById }}" class="font-weight-light home-link">{{ item.createdByName }}</router-link>
+            <router-link :to="{ name: 'user-page', params: { id: item.createdById }}" class="font-weight-light custom-link">{{ item.createdByName }}</router-link>
             <div>{{ item.content }}</div>
         </div>
     </v-card>

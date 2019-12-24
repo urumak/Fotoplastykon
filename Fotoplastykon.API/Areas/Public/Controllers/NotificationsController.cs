@@ -18,15 +18,9 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
     public class NotificationsController : ControllerBase
     {
         protected INotificationsService Notifications { get; }
-        protected IMapper Mapper { get; }
-        protected IHubContext<NotificationsHub, INotificationsHub> HubContext { get; }
-        private ISignalRService SignalRService { get; set; }
 
-        public NotificationsController(INotificationsService notifications, IMapper mapper, IUsersService users, IFriendshipsService friendships, ISignalRService signalRService, IHubContext<NotificationsHub, INotificationsHub> hubContext)
+        public NotificationsController(INotificationsService notifications)
         {
-            Mapper = mapper;
-            HubContext = hubContext;
-            SignalRService = signalRService;
             Notifications = notifications;
         }
 

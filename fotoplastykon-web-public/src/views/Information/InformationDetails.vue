@@ -25,7 +25,7 @@
                 <v-img :src="item.photoUrl" contain>
                 </v-img>
             </v-avatar>
-            <router-link :to="{ name: 'user-page', params: { id: item.createdById }}" class="font-weight-light home-link">{{ item.creatorFullName }}</router-link>
+            <router-link :to="{ name: 'user-page', params: { id: item.createdById }}" class="font-weight-light custom-link">{{ item.creatorFullName }}</router-link>
             <div>{{item.dateCreated}}</div>
             <v-btn v-if="!item.editMode && isCommentCreator(item.createdById)" @click="edit(item)">Edytuj</v-btn>
             <v-btn v-if="!item.editMode && isCommentCreator(item.createdById)" @click="removeComment(item.id)">Usuń</v-btn>
@@ -39,7 +39,7 @@
                     <v-img :src="reply.photoUrl" contain>
                     </v-img>
                 </v-avatar>
-                <router-link :to="{ name: 'user-page', params: { id: reply.createdById }}" class="font-weight-light home-link">{{ reply.creatorFullName }}</router-link>
+                <router-link :to="{ name: 'user-page', params: { id: reply.createdById }}" class="font-weight-light custom-link">{{ reply.creatorFullName }}</router-link>
                 <div>{{reply.dateCreated}}</div>
                 <v-btn v-if="!reply.editMode && isCommentCreator(reply.createdById)" @click="edit(reply)">Edytuj</v-btn>
                 <v-btn v-if="!reply.editMode && isCommentCreator(reply.createdById)" @click="removeComment(reply.id)">Usuń</v-btn>

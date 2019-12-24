@@ -30,7 +30,7 @@
             <v-avatar>
                 <v-img :src="item.photoUrl"></v-img>
             </v-avatar>
-            <router-link :to="{ name: 'film-page', params: { id: item.filmId }}" class="font-weight-light home-link">{{ item.filmName }} - {{ item.roleDescription }}</router-link>
+            <router-link :to="{ name: 'film-page', params: { id: item.filmId }}" class="font-weight-light custom-link">{{ item.filmName }} - {{ item.roleDescription }}</router-link>
         </div>
         <p>Dyskusje</p>
         <div v-for="item in filmPersonModel.forumThreads" :key="'d' + item.id">
@@ -38,7 +38,7 @@
                 <v-img :src="item.photoUrl"></v-img>
             </v-avatar>
             <div>{{ item.subject }}</div>
-            <router-link :to="{ name: 'user-page', params: { id: item.createdById }}" class="font-weight-light home-link">{{ item.createdByName }}</router-link>
+            <router-link :to="{ name: 'user-page', params: { id: item.createdById }}" class="font-weight-light custom-link">{{ item.createdByName }}</router-link>
             <div>{{ item.content }}</div>
         </div>
     </v-card>

@@ -24,14 +24,14 @@ namespace Fotoplastykon.BLL.Services.Concrete
         public async Task<IInfiniteScrollResult<NotificationDTO>> GetNotifications(IInfiniteScroll scroll, long userId)
         {
             var reading = await Unit.NotificationsReadings.Get(r => r.UserId == userId);
-            var invitersIds = (await Unit.Invitations.Find(r => r.InvitedId == userId)).Select(x => x.InvitingId);
             var data = await Unit.InvitationNotifications.GetListForInfiniteScroll(scroll, n => n.UserId == userId, n => n.Friend, n => n.DateCreated, OrderDirection.DESC);
 
+            var activeIds = data.Items.Where(x => !x.Accepted.HasValue).Select(x => x.Id).ToList();
             var items = Mapper.Map<List<NotificationDTO>>(data.Items);
 
             items.ForEach(i =>
             {
-                i.CanAccept = invitersIds.Contains(i.FriendId);
+                i.CanAccept = activeIds.Contains(i.Id) && i.Type == NotificationType.InvitationSent;
                 i.Unread = reading == null ? true : reading.LastReadingDate < i.DateCreated;
             });
 
@@ -68,6 +68,20 @@ namespace Fotoplastykon.BLL.Services.Concrete
                 reading.LastReadingDate = DateTime.Now;
             }
 
+            await Unit.Complete();
+        }
+
+        public async Task SetDecisionAccepted(long userId, long friendId)
+        {
+            var notification = await Unit.InvitationNotifications.GetLast(friendId, userId);
+            notification.Accepted = true;
+            await Unit.Complete();
+        }
+
+        public async Task SetDecisionRefused(long userId, long friendId)
+        {
+            var notification = await Unit.InvitationNotifications.GetLast(friendId, userId);
+            notification.Accepted = false;
             await Unit.Complete();
         }
     }

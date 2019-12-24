@@ -62,6 +62,10 @@
             this.$store.state.chat.unreadMessagesFromIds = await ChatService.getUnreadMessagesUsersIds();
         }
 
+        beforeDestroy () {
+            (this as any).$chatHub.$off('chat-message-received', this.onMessageReceived);
+        }
+
         onMessageReceived(senderId: number, message: Message) {
             let windows = JSON.parse(localStorage.chatWindows);
             if(!this.$store.state.chat.unreadMessagesFromIds.includes(senderId)
@@ -70,10 +74,14 @@
         }
 
         async loadData() {
-            if(this.$refs.lastMessages) this.$refs.lastMessages.scrollTop = 0;
+            this.scrollTop();
             this.infiniteScroll.setRowsLoaded(0);
             this.messages = (await ChatService.getLastMessagesForEachFriend(this.infiniteScroll)).items;
             this.infiniteScroll.setRowsLoaded(this.messages.length);
+        }
+
+        scrollTop() {
+            if(this.$refs.lastMessages) this.$refs.lastMessages.scrollTop = 0;
         }
 
         async pullMoreMessages(event: any) {

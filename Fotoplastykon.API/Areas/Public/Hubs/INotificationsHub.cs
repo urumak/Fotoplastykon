@@ -10,7 +10,8 @@ namespace Fotoplastykon.API.Areas.Public.Hubs
     public interface INotificationsHub
     {
         Task ChatMessageReceived(long senderId, MessageDTO message);
-        Task InvitationSent(long senderId, NotificationDTO notification);
-        Task InvitationAccepted(long senderId, NotificationDTO notification);
+        Task NotificationReceived(NotificationDTO notification);
+        Task RefreshNotifications(long notificationId);
+        Task RefreshChatList();
     }
 }

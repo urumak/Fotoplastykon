@@ -7,8 +7,8 @@
                 <v-avatar>
                     <v-img :src="item.photoUrl"></v-img>
                 </v-avatar>
-                <router-link :to="{ name: 'user-page', params: { id: item.createdById }}" class="font-weight-light home-link">{{ item.createdByName }}</router-link>
-                <div><router-link :to="{ name: 'forum-thread', params: { id: item.id }}" class="font-weight-light home-link">{{ item.subject }}</router-link></div>
+                <router-link :to="{ name: 'user-page', params: { id: item.createdById }}" class="font-weight-light custom-link">{{ item.createdByName }}</router-link>
+                <div><router-link :to="{ name: 'forum-thread', params: { id: item.id }}" class="font-weight-light custom-link">{{ item.subject }}</router-link></div>
                 <div>{{ item.content }}</div>
             </v-card>
         </div>

@@ -2,7 +2,7 @@
     <div>
         <div v-for="item in items" :key="item.id" class="row">
             <v-card class="my-card">
-                <router-link :to="{ name: 'quiz', params: { id: item.id }}" class="font-weight-light home-link">{{ item.name }}</router-link>
+                <router-link :to="{ name: 'quiz', params: { id: item.id }}" class="font-weight-light custom-link">{{ item.name }}</router-link>
             </v-card>
         </div>
         <v-btn v-for="i in pager.totalPages" :key="'p' + i" @click="paginate(i)">{{i}}</v-btn>

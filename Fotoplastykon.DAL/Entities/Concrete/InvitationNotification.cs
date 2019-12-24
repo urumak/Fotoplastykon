@@ -14,6 +14,7 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         public long UserId { get; set; }
         public long FriendId { get; set; }
         public NotificationType Type { get; set; }
+        public bool? Accepted { get; set; }
         public DateTime DateCreated { get; set; }
 
         public User User { get; set; }

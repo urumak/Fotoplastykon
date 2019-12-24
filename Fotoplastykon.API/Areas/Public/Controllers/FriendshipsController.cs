@@ -9,6 +9,8 @@ using Fotoplastykon.BLL.Services.Abstract;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Fotoplastykon.Tools.InfiniteScroll;
+using Fotoplastykon.API.Areas.Public.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Fotoplastykon.API.Areas.Public.Controllers
 {
@@ -18,11 +20,17 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
     {
         private IFriendshipsService Friendships { get; }
         private IUsersService Users { get; }
+        private IHubContext<NotificationsHub, INotificationsHub> HubContext { get; }
+        private ISignalRService SignalRService { get; }
+        private INotificationsService Notifications { get; }
 
-        public FriendshipsController(IFriendshipsService friendships, IUsersService users)
+        public FriendshipsController(IFriendshipsService friendships, IUsersService users, IHubContext<NotificationsHub, INotificationsHub> hubContext, ISignalRService signalRService, INotificationsService notifications)
         {
             Friendships = friendships;
             Users = users;
+            HubContext = hubContext;
+            SignalRService = signalRService;
+            Notifications = notifications;
         }
 
         [HttpGet("")]
@@ -43,7 +51,9 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
             if (model.FriendId == User.Id()) return BadRequest("Nie można wysłać zaproszenia do siebie");
             if (!await Users.CheckIfExists(model.FriendId)) return NotFound();
             if (await Friendships.CheckIfFriendshipExist(User.Id(), model.FriendId)) return BadRequest("Użytkownicy są już znajomymi.");
-            await Friendships.InviteFriend(User.Id(), model.FriendId);
+
+            await HubContext.Clients.Clients(await SignalRService.GetUserConnections(model.FriendId))
+                .NotificationReceived(await Friendships.InviteFriend(User.Id(), model.FriendId));
 
             return Ok();
         }
@@ -55,7 +65,16 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         public async Task<IActionResult> AcceptInvitation([FromBody]FriendIdModel model)
         {
             if(!await Friendships.CheckIfInvitationExistByInvitationRoles(User.Id(), model.FriendId)) return NotFound();
-            await Friendships.AcceptInvitation(User.Id(), model.FriendId);
+
+            await HubContext.Clients.Clients(await SignalRService.GetUserConnections(model.FriendId))
+                .NotificationReceived(await Friendships.AcceptInvitation(User.Id(), model.FriendId));
+
+            await Notifications.SetDecisionAccepted(User.Id(), model.FriendId);
+
+            await HubContext.Clients.Clients
+                ((await SignalRService.GetUserConnections(model.FriendId))
+                    .Concat(await SignalRService.GetUserConnections(User.Id())).ToList())
+                .RefreshChatList();
 
             return Ok();
         }
@@ -68,6 +87,7 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         {
             if (!await Friendships.CheckIfInvitationExistByInvitationRoles(User.Id(), model.FriendId)) return NotFound();
             await Friendships.RemoveInvitation(User.Id(), model.FriendId);
+            await Notifications.SetDecisionRefused(User.Id(), model.FriendId);
 
             return Ok();
         }
@@ -82,6 +102,12 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
             if (!await Friendships.CheckIfFriendshipExist(User.Id(), model.FriendId)) return NotFound();
 
             await Friendships.RemoveFriend(User.Id(), model.FriendId);
+
+            await HubContext.Clients.Clients
+                ((await SignalRService.GetUserConnections(model.FriendId))
+                    .Concat(await SignalRService.GetUserConnections(User.Id())).ToList())
+                .RefreshChatList();
+
             return Ok();
         }
 
@@ -94,7 +120,9 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
             if (!await Users.CheckIfExists(model.FriendId)) return NotFound();
             if (!await Friendships.CheckIfInvitationExistByInvitationRoles(model.FriendId, User.Id())) return NotFound();
 
-            await Friendships.RemoveInvitation(User.Id(), model.FriendId);
+            await HubContext.Clients.Clients(await SignalRService.GetUserConnections(model.FriendId))
+                .RefreshNotifications(await Friendships.RemoveInvitation(User.Id(), model.FriendId));
+
             return Ok();
         }
     }

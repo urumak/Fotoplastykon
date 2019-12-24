@@ -31,6 +31,11 @@
 
         async created() {
             if(!this.$store.state.chat.friends || this.$store.state.chat.friends.length === 0) await this.loadFriends();
+            (this as any).$chatHub.$on('refresh-chat-list', this.reloadChatList);
+        }
+
+        beforeDestroy () {
+            (this as any).$chatHub.$off('refresh-chat-list', this.reloadChatList);
         }
 
         private get scroll(): InfiniteScroll
@@ -49,6 +54,15 @@
             else this.$store.state.chat.friends = response.items;
 
             this.scroll.setRowsLoaded(this.friends.length);
+        }
+
+        async reloadChatList() {
+            this.$store.state.chat.infiniteScroll = new InfiniteScroll(20);
+            this.$store.state.chat.friends = [];
+
+            let response = await ChatService.getFriends(this.$store.state.chat.infiniteScroll);
+            this.$store.state.chat.friends = response.items;
+            this.$store.state.chat.infiniteScroll.rowsLoaded = response.items.length;
         }
 
         async pullMoreFriends(event: any) {

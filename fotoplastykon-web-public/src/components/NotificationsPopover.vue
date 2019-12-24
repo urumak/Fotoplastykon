@@ -24,7 +24,12 @@
                             <v-img v-else src="@/assets/subPhoto.png"></v-img>
                         </v-list-item-avatar>
                         <v-list-item-content>
-                            <v-list-item-title>{{ item.nameAndSurname }}</v-list-item-title>
+                            <v-list-item-title>
+                                <router-link
+                                        class="font-weight-light notification-link"
+                                        :to="{ name: 'user-page', params: { id: item.friendId.toString() }}">
+                                            {{ item.nameAndSurname }}
+                                </router-link></v-list-item-title>
                             <v-list-item-subtitle v-if="isInvitationToAccept(item)">
                                 {{ item.nameAndSurname + ' wysłał/a Ci zaproszenie do grona znajomych.' }}
                                 <v-row>
@@ -58,6 +63,8 @@
     import { InfiniteScroll } from '@/interfaces/infiniteScroll';
     import NotificationsService from '@/services/NotificationsService';
     import UsersService from '@/services/UsersService';
+    import storeHelper from '@/store/storeHelper';
+    import ChatService from '@/services/ChatService';
 
     @Component({})
     export default class NotificationsPopover extends Vue {
@@ -66,18 +73,60 @@
         };
 
         private notifications : NotificationModel[] = [];
-        private infiniteScroll : InfiniteScroll = new InfiniteScroll(2);
+        private infiniteScroll : InfiniteScroll = new InfiniteScroll(20);
 
         async created() {
-            //(this as any).$chatHub.$on('chat-message-received', this.onMessageReceived);
-            this.$store.state.notifications.count = await NotificationsService.getNotificationsCount();
+            (this as any).$chatHub.$on('notification-received', this.onNotificationReceived);
+            (this as any).$chatHub.$on('refresh-notifications', this.onNotificationsRefreshing);
+            await this.refreshNotificationCount();
+        }
+
+        beforeDestroy () {
+            (this as any).$chatHub.$off('chat-message-received', this.onNotificationReceived);
+            (this as any).$chatHub.$off('refresh-notifications', this.onNotificationsRefreshing);
         }
 
         async loadData() {
-            if(this.$refs.lasNotifications) this.$refs.lasNotifications.scrollTop = 0;
+            this.scrollTop();
+
             this.infiniteScroll.setRowsLoaded(0);
             this.notifications = (await NotificationsService.getNotifications(this.infiniteScroll)).items;
             this.infiniteScroll.setRowsLoaded(this.notifications.length);
+
+            await this.readNotifications();
+        }
+
+        scrollTop () {
+            if(this.$refs.lasNotifications) this.$refs.lasNotifications.scrollTop = 0;
+        }
+
+        async acceptInvitation(item: NotificationModel) {
+            await UsersService.acceptInvitation(item.friendId);
+            item.canAccept = false;
+        }
+
+        async refuseInvitation(item: NotificationModel) {
+            await UsersService.refuseInvitation(item.friendId);
+            item.canAccept = false;
+        }
+
+        async readNotifications() {
+            await NotificationsService.updateLastReadingDate();
+            await this.refreshNotificationCount();
+        }
+
+        async onNotificationReceived(notification: NotificationModel) {
+            this.notifications.unshift(notification);
+            await this.refreshNotificationCount();
+        }
+
+        async onNotificationsRefreshing(notificationId: number) {
+            this.notifications = this.notifications.filter((x: NotificationModel) => x.id === notificationId);
+            await this.refreshNotificationCount();
+        }
+
+        async refreshNotificationCount() {
+            this.$store.state.notifications.count = await NotificationsService.getNotificationsCount();
         }
 
         isInvitationToAccept(item: NotificationModel) {
@@ -90,16 +139,6 @@
 
         isOldInvitation(item: NotificationModel) {
             return item.type === 0 && !item.canAccept;
-        }
-
-        async acceptInvitation(item: NotificationModel) {
-            await UsersService.acceptInvitation(item.friendId);
-            item.canAccept = false;
-        }
-
-        async refuseInvitation(item: NotificationModel) {
-            await UsersService.refuseInvitation(item.friendId);
-            item.canAccept = false;
         }
     }
 </script>
