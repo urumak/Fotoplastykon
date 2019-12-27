@@ -1,6 +1,7 @@
 ﻿using Fotoplastykon.BLL.DTOs.Notifications;
 using Fotoplastykon.BLL.DTOs.Shared;
 using Fotoplastykon.Tools.InfiniteScroll;
+using Fotoplastykon.Tools.Pager;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,5 +19,6 @@ namespace Fotoplastykon.BLL.Services.Abstract
         Task<bool> CheckIfInvitationExist(long firstId, long secondId);
         Task<bool> CheckIfInvitationExistByInvitationRoles(long invitedId, long invitingId);
         Task<IInfiniteScrollResult<LinkedItemDTO>> GetFriends(IInfiniteScroll scroll, long userId);
+        Task<IPaginationResult<FriendListItemDTO>> GetPaginatedList(IPager pager, long userId);
     }
 }

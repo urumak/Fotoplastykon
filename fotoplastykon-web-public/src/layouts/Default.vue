@@ -88,11 +88,11 @@
     import { Watch } from 'vue-property-decorator';
     import ChatWindows from '@/views/Chat/ChatWindows.vue';
     import ChatList from '@/views/Chat/ChatList.vue';
-    import NotificationsPopover from '@/components/NotificationsPopover.vue';
-    import ProfilePopover from '@/components/ProfilePopover.vue';
+    import NotificationsPopover from '@/components/popovers/NotificationsPopover.vue';
+    import ProfilePopover from '@/components/popovers/ProfilePopover.vue';
     import ChatService from '@/services/ChatService';
     import { Message } from '@/interfaces/chat';
-    import MessagesPopover from '@/components/MessagesPopover.vue';
+    import MessagesPopover from '@/components/popovers/MessagesPopover.vue';
 
     @Component({components: {
         'chat-windows': ChatWindows,

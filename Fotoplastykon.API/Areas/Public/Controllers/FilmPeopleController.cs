@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Fotoplastykon.API.Extensions;
 using Fotoplastykon.BLL.DTOs.FilmPeople;
 using Fotoplastykon.BLL.Services.Abstract;
+using Fotoplastykon.Tools.Pager;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -54,6 +55,15 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         {
             if (!await FilmPeople.CheckIfExists(id)) return NotFound();
             return Ok(await FilmPeople.GetRating(id));
+        }
+
+        [HttpGet("rated-people/{userId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> GetWatchedFilms(long userId, [FromQuery]Pager pager)
+        {
+            return Ok(await FilmPeople.GetPaginatedListForUser(pager, userId));
         }
     }
 }

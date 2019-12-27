@@ -2,6 +2,7 @@
 using Fotoplastykon.DAL.Enums;
 using Fotoplastykon.DAL.Repositories.Abstract;
 using Fotoplastykon.Tools.InfiniteScroll;
+using Fotoplastykon.Tools.Pager;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -46,6 +47,15 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
                 .Union(DatabaseContext.Friendships.Where(f => f.InvitingId == userId).Select(u => u.Invited))
                 .OrderBy(u => u.FirstName)
                 .GetInfiniteScrollResult(scroll);
+        }
+
+        public async Task<IPaginationResult<User>> GetPaginedList(IPager pager, long userId)
+        {
+            return await DatabaseContext.Friendships
+                .Where(f => f.InvitedId == userId).Select(u => u.Inviting)
+                .Union(DatabaseContext.Friendships.Where(f => f.InvitingId == userId).Select(u => u.Invited))
+                .OrderBy(u => u.FirstName)
+                .GetPaginationResult(pager);
         }
 
         public async Task<List<User>> SearchForFriends(string searchInput, long userId, int limit = 20)

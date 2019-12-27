@@ -13,40 +13,21 @@
             <v-btn v-if="canAcceptInvitation()" @click="acceptInvitation()">Przyjmij zaproszenie</v-btn>
             <v-btn v-if="canAcceptInvitation()" @click="refuseInvitation()">Odrzuć zaproszenie</v-btn>
             <v-btn v-if="canInvite()" @click="inviteFriend()">Dodaj do znajomych</v-btn>
-            <p>Ocenione filmy</p>
-            <div v-for="item in userModel.watchedFilms" :key="'c' + item.id">
-                <v-avatar>
-                    <v-img :src="item.photoUrl"></v-img>
-                </v-avatar>
-                <router-link :to="{ name: 'film-page', params: { id: item.id }}" class="font-weight-light custom-link">{{ item.itemName }}</router-link>
-                <v-rating
-                        v-model="item.mark"
-                        :length="10"
-                        color="purple"
-                        background-color="grey lighten-1"
-                        half-increments
-                        readonly
-                        small
-                ></v-rating>
-                <div>{{ item.mark }}</div>
-            </div>
-            <p>Ocenione osoby</p>
-            <div v-for="item in userModel.ratedPeople" :key="'p' + item.id">
-                <v-avatar>
-                    <v-img :src="item.photoUrl"></v-img>
-                </v-avatar>
-                <router-link :to="{ name: 'film-person-page', params: { id: item.id }}" class="font-weight-light custom-link">{{ item.itemName }}</router-link>
-                <v-rating
-                        v-model="item.mark"
-                        :length="10"
-                        color="purple"
-                        background-color="grey lighten-1"
-                        half-increments
-                        readonly
-                        small
-                ></v-rating>
-                <div>{{ item.mark }}</div>
-            </div>
+            <v-tabs>
+                <v-tabs-slider></v-tabs-slider>
+                <v-tab :href="`#tab-films`">Ocenione filmy</v-tab>
+                <v-tab :href="`#tab-people`">Ocenione osoby</v-tab>
+                <v-tab :href="`#tab-friends`">Znajomi</v-tab>
+                <v-tab-item :value="'tab-films'">
+                    <rated-films-list :userId="id"></rated-films-list>
+                </v-tab-item>
+                <v-tab-item :value="'tab-people'">
+                    <rated-people-list :userId="id"></rated-people-list>
+                </v-tab-item>
+                <v-tab-item :value="'tab-friends'">
+                    <friends-list :userId="id"></friends-list>
+                </v-tab-item>
+            </v-tabs>
         </v-card>
     </v-container>
 </template>
@@ -59,8 +40,15 @@
     import { Watch } from 'vue-property-decorator';
     import ChatService from '@/services/ChatService';
     import { InfiniteScroll } from '@/interfaces/infiniteScroll';
+    import FriendsList from '@/components/users/FriendsList.vue';
+    import RatedPeopleList from '@/components/users/RatedPeopleList.vue';
+    import RatedFilmsList from '@/components/users/RatedFilmsList.vue';
 
-    @Component({})
+    @Component({components: {
+            'friends-list': FriendsList,
+            'rated-films-list': RatedFilmsList,
+            'rated-people-list': RatedPeopleList
+        }})
     export default class FilmPersonPageComponent extends Vue {
         private userModel : UserPage = {
             id: 0,
@@ -71,8 +59,6 @@
             isFriend: false,
             invitationSent: false,
             isInvitationSender: false,
-            watchedFilms: [],
-            ratedPeople: []
         };
 
         private get id() : number {

@@ -8,6 +8,7 @@ using Fotoplastykon.API.Areas.Public.Models.Users;
 using Fotoplastykon.API.Extensions;
 using Fotoplastykon.BLL.Services.Abstract;
 using Fotoplastykon.DAL.Entities.Concrete;
+using Fotoplastykon.Tools.Pager;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

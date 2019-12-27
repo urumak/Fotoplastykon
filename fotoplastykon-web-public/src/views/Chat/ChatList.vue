@@ -21,9 +21,10 @@
     import Vue from "vue";
     import Component from "vue-class-component";
     import ChatService from '@/services/ChatService.ts'
-    import {ChatListItem, ChatWindowModel} from '@/interfaces/chat';
+    import {ChatWindowModel} from '@/interfaces/chat';
     import {InfiniteScroll} from '@/interfaces/infiniteScroll';
     import { Watch } from 'vue-property-decorator';
+    import { FriendListItem } from '@/interfaces/shared';
 
     @Component({})
     export default class ChatList extends Vue {
@@ -43,7 +44,7 @@
             return this.$store.state.chat.infiniteScroll;
         }
 
-        private get friends(): ChatListItem[]
+        private get friends(): FriendListItem[]
         {
             return this.$store.state.chat.friends;
         }
@@ -82,7 +83,7 @@
             }
         }
 
-        async addChatWindow(item: ChatListItem)
+        async addChatWindow(item: FriendListItem)
         {
             let chatWindow = null;
             if(this.$store.state.chat.activeWindows && this.$store.state.chat.activeWindows.length !== 0) chatWindow = this.$store.state.chat.activeWindows.find((x: ChatWindowModel) => x.id == item.id);

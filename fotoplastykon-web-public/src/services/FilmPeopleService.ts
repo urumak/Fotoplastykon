@@ -1,5 +1,8 @@
 import Vue from 'vue';
 import {FilmPersonPage} from "@/interfaces/filmPeople";
+import {Pager, PaginationResult} from "@/interfaces/pager";
+import {RankModel} from "@/interfaces/shared";
+import merge from "lodash/merge";
 
 export default class FilmPeopleService {
     public static async getForPage(id: number): Promise<FilmPersonPage> {
@@ -12,5 +15,9 @@ export default class FilmPeopleService {
 
     public static async rate(personId: number, rating: number){
         await Vue.axios.post(`film-people/rate`, {personId: personId, mark: rating});
+    }
+
+    public static async getRatedPeople(pager: Pager, userId: number): Promise<PaginationResult<RankModel>> {
+        return (await Vue.axios.get<PaginationResult<RankModel>>(`film-people/rated-people/${userId}`,{params: merge({}, pager)})).data;
     }
 }

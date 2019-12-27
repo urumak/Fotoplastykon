@@ -6,3 +6,17 @@ export interface ForumElement {
      photoUrl: string;
      createdById: number;
 }
+
+export interface FriendListItem {
+     id: number;
+     nameAndSurname: string;
+     photoUrl: string;
+}
+
+export interface RankModel {
+     id: number;
+     itemName: string;
+     mark: number;
+     photoUrl: string;
+}
+

@@ -1,4 +1,6 @@
 ﻿using Fotoplastykon.BLL.DTOs.FilmPeople;
+using Fotoplastykon.BLL.DTOs.Users;
+using Fotoplastykon.Tools.Pager;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,5 +15,6 @@ namespace Fotoplastykon.BLL.Services.Abstract
         Task<bool> CheckIfExists(long personId);
         Task<FilmPersonPageDTO> GetForPage(long personId, long userId);
         Task<decimal?> GetRating(long personId);
+        Task<IPaginationResult<RankModel>> GetPaginatedListForUser(IPager pager, long userId);
     }
 }

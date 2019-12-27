@@ -1,5 +1,6 @@
 ﻿using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.DAL.Repositories.Abstract;
+using Fotoplastykon.Tools.Pager;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,13 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
         public async Task<decimal?> GetRating(long personId)
         {
             return await DatabaseContext.PeopleMarks.Where(f => f.PersonId == personId).Select(f => f.Mark).AverageAsync();
+        }
+
+        public async Task<IPaginationResult<PersonMark>> GetPaginationResultForUser(IPager pager, long userId)
+        {
+            return await DatabaseContext.PeopleMarks.Include(w => w.Person)
+                .Where(w => w.UserId == userId)
+                .GetPaginationResult(pager);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Fotoplastykon.BLL.DTOs.Chat;
 using Fotoplastykon.BLL.DTOs.Messages;
+using Fotoplastykon.BLL.DTOs.Shared;
 using Fotoplastykon.BLL.Services.Abstract;
 using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.DAL.Enums;
@@ -63,19 +64,19 @@ namespace Fotoplastykon.BLL.Services.Concrete
             return Mapper.Map<Message, MessageDTO>(message, a => a.AfterMap((s, d) => d.IsSender = true));
         }
 
-        public async Task<IInfiniteScrollResult<ChatListItemDTO>> GetFriends(IInfiniteScroll scroll, long userId)
+        public async Task<IInfiniteScrollResult<FriendListItemDTO>> GetFriends(IInfiniteScroll scroll, long userId)
         {
             var data = await Unit.Friendships.GetListForInfiniteScroll(scroll, userId);
-            return new InfiniteScrollResult<ChatListItemDTO>
+            return new InfiniteScrollResult<FriendListItemDTO>
             {
-                Items = Mapper.Map<List<ChatListItemDTO>>(data.Items),
+                Items = Mapper.Map<List<FriendListItemDTO>>(data.Items),
                 Scroll = data.Scroll
             };
         }
 
-        public async Task<List<ChatListItemDTO>> SearchFriends(string searchInput, long userId, int limit = 20)
+        public async Task<List<FriendListItemDTO>> SearchFriends(string searchInput, long userId, int limit = 20)
         {
-            return Mapper.Map<List<ChatListItemDTO>>(await Unit.Friendships.SearchForFriends(searchInput, userId, limit));
+            return Mapper.Map<List<FriendListItemDTO>>(await Unit.Friendships.SearchForFriends(searchInput, userId, limit));
         }
 
         public async Task<List<ChatWindowModel>> GetForChatWindows(List<long> friendsIds, long principalId)

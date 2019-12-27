@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Fotoplastykon.BLL.DTOs.Chat
+namespace Fotoplastykon.BLL.DTOs.Shared
 {
-    public class ChatListItemDTO
+    public class FriendListItemDTO
     {
         public long Id { get; set; }
         public string NameAndSurname { get; set; }

@@ -3,11 +3,6 @@
         <v-form @keyup.enter="login()" ref="form">
             <v-text-field v-model="form.username" label="Nazwa użytkownika" required></v-text-field>
             <v-text-field type='password' v-model="form.password" label="Hasło" required></v-text-field>
-            <v-checkbox
-                    v-model="rememberMe"
-                    label="Zapamiętaj mnie"
-                    required
-            ></v-checkbox>
             <v-btn v-on:click="login()">Zaloguj się</v-btn>
         </v-form>
     </v-container>

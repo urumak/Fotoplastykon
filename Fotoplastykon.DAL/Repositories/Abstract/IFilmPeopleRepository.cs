@@ -1,4 +1,5 @@
 ﻿using Fotoplastykon.DAL.Entities.Concrete;
+using Fotoplastykon.Tools.Pager;
 using System;
 using System.Collections.Generic;
 using System.Text;

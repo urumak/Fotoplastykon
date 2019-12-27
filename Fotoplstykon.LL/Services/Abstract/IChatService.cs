@@ -1,5 +1,6 @@
 ﻿using Fotoplastykon.BLL.DTOs.Chat;
 using Fotoplastykon.BLL.DTOs.Messages;
+using Fotoplastykon.BLL.DTOs.Shared;
 using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.Tools.InfiniteScroll;
 using System;
@@ -13,9 +14,9 @@ namespace Fotoplastykon.BLL.Services.Abstract
     {
         Task<IInfiniteScrollResult<MessageDTO>> GetMessages(IInfiniteScroll scroll, long userId, long friendId);
         Task<MessageDTO> WriteMessage(long userId, Message message);
-        Task<IInfiniteScrollResult<ChatListItemDTO>> GetFriends(IInfiniteScroll scroll, long userId);
+        Task<IInfiniteScrollResult<FriendListItemDTO>> GetFriends(IInfiniteScroll scroll, long userId);
         Task<List<ChatWindowModel>> GetForChatWindows(List<long> friendsIds, long principalId);
-        Task<List<ChatListItemDTO>> SearchFriends(string searchInput, long userId, int limit = 20);
+        Task<List<FriendListItemDTO>> SearchFriends(string searchInput, long userId, int limit = 20);
         Task<List<long>> GetUnreadMessagesUsersIds(long receiverId);
         Task<IInfiniteScrollResult<LastMessage>> GetLastMessages(IInfiniteScroll scroll, long receiverId);
         Task UpdateLastReadingDate(long senderId, long receiverId);

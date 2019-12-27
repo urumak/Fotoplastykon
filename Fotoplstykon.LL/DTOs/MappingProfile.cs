@@ -47,8 +47,6 @@ namespace Fotoplastykon.BLL.Models
                 .ForMember(d => d.PasswordHash, o => o.Ignore());
 
             CreateMap<User, UserPageDTO>()
-                .ForMember(d => d.WatchedFilms, o => o.MapFrom(s => s.FilmsWatched))
-                .ForMember(d => d.RatedPeople, o => o.MapFrom(s => s.RatedPeople))
                 .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.PhotoId : string.Empty));
 
             CreateMap<FilmWatching, RankModel>()
@@ -207,7 +205,7 @@ namespace Fotoplastykon.BLL.Models
 
         private void ChatMappings()
         {
-            CreateMap<User, ChatListItemDTO>()
+            CreateMap<User, FriendListItemDTO>()
                 .ForMember(d => d.NameAndSurname, o => o.MapFrom(s => s.FirstName + " " + s.Surname))
                 .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.PhotoId : string.Empty));
 

@@ -7,6 +7,7 @@ using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.DAL.Enums;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
 using Fotoplastykon.Tools.InfiniteScroll;
+using Fotoplastykon.Tools.Pager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -101,6 +102,16 @@ namespace Fotoplastykon.BLL.Services.Concrete
             await Unit.Complete();
 
             return notification.Id;
+        }
+
+        public async Task<IPaginationResult<FriendListItemDTO>> GetPaginatedList(IPager pager, long userId)
+        {
+            var data = await Unit.Friendships.GetPaginedList(pager, userId);
+            return new PaginationResult<FriendListItemDTO>
+            {
+                Items = Mapper.Map<List<FriendListItemDTO>>(data.Items),
+                Pager = data.Pager
+            };
         }
 
         public async Task<IInfiniteScrollResult<LinkedItemDTO>> GetFriends(IInfiniteScroll scroll, long userId)

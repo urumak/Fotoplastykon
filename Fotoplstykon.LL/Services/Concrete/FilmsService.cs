@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Fotoplastykon.BLL.DTOs.Films;
 using Fotoplastykon.BLL.DTOs.Shared;
+using Fotoplastykon.BLL.DTOs.Users;
 using Fotoplastykon.BLL.Services.Abstract;
 using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
+using Fotoplastykon.Tools.Pager;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -53,6 +55,17 @@ namespace Fotoplastykon.BLL.Services.Concrete
         public async Task<decimal?> GetRating(long filmId)
         {
             return await Unit.FilmWatchings.GetRating(filmId);
+        }
+
+
+        public async Task<IPaginationResult<RankModel>> GetPaginatedListForUser(IPager pager, long userId)
+        {
+            var data = await Unit.FilmWatchings.GetPaginationResultForUser(pager, userId);
+            return new PaginationResult<RankModel>
+            {
+                Items = Mapper.Map<List<RankModel>>(data.Items),
+                Pager = data.Pager
+            };
         }
     }
 }

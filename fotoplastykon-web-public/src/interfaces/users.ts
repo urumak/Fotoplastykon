@@ -14,13 +14,5 @@ export interface UserPage {
     isFriend: boolean;
     invitationSent: boolean;
     isInvitationSender: boolean;
-    watchedFilms: RankModel[];
-    ratedPeople: RankModel[];
 }
 
-export interface RankModel {
-    id: number;
-    itemName: string;
-    mark: number;
-    photoUrl: string;
-}

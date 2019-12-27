@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Fotoplastykon.Tools.InfiniteScroll;
 using Fotoplastykon.API.Areas.Public.Hubs;
 using Microsoft.AspNetCore.SignalR;
+using Fotoplastykon.Tools.Pager;
 
 namespace Fotoplastykon.API.Areas.Public.Controllers
 {
@@ -39,6 +40,14 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         public async Task<IActionResult> GetUserFriends([FromQuery]InfiniteScroll scroll)
         {
             return Ok(await Friendships.GetFriends(scroll, User.Id()));
+        }
+
+        [HttpGet("paginated-list/{userId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> GetUserFriends(long userId, [FromQuery]Pager pager)
+        {
+            return Ok(await Friendships.GetPaginatedList(pager, userId));
         }
 
         [HttpPost("invite")]
