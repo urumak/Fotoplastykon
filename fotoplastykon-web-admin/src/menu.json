@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Użytkownicy",
+    "icon": "mdi-account",
+    "routeName": "users"
+  },
+  {
+    "name": "Aktualności",
+    "icon": "mdi-note",
+    "routeName": "information-list"
+  },
+  {
+    "name": "Filmy",
+    "icon": "mdi-movie",
+    "routeName": "films"
+  },
+  {
+    "name": "Ludzie filmu",
+    "icon": "mdi-star",
+    "routeName": "film-people"
+  },
+  {
+    "name": "Quizy",
+    "icon": "mdi-help",
+    "routeName": "quizzes"
+  }
+]
