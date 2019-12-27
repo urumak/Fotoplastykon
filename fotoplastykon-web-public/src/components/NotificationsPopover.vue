@@ -16,19 +16,17 @@
             <div>
                 <v-list>
                     <v-list-item
+                            v-if="notifications.length === 0"
+                    >
+                        <v-list-item-content>
+                            <v-list-item-title>Brak powiadomień</v-list-item-title>
+                            <v-list-item-subtitle>Dodaj znajomych, aby móc pozostać z nimi w kontakcie.</v-list-item-subtitle>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item
                             v-for="(item, index) in notifications"
                             :key="index"
                     >
-                        <v-list-item-content v-if="notifications.length === 0">
-                            <v-list-item-title>Brak powiadomień</v-list-item-title>
-                            <v-list-item-subtitle v-if="isInvitationToAccept(item)">Dodaj znajomych, aby móc pozostać z nimi w kontakcie.</v-list-item-subtitle>
-                            <v-list-item-subtitle v-if="isAcceptedInvitation(item)">
-                                {{ item.nameAndSurname + ' zaakceptował/a Twoje zaproszenie do grona znajomych.' }}
-                            </v-list-item-subtitle>
-                            <v-list-item-subtitle v-if="isOldInvitation(item)">
-                                {{ item.nameAndSurname + ' wysłał/a Ci zaproszenie do grona znajomych.' }}
-                            </v-list-item-subtitle>
-                        </v-list-item-content>
                         <v-list-item-avatar>
                             <v-img v-if="item.photoUrl != null && item.photoUrl.length != 0" :src='item.photoUrl'></v-img>
                             <v-img v-else src="@/assets/subPhoto.png"></v-img>

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text;
 
 namespace Fotoplastykon.DAL.Storage
@@ -17,8 +18,11 @@ namespace Fotoplastykon.DAL.Storage
 
         public FileInfo Get(string fileName, string relavivePath = null)
         {
-            var path = Path.Combine(BasePath, relavivePath ?? "", fileName);
-            return new FileInfo(path);
+            var path = Path.Combine(BasePath, relavivePath ?? "");
+
+            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+
+            return new FileInfo(Path.Combine(path, fileName));
         }
 
         public byte[] GetAllBytes(string fileName, string relavivePath = null)

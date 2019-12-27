@@ -55,6 +55,11 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/Users/UserPage.vue')
     },
     {
+      path: '/profile',
+      name: 'user-profile',
+      component: () => import(/* webpackChunkName: "about" */ './views/Users/UserProfile.vue')
+    },
+    {
       path: '/forum',
       name: 'forum',
       component: () => import(/* webpackChunkName: "about" */ './views/Forum/ForumList.vue')

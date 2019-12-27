@@ -126,7 +126,8 @@
                         await this.$router.push({ name: 'film-person-page', params: { id: this.selectedItem.id }});
                         break;
                     case 2:
-                        await this.$router.push({ name: 'user-page', params: { id: this.selectedItem.id }});
+                        if((this as any).$auth.user().id === this.selectedItem.id) await this.$router.push({ name: 'user-profile' });
+                        else await this.$router.push({ name: 'user-page', params: { id: this.selectedItem.id }});
                         break;
                 }
             }

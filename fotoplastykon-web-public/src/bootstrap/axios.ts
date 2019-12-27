@@ -25,39 +25,19 @@ Vue.axios.interceptors.response.use(
 
         if (ex.code === 401)
         {
-            console.log('asdasd');
+            console.log('401 catched');
         }
         if (ex.code === 403)
         {
-            if (error.response.config.method === "get")
-                Vue.router.replace({ name: 'error-403' });
-            else
-                Vue.alert.danger('');
+            console.log('403 catched');
         }
         if (ex.code === 404)
         {
-            console.log('eluwa');
-            //Vue.alert.danger('dfgdfg');
-            console.log(Vue);
-            console.log(Vue.router);
-            Vue.router.replace({ name: 'error-404' });
+            console.log('404 catched');
         }
         if (ex.code === 500)
         {
-            if (!error.data)
-            {
-                Vue.alert.danger('jjnjnj');
-            }
-            else
-            {
-                Vue.alert.danger('jhnkjnj');
-            }
-
-            if (ex.data && ex.data.stackTrace)
-            {
-                console.log(ex.data.message);
-                console.log(ex.data.stackTrace);
-            }
+            console.log('500 catched');
         }
 
         return Promise.reject(ex);

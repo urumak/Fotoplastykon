@@ -21,15 +21,6 @@
         async created () {
             if(!localStorage.chatWindows) localStorage.chatWindows = '[]';
             this.$store.state.chat.activeWindows = await ChatService.getForWindows(JSON.parse(localStorage.chatWindows)) || [];
-            (this as any).$chatHub.$on('chat-message-received', this.onMessageReceived);
-        }
-
-        beforeDestroy () {
-            (this as any).$chatHub.$off('chat-message-received', this.onMessageReceived);
-        }
-
-        onMessageReceived() {
-            console.log('halko here');
         }
     }
 </script>

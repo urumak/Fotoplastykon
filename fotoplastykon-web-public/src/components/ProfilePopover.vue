@@ -6,13 +6,13 @@
             :nudge-width="200">
         <template v-slot:activator="{ on }">
             <v-avatar v-if="$auth.check()" class="nav-avatar mr-2" v-on="on">
-                <v-img v-if="$auth.user().photoUrl" :src="$auth.user().photoUrl"></v-img>
+                <v-img v-if="photoUrl || $auth.user().photoUrl" :src="photoUrl ? photoUrl : $auth.user().photoUrl"></v-img>
                 <v-img v-else src="@/assets/subPhoto.png"></v-img>
             </v-avatar>
         </template>
         <div>
             <v-list>
-                <v-list-item>
+                <v-list-item @click="profile()">
                     <v-list-item-title>Profil</v-list-item-title>
                 </v-list-item>
                 <v-list-item @click="logout()">
@@ -33,11 +33,20 @@
 
     @Component({})
     export default class ProfilePopover extends Vue {
+
+        private get photoUrl() {
+            return this.$store.state.user.photoUrl;
+        }
+
         logout() {
             Vue.prototype.stopSignalR();
             this.$store.commit('resetState', this.$store.state);
             localStorage.clear();
             (this as any).$auth.logout();
+        }
+
+        async profile() {
+            await this.$router.push({ name: 'user-profile' });
         }
     }
 </script>

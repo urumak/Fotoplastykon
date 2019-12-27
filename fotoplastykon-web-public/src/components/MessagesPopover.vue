@@ -16,6 +16,14 @@
             <div @scroll="pullMoreMessages" class="custom-scroll" ref="lastMessages">
                 <v-list>
                     <v-list-item
+                            v-if="messages.length === 0"
+                    >
+                        <v-list-item-content>
+                            <v-list-item-title>Brak wiadomości</v-list-item-title>
+                            <v-list-item-subtitle>Napisz wiadomość wybirając znajmych z listy po prawej stronie ekranu.</v-list-item-subtitle>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item
                             v-for="(item, index) in messages"
                             :key="index"
                             :class="item.unread ? 'secondary' : ''"

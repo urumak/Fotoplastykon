@@ -35,4 +35,10 @@ export default class StoreHelper {
             count: 0
         }
     }
+
+    public static getDefaultUserState(): any {
+        return {
+            photoUrl: ''
+        }
+    }
 }
