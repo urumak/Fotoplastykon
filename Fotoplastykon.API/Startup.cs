@@ -74,7 +74,7 @@ namespace Fotoplastykon.API
                 options.AddPolicy(FrontendCors,
                 builder =>
                 {
-                    builder.WithOrigins(Configuration["Cors:Frontend"])
+                    builder.WithOrigins(Configuration["Cors:Frontend"].Split(";"))
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();

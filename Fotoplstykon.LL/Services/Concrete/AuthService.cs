@@ -31,6 +31,20 @@ namespace Fotoplastykon.BLL.Services.Concrete
         private readonly DateTime tokenExpirationDate = DateTime.Now.AddMinutes(30);
         private User _user;
 
+        public async Task<LoginResult> TryLoginAdmin(string userName, string password)
+        {
+            var result = new LoginResult();
+
+            if (!await FindUser(userName)) return result;
+            if(!_user.IsAdmin) return result;
+            if (!CheckPassword(password)) return result;
+
+            result.CorrectCredentials = true;
+            result.Token = CreateToken();
+
+            return result;
+        }
+
         public async Task<LoginResult> TryLoginUser(string userName, string password)
         {
             var result = new LoginResult();

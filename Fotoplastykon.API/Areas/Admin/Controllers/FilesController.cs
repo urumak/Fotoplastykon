@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Fotoplastykon.API.Areas.Admin.Models.Files;
 using Fotoplastykon.BLL.Services.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,7 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
 {
     [Route("api/admin/files")]
     [ApiController]
+    [Authorize(Policy = "AdminAccess")]
     public class FilesController : ControllerBase
     {
         protected IFilesService Files { get; }

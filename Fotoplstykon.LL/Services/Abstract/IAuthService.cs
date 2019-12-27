@@ -7,5 +7,6 @@ namespace Fotoplastykon.BLL.Services.Abstract
     {
         Task<LoginResult> TryLoginUser(string userName, string password);
         Task<TokenDTO> TryRefreshToken(long userId);
+        Task<LoginResult> TryLoginAdmin(string userName, string password);
     }
 }
