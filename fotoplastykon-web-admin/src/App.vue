@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app v-if="$auth.ready()">
     <component v-if="useLayout()" :is="layout()">
       <router-view/>
     </component>

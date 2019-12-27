@@ -32,9 +32,6 @@
                 },
                 data: this.form,
                 rememberMe: this.rememberMe
-            }).then(async () => {
-                (this as any).$auth.user(await AuthService.profile())
-                this.$store.state.user.photoUrl = (this as any).$auth.user().photoUrl;
             }).then(() => Vue.prototype.startSignalR((this as any).$auth.token()));
         }
     }
