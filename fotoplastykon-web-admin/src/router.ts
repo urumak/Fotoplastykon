@@ -78,16 +78,6 @@ const router = new Router({
       path: '/film-person/:id',
       name: 'film-person-edit',
       component: () => import(/* webpackChunkName: "about" */ './views/FilmPeople/FilmPersonForm.vue')
-    },
-    {
-      path: '/quizzes',
-      name: 'quizzes',
-      component: () => import(/* webpackChunkName: "about" */ './views/Quizzes/QuizzesList.vue')
-    },
-    {
-      path: '/quiz/:id',
-      name: 'quiz',
-      component: () => import(/* webpackChunkName: "about" */ './views/Quizzes/Quiz.vue')
     }
   ]
 });

@@ -1,9 +1,8 @@
 import Vue from 'vue';
-import {FilmListItem, FilmPage, PersonDropDownModel, RolesDropDownDictionary} from "@/interfaces/films";
+import {FilmListItem, PersonDropDownModel, RolesDropDownDictionary} from "@/interfaces/films";
 import {Pager, PaginationResult} from "@/interfaces/pager";
-import {RankModel} from "@/interfaces/shared";
 import merge from "lodash/merge";
-import {InformationFormModel, InformationListItem, InformationListModel} from "@/interfaces/information";
+import {InformationFormModel, InformationListItem} from "@/interfaces/information";
 
 export default class FilmsService {
     public static async getList(pager: Pager): Promise<PaginationResult<FilmListItem>> {

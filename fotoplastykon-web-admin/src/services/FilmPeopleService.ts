@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import {Pager, PaginationResult} from "@/interfaces/pager";
 import merge from "lodash/merge";
-import {InformationFormModel, InformationListItem} from "@/interfaces/information";
+import {InformationFormModel} from "@/interfaces/information";
 import {FilmPersonFormModel, FilmPersonListItem} from "@/interfaces/filmPeople";
 
 export default class FilmPeopleService {
