@@ -31,7 +31,7 @@
         <v-content style="margin-top:60px;">
             <v-container class="float-right main-content">
                 <div class="row">
-                    <div class="col-lg-12" style="padding-left: 100px; padding-right: 100px;">
+                    <div class="col-lg-12" style="padding-left: 20px; padding-right: 100px;">
                         <slot />
                     </div>
                 </div>

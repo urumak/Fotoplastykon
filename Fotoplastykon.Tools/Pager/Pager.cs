@@ -9,6 +9,7 @@ namespace Fotoplastykon.Tools.Pager
         public int PageIndex { get; set; }
         public int PageSize { get; set; }
         public int TotalRows { get; set; }
+        public string Search { get; set; }
         public int TotalPages { get => PageSize > 0 ? Convert.ToInt32(Math.Ceiling((double)TotalRows / PageSize)) : 0; }
     }
 }

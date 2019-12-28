@@ -28,13 +28,12 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
             Mapper = mapper;
         }
 
-        #region TryLoginUser()
+        #region Login()
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
             var loginResult = await Auth.TryLoginAdmin(model.UserName, model.Password);
-
             if (loginResult.CorrectCredentials) return Ok(Mapper.Map<TokenViewModel>(loginResult.Token));
 
             return BadRequest("Nazwa użytkownika lub hasło są nieprawidłowe.");
@@ -75,7 +74,6 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
         public async Task<IActionResult> GetUser()
         {
             var user = await Users.Get(User.Id());
-
             if (user == null) return NotFound();
 
             return Ok(Mapper.Map<UserProfileModel>(user));

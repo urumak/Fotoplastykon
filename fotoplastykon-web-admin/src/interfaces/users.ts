@@ -16,3 +16,11 @@ export interface UserPage {
     isInvitationSender: boolean;
 }
 
+export interface UserListItem {
+    id: number;
+    userName: string;
+    firstName: string;
+    surname: string;
+    photoUrl: string;
+}
+

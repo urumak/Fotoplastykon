@@ -58,6 +58,9 @@ namespace Fotoplastykon.BLL.Models
                 .ForMember(d => d.Id, o => o.MapFrom(s => s.Person.Id))
                 .ForMember(d => d.ItemName, o => o.MapFrom(s => s.Person.FirstName + " " + s.Person.Surname))
                 .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.Person.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.Person.PhotoId : string.Empty));
+
+            CreateMap<User, UserListItem>()
+                .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.PhotoId : string.Empty));
         }
 
         private void QuizMappings()

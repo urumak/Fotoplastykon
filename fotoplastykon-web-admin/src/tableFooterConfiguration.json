@@ -1,0 +1,17 @@
+{
+  "itemsPerPageOptions": [
+    {
+      "text": "2",
+      "value": 2
+    },
+    {
+      "text": "5",
+      "value": 5
+    },
+    {
+      "text": "10",
+      "value": 10
+    }
+  ],
+  "itemsPerPageText": "Rozmiar strony"
+}

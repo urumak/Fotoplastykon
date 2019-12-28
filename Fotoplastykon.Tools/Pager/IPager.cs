@@ -10,5 +10,6 @@ namespace Fotoplastykon.Tools.Pager
         int PageSize { get; set; }
         int TotalRows { get; set; }
         int TotalPages { get; }
+        string Search { get; set; }
     }
 }

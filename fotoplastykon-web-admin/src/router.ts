@@ -15,6 +15,21 @@ const router = new Router({
       component: Home
     },
     {
+      path: '/users',
+      name: 'users',
+      component: () => import(/* webpackChunkName: "about" */ './views/Users/UsersList.vue')
+    },
+    {
+      path: '/users/add',
+      name: 'user-add',
+      component: () => import(/* webpackChunkName: "about" */ './views/Users/UserForm.vue')
+    },
+    {
+      path: '/users/:id',
+      name: 'user-edit',
+      component: () => import(/* webpackChunkName: "about" */ './views/Users/UserForm.vue')
+    },
+    {
       path: '/information',
       name: 'information',
       component: () => import(/* webpackChunkName: "about" */ './views/Information/MainPage.vue')
@@ -30,11 +45,6 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/Information/List.vue')
     },
     {
-      path: '/login',
-      name: 'login',
-      component: () => import(/* webpackChunkName: "about" */ './views/Auth/Login.vue')
-    },
-    {
       path: '/films/:id',
       name: 'film-page',
       component: () => import(/* webpackChunkName: "about" */ './views/Films/FilmPage.vue')
@@ -43,11 +53,6 @@ const router = new Router({
       path: '/film-people/:id',
       name: 'film-person-page',
       component: () => import(/* webpackChunkName: "about" */ './views/FilmPeople/FilmPersonPage.vue')
-    },
-    {
-      path: '/users/:id',
-      name: 'user-page',
-      component: () => import(/* webpackChunkName: "about" */ './views/Users/UserPage.vue')
     },
     {
       path: '/profile',

@@ -15,13 +15,13 @@ Vue.component('landing-layout', Landing);
 Vue.use(require('@websanova/vue-auth'), {
   http: require('@websanova/vue-auth/drivers/http/axios.1.x.js'),
   router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
-  authRedirect: {path: '/auth/login'},
+  authRedirect: {path: 'admin/auth/login'},
   forbiddenRedirect: {path: '/error/403'},
   notFoundRedirect: {path: '/error/404'},
-  loginData: {url: 'auth/login', method: 'POST', redirect: '/information', fetchUser: true},
-  logoutData: {url: 'auth/logout', method: 'POST', redirect: '/', makeRequest: false},
-  fetchData: {url: 'auth/user', method: 'GET', enabled: true},
-  refreshData: {url: 'auth/refresh', method: 'GET', enabled: true, interval: 30},
+  loginData: {url: 'admin/auth/login', method: 'POST', redirect: '/information', fetchUser: true},
+  logoutData: {url: 'admin/auth/logout', method: 'POST', redirect: '/', makeRequest: false},
+  fetchData: {url: 'admin/auth/user', method: 'GET', enabled: true},
+  refreshData: {url: 'admin/auth/refresh', method: 'GET', enabled: true, interval: 30},
   auth: {
     request: function (req: any, token: any)
     {

@@ -55,6 +55,7 @@ namespace Fotoplastykon.API
             {
                 cfg.AddProfile(new BLL.Models.MappingProfile(provider.GetService<IConfiguration>()));
                 cfg.AddProfile(new Areas.Public.Models.MappingProfile(provider.GetService<IConfiguration>()));
+                cfg.AddProfile(new Areas.Admin.Models.MappingProfile(provider.GetService<IConfiguration>()));
             }).CreateMapper());
 
             services.RegisterAllTypes(typeof(IRepository<IEntity>).Assembly, "Repository");

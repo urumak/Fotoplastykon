@@ -12,6 +12,9 @@ using Fotoplastykon.DAL.Storage;
 using System;
 using Fotoplastykon.Tools.InfiniteScroll;
 using Fotoplastykon.BLL.DTOs.Shared;
+using Fotoplastykon.Tools.Pager;
+using Fotoplastykon.DAL.Enums;
+using System.Linq.Expressions;
 
 namespace Fotoplastykon.BLL.Services.Concrete
 {
@@ -34,10 +37,36 @@ namespace Fotoplastykon.BLL.Services.Concrete
             return await Unit.Users.Get(id);
         }
 
-        public async Task<bool> Add(AddUserDTO user)
+        public async Task<IPaginationResult<UserListItem>> GetList(IPager pager)
+        {
+            if (!string.IsNullOrEmpty(pager.Search))
+            {
+                var filteredData = await Unit.Users.GetPaginatedList(
+                    pager, 
+                    i => i.FirstName.Contains(pager.Search) || i.Surname.Contains(pager.Search), 
+                    i => i.FirstName, 
+                    OrderDirection.ASC);
+
+                return new PaginationResult<UserListItem>
+                {
+                    Items = Mapper.Map<List<UserListItem>>(filteredData.Items),
+                    Pager = filteredData.Pager
+                };
+            }
+
+            var data = await Unit.Users.GetPaginatedList(pager, i => i.FirstName, OrderDirection.ASC);
+            return new PaginationResult<UserListItem>
+            {
+                Items = Mapper.Map<List<UserListItem>>(data.Items),
+                Pager = data.Pager
+            };
+        }
+
+        public async Task<bool> Add(AddUserDTO user, bool isAdmin = false)
         {
             var entity = Mapper.Map<User>(user);
             entity.PublicId = Guid.NewGuid().ToString();
+            entity.IsAdmin = isAdmin;
 
             await Unit.Users.Add(entity);
             await Unit.Complete();

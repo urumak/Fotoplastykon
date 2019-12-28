@@ -55,6 +55,6 @@ export default class AuthService
 
     public static async profile(): Promise<any>
     {
-        return (await Vue.axios.get('auth/user')).data;
+        return (await Vue.axios.get('admin/auth/user')).data;
     }
 }
