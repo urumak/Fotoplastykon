@@ -26,6 +26,7 @@
                 <v-text-field v-model="form.email" label="Adres email"></v-text-field>
                 <v-text-field v-model="form.password" type="password" label="Hasło"></v-text-field>
                 <v-text-field v-model="form.repeatPassword" type="password" label="Powtórz hasło"></v-text-field>
+                <v-checkbox v-model="form.isAdmin" label="Administrator"></v-checkbox>
                 <v-btn class="primary" @click="update()">Zapisz</v-btn>
             </v-form>
         </v-card>
@@ -61,11 +62,11 @@
         }
 
         async changeProfilePhoto(){
-
+            this.form = new Form(await UsersService.changeProfilePhoto(this.id, this.newPhoto));
         }
 
         async update(){
-
+            this.form = new Form(await UsersService.update(this.id, this.form));
         }
     }
 </script>

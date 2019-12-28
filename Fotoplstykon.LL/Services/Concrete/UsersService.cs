@@ -125,6 +125,15 @@ namespace Fotoplastykon.BLL.Services.Concrete
             return user;
         }
 
+        public async Task Update(long id, AddUserDTO user, string newPassword)
+        {
+            var entity = await Unit.Users.Get(id);
+            Mapper.Map(user, entity);
+            if(!string.IsNullOrEmpty(newPassword)) entity.PasswordHash = Hasher.HashPassword(entity, newPassword);
+
+            await Unit.Complete();
+        }
+
         private async Task<bool> SetPassword(long id, string password)
         {
             var user = await Unit.Users.Get(id);

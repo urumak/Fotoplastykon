@@ -26,9 +26,6 @@ namespace Fotoplastykon.API.Areas.Admin.Models.Users
                 v.RuleFor(m => m.FirstName).MaximumLength(100);
                 v.RuleFor(m => m.Surname).MaximumLength(250);
                 v.RuleFor(m => m.Email).EmailAddress().NotEmpty().MaximumLength(250);
-                v.RuleFor(m => m.Password).NotEmpty().MaximumLength(250);
-                v.RuleFor(m => m.RepeatPassword).Equal(m => m.Password).NotEmpty().MaximumLength(250);
-
             }).Validate(this).Result();
         }
     }

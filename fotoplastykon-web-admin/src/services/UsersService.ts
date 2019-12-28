@@ -12,7 +12,17 @@ export default class UsersService {
         return (await Vue.axios.get<UserFromModel>(`admin/users/${id}`)).data;
     }
 
+    public static async update(id: number, model: UserFromModel): Promise<UserFromModel> {
+        return (await Vue.axios.post<UserFromModel>(`admin/users/${id}`, model)).data;
+    }
+
     public static async delete(id: number): Promise<any> {
         return (await Vue.axios.delete(`admin/users/${id}`));
+    }
+
+    public static async changeProfilePhoto(id: number, file: any): Promise<UserFromModel> {
+        let form = new FormData();
+        form.append('file', file);
+        return (await Vue.axios.post(`admin/users/change-profile-photo/${id}`, form)).data;
     }
 }

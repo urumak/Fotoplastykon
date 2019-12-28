@@ -4,6 +4,7 @@ using AutoMapper;
 using Fotoplastykon.API.Areas.Admin.Models.Users;
 using Fotoplastykon.BLL.DTOs.Users;
 using Fotoplastykon.BLL.Services.Abstract;
+using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.Tools.Pager;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -19,11 +20,13 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
     {
         protected IUsersService Users { get; }
         protected IMapper Mapper { get; }
+        protected IAccountService Account { get; }
 
-        public UsersController(IUsersService users, IMapper mapper)
+        public UsersController(IUsersService users, IMapper mapper, IAccountService account)
         {
             Users = users;
             Mapper = mapper;
+            Account = account;
         }
 
         [HttpGet("")]
@@ -45,6 +48,19 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
             return Ok(Mapper.Map<UserFormModel>(user));
         }
 
+
+        [HttpPost("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> Update(long id, [FromBody]UserFormModel model)
+        {
+            if (!await Users.CheckIfExists(id)) return NotFound();
+            var newPassword = !string.IsNullOrEmpty(model.Password) ? model.Password : null;
+            await Users.Update(id, Mapper.Map<AddUserDTO>(model), newPassword);
+
+            return Ok(Mapper.Map<UserFormModel>(await Users.Get(id)));
+        }
+
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -56,6 +72,15 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
             await Users.Anonymise(id);
 
             return Ok();
+        }
+
+        [HttpPost("change-profile-photo/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> ChangeProfilePhoto(long id, [FromForm]IFormFile file)
+        {
+            await Account.ChangeProfilePhoto(id, file);
+            return Ok(Mapper.Map<UserFormModel>(await Users.Get(id)));
         }
     }
 }

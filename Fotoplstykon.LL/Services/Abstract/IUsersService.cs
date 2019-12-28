@@ -18,5 +18,6 @@ namespace Fotoplastykon.BLL.Services.Abstract
         Task Anonymise(long id);
         Task<UserPageDTO> GetForPage(long id, long principalId);
         Task<IPaginationResult<UserListItem>> GetList(IPager pager);
+        Task Update(long id, AddUserDTO user, string newPassword);
     }
 }
