@@ -1,23 +1,29 @@
 import Vue from 'vue';
-import {FilmPersonPage} from "@/interfaces/filmPeople";
 import {Pager, PaginationResult} from "@/interfaces/pager";
-import {RankModel} from "@/interfaces/shared";
 import merge from "lodash/merge";
+import {InformationFormModel, InformationListItem} from "@/interfaces/information";
+import {FilmPersonFormModel, FilmPersonListItem} from "@/interfaces/filmPeople";
 
 export default class FilmPeopleService {
-    public static async getForPage(id: number): Promise<FilmPersonPage> {
-        return (await Vue.axios.get<FilmPersonPage>(`film-people/${id}`)).data;
+    public static async getList(pager: Pager): Promise<PaginationResult<FilmPersonListItem>> {
+        return (await Vue.axios.get<PaginationResult<FilmPersonListItem>>(`admin/film-people`,{params: merge({}, pager)})).data;
     }
 
-    public static async getRating(id: number): Promise<number> {
-        return (await Vue.axios.get<number>(`film-people/rating/${id}`)).data;
+    public static async get(id: number): Promise<FilmPersonFormModel> {
+        return (await Vue.axios.get<FilmPersonFormModel>(`admin/film-people/${id}`)).data;
     }
 
-    public static async rate(personId: number, rating: number){
-        await Vue.axios.post(`film-people/rate`, {personId: personId, mark: rating});
+    public static async update(id: number, model: InformationFormModel): Promise<FilmPersonFormModel> {
+        return (await Vue.axios.post<FilmPersonFormModel>(`admin/film-people/${id}`, model)).data;
     }
 
-    public static async getRatedPeople(pager: Pager, userId: number): Promise<PaginationResult<RankModel>> {
-        return (await Vue.axios.get<PaginationResult<RankModel>>(`film-people/rated-people/${userId}`,{params: merge({}, pager)})).data;
+    public static async delete(id: number): Promise<any> {
+        return (await Vue.axios.delete(`admin/film-people/${id}`));
+    }
+
+    public static async changePhoto(id: number, file: any): Promise<FilmPersonFormModel> {
+        let form = new FormData();
+        form.append('file', file);
+        return (await Vue.axios.post(`admin/film-people/change-photo/${id}`, form)).data;
     }
 }

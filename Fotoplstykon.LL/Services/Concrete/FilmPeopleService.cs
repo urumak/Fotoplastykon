@@ -4,10 +4,14 @@ using Fotoplastykon.BLL.DTOs.Shared;
 using Fotoplastykon.BLL.DTOs.Users;
 using Fotoplastykon.BLL.Services.Abstract;
 using Fotoplastykon.DAL.Entities.Concrete;
+using Fotoplastykon.DAL.Enums;
+using Fotoplastykon.DAL.Storage;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
 using Fotoplastykon.Tools.Pager;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,11 +19,66 @@ namespace Fotoplastykon.BLL.Services.Concrete
 {
     public class FilmPeopleService : Service, IFilmPeopleService
     {
-        public FilmPeopleService(IUnitOfWork unit, IMapper mapper)
+        protected IStorekeeper Storekeeper { get; }
+
+        public FilmPeopleService(IUnitOfWork unit, IMapper mapper, IStorekeeper storekeeper)
             : base(unit, mapper)
         {
-
+            Storekeeper = storekeeper;
         }
+
+        #region GetList()
+        public async Task<IPaginationResult<FilmPersonListItem>> GetList(IPager pager)
+        {
+            if (!string.IsNullOrEmpty(pager.Search))
+            {
+                var filteredData = await Unit.FilmPeople.GetPaginatedList(
+                    pager,
+                    i => i.FirstName.Contains(pager.Search) || i.Surname.Contains(pager.Search),
+                    i => i.FirstName,
+                    OrderDirection.ASC);
+                return new PaginationResult<FilmPersonListItem>
+                {
+                    Items = Mapper.Map<List<FilmPersonListItem>>(filteredData.Items),
+                    Pager = filteredData.Pager
+                };
+            }
+
+            var data = await Unit.FilmPeople.GetPaginatedList(pager, i => i.FirstName, OrderDirection.ASC);
+            return new PaginationResult<FilmPersonListItem>
+            {
+                Items = Mapper.Map<List<FilmPersonListItem>>(data.Items),
+                Pager = data.Pager
+            };
+        }
+        #endregion
+
+
+        #region Fetch()
+        public async Task<FilmPersonFormModel> Fetch(long id)
+        {
+            return Mapper.Map<FilmPersonFormModel>(await Unit.FilmPeople.Get(id));
+        }
+        #endregion
+
+
+        #region Remove()
+        public async Task Remove(long id)
+        {
+            await Unit.FilmPeople.Remove(id);
+            await Unit.Complete();
+        }
+        #endregion
+
+        #region Update()
+        public async Task Update(long id, FilmPersonFormModel model)
+        {
+            var entity = await Unit.FilmPeople.Get(id);
+            Mapper.Map(model, entity);
+
+            await Unit.Complete();
+        }
+        #endregion
 
         public async Task Rate(PersonMarkDTO mark)
         {
@@ -66,5 +125,61 @@ namespace Fotoplastykon.BLL.Services.Concrete
                 Pager = data.Pager
             };
         }
+
+        #region ChangePhoto()
+        public async Task ChangePhoto(long id, IFormFile file)
+        {
+            var person = await Unit.FilmPeople.Get(id);
+
+            var photoId = await AddFile(file, "filmPeople\\");
+            var oldPhotoId = person.PhotoId;
+
+            person.PhotoId = photoId;
+            await Unit.Complete();
+
+            if (oldPhotoId.HasValue) await RemoveFile(oldPhotoId.Value);
+        }
+
+        private async Task RemoveFile(long id)
+        {
+            var fileInfo = await Unit.Files.Get(id);
+            Storekeeper.Remove(fileInfo.UniqueName, fileInfo.RelativePath);
+            await Unit.Files.Remove(id);
+            await Unit.Complete();
+        }
+
+        private async Task<long> AddFile(IFormFile file, string relativePath = null)
+        {
+            var fileContent = GetFileContent(file);
+            var uniqueName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            var storedFile = Storekeeper.Add(fileContent, uniqueName, relativePath);
+
+            var storedFileInfo = await Unit.Files.Add(new StoredFileInfo
+            {
+                DisplayName = file.FileName,
+                PublicId = Guid.NewGuid().ToString(),
+                UniqueName = uniqueName,
+                MimeType = file.ContentType,
+                RelativePath = relativePath,
+                Size = fileContent.Length
+            });
+            await Unit.Complete();
+
+            return storedFileInfo.Id;
+        }
+
+        private byte[] GetFileContent(IFormFile file)
+        {
+            byte[] fileContent;
+
+            using (var stream = new MemoryStream())
+            {
+                file.CopyTo(stream);
+                fileContent = stream.ToArray();
+            };
+
+            return fileContent;
+        }
+        #endregion
     }
 }

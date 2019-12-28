@@ -124,6 +124,14 @@ namespace Fotoplastykon.BLL.Models
                 .ForMember(d => d.YearOfProduction, o => o.MapFrom(s => s.Film.YearOfProduction))
                 .ForMember(d => d.RoleDescription, o => o.MapFrom(s => s.Role == RoleType.Actor ? s.CharacterName : s.Role.ToString()))
                 .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.Film.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.Film.PhotoId : string.Empty));
+
+            CreateMap<FilmPerson, FilmPersonListItem>()
+                .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.PhotoId : string.Empty));
+
+            CreateMap<FilmPerson, FilmPersonFormModel>()
+                .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.PhotoId : string.Empty))
+                .ReverseMap()
+                .ForMember(d => d.Id, o => o.Ignore());
         }
 
         private void SearchMappings()
