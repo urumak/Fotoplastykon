@@ -1,4 +1,5 @@
 ﻿using Fotoplastykon.DAL.Attributes;
+using Fotoplastykon.DAL.Entities.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Text;
 
 namespace Fotoplastykon.BLL.Helpers
 {
-    public class Anonymiser<T> where T : class
+    public class Anonymiser<T> where T : class, IAnonymisationable
     {
         public T Anonymise(T item)
         {
@@ -18,9 +19,14 @@ namespace Fotoplastykon.BLL.Helpers
             {
                 if(property.PropertyType == typeof(string))
                 {
-                    using (var sha256 = SHA256.Create())
+                    using (var md5 = MD5.Create())
                     {
-                        property.SetValue(item, sha256.ComputeHash(Guid.NewGuid().ToByteArray()));
+                        var hash = md5.ComputeHash(Guid.NewGuid().ToByteArray());
+                        var sBuilder = new StringBuilder();
+
+                        for (int i = 0; i < hash.Length; i++) sBuilder.Append(hash[i].ToString("x2"));
+
+                        property.SetValue(item, sBuilder.ToString());
                     }
                 }
                 else
@@ -28,6 +34,8 @@ namespace Fotoplastykon.BLL.Helpers
                     property.SetValue(item, property.GetConstantValue());
                 }
             }
+
+            item.AnonimisationDate = DateTime.Now;
 
             return item;
         }

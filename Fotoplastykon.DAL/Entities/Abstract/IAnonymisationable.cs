@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Fotoplastykon.DAL.Entities.Abstract
 {
-    public interface IAnonimisationable
+    public interface IAnonymisationable
     {
         DateTime? AnonimisationDate { get; set; }
     }

@@ -33,5 +33,18 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
         {
             return Ok(await Users.GetList(pager));
         }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> Remove(long id)
+        {
+            if (!await Users.CheckIfExists(id)) return NotFound();
+
+            await Users.Anonymise(id);
+
+            return Ok();
+        }
     }
 }

@@ -43,7 +43,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
             {
                 var filteredData = await Unit.Users.GetPaginatedList(
                     pager, 
-                    i => i.FirstName.Contains(pager.Search) || i.Surname.Contains(pager.Search), 
+                    i => (i.FirstName.Contains(pager.Search) || i.Surname.Contains(pager.Search)) && i.AnonimisationDate == null, 
                     i => i.FirstName, 
                     OrderDirection.ASC);
 
@@ -54,7 +54,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
                 };
             }
 
-            var data = await Unit.Users.GetPaginatedList(pager, i => i.FirstName, OrderDirection.ASC);
+            var data = await Unit.Users.GetPaginatedList(pager, i => i.AnonimisationDate == null, i => i.FirstName, OrderDirection.ASC);
             return new PaginationResult<UserListItem>
             {
                 Items = Mapper.Map<List<UserListItem>>(data.Items),

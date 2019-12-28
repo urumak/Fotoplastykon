@@ -7,4 +7,8 @@ export default class UsersService {
     public static async getList(pager: Pager): Promise<PaginationResult<UserListItem>> {
         return (await Vue.axios.get<PaginationResult<UserListItem>>(`admin/users`,{params: merge({}, pager)})).data;
     }
+
+    public static async delete(id: number): Promise<any> {
+        return (await Vue.axios.delete(`admin/users/${id}`));
+    }
 }

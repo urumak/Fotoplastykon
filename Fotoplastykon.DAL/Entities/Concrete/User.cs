@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Fotoplastykon.DAL.Entities.Concrete
 {
-    public class User : IEntity, IAnonimisationable
+    public class User : IEntity, IAnonymisationable
     {
         public User()
         {

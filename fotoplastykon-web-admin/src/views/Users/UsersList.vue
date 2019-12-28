@@ -47,16 +47,24 @@
                     <v-icon
                             small
                             class="mr-2"
-                            @click="editItem()"
+                            @click="editItem(item.id)"
                     >
                         mdi-note
                     </v-icon>
-                    <v-icon
-                            small
-                            @click="deleteItem()"
-                    >
-                        mdi-close
-                    </v-icon>
+                    <v-menu
+                            offset-y
+                            transition="slide-y-transition"
+                            :close-on-content-click="true"
+                            :nudge-width="200">
+                        <template v-slot:activator="{ on }">
+                            <v-icon small v-on="on">mdi-close</v-icon>
+                        </template>
+                        <div>
+                            Czy na pewno chcesz usunąć rekord?
+                            <v-btn class="primary" @click="deleteItem(item.id)">Tak</v-btn>
+                            <v-btn class="secondary">Nie</v-btn>
+                        </div>
+                    </v-menu>
                 </template>
                 <template v-slot:no-data>
                     Brak danych
@@ -119,12 +127,13 @@
             this.loading = false;
         }
 
-        editItem() {
-
+        async editItem(id: number) {
+            await this.$router.push({ name: 'user-edit', params: {id: id.toString()} });
         }
 
-        deleteItem() {
-
+        async deleteItem(id: number) {
+            await UsersService.delete(id);
+            await this.loadData();
         }
     }
 </script>
