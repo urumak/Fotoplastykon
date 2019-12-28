@@ -35,14 +35,19 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/Information/MainPage.vue')
     },
     {
+      path: '/information/add',
+      name: 'information-add',
+      component: () => import(/* webpackChunkName: "about" */ './views/Information/InformationForm.vue')
+    },
+    {
       path: '/information/:id',
-      name: 'information-details',
-      component: () => import(/* webpackChunkName: "about" */ './views/Information/InformationDetails.vue')
+      name: 'information-edit',
+      component: () => import(/* webpackChunkName: "about" */ './views/Information/InformationForm.vue')
     },
     {
       path: '/information/list',
       name: 'information-list',
-      component: () => import(/* webpackChunkName: "about" */ './views/Information/List.vue')
+      component: () => import(/* webpackChunkName: "about" */ './views/Information/InformationList.vue')
     },
     {
       path: '/films/:id',

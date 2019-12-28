@@ -1,6 +1,7 @@
 ﻿using Fotoplastykon.BLL.DTOs.Information;
 using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.Tools.Pager;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,5 +20,9 @@ namespace Fotoplastykon.BLL.Services.Abstract
         Task UpdateComment(long id, CommentDTO comment);
         Task<bool> CheckIfCommentExists(long id);
         Task<bool> CheckIfExists(long id);
+        Task<InformationFormModel> Fetch(long id);
+        Task Update(long id, InformationFormModel model);
+        Task ChangePhoto(long id, IFormFile file);
+        Task Remove(long id);
     }
 }

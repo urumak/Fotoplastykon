@@ -170,6 +170,11 @@ namespace Fotoplastykon.BLL.Models
                 .ForMember(d => d.DateCreated, o => o.Ignore())
                 .ForMember(d => d.DateDeleted, o => o.Ignore())
                 .ForMember(d => d.Replies, o => o.Ignore());
+
+            CreateMap<DTOs.Information.InformationFormModel, Information>()
+                .ForMember(d => d.Id, o => o.Ignore())
+                .ReverseMap()
+                .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.PhotoId : string.Empty));
         }
 
         private void ForumMappings()
