@@ -34,6 +34,17 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
             return Ok(await Users.GetList(pager));
         }
 
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> Fetch(long id)
+        {
+            var user = await Users.Get(id);
+            if (user == null) return NotFound();
+
+            return Ok(Mapper.Map<UserFormModel>(user));
+        }
+
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

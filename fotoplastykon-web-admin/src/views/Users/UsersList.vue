@@ -20,7 +20,7 @@
                                 vertical
                         ></v-divider>
                         <v-text-field v-model="pager.search" label="Szukaj" class="mt-8 mr-12"></v-text-field>
-                        <v-btn color="primary" dark class="mb-2">Dodaj</v-btn>
+                        <v-btn color="primary" dark class="mb-2" @click="$router.push({ name: 'user-add' })">Dodaj</v-btn>
                     </v-toolbar>
                 </template>
                 <template v-slot:item.avatar="{ item }">

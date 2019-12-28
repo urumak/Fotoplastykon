@@ -24,3 +24,14 @@ export interface UserListItem {
     photoUrl: string;
 }
 
+export interface UserFromModel {
+    userName: string;
+    email: string;
+    firstName: string;
+    surname: string;
+    password: string;
+    repeatPassword: string;
+    photoUrl: string;
+    isAdmin: boolean;
+}
+
