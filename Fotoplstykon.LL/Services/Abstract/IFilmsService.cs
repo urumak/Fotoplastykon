@@ -1,6 +1,7 @@
 ﻿using Fotoplastykon.BLL.DTOs.Films;
 using Fotoplastykon.BLL.DTOs.Users;
 using Fotoplastykon.Tools.Pager;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,5 +17,11 @@ namespace Fotoplastykon.BLL.Services.Abstract
         Task<FilmPageDTO> GetForPage(long filmId, long userId);
         Task<decimal?> GetRating(long filmId);
         Task<IPaginationResult<RankModel>> GetPaginatedListForUser(IPager pager, long userId);
+        Task<IPaginationResult<FilmListItem>> GetPaginatedList(IPager pager);
+        Task Remove(long id);
+        Task ChangePhoto(long id, IFormFile file);
+        Task<FilmFormModel> Fetch(long id);
+        Task<List<FilmPersonDropDownModel>> GetFilmmakers(string search, int limit = 10);
+        Dictionary<int, string> GetRoleTypes();
     }
 }

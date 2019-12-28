@@ -13,14 +13,14 @@
             >
                 <template v-slot:top>
                     <v-toolbar flat color="white">
-                        <v-toolbar-title>Aktualności</v-toolbar-title>
+                        <v-toolbar-title>Filmy</v-toolbar-title>
                         <v-divider
                                 class="mx-4"
                                 inset
                                 vertical
                         ></v-divider>
                         <v-text-field v-model="pager.search" label="Szukaj" class="mt-8 mr-12"></v-text-field>
-                        <v-btn color="primary" dark class="mb-2" @click="$router.push({ name: 'information-add' })">Dodaj</v-btn>
+                        <v-btn color="primary" dark class="mb-2" @click="$router.push({ name: 'film-add' })">Dodaj</v-btn>
                     </v-toolbar>
                 </template>
                 <template v-slot:item.photo="{ item }">
@@ -66,12 +66,12 @@
     import { Pager } from '@/interfaces/pager';
     import {Watch} from "vue-property-decorator";
     import tableFooterConfiguration from "@/tableFooterConfiguration.json"
-    import { InformationListItem } from '@/interfaces/information';
-    import InformationService from "@/services/InformationService";
+    import {FilmListItem} from "@/interfaces/films";
+    import FilmsService from "@/services/FilmsService";
 
     @Component({})
-    export default class InformationListComponent extends Vue {
-        private items: InformationListItem[] = [];
+    export default class FilmsListComponent extends Vue {
+        private items: FilmListItem[] = [];
         private pager = new Pager(1, 5);
         private loading = false;
         private options: any = {
@@ -104,7 +104,7 @@
             this.pager.pageIndex = this.options.page;
             this.pager.pageSize = this.options.itemsPerPage;
             if(this.pager.pageIndex > this.pager.totalPages) this.pager.setPageIndex(this.pager.totalPages);
-            let response = await InformationService.getList(this.pager);
+            let response = await FilmsService.getList(this.pager);
             this.items = response.items;
             this.pager.setTotalRows(response.pager.totalRows);
             window.scrollTo(0,0);
@@ -112,11 +112,11 @@
         }
 
         async editItem(id: number) {
-            await this.$router.push({ name: 'information-edit', params: {id: id.toString()} });
+            await this.$router.push({ name: 'film-edit', params: {id: id.toString()} });
         }
 
         async deleteItem(id: number) {
-            await InformationService.delete(id);
+            await FilmsService.delete(id);
             await this.loadData();
         }
     }

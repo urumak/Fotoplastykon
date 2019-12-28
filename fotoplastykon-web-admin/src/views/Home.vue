@@ -6,10 +6,6 @@
       <v-toolbar-title class="headline text-uppercase">
         <span class="font-weight-light">Fotoplastykon</span>
       </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn text :to="{name:'information'}">
-        <span class="mr-2">Kontynuuj bez logowania</span>
-      </v-btn>
     </v-app-bar>
     <div style="height: 80px"></div>
     <v-row style="margin-bottom: -80px">

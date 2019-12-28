@@ -50,19 +50,19 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/Information/InformationList.vue')
     },
     {
+      path: '/films',
+      name: 'films',
+      component: () => import(/* webpackChunkName: "about" */ './views/Films/FilmsList.vue')
+    },
+    {
+      path: '/films/add',
+      name: 'film-add',
+      component: () => import(/* webpackChunkName: "about" */ './views/Films/FilmForm.vue')
+    },
+    {
       path: '/films/:id',
-      name: 'film-page',
-      component: () => import(/* webpackChunkName: "about" */ './views/Films/FilmPage.vue')
-    },
-    {
-      path: '/film-people/:id',
-      name: 'film-person-page',
-      component: () => import(/* webpackChunkName: "about" */ './views/FilmPeople/FilmPersonPage.vue')
-    },
-    {
-      path: '/profile',
-      name: 'user-profile',
-      component: () => import(/* webpackChunkName: "about" */ './views/Users/UserProfile.vue')
+      name: 'film-edit',
+      component: () => import(/* webpackChunkName: "about" */ './views/Films/FilmForm.vue')
     },
     {
       path: '/quizzes',

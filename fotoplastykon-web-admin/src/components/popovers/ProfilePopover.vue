@@ -45,7 +45,7 @@
         }
 
         async profile() {
-            await this.$router.push({ name: 'user-profile' });
+            await this.$router.push({ name: 'user-edit',  params: { id: (this as any).$auth.user().id} });
         }
     }
 </script>

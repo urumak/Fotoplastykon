@@ -1,23 +1,38 @@
 import Vue from 'vue';
-import {FilmPage} from "@/interfaces/films";
+import {FilmListItem, FilmPage, PersonDropDownModel, RolesDropDownDictionary} from "@/interfaces/films";
 import {Pager, PaginationResult} from "@/interfaces/pager";
 import {RankModel} from "@/interfaces/shared";
 import merge from "lodash/merge";
+import {InformationFormModel, InformationListItem, InformationListModel} from "@/interfaces/information";
 
 export default class FilmsService {
-    public static async getForPage(id: number): Promise<FilmPage> {
-        return (await Vue.axios.get<FilmPage>(`films/${id}`)).data;
+    public static async getList(pager: Pager): Promise<PaginationResult<FilmListItem>> {
+        return (await Vue.axios.get<PaginationResult<InformationListItem>>(`admin/films`,{params: merge({}, pager)})).data;
     }
 
-    public static async getRating(id: number): Promise<number> {
-        return (await Vue.axios.get<number>(`films/rating/${id}`)).data;
+    public static async get(id: number): Promise<InformationFormModel> {
+        return (await Vue.axios.get<InformationFormModel>(`admin/films/${id}`)).data;
     }
 
-    public static async rate(filmId: number, rating: number){
-        await Vue.axios.post(`films/rate`, {filmId: filmId, mark: rating});
+    public static async update(id: number, model: InformationFormModel): Promise<InformationFormModel> {
+        return (await Vue.axios.post<InformationFormModel>(`admin/films/${id}`, model)).data;
     }
 
-    public static async getWatchedFilms(pager: Pager, userId: number): Promise<PaginationResult<RankModel>> {
-        return (await Vue.axios.get<PaginationResult<RankModel>>(`films/watched-films/${userId}`,{params: merge({}, pager)})).data;
+    public static async delete(id: number): Promise<any> {
+        return (await Vue.axios.delete(`admin/films/${id}`));
+    }
+
+    public static async changePhoto(id: number, file: any): Promise<InformationFormModel> {
+        let form = new FormData();
+        form.append('file', file);
+        return (await Vue.axios.post(`admin/films/change-photo/${id}`, form)).data;
+    }
+
+    public static async getRoleTypes(): Promise<RolesDropDownDictionary> {
+        return (await Vue.axios.get<RolesDropDownDictionary>(`admin/films/role-types`)).data;
+    }
+
+    public static async getFilmPeople(search: string): Promise<PersonDropDownModel[]> {
+        return (await Vue.axios.get<PersonDropDownModel[]>(`admin/films/people-drop-down/${search}`)).data;
     }
 }

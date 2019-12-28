@@ -93,6 +93,20 @@ namespace Fotoplastykon.BLL.Models
                 .ForMember(d => d.FullName, o => o.MapFrom(s => s.Person.FirstName + " " + s.Person.Surname))
                 .ForMember(d => d.Profession, o => o.MapFrom(s => s.Person.Profession.ToString()))
                 .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.Person.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.Person.PhotoId : string.Empty));
+
+            CreateMap<Film, FilmListItem>()
+                .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.PhotoId : string.Empty));
+
+            CreateMap<Film, FilmFormModel>()
+               .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.PhotoId : string.Empty))
+               .ReverseMap()
+               .ForMember(d => d.Id, o => o.Ignore());
+
+           CreateMap<FilmPerson, FilmPersonDropDownModel>()
+               .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.PhotoId : string.Empty))
+               .ForMember(d => d.NameAndSurname, o => o.MapFrom(s => s.FirstName + " " + s.Surname))
+               .ReverseMap()
+               .ForMember(d => d.Id, o => o.Ignore());
         }
 
         private void FilmPersonMappings()
