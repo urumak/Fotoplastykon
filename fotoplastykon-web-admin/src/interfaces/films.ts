@@ -12,8 +12,9 @@ export interface FilmFormModel {
     people: PersonInRoleForm[];
 }
 
-export interface RolesDropDownDictionary {
-    [key: number]: string
+export interface RoleTypeDictionary {
+    key: number;
+    value: string;
 }
 
 export interface PersonDropDownModel {
@@ -23,7 +24,8 @@ export interface PersonDropDownModel {
 }
 
 export interface PersonInRoleForm {
+    id: number;
     personId: number;
-    roleId: number;
-    roleName: string;
+    role: number;
+    characterName: string;
 }

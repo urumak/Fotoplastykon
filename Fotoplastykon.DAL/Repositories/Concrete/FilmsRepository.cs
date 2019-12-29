@@ -38,5 +38,12 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
                 .Include(u => u.Watchings)
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
+
+        public async Task<Film> GetWithPeopleInRoles(long id)
+        {
+            return await DatabaseContext.Films
+                .Include(f => f.PeopleInRoles)
+                .FirstOrDefaultAsync(u => u.Id == id);
+        }
     }
 }

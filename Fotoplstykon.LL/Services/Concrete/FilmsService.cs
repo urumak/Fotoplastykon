@@ -104,7 +104,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
         #region Fetch()
         public async Task<FilmFormModel> Fetch(long id)
         {
-            return Mapper.Map<FilmFormModel>(await Unit.Films.Get(id));
+            return Mapper.Map<FilmFormModel>(await Unit.Films.GetWithPeopleInRoles(id));
         }
         #endregion
 
@@ -135,14 +135,25 @@ namespace Fotoplastykon.BLL.Services.Concrete
         }
         #endregion
 
-        #region GetRoleTypes()
-        public Dictionary<int, string> GetRoleTypes()
+        #region GetForSearch()
+        public async Task<FilmPersonDropDownModel> GetForSearch(long id)
         {
-            var result = new Dictionary<int, string>();
+            return Mapper.Map<FilmPersonDropDownModel>(await Unit.FilmPeople.GetForSearch(id));
+        }
+        #endregion
+
+        #region GetRoleTypes()
+        public List<RoleTypeDictionary> GetRoleTypes()
+        {
+            var result = new List<RoleTypeDictionary>();
 
             foreach(var item in Enum.GetValues(typeof(RoleType)).Cast<RoleType>())
             {
-                result.Add((int)item, item.GetDescription());
+                result.Add(new RoleTypeDictionary
+                {
+                    Key = (int)item,
+                    Value = item.GetDescription()
+                });
             }
 
             return result;

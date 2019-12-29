@@ -22,6 +22,7 @@ namespace Fotoplastykon.BLL.Services.Abstract
         Task ChangePhoto(long id, IFormFile file);
         Task<FilmFormModel> Fetch(long id);
         Task<List<FilmPersonDropDownModel>> GetFilmmakers(string search, int limit = 10);
-        Dictionary<int, string> GetRoleTypes();
+        List<RoleTypeDictionary> GetRoleTypes();
+        Task<FilmPersonDropDownModel> GetForSearch(long id);
     }
 }

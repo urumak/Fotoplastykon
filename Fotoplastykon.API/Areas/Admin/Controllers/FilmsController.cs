@@ -86,12 +86,20 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
             return Ok(Films.GetRoleTypes());
         }
 
-        [HttpGet("people-drop-down/{search}")]
+        [HttpGet("people/{search}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
         public async Task<IActionResult> GetFilmPeople(string search)
         {
             return Ok(await Films.GetFilmmakers(search));
+        }
+
+        [HttpGet("person/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> GetFilmPerson(long id)
+        {
+            return Ok(await Films.GetForSearch(id));
         }
     }
 }

@@ -10,5 +10,6 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
     {
         Task<List<Film>> GetForSearch(string search, int limit = 10);
         Task<Film> GetForPage(long id);
+        Task<Film> GetWithPeopleInRoles(long id);
     }
 }

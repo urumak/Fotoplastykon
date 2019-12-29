@@ -10,5 +10,6 @@ namespace Fotoplastykon.BLL.DTOs.Films
         public string Title { get; set; }
         public int YearOfProduction { get; set; }
         public string PhotoUrl { get; set; }
+        public List<PersonInRoleFormModel> People { get; set; }
     }
 }

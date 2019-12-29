@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import {FilmListItem, PersonDropDownModel, RolesDropDownDictionary} from "@/interfaces/films";
+import {FilmListItem, PersonDropDownModel, RoleTypeDictionary} from "@/interfaces/films";
 import {Pager, PaginationResult} from "@/interfaces/pager";
 import merge from "lodash/merge";
 import {InformationFormModel, InformationListItem} from "@/interfaces/information";
@@ -27,11 +27,15 @@ export default class FilmsService {
         return (await Vue.axios.post(`admin/films/change-photo/${id}`, form)).data;
     }
 
-    public static async getRoleTypes(): Promise<RolesDropDownDictionary> {
-        return (await Vue.axios.get<RolesDropDownDictionary>(`admin/films/role-types`)).data;
+    public static async getRoleTypes(): Promise<RoleTypeDictionary[]> {
+        return (await Vue.axios.get<RoleTypeDictionary[]>(`admin/films/role-types`)).data;
     }
 
     public static async getFilmPeople(search: string): Promise<PersonDropDownModel[]> {
-        return (await Vue.axios.get<PersonDropDownModel[]>(`admin/films/people-drop-down/${search}`)).data;
+        return (await Vue.axios.get<PersonDropDownModel[]>(`admin/films/people/${search}`)).data;
+    }
+
+    public static async getFilmPerson(id: number): Promise<PersonDropDownModel> {
+        return (await Vue.axios.get<PersonDropDownModel>(`admin/films/person/${id}`)).data;
     }
 }
