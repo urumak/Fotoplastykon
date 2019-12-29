@@ -31,7 +31,8 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
             IMessagesReadingsRepository messagesReadings,
             IConversationsRepository conversations,
             IInvitationNotificationsRepository invitationNotifications,
-            INotificationsReadingsRepository notificationsReadings)
+            INotificationsReadingsRepository notificationsReadings,
+            IPeopleInRolesRepository peopleInRoles)
         {
             Context = context;
             Users = users;
@@ -56,6 +57,7 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
             Conversations = conversations;
             InvitationNotifications = invitationNotifications;
             NotificationsReadings = notificationsReadings;
+            PeopleInRoles = peopleInRoles;
         }
 
         public IUsersRepository Users { get; }
@@ -80,6 +82,8 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
         public IConversationsRepository Conversations { get; }
         public IInvitationNotificationsRepository InvitationNotifications { get; }
         public INotificationsReadingsRepository NotificationsReadings { get; }
+
+        public IPeopleInRolesRepository PeopleInRoles { get; }
 
         private DbContext Context { get; }
 

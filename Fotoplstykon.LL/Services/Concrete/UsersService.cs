@@ -15,6 +15,7 @@ using Fotoplastykon.BLL.DTOs.Shared;
 using Fotoplastykon.Tools.Pager;
 using Fotoplastykon.DAL.Enums;
 using System.Linq.Expressions;
+using LinqKit;
 
 namespace Fotoplastykon.BLL.Services.Concrete
 {
@@ -39,22 +40,16 @@ namespace Fotoplastykon.BLL.Services.Concrete
 
         public async Task<IPaginationResult<UserListItem>> GetList(IPager pager)
         {
-            if (!string.IsNullOrEmpty(pager.Search))
-            {
-                var filteredData = await Unit.Users.GetPaginatedList(
-                    pager, 
-                    i => (i.FirstName.Contains(pager.Search) || i.Surname.Contains(pager.Search)) && i.AnonimisationDate == null, 
-                    i => i.FirstName, 
-                    OrderDirection.ASC);
+            var predicate = PredicateBuilder.New<User>(i => i.AnonimisationDate == null);
 
-                return new PaginationResult<UserListItem>
-                {
-                    Items = Mapper.Map<List<UserListItem>>(filteredData.Items),
-                    Pager = filteredData.Pager
-                };
-            }
+            if (!string.IsNullOrEmpty(pager.Search)) predicate.And(i => i.FirstName.Contains(pager.Search) || i.Surname.Contains(pager.Search));
 
-            var data = await Unit.Users.GetPaginatedList(pager, i => i.AnonimisationDate == null, i => i.FirstName, OrderDirection.ASC);
+            var data = await Unit.Users.GetPaginatedList(
+                pager,
+                predicate,
+                i => i.FirstName,
+                OrderDirection.ASC);
+
             return new PaginationResult<UserListItem>
             {
                 Items = Mapper.Map<List<UserListItem>>(data.Items),

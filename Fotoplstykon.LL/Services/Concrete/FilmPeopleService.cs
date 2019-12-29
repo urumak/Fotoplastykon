@@ -8,6 +8,7 @@ using Fotoplastykon.DAL.Enums;
 using Fotoplastykon.DAL.Storage;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
 using Fotoplastykon.Tools.Pager;
+using LinqKit;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -30,21 +31,16 @@ namespace Fotoplastykon.BLL.Services.Concrete
         #region GetList()
         public async Task<IPaginationResult<FilmPersonListItem>> GetList(IPager pager)
         {
-            if (!string.IsNullOrEmpty(pager.Search))
-            {
-                var filteredData = await Unit.FilmPeople.GetPaginatedList(
-                    pager,
-                    i => i.FirstName.Contains(pager.Search) || i.Surname.Contains(pager.Search),
-                    i => i.FirstName,
-                    OrderDirection.ASC);
-                return new PaginationResult<FilmPersonListItem>
-                {
-                    Items = Mapper.Map<List<FilmPersonListItem>>(filteredData.Items),
-                    Pager = filteredData.Pager
-                };
-            }
+            var predicate = PredicateBuilder.New<FilmPerson>(true);
 
-            var data = await Unit.FilmPeople.GetPaginatedList(pager, i => i.FirstName, OrderDirection.ASC);
+            if (!string.IsNullOrEmpty(pager.Search)) predicate.And(i => i.FirstName.Contains(pager.Search) || i.Surname.Contains(pager.Search));
+
+            var data = await Unit.FilmPeople.GetPaginatedList(
+                pager,
+                predicate,
+                i => i.FirstName,
+                OrderDirection.ASC);
+
             return new PaginationResult<FilmPersonListItem>
             {
                 Items = Mapper.Map<List<FilmPersonListItem>>(data.Items),

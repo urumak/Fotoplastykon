@@ -12,6 +12,7 @@
                     chip
                     clearable
                     return-object
+                    @change="onChange()"
                     no-data-text="Brak wyników"
                     autocomplete="off">
                 <template slot="selection" slot-scope="data">
@@ -81,6 +82,10 @@
 
         deleteRole() {
             this.$emit('delete-click');
+        }
+
+        onChange() {
+            if(this.selectedItem) this.model.personId = this.selectedItem.id;
         }
     }
 </script>

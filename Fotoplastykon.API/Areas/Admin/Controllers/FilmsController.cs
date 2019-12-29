@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Fotoplastykon.BLL.DTOs.Films;
 using Fotoplastykon.BLL.Services.Abstract;
 using Fotoplastykon.Tools.Pager;
 using Microsoft.AspNetCore.Authorization;
@@ -45,16 +46,16 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
         }
 
 
-        //[HttpPost("{id}")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesDefaultResponseType]
-        //public async Task<IActionResult> Update(long id, [FromBody]FilmFomModel model)
-        //{
-        //    if (!await Films.CheckIfExists(id)) return NotFound();
-        //    await Films.Update(id, model);
+        [HttpPost("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> Update(long id, [FromBody]FilmFormModel model)
+        {
+            if (!await Films.CheckIfExists(id)) return NotFound();
+            await Films.Update(id, model);
 
-        //    return Ok(await Films.Fetch(id));
-        //}
+            return Ok(await Films.Fetch(id));
+        }
 
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]

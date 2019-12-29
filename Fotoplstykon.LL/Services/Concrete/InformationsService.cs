@@ -6,6 +6,7 @@ using Fotoplastykon.DAL.Enums;
 using Fotoplastykon.DAL.Storage;
 using Fotoplastykon.DAL.UnitsOfWork.Abstract;
 using Fotoplastykon.Tools.Pager;
+using LinqKit;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -27,25 +28,20 @@ namespace Fotoplastykon.BLL.Services.Concrete
 
         public async Task<IPaginationResult<ListItem>> GetPaginatedList(IPager pager)
         {
-            if(!string.IsNullOrEmpty(pager.Search))
-            {
-                var filteredData = await Unit.Informations.GetPaginatedList(
-                    pager,
-                    i => i.Title.Contains(pager.Search),
-                    i => i.DateCreated,
-                    OrderDirection.DESC);
-                return new PaginationResult<ListItem>
-                {
-                    Items = Mapper.Map<List<ListItem>>(filteredData.Items),
-                    Pager = filteredData.Pager
-                };
-            }
+            var predicate = PredicateBuilder.New<Information>(true);
 
-            var data = await Unit.Informations.GetPaginatedList(pager, i => i.DateCreated, OrderDirection.DESC);
+            if (!string.IsNullOrEmpty(pager.Search)) predicate.And(i => i.Title.Contains(pager.Search));
+
+            var filteredData = await Unit.Informations.GetPaginatedList(
+                pager,
+                i => i.Title.Contains(pager.Search),
+                i => i.DateCreated,
+                OrderDirection.DESC);
+
             return new PaginationResult<ListItem>
             {
-                Items = Mapper.Map<List<ListItem>>(data.Items),
-                Pager = data.Pager
+                Items = Mapper.Map<List<ListItem>>(filteredData.Items),
+                Pager = filteredData.Pager
             };
         }
 

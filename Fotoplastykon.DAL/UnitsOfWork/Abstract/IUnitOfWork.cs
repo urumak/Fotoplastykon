@@ -28,6 +28,7 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Abstract
         IConversationsRepository Conversations { get; }
         IInvitationNotificationsRepository InvitationNotifications { get; }
         INotificationsReadingsRepository NotificationsReadings { get; }
+        IPeopleInRolesRepository PeopleInRoles { get; }
         Task<int> Complete();
     }
 }

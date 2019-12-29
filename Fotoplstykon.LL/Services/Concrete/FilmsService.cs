@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Fotoplastykon.Tools.Extensions;
 using System.Linq;
+using LinqKit;
 
 namespace Fotoplastykon.BLL.Services.Concrete
 {
@@ -32,21 +33,16 @@ namespace Fotoplastykon.BLL.Services.Concrete
         #region GetPaginatedList()
         public async Task<IPaginationResult<FilmListItem>> GetPaginatedList(IPager pager)
         {
-            if (!string.IsNullOrEmpty(pager.Search))
-            {
-                var filteredData = await Unit.Films.GetPaginatedList(
-                    pager,
-                    i => i.Title.Contains(pager.Search),
-                    i => i.Title,
-                    OrderDirection.ASC);
-                return new PaginationResult<FilmListItem>
-                {
-                    Items = Mapper.Map<List<FilmListItem>>(filteredData.Items),
-                    Pager = filteredData.Pager
-                };
-            }
+            var predicate = PredicateBuilder.New<Film>(true);
 
-            var data = await Unit.Films.GetPaginatedList(pager, i => i.Title, OrderDirection.ASC);
+            if (!string.IsNullOrEmpty(pager.Search)) predicate.And(i => i.Title.Contains(pager.Search));
+
+            var data = await Unit.Films.GetPaginatedList(
+                pager,
+                predicate,
+                i => i.Title,
+                OrderDirection.ASC);
+
             return new PaginationResult<FilmListItem>
             {
                 Items = Mapper.Map<List<FilmListItem>>(data.Items),
@@ -117,6 +113,55 @@ namespace Fotoplastykon.BLL.Services.Concrete
                 Items = Mapper.Map<List<RankModel>>(data.Items),
                 Pager = data.Pager
             };
+        }
+        #endregion
+
+        #region Update()
+        public async Task Update(long id, FilmFormModel model)
+        {
+            var entity = await Unit.Films.Get(id);
+            Mapper.Map(model, entity);
+
+            var (rolesToAdd, rolesToUpdate, rolesToDelete) = await SortPeopleInRolesToUpdate(id, model.People);
+            await AddPeopleInRoles(id, rolesToAdd);
+            await UpdatePeopleInRoles(id, rolesToUpdate);
+            DeletePeopleInRoles(rolesToDelete);
+
+            await Unit.Complete();
+        }
+
+        private async Task<(List<PersonInRoleFormModel>, List<PersonInRoleFormModel>, List<PersonInRole>)> 
+            SortPeopleInRolesToUpdate(long filmId, List<PersonInRoleFormModel> peopleModel)
+        {
+            var peopleInRoles = await Unit.PeopleInRoles.Find(r => r.FilmId == filmId);
+
+            return (peopleModel.Where(x => !peopleInRoles.Select(r => r.Id).Contains(x.Id)).ToList(), 
+                peopleModel.Where(x => peopleInRoles.Select(r => r.Id).Contains(x.Id)).ToList(),
+                peopleInRoles.Where(x => !peopleModel.Select(r => r.Id).Contains(x.Id)).ToList());
+        }
+
+        private async Task AddPeopleInRoles(long filmId, List<PersonInRoleFormModel> peopleModel)
+        {
+            var items = Mapper.Map<List<PersonInRole>>(peopleModel);
+            items.ForEach(x => x.FilmId = filmId);
+            await Unit.PeopleInRoles.AddRange(items);
+        }
+
+        private async Task UpdatePeopleInRoles(long filmId, List<PersonInRoleFormModel> peopleModel)
+        {
+            var entities = await Unit.PeopleInRoles.Find(x => peopleModel.Select(m => m.Id).Contains(x.Id));
+            var peopleDictionary = peopleModel.ToDictionary(x => x.Id, x => x);
+
+            foreach (var entity in entities)
+            {
+                Mapper.Map(peopleDictionary[entity.Id], entity);
+                entity.FilmId = filmId;
+            }
+        }
+
+        private void DeletePeopleInRoles(List<PersonInRole> peopleToDelete)
+        {
+            Unit.PeopleInRoles.RemoveRange(peopleToDelete);
         }
         #endregion
 

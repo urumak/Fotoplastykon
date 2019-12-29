@@ -21,7 +21,7 @@
                     ref="form"
             >
                 <v-text-field v-model="form.title" label="Tytuł"></v-text-field>
-                <v-text-field type="number" v-model="form.yaerOfProduction" label="Rok produkcji"></v-text-field>
+                <v-text-field type="number" v-model="form.yearOfProduction" label="Rok produkcji"></v-text-field>
                 <v-divider></v-divider>
                 <v-subheader>Twórcy</v-subheader>
                 <person-in-role v-for="(item, index) in form.people" :key="index" :model="item" @delete-click="deleteItem(index)"></person-in-role>
@@ -39,6 +39,7 @@
     import Form from 'form-backend-validation';
     import FilmsService from "../../services/FilmsService";
     import PersonInRole from "@/components/filmForm/PersonInRole.vue";
+    import { Watch } from 'vue-property-decorator';
 
     @Component({components:{
             'person-in-role': PersonInRole
