@@ -34,7 +34,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
 
             var filteredData = await Unit.Informations.GetPaginatedList(
                 pager,
-                i => i.Title.Contains(pager.Search),
+                predicate,
                 i => i.DateCreated,
                 OrderDirection.DESC);
 
