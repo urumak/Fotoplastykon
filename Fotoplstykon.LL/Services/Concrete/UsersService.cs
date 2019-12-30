@@ -23,14 +23,14 @@ namespace Fotoplastykon.BLL.Services.Concrete
     {
         private IPasswordHasher<User> Hasher { get; }
         private Anonymiser<User> Anonymiser { get; }
-        private IStorekeeper Storekeeper { get; }
+        private IFilesService Files { get; }
 
-        public UsersService(IUnitOfWork unit, IMapper mapper, IPasswordHasher<User> hasher, Anonymiser<User> anonymiser, IStorekeeper storekeeper)
+        public UsersService(IUnitOfWork unit, IMapper mapper, IPasswordHasher<User> hasher, Anonymiser<User> anonymiser, IFilesService files)
             : base(unit, mapper)
         {
             Hasher = hasher;
             Anonymiser = anonymiser;
-            Storekeeper = storekeeper;
+            Files = files;
         }
 
         public async Task<User> Get(long id)
@@ -97,12 +97,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
         {
             var user = await Unit.Users.Get(id);
 
-            if(user.PhotoId.HasValue)
-            {
-                var file = await Unit.Files.Get(user.PhotoId.Value);
-                Storekeeper.Remove(file.DisplayName, file.RelativePath);
-                await Unit.Files.Remove(user.PhotoId.Value);
-            }
+            if(user.PhotoId.HasValue) await Files.Remove(user.PhotoId.Value);
 
             user = Anonymiser.Anonymise(user);
             await Unit.Complete();

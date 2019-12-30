@@ -55,6 +55,26 @@ namespace Fotoplastykon.BLL.Services.Concrete
             return storedFile;
         }
 
+        public async Task<long> AddAndReturnId(IFormFile file, string relativePath = null)
+        {
+            var fileContent = GetFileContent(file);
+            var uniqueName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            var storedFile = Storekeeper.Add(fileContent, uniqueName, relativePath);
+
+            var storedFileInfo = await Unit.Files.Add(new StoredFileInfo
+            {
+                DisplayName = file.FileName,
+                PublicId = Guid.NewGuid().ToString(),
+                UniqueName = uniqueName,
+                MimeType = file.ContentType,
+                RelativePath = relativePath,
+                Size = fileContent.Length
+            });
+            await Unit.Complete();
+
+            return storedFileInfo.Id;
+        }
+
         public async Task Remove(long id)
         {
             var fileInfo = await Unit.Files.Get(id);

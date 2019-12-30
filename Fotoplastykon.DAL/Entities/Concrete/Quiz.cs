@@ -16,7 +16,9 @@ namespace Fotoplastykon.DAL.Entities.Concrete
 
         public long Id { get; set; }
         public string Name { get; set; }
+        public long? PhotoId { get; set; }
 
+        public StoredFileInfo Photo { get; set; }
         public ICollection<QuizQuestion> Questions { get; set; }
         public ICollection<QuizScore> Scores { get; set; }
     }
@@ -24,6 +26,7 @@ namespace Fotoplastykon.DAL.Entities.Concrete
     {
         public void Configure(EntityTypeBuilder<Quiz> builder)
         {
+            builder.HasOne(p => p.Photo).WithOne(p => p.QuizPhoto).HasForeignKey<Quiz>(p => p.PhotoId).OnDelete(DeleteBehavior.SetNull);
             builder.ToTable("quizzes");
         }
     }

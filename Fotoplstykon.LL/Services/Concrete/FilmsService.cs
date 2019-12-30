@@ -22,12 +22,12 @@ namespace Fotoplastykon.BLL.Services.Concrete
 {
     public class FilmsService : Service, IFilmsService
     {
-        protected IStorekeeper Storekeeper { get; }
+        protected IFilesService Files { get; }
 
-        public FilmsService(IUnitOfWork unit, IMapper mapper, IStorekeeper storekeeper)
+        public FilmsService(IUnitOfWork unit, IMapper mapper, IFilesService files)
             :base(unit, mapper)
         {
-            Storekeeper = storekeeper;
+            Files = files;
         }
 
         #region GetPaginatedList()
@@ -210,54 +210,13 @@ namespace Fotoplastykon.BLL.Services.Concrete
         {
             var film = await Unit.Films.Get(id);
 
-            var photoId = await AddFile(file, "films\\");
+            var photoId = await Files.AddAndReturnId(file, "films\\");
             var oldPhotoId = film.PhotoId;
 
             film.PhotoId = photoId;
             await Unit.Complete();
 
-            if (oldPhotoId.HasValue) await RemoveFile(oldPhotoId.Value);
-        }
-
-        private async Task RemoveFile(long id)
-        {
-            var fileInfo = await Unit.Files.Get(id);
-            Storekeeper.Remove(fileInfo.UniqueName, fileInfo.RelativePath);
-            await Unit.Files.Remove(id);
-            await Unit.Complete();
-        }
-
-        private async Task<long> AddFile(IFormFile file, string relativePath = null)
-        {
-            var fileContent = GetFileContent(file);
-            var uniqueName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-            var storedFile = Storekeeper.Add(fileContent, uniqueName, relativePath);
-
-            var storedFileInfo = await Unit.Files.Add(new StoredFileInfo
-            {
-                DisplayName = file.FileName,
-                PublicId = Guid.NewGuid().ToString(),
-                UniqueName = uniqueName,
-                MimeType = file.ContentType,
-                RelativePath = relativePath,
-                Size = fileContent.Length
-            });
-            await Unit.Complete();
-
-            return storedFileInfo.Id;
-        }
-
-        private byte[] GetFileContent(IFormFile file)
-        {
-            byte[] fileContent;
-
-            using (var stream = new MemoryStream())
-            {
-                file.CopyTo(stream);
-                fileContent = stream.ToArray();
-            };
-
-            return fileContent;
+            if (oldPhotoId.HasValue) await Files.Remove(oldPhotoId.Value);
         }
         #endregion
     }

@@ -73,7 +73,7 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
         [HttpPost("change-photo/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> ChangeProfilePhoto(long id, [FromForm]IFormFile file)
+        public async Task<IActionResult> ChangPhoto(long id, [FromForm]IFormFile file)
         {
             await Films.ChangePhoto(id, file);
             return Ok(await Films.Fetch(id));

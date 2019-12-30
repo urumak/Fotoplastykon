@@ -266,13 +266,92 @@ namespace Fotoplastykon.BLL.Models
         private void QuizzesMappings()
         {
             CreateMap<Quiz, QuizModel>();
-            CreateMap<Quiz, ListItemModel>();
+
+            CreateMap<Quiz, ListItemModel>()
+                .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.PhotoId : string.Empty));
+
             CreateMap<QuizQuestion, QuestionModel>();
+
             CreateMap<QuizAnswer, AnswerModel>();
+
             CreateMap<QuestionModel, QuestionResultDTO>();
+
             CreateMap<AnswerModel, AnswerResultDTO>()
                 .ForMember(d => d.IsCorrect, o => o.Ignore());
+
+            CreateMap<Quiz, QuizFormModel>()
+                .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.PhotoId : string.Empty))
+                .ReverseMap()
+                .ForMember(d => d.PhotoId, o => o.Ignore())
+                .ForMember(d => d.Id, o => o.Ignore())
+                .ForMember(d => d.Questions, o => o.Ignore());
+
+            CreateMap<QuizQuestion, QuestionFormModel>()
+                .ReverseMap()
+                .ForMember(d => d.Id, o => o.Ignore())
+                .ForMember(d => d.Answers, o => o.Ignore());
+
+            CreateMap<QuizAnswer, AnswerFormModel>()
+                .ReverseMap()
+                .ForMember(d => d.Id, o => o.Ignore());
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         private void SignalRMappings()
         {

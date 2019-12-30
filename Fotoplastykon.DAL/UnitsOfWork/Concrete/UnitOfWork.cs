@@ -39,7 +39,7 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
             Friendships = friendships;
             Invitations = invitations;
             Informations = informations;
-            Quizes = quizes;
+            Quizzes = quizes;
             QuizQuestions = quizQuestions;
             QuizAnswers = quizAnswers;
             QuizScores = quizScores;
@@ -63,7 +63,7 @@ namespace Fotoplastykon.DAL.UnitsOfWork.Concrete
         public IUsersRepository Users { get; }
         public IInvitationsRepository Invitations { get; }
         public IFriendshipsRepository Friendships { get; }
-        public IQuizzesRepository Quizes { get; }
+        public IQuizzesRepository Quizzes { get; }
         public IQuizQuestionsRepository QuizQuestions { get; }
         public IQuizAnswersRepository QuizAnswers { get; }
         public IQuizScoresRepository QuizScores { get; }
