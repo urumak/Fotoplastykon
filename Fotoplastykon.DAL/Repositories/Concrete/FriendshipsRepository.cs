@@ -43,8 +43,8 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
         public async Task<IInfiniteScrollResult<User>> GetListForInfiniteScroll(IInfiniteScroll scroll, long userId)
         {
             return await DatabaseContext.Friendships
-                .Where(f => f.InvitedId == userId).Select(u => u.Inviting)
-                .Union(DatabaseContext.Friendships.Where(f => f.InvitingId == userId).Select(u => u.Invited))
+                .Where(f => f.InvitedId == userId && f.Inviting.AnonimisationDate == null).Select(u => u.Inviting)
+                .Union(DatabaseContext.Friendships.Where(f => f.InvitingId == userId && f.Invited.AnonimisationDate == null).Select(u => u.Invited))
                 .OrderBy(u => u.FirstName)
                 .GetInfiniteScrollResult(scroll);
         }
@@ -52,8 +52,8 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
         public async Task<IPaginationResult<User>> GetPaginedList(IPager pager, long userId)
         {
             return await DatabaseContext.Friendships
-                .Where(f => f.InvitedId == userId).Select(u => u.Inviting)
-                .Union(DatabaseContext.Friendships.Where(f => f.InvitingId == userId).Select(u => u.Invited))
+                .Where(f => f.InvitedId == userId && f.Inviting.AnonimisationDate == null).Select(u => u.Inviting)
+                .Union(DatabaseContext.Friendships.Where(f => f.InvitingId == userId && f.Invited.AnonimisationDate == null).Select(u => u.Invited))
                 .OrderBy(u => u.FirstName)
                 .GetPaginationResult(pager);
         }

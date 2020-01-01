@@ -135,6 +135,8 @@ namespace Fotoplastykon.BLL.Services.Concrete
                 answers.ForEach(i => i.QuestionId = item.Id);
                 await Unit.QuizAnswers.AddRange(answers);
             }
+
+            await Unit.Complete();
         }
 
         private async Task UpdateQuestions(long quizId, List<QuestionFormModel> questionsModel)

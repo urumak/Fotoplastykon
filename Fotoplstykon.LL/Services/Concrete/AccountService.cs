@@ -15,7 +15,6 @@ namespace Fotoplastykon.BLL.Services.Concrete
     public class AccountService : Service, IAccountService
     {
         protected IFilesService Files { get; }
-        private User _user;
 
         public AccountService(IUnitOfWork unit, IMapper mapper, IFilesService files)
             : base(unit, mapper)
