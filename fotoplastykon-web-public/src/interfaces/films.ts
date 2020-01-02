@@ -22,7 +22,7 @@ export interface CastMember {
 export interface Filmmaker {
     personId: number;
     fullName: string;
-    profession: string;
+    roleType: string;
     photoUrl: string;
 }
 

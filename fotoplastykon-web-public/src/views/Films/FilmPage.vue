@@ -25,29 +25,21 @@
                 @input="rate()"
         ></v-rating>
         <div>Twoja ocena {{ filmModel.userRating }}</div>
-        <p>Obsada</p>
-        <div v-for="item in filmModel.cast" :key="'c' + item.personId">
-            <v-avatar>
-                <v-img :src="item.photoUrl"></v-img>
-            </v-avatar>
-            <router-link :to="{ name: 'film-person-page', params: { id: item.personId }}" class="font-weight-light custom-link">{{ item.fullName }} - {{ item.characterName }}</router-link>
-        </div>
-        <p>Twórcy</p>
-        <div v-for="item in filmModel.filmmakers" :key="'m' + item.personId">
-            <v-avatar>
-                <v-img :src="item.photoUrl"></v-img>
-            </v-avatar>
-            <router-link :to="{ name: 'film-person-page', params: { id: item.personId }}" class="font-weight-light custom-link">{{ item.fullName }} - {{ item.profession }}</router-link>
-        </div>
-        <p>Dyskusje</p>
-        <div v-for="item in filmModel.forumThreads" :key="'d' + item.id">
-            <v-avatar>
-                <v-img :src="item.photoUrl"></v-img>
-            </v-avatar>
-            <div>{{ item.subject }}</div>
-            <router-link :to="{ name: 'user-page', params: { id: item.createdById }}" class="font-weight-light custom-link">{{ item.createdByName }}</router-link>
-            <div>{{ item.content }}</div>
-        </div>
+        <v-tabs>
+            <v-tabs-slider></v-tabs-slider>
+            <v-tab :href="`#tab-cast`">Obsada</v-tab>
+            <v-tab :href="`#tab-film-makers`">Twórcy</v-tab>
+            <v-tab :href="`#tab-film-forum`">Forum</v-tab>
+            <v-tab-item :value="'tab-cast'">
+                <film-cast :filmId="id"></film-cast>
+            </v-tab-item>
+            <v-tab-item :value="'tab-film-makers'">
+                <film-makers :filmId="id"></film-makers>
+            </v-tab-item>
+            <v-tab-item :value="'tab-film-forum'">
+                <film-forum :filmId="id"></film-forum>
+            </v-tab-item>
+        </v-tabs>
     </v-card>
 </template>
 
@@ -57,8 +49,15 @@
     import { FilmPage } from '@/interfaces/films';
     import FilmsService from '@/services/FilmsService';
     import {Watch} from 'vue-property-decorator';
+    import FilmCast from '@/components/films/FilmCast.vue';
+    import FilmMakers from '@/components/films/FilmMakers.vue';
+    import FilmForum from '@/components/films/FilmForum.vue';
 
-    @Component({})
+    @Component({components: {
+            'film-cast': FilmCast,
+            'film-makers': FilmMakers,
+            'film-forum': FilmForum
+        }})
     export default class FilmPersonPageComponent extends Vue {
         private filmModel : FilmPage = {
             id: 0,

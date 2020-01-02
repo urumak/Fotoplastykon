@@ -38,8 +38,6 @@
     import { UserPage } from '@/interfaces/users';
     import UsersService from '@/services/UsersService';
     import { Watch } from 'vue-property-decorator';
-    import ChatService from '@/services/ChatService';
-    import { InfiniteScroll } from '@/interfaces/infiniteScroll';
     import FriendsList from '@/components/users/FriendsList.vue';
     import RatedPeopleList from '@/components/users/RatedPeopleList.vue';
     import RatedFilmsList from '@/components/users/RatedFilmsList.vue';

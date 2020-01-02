@@ -75,5 +75,32 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
         {
             return Ok(await Films.GetPaginatedListForUser(pager, userId));
         }
+
+        [HttpGet("cast/{filmId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> GetCast(long filmId, [FromQuery]Pager pager)
+        {
+            return Ok(await Films.GetFilmCast(pager, filmId));
+        }
+
+        [HttpGet("forum/{filmId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> GetForumThreads(long filmId, [FromQuery]Pager pager)
+        {
+            return Ok(await Films.GetMostPolularForumThreads(pager, filmId));
+        }
+
+        [HttpGet("film-makers/{filmId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> GetFilmMakers(long filmId, [FromQuery]Pager pager)
+        {
+            return Ok(await Films.GetFilmMakers(pager, filmId));
+        }
     }
 }

@@ -1,8 +1,9 @@
 import Vue from 'vue';
-import {FilmListItem, FilmPage} from "@/interfaces/films";
+import {CastMember, FilmListItem, Filmmaker, FilmPage} from "@/interfaces/films";
 import {Pager, PaginationResult} from "@/interfaces/pager";
-import {RankModel} from "@/interfaces/shared";
+import {ForumElement, RankModel} from "@/interfaces/shared";
 import merge from "lodash/merge";
+import {ForumThreadModel} from "@/interfaces/forum";
 
 export default class FilmsService {
     public static async getList(pager: Pager): Promise<PaginationResult<FilmListItem>> {
@@ -23,5 +24,17 @@ export default class FilmsService {
 
     public static async getWatchedFilms(pager: Pager, userId: number): Promise<PaginationResult<RankModel>> {
         return (await Vue.axios.get<PaginationResult<RankModel>>(`films/watched-films/${userId}`,{params: merge({}, pager)})).data;
+    }
+
+    public static async getCast(pager: Pager, filmId: number): Promise<PaginationResult<CastMember>> {
+        return (await Vue.axios.get<PaginationResult<CastMember>>(`films/cast/${filmId}`,{params: merge({}, pager)})).data;
+    }
+
+    public static async getForumThreads(pager: Pager, filmId: number): Promise<PaginationResult<ForumElement>> {
+        return (await Vue.axios.get<PaginationResult<ForumElement>>(`films/forum/${filmId}`,{params: merge({}, pager)})).data;
+    }
+
+    public static async getFilmMakers(pager: Pager, filmId: number): Promise<PaginationResult<Filmmaker>> {
+        return (await Vue.axios.get<PaginationResult<Filmmaker>>(`films/film-makers/${filmId}`,{params: merge({}, pager)})).data;
     }
 }

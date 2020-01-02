@@ -1,4 +1,5 @@
 ﻿using Fotoplastykon.DAL.Entities.Concrete;
+using Fotoplastykon.Tools.Pager;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,7 +10,7 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
     public interface IForumThreadsRepository : IRepository<ForumThread>
     {
         Task<ForumThread> GetWithCreator(long id);
-        Task<IEnumerable<ForumThread>> GetTheMostPopularForFilm(long filmId, int limit = 5);
+        Task<IPaginationResult<ForumThread>> GetTheMostPopularForFilm(IPager pager, long filmId);
         Task<IEnumerable<ForumThread>> GetTheMostPopularForFilmPerson(long personId, int limit = 5);
     }
 }

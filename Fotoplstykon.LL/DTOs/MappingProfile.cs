@@ -16,6 +16,7 @@ using Fotoplastykon.BLL.DTOs.SignalR;
 using Fotoplastykon.BLL.DTOs.Messages;
 using System;
 using Fotoplastykon.BLL.DTOs.Notifications;
+using Fotoplastykon.Tools.Extensions;
 
 namespace Fotoplastykon.BLL.Models
 {
@@ -80,8 +81,6 @@ namespace Fotoplastykon.BLL.Models
             CreateMap<FilmMarkDTO, FilmWatching>();
 
             CreateMap<Film, FilmPageDTO>()
-                .ForMember(d => d.Filmmakers, o => o.MapFrom(s => s.PeopleInRoles.Where(x => x.Role != RoleType.Actor)))
-                .ForMember(d => d.Cast, o => o.MapFrom(s => s.PeopleInRoles.Where(x => x.Role == RoleType.Actor)))
                 .ForMember(d => d.Rating, o => o.MapFrom(s => s.Watchings.Select(x => x.Mark).Average()))
                 .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.PhotoId : string.Empty));
 
@@ -91,7 +90,7 @@ namespace Fotoplastykon.BLL.Models
 
             CreateMap<PersonInRole, FilmmakerDTO>()
                 .ForMember(d => d.FullName, o => o.MapFrom(s => s.Person.FirstName + " " + s.Person.Surname))
-                .ForMember(d => d.Profession, o => o.MapFrom(s => s.Person.Profession.ToString()))
+                .ForMember(d => d.RoleType, o => o.MapFrom(s => s.Role.GetDescription()))
                 .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.Person.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.Person.PhotoId : string.Empty));
 
             CreateMap<Film, FilmListItem>()

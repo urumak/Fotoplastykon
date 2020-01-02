@@ -28,7 +28,7 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
                 .FirstOrDefaultAsync(t => t.Id == id);
         }
 
-        public async Task<IEnumerable<ForumThread>> GetTheMostPopularForFilm(long filmId, int limit = 5)
+        public async Task<IPaginationResult<ForumThread>> GetTheMostPopularForFilm(IPager pager, long filmId)
         {
             return await DatabaseContext.ForumThreads
                 .Include(t => t.CreatedBy)
@@ -36,8 +36,7 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
                 .ThenInclude(c => c.Replies)
                 .Where(t => t.FilmId == filmId)
                 .OrderByDescending(t => t.Comments.Select(c => c.Replies).Count() + t.Comments.Count())
-                .Take(limit)
-                .ToListAsync();
+                .GetPaginationResult(pager);
         }
 
         public async Task<IEnumerable<ForumThread>> GetTheMostPopularForFilmPerson(long personId, int limit = 5)

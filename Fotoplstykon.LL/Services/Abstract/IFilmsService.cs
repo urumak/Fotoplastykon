@@ -1,4 +1,5 @@
 ﻿using Fotoplastykon.BLL.DTOs.Films;
+using Fotoplastykon.BLL.DTOs.Shared;
 using Fotoplastykon.BLL.DTOs.Users;
 using Fotoplastykon.Tools.Pager;
 using Microsoft.AspNetCore.Http;
@@ -25,5 +26,8 @@ namespace Fotoplastykon.BLL.Services.Abstract
         List<RoleTypeDictionary> GetRoleTypes();
         Task<FilmPersonDropDownModel> GetForSearch(long id);
         Task Update(long id, FilmFormModel model);
+        Task<IPaginationResult<CastMemberDTO>> GetFilmCast(IPager pager, long filmId);
+        Task<IPaginationResult<FilmmakerDTO>> GetFilmMakers(IPager pager, long filmId);
+        Task<IPaginationResult<ForumElementDTO>> GetMostPolularForumThreads(IPager pager, long filmId);
     }
 }
