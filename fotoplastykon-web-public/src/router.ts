@@ -12,7 +12,11 @@ const router = new Router({
       path: '/',
       name: 'home',
       meta: { noLayout: true },
-      component: Home
+      component: Home,
+      beforeEnter: (to, from, next) => {
+        if(!Vue.prototype.$auth.watch.authenticated) next();
+        else next('/information');
+      }
     },
     {
       path: '/information',
@@ -28,16 +32,6 @@ const router = new Router({
       path: '/information/list',
       name: 'information-list',
       component: () => import(/* webpackChunkName: "about" */ './views/Information/List.vue')
-    },
-    {
-      path: '/login',
-      name: 'login',
-      component: () => import(/* webpackChunkName: "about" */ './views/Auth/Login.vue')
-    },
-    {
-      path: '/register',
-      name: 'register',
-      component: () => import(/* webpackChunkName: "about" */ './views/Auth/Register.vue')
     },
     {
       path: '/films/:id',

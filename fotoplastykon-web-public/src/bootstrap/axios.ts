@@ -10,7 +10,7 @@ Vue.axios.interceptors.response.use(
     {
         let ex = {
             code: 500,
-            message: 'Unexpected exception occured.',
+            message: 'Unexpected exception occurred.',
             data: null as any,
             inner: null as any
         };
@@ -25,19 +25,19 @@ Vue.axios.interceptors.response.use(
 
         if (ex.code === 401)
         {
-            console.log('401 catched');
+            console.log('401 captured');
         }
         if (ex.code === 403)
         {
-            console.log('403 catched');
+            console.log('403 captured');
         }
         if (ex.code === 404)
         {
-            console.log('404 catched');
+            console.log('404 captured');
         }
         if (ex.code === 500)
         {
-            console.log('500 catched');
+            console.log('500 captured');
         }
 
         return Promise.reject(ex);
