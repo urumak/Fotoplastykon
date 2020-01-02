@@ -265,7 +265,8 @@ namespace Fotoplastykon.BLL.Models
 
         private void QuizzesMappings()
         {
-            CreateMap<Quiz, QuizModel>();
+            CreateMap<Quiz, QuizModel>()
+                .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.PhotoId : string.Empty));
 
             CreateMap<Quiz, ListItemModel>()
                 .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.PhotoId : string.Empty));

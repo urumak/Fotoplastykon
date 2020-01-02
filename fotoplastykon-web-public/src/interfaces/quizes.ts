@@ -2,6 +2,7 @@ export interface Quiz
 {
     id: number;
     name: string;
+    photoUrl: string;
     questions: Question[];
 }
 
@@ -47,6 +48,7 @@ export interface QuizListItem
 {
     id: number;
     name: string;
+    photoUrl: string;
 }
 
 export enum QuizState

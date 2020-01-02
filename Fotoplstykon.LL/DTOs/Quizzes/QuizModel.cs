@@ -9,6 +9,7 @@ namespace Fotoplastykon.BLL.DTOs.Quizzes
     {
         public long Id { get; set; }
         public string Name { get; set; }
+        public string PhotoUrl { get; set; }
 
         public ICollection<QuestionModel> Questions { get; set; }
     }
