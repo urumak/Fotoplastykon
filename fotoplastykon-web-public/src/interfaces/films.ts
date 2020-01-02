@@ -25,3 +25,11 @@ export interface Filmmaker {
     profession: string;
     photoUrl: string;
 }
+
+export interface FilmListItem {
+    id: number;
+    title: string;
+    photoUrl: string;
+    yearOfProduction: number;
+}
+

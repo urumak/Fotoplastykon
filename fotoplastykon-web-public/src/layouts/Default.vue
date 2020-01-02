@@ -41,7 +41,10 @@
                 </template>
             </v-autocomplete>
             <v-spacer></v-spacer>
-            <v-btn class="mr-2" text>
+            <v-btn class="mr-2" :to="{ name: 'information-list' }" text>
+                <span>Aktualności</span>
+            </v-btn>
+            <v-btn class="mr-2" :to="{ name: 'films' }" text>
                 <span>Filmy</span>
             </v-btn>
             <v-btn class="mr-2" :to="{ name: 'film-people' }" text>

@@ -5,7 +5,7 @@
             <v-card class="my-card">
                 <v-row>
                     <v-col cols="2">
-                        <v-avatar class="ml-5 list-avatar">
+                        <v-avatar class="ml-6 list-avatar">
                             <v-img v-if="item.photoUrl != null && item.photoUrl.length != 0" :src="item.photoUrl"></v-img>
                             <v-img v-else src="@/assets/subPhoto.png"></v-img>
                         </v-avatar>

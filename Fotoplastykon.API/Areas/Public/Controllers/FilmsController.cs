@@ -22,6 +22,14 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
             Films = films;
         }
 
+        [HttpGet("")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> GetList([FromQuery]Pager pager)
+        {
+            return Ok(await Films.GetPaginatedList(pager));
+        }
+
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

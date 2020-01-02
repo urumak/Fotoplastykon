@@ -113,8 +113,13 @@
             await this.loadData();
         }
 
-        @Watch('options')
         @Watch('pager.search')
+        async filter() {
+            this.pager.pageIndex = 1;
+            await this.loadData();
+        }
+
+        @Watch('options')
         async loadData() {
             this.loading = true;
             this.pager.pageIndex = this.options.page;

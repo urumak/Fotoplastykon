@@ -1,17 +1,23 @@
 <template>
     <div>
+        <v-row><v-text-field v-model="pager.search" label="Szukaj" solo></v-text-field></v-row>
         <div v-for="item in items" :key="item.id" class="row">
-            <v-card class="my-card col-8">
-                <router-link :to="{ name: 'information-details', params: { id: item.id}}" class="card-title">
-                    {{ item.title }}
-                </router-link>
-                <div class="card-title-line"></div>
-                <div class="news-card-content">
-                    {{ item.introduction }}
-                </div>
+            <v-card class="my-card">
+                <v-row>
+                    <v-col cols="2">
+                        <v-avatar class="ml-6 list-avatar">
+                            <v-img v-if="item.photoUrl != null && item.photoUrl.length != 0" :src="item.photoUrl"></v-img>
+                            <v-img v-else src="@/assets/subPhoto.png"></v-img>
+                        </v-avatar>
+                    </v-col>
+                    <v-col cols="10" class="pr-5">
+                        <router-link :to="{ name: 'information-details', params: { id: item.id }}" class="font-weight-light custom-link">{{ item.title }}</router-link>
+                        <div>
+                            {{ item.introduction }}
+                        </div>
+                    </v-col>
+                </v-row>
             </v-card>
-            <v-img class="news-img" :src="item.photoUrl" contain>
-            </v-img>
         </div>
         <v-btn v-for="i in pager.totalPages" :key="'p' + i" @click="paginate(i)">{{i}}</v-btn>
         <v-select :items="pageSizeOptions" v-model="pager.pageSize" solo @change="changePageSize()"></v-select>
@@ -25,6 +31,7 @@
     import { InformationListModel } from '@/interfaces/information';
     import {Pager} from '@/interfaces/pager';
     import merge from 'lodash/merge'
+    import { Watch } from 'vue-property-decorator';
 
     @Component({})
     export default class InformationListComponent extends Vue {
@@ -37,6 +44,12 @@
         }
 
         async created() {
+            await this.loadData();
+        }
+
+        @Watch('pager.search')
+        async filter() {
+            this.pager.pageIndex = 1;
             await this.loadData();
         }
 

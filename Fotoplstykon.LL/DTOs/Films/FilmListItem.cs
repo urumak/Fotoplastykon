@@ -9,5 +9,6 @@ namespace Fotoplastykon.BLL.DTOs.Films
         public long Id { get; set; }
         public string Title { get; set; }
         public string PhotoUrl { get; set; }
+        public int YearOfProduction { get; set; }
     }
 }
