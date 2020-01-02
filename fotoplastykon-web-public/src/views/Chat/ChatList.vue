@@ -75,6 +75,8 @@
         @Watch('searchInput')
         async search() {
             if (this.searchInput){
+                this.$store.state.chat.friends = [];
+                this.scroll.setRowsLoaded(0);
                 this.$store.state.chat.friends = await ChatService.searchFriends(this.searchInput);
             } else {
                 this.scroll.restore();

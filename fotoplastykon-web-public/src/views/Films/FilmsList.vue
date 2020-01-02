@@ -10,7 +10,7 @@
                             <v-img v-else src="@/assets/subPhoto.png"></v-img>
                         </v-avatar>
                     </v-col>
-                    <router-link :to="{ name: 'film-person-page', params: { id: item.id }}" class="font-weight-light custom-link">{{ item.title + ' (' + item.yearOfProduction + ')'}}</router-link>
+                    <router-link :to="{ name: 'film-page', params: { id: item.id }}" class="font-weight-light custom-link">{{ item.title + ' (' + item.yearOfProduction + ')'}}</router-link>
                 </v-row>
             </v-card>
         </div>
