@@ -89,8 +89,8 @@
     import SearchService from "@/services/SearchService.ts";
     import { SearchItem } from '@/interfaces/search';
     import { Watch } from 'vue-property-decorator';
-    import ChatWindows from '@/views/Chat/ChatWindows.vue';
-    import ChatList from '@/views/Chat/ChatList.vue';
+    import ChatWindows from '@/components/chat/ChatWindows.vue';
+    import ChatList from '@/components/chat/ChatList.vue';
     import NotificationsPopover from '@/components/popovers/NotificationsPopover.vue';
     import ProfilePopover from '@/components/popovers/ProfilePopover.vue';
     import ChatService from '@/services/ChatService';

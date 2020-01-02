@@ -34,7 +34,6 @@
     import Component from "vue-class-component";
     import { Prop, Watch } from 'vue-property-decorator';
     import {Pager} from '@/interfaces/pager';
-    import {Filmmaker} from '@/interfaces/films';
     import FilmsService from '@/services/FilmsService';
     import {ForumElement} from '../../interfaces/shared';
 

@@ -20,7 +20,7 @@
 <script lang="ts">
     import Vue from "vue";
     import Component from "vue-class-component";
-    import ChatService from '@/services/ChatService.ts'
+    import ChatService from '@/services/ChatService'
     import {ChatWindowModel} from '@/interfaces/chat';
     import {InfiniteScroll} from '@/interfaces/infiniteScroll';
     import { Watch } from 'vue-property-decorator';

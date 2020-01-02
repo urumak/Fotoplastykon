@@ -7,7 +7,7 @@
 <script lang="ts">
     import Vue from "vue";
     import Component from "vue-class-component";
-    import ChatWindow from '@/views/Chat/ChatWindow.vue';
+    import ChatWindow from '@/components/chat/ChatWindow.vue';
     import {ChatWindowModel} from '@/interfaces/chat';
     import ChatService from '@/services/ChatService';
 
