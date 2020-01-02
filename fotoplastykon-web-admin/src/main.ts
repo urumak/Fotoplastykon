@@ -18,7 +18,7 @@ Vue.use(require('@websanova/vue-auth'), {
   authRedirect: {path: 'admin/auth/login'},
   forbiddenRedirect: {path: '/error/403'},
   notFoundRedirect: {path: '/error/404'},
-  loginData: {url: 'admin/auth/login', method: 'POST', redirect: '/information', fetchUser: true},
+  loginData: {url: 'admin/auth/login', method: 'POST', redirect: '/home', fetchUser: true},
   logoutData: {url: 'admin/auth/logout', method: 'POST', redirect: '/', makeRequest: false},
   fetchData: {url: 'admin/auth/user', method: 'GET', enabled: true},
   refreshData: {url: 'admin/auth/refresh', method: 'GET', enabled: true, interval: 30},

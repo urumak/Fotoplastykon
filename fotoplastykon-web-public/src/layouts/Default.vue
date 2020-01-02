@@ -2,7 +2,7 @@
     <div>
         <v-app-bar class="app-bar-standard" app>
             <v-toolbar-title class="headline text-uppercase">
-                <router-link :to="{ name: 'information' }" class="font-weight-light custom-link">Fotoplastykon</router-link>
+                <router-link :to="{ name: 'home' }" class="font-weight-light custom-link">Fotoplastykon</router-link>
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-autocomplete
@@ -54,10 +54,10 @@
                 <span>Quizy</span>
             </v-btn>
             <v-spacer></v-spacer>
-            <v-btn v-if="!$auth.check()" text class="mr-2" :to="{name:'home'}">
+            <v-btn v-if="!$auth.check()" text class="mr-2" :to="{name:'landing'}">
                 <span>Zaloguj się</span>
             </v-btn>
-            <v-btn v-if="!$auth.check()" text  class="mr-2" :to="{name:'home'}">
+            <v-btn v-if="!$auth.check()" text  class="mr-2" :to="{name:'landing'}">
                 <span>Zarejestruj się</span>
             </v-btn>
             <messages-popover></messages-popover>

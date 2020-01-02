@@ -34,7 +34,7 @@
     import { InformationListModel } from '@/interfaces/information';
 
     @Component({})
-    export default class MainPageComponent extends Vue {
+    export default class HomeComponent extends Vue {
         private Items : InformationListModel[] = [];
 
         async created() {

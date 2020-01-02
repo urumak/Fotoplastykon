@@ -6,6 +6,10 @@
       <v-toolbar-title class="headline text-uppercase">
         <span class="font-weight-light">Fotoplastykon</span>
       </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn text :to="{name:'information'}">
+        <span class="mr-2">Kontynuuj bez logowania</span>
+      </v-btn>
     </v-app-bar>
     <div style="height: 80px"></div>
     <v-row style="margin-bottom: -80px">
@@ -15,8 +19,12 @@
           <v-tabs>
             <v-tabs-slider></v-tabs-slider>
             <v-tab :href="`#tab-login`">Zaloguj się</v-tab>
+            <v-tab :href="`#tab-register`">Zarejestruj się</v-tab>
             <v-tab-item :value="'tab-login'">
               <login-component></login-component>
+            </v-tab-item>
+            <v-tab-item :value="'tab-register'">
+              <register-component></register-component>
             </v-tab-item>
           </v-tabs>
         </v-card>
@@ -34,9 +42,10 @@
   @Component({
     components: {
       'login-component': Login,
+      'register-component': Register
     }
   })
-  export default class HomeComponent extends Vue {
+  export default class LandingComponent extends Vue {
 
   }
 </script>

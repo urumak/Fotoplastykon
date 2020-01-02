@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/views/Home.vue'
+import landing from '@/views/Landing.vue'
 
 Vue.use(Router)
 
@@ -10,18 +10,18 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'landing',
       meta: { noLayout: true },
-      component: Home,
+      component: landing,
       beforeEnter: (to, from, next) => {
         if(!Vue.prototype.$auth.watch.authenticated) next();
-        else next('/information');
+        else next('/home');
       }
     },
     {
-      path: '/information',
-      name: 'information',
-      component: () => import(/* webpackChunkName: "about" */ './views/Information/MainPage.vue')
+      path: '/home',
+      name: 'home',
+      component: () => import(/* webpackChunkName: "about" */ './views/Information/Home.vue')
     },
     {
       path: '/information/:id',
