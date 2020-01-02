@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-row><v-text-field v-model="pager.search" label="Szukaj" solo></v-text-field></v-row>
-        <div v-for="item in items" :key="item.id" class="row">
+        <div v-for="(item, index) in items" :key="index" class="row">
             <v-card class="my-card">
                 <v-row>
                     <v-col cols="2">
@@ -10,7 +10,7 @@
                             <v-img v-else src="@/assets/subPhoto.png"></v-img>
                         </v-avatar>
                     </v-col>
-                    <router-link :to="{ name: 'quiz', params: { id: item.id }}" class="font-weight-light custom-link">{{ item.name }}</router-link>
+                    <router-link :to="{ name: 'film-person-page', params: { id: item.id }}" class="font-weight-light custom-link">{{ item.firstName + ' ' + item.surname }}</router-link>
                 </v-row>
             </v-card>
         </div>
@@ -25,16 +25,18 @@
     import QuizzesService from "@/services/QuizzesService.ts";
     import { QuizListItem } from '@/interfaces/quizes';
     import {Pager} from '@/interfaces/pager';
+    import {FilmPersonListItem} from '@/interfaces/filmPeople';
+    import FilmPeopleService from '@/services/FilmPeopleService';
     import { Watch } from 'vue-property-decorator';
 
     @Component({})
-    export default class QuizzesListComponent extends Vue {
-        private items : QuizListItem[] = [];
+    export default class FilmPeopleListComponent extends Vue {
+        private items : FilmPersonListItem[] = [];
         private pageSizeOptions = [2,5,10,20];
 
         private get pager(): Pager
         {
-            return this.$store.state.quizzes.pager;
+            return this.$store.state.filmPeople.pager;
         }
 
         async created() {
@@ -49,7 +51,7 @@
 
         async loadData() {
             if(this.pager.pageIndex > this.pager.totalPages) this.pager.setPageIndex(this.pager.totalPages);
-            let response = await QuizzesService.getList(this.pager);
+            let response = await FilmPeopleService.getList(this.pager);
             this.items = response.items;
             this.pager.setTotalRows(response.pager.totalRows);
         }

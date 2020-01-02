@@ -30,6 +30,18 @@ export default class StoreHelper {
         }
     }
 
+    public static getDefaultFilmsState(): any {
+        return {
+            pager: new Pager(1, 2)
+        }
+    }
+
+    public static getDefaultFilmPeopleState(): any {
+        return {
+            pager: new Pager(1, 2)
+        }
+    }
+
     public static getDefaultNotificationsState(): any {
         return {
             count: 0

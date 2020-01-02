@@ -39,6 +39,11 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/Films/FilmPage.vue')
     },
     {
+      path: '/film-people',
+      name: 'film-people',
+      component: () => import(/* webpackChunkName: "about" */ './views/FilmPeople/FilmPeopleList.vue')
+    },
+    {
       path: '/film-people/:id',
       name: 'film-person-page',
       component: () => import(/* webpackChunkName: "about" */ './views/FilmPeople/FilmPersonPage.vue')

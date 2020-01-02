@@ -19,3 +19,10 @@ export interface RoleInFilm {
     yearOfProduction: number;
     photoUrl: string;
 }
+
+export interface FilmPersonListItem {
+    id: number,
+    firstName: string;
+    surname: string;
+    photoUrl: string;
+}

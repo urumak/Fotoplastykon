@@ -1,10 +1,14 @@
 import Vue from 'vue';
-import {FilmPersonPage} from "@/interfaces/filmPeople";
+import {FilmPersonListItem, FilmPersonPage} from "@/interfaces/filmPeople";
 import {Pager, PaginationResult} from "@/interfaces/pager";
 import {RankModel} from "@/interfaces/shared";
 import merge from "lodash/merge";
 
 export default class FilmPeopleService {
+    public static async getList(pager: Pager): Promise<PaginationResult<FilmPersonListItem>> {
+        return (await Vue.axios.get<PaginationResult<FilmPersonListItem>>(`film-people`,{params: merge({}, pager)})).data;
+    }
+
     public static async getForPage(id: number): Promise<FilmPersonPage> {
         return (await Vue.axios.get<FilmPersonPage>(`film-people/${id}`)).data;
     }

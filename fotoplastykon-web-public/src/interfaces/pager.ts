@@ -8,8 +8,10 @@ export class Pager
     public pageIndex : number;
     public pageSize : number;
     public totalRows : number = 1;
+    public search: string = '';
 
     public get totalPages(): number {
+        if(this.totalRows === 0) return 1;
         return Math.ceil(this.totalRows / this.pageSize);
     }
 

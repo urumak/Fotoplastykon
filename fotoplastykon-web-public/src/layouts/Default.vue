@@ -44,7 +44,7 @@
             <v-btn class="mr-2" text>
                 <span>Filmy</span>
             </v-btn>
-            <v-btn class="mr-2" text>
+            <v-btn class="mr-2" :to="{ name: 'film-people' }" text>
                 <span>Ludzie kina</span>
             </v-btn>
             <v-btn v-if="$auth.check()" :to="{ name: 'forum' }" class="mr-2" text>

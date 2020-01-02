@@ -8,6 +8,8 @@ import notifications from "@/store/notifications";
 import StoreHelper from "@/store/storeHelper";
 import storeHelper from "@/store/storeHelper";
 import user from "@/store/user";
+import films from "@/store/films";
+import filmPeople from "@/store/filmPeople";
 
 Vue.use(Vuex);
 
@@ -19,6 +21,8 @@ const mutations = {
     state.quizzes = StoreHelper.getDefaultQuizzesState();
     state.notifications = storeHelper.getDefaultNotificationsState();
     state.user = storeHelper.getDefaultUserState();
+    state.films = storeHelper.getDefaultFilmsState();
+    state.filmPeople = storeHelper.getDefaultFilmPeopleState();
   }
 };
 
@@ -30,7 +34,9 @@ const store = new Vuex.Store({
     quizzes: quizzes,
     chat: chat,
     notifications: notifications,
-    user: user
+    user: user,
+    films: films,
+    filmPeople: filmPeople
   },
   mutations: mutations
 });
