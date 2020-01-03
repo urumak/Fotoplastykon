@@ -5,22 +5,21 @@
                     v-if="items.length === 0"
             >
                 <v-list-item-content>
-                    <v-list-item-title>Brak wątków</v-list-item-title>
+                    <v-list-item-title>Brak filmów</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
             <v-list-item
                     v-for="(item, index) in items"
                     :key="index"
-                    @click="goToDetails(item.id)"
+                    @click="goToDetails(item.filmId)"
             >
                 <v-list-item-avatar>
                     <v-img v-if="item.photoUrl != null && item.photoUrl.length != 0" :src='item.photoUrl'></v-img>
                     <v-img v-else src="@/assets/subPhoto.png"></v-img>
                 </v-list-item-avatar>
                 <v-list-item-content>
-                    <v-list-item-title>{{ item.subject }}</v-list-item-title>
-                    <v-list-item-subtitle>{{ item.createdByName }}</v-list-item-subtitle>
-                    <div>{{ item.content }}</div>
+                    <v-list-item-title>{{ item.filmName + ' (' + item.yearOfProduction + ')' }}</v-list-item-title>
+                    <v-list-item-subtitle>{{ item.roleDescription }}</v-list-item-subtitle>
                 </v-list-item-content>
             </v-list-item>
         </v-list>
@@ -34,21 +33,21 @@
     import Component from "vue-class-component";
     import { Prop, Watch } from 'vue-property-decorator';
     import {Pager} from '@/interfaces/pager';
-    import FilmsService from '@/services/FilmsService';
-    import {ForumElement} from '../../interfaces/shared';
+    import FilmPeopleService from '@/services/FilmPeopleService';
+    import {RoleInFilm} from "../../interfaces/filmPeople";
 
     @Component({})
-    export default class FilmForumComponent extends Vue {
+    export default class FilmPersonRolesComponent extends Vue {
 
-        private items : ForumElement[] = [];
+        private items : RoleInFilm[] = [];
         private pager : Pager = new Pager(1, 2);
         private pageSizeOptions = [2,5,10,20];
         private get id() {
-            return this.filmId;
+            return this.personId;
         }
 
         @Prop({default: 0})
-        public filmId!: number;
+        public personId!: number;
 
         @Watch('$route')
         async reload() {
@@ -62,7 +61,7 @@
 
         async loadData() {
             if(this.pager.pageIndex > this.pager.totalPages) this.pager.setPageIndex(this.pager.totalPages);
-            let response = await FilmsService.getForumThreads(this.pager, this.id);
+            let response = await FilmPeopleService.getPersonRoles(this.pager, this.id);
             this.items = response.items;
             this.pager.setTotalRows(response.pager.totalRows);
         }
@@ -74,7 +73,7 @@
 
         async goToDetails(id: number) {
             console.log(id);
-            await this.$router.push({ name: 'forum-thread', params: { id: id.toString() }});
+            await this.$router.push({ name: 'film', params: { id: id.toString() }});
         }
     }
 </script>

@@ -1,6 +1,7 @@
 ﻿using Fotoplastykon.DAL.Entities.Concrete;
 using Fotoplastykon.DAL.Repositories.Abstract;
 using Fotoplastykon.Tools.Pager;
+using LinqKit;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -30,25 +31,32 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
 
         public async Task<IPaginationResult<ForumThread>> GetTheMostPopularForFilm(IPager pager, long filmId)
         {
+            var predicate = PredicateBuilder.New<ForumThread>(t => t.FilmId == filmId);
+
+            if (!string.IsNullOrEmpty(pager.Search)) predicate.And(t => t.Subject.Contains(pager.Search));
+
             return await DatabaseContext.ForumThreads
                 .Include(t => t.CreatedBy)
                 .Include(t => t.Comments)
                 .ThenInclude(c => c.Replies)
-                .Where(t => t.FilmId == filmId)
+                .Where(predicate)
                 .OrderByDescending(t => t.Comments.Select(c => c.Replies).Count() + t.Comments.Count())
                 .GetPaginationResult(pager);
         }
 
-        public async Task<IEnumerable<ForumThread>> GetTheMostPopularForFilmPerson(long personId, int limit = 5)
+        public async Task<IPaginationResult<ForumThread>> GetTheMostPopularForFilmPerson(IPager pager, long personId)
         {
+            var predicate = PredicateBuilder.New<ForumThread>(t => t.PersonId == personId);
+
+            if (!string.IsNullOrEmpty(pager.Search)) predicate.And(t => t.Subject.Contains(pager.Search));
+
             return await DatabaseContext.ForumThreads
                 .Include(t => t.CreatedBy)
                 .Include(t => t.Comments)
                 .ThenInclude(c => c.Replies)
-                .Where(t => t.PersonId == personId)
+                .Where(predicate)
                 .OrderByDescending(t => t.Comments.Select(c => c.Replies).Count() + t.Comments.Count())
-                .Take(limit)
-                .ToListAsync();
+                .GetPaginationResult(pager);
         }
     }
 }

@@ -4,10 +4,8 @@
             <v-toolbar-title class="headline text-uppercase">
                 <router-link :to="{ name: 'home' }" class="font-weight-light custom-link">Fotoplastykon</router-link>
             </v-toolbar-title>
-            <v-spacer></v-spacer>
             <v-autocomplete
-                    class="flex ml-1"
-                    style="margin-top:30px;"
+                    class="flex ml-5 mt-8 mr-5"
                     label="Szukaj"
                     :items="items"
                     v-model="selectedItem"
@@ -40,7 +38,6 @@
                     <v-flex v-html="data.item.value"></v-flex>
                 </template>
             </v-autocomplete>
-            <v-spacer></v-spacer>
             <v-btn class="mr-2" :to="{ name: 'information-list' }" text>
                 <span>Aktualności</span>
             </v-btn>

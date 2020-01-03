@@ -49,14 +49,12 @@ namespace Fotoplastykon.BLL.Services.Concrete
         }
         #endregion
 
-
         #region Fetch()
         public async Task<FilmPersonFormModel> Fetch(long id)
         {
             return Mapper.Map<FilmPersonFormModel>(await Unit.FilmPeople.Get(id));
         }
         #endregion
-
 
         #region Remove()
         public async Task Remove(long id)
@@ -99,12 +97,33 @@ namespace Fotoplastykon.BLL.Services.Concrete
         public async Task<FilmPersonPageDTO> GetForPage(long personId, long userId)
         {
             var person = Mapper.Map<FilmPersonPageDTO>(await Unit.FilmPeople.GetForPage(personId));
-            person.ForumThreads = Mapper.Map<List<ForumElementDTO>>(await Unit.ForumThreads.GetTheMostPopularForFilmPerson(personId));
 
             var userRating = await Unit.PersonMarks.Get(userId, personId);
             if (userRating != null) person.UserRating = userRating.Mark;
 
             return person;
+        }
+
+        public async Task<IPaginationResult<RoleInFilmDTO>> GetPersonRoles(IPager pager, long personId)
+        {
+            var data = await Unit.PeopleInRoles.GetPersonRoles(pager, personId);
+
+            return new PaginationResult<RoleInFilmDTO>
+            {
+                Items = Mapper.Map<List<RoleInFilmDTO>>(data.Items),
+                Pager = data.Pager
+            };
+        }
+
+        public async Task<IPaginationResult<ForumElementDTO>> GetTheMostPopularForumThreads(IPager pager, long personId)
+        {
+            var data = await Unit.ForumThreads.GetTheMostPopularForFilmPerson(pager, personId);
+
+            return new PaginationResult<ForumElementDTO>
+            {
+                Items = Mapper.Map<List<ForumElementDTO>>(data.Items),
+                Pager = data.Pager
+            };
         }
 
         public async Task<decimal?> GetRating(long personId)

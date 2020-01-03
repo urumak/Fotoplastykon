@@ -11,5 +11,6 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
     {
         Task<IPaginationResult<PersonInRole>> GetFilmCast(IPager pager, long filmId);
         Task<IPaginationResult<PersonInRole>> GetFilmMakers(IPager pager, long filmId);
+        Task<IPaginationResult<PersonInRole>> GetPersonRoles(IPager pager, long personId);
     }
 }

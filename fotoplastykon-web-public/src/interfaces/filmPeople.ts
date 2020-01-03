@@ -8,8 +8,6 @@ export interface FilmPersonPage {
     rating: number;
     userRating: number;
     photoUrl: string;
-    roles: RoleInFilm[];
-    forumThreads: ForumElement[];
 }
 
 export interface RoleInFilm {

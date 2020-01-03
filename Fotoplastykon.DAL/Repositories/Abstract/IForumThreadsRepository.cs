@@ -11,6 +11,6 @@ namespace Fotoplastykon.DAL.Repositories.Abstract
     {
         Task<ForumThread> GetWithCreator(long id);
         Task<IPaginationResult<ForumThread>> GetTheMostPopularForFilm(IPager pager, long filmId);
-        Task<IEnumerable<ForumThread>> GetTheMostPopularForFilmPerson(long personId, int limit = 5);
+        Task<IPaginationResult<ForumThread>> GetTheMostPopularForFilmPerson(IPager pager, long personId);
     }
 }

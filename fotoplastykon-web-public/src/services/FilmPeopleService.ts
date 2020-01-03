@@ -1,7 +1,7 @@
 import Vue from 'vue';
-import {FilmPersonListItem, FilmPersonPage} from "@/interfaces/filmPeople";
+import {FilmPersonListItem, FilmPersonPage, RoleInFilm} from "@/interfaces/filmPeople";
 import {Pager, PaginationResult} from "@/interfaces/pager";
-import {RankModel} from "@/interfaces/shared";
+import {ForumElement, RankModel} from "@/interfaces/shared";
 import merge from "lodash/merge";
 
 export default class FilmPeopleService {
@@ -23,5 +23,13 @@ export default class FilmPeopleService {
 
     public static async getRatedPeople(pager: Pager, userId: number): Promise<PaginationResult<RankModel>> {
         return (await Vue.axios.get<PaginationResult<RankModel>>(`film-people/rated-people/${userId}`,{params: merge({}, pager)})).data;
+    }
+
+    public static async getForumThreads(pager: Pager, personId: number): Promise<PaginationResult<ForumElement>> {
+        return (await Vue.axios.get<PaginationResult<ForumElement>>(`film-people/forum/${personId}`,{params: merge({}, pager)})).data;
+    }
+
+    public static async getPersonRoles(pager: Pager, personId: number): Promise<PaginationResult<RoleInFilm>> {
+        return (await Vue.axios.get<PaginationResult<RoleInFilm>>(`film-people/person-roles/${personId}`,{params: merge({}, pager)})).data;
     }
 }

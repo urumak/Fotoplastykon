@@ -4,10 +4,10 @@
             <div>{{ $auth.user().firstName }}</div>
             <div>{{ $auth.user().surname }}</div>
             <div>{{ $auth.user().userName }}</div>
-            <div class="col-3">
-                <v-img v-if="photoUrl || $auth.user().photoUrl" contain :src="photoUrl ? photoUrl : $auth.user().photoUrl"></v-img>
+            <v-avatar height="300" width="230" :tile="true">
+                <v-img v-if="photoUrl || $auth.user().photoUrl" :src="photoUrl ? photoUrl : $auth.user().photoUrl"></v-img>
                 <v-img v-else src="@/assets/subPhoto.png"></v-img>
-            </div>
+            </v-avatar>
             <v-file-input
                     accept="image/png, image/jpeg, image/bmp"
                     placeholder="Wybierz zdjęcie profilowe"

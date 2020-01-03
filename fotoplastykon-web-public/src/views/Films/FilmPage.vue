@@ -2,10 +2,10 @@
     <v-card>
         <div>{{ filmModel.title }}</div>
         <div>{{ filmModel.yearOfProduction }}</div>
-        <div class="col-3">
+        <v-avatar height="300" width="230" :tile="true">
             <v-img v-if="filmModel.photoUrl" :src="filmModel.photoUrl"></v-img>
             <v-img v-else src="@/assets/subPhoto.png"></v-img>
-        </div>
+        </v-avatar>
         <v-rating
                 v-model="filmModel.rating"
                 :length="10"

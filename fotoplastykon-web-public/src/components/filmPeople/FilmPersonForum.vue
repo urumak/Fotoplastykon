@@ -34,21 +34,21 @@
     import Component from "vue-class-component";
     import { Prop, Watch } from 'vue-property-decorator';
     import {Pager} from '@/interfaces/pager';
-    import FilmsService from '@/services/FilmsService';
     import {ForumElement} from '../../interfaces/shared';
+    import FilmPeopleService from '@/services/FilmPeopleService';
 
     @Component({})
-    export default class FilmForumComponent extends Vue {
+    export default class FilmPersonForumComponent extends Vue {
 
         private items : ForumElement[] = [];
         private pager : Pager = new Pager(1, 2);
         private pageSizeOptions = [2,5,10,20];
         private get id() {
-            return this.filmId;
+            return this.personId;
         }
 
         @Prop({default: 0})
-        public filmId!: number;
+        public personId!: number;
 
         @Watch('$route')
         async reload() {
@@ -62,7 +62,7 @@
 
         async loadData() {
             if(this.pager.pageIndex > this.pager.totalPages) this.pager.setPageIndex(this.pager.totalPages);
-            let response = await FilmsService.getForumThreads(this.pager, this.id);
+            let response = await FilmPeopleService.getForumThreads(this.pager, this.id);
             this.items = response.items;
             this.pager.setTotalRows(response.pager.totalRows);
         }

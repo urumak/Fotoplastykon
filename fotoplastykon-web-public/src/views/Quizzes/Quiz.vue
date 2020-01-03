@@ -1,8 +1,14 @@
 <template>
     <div>
         <v-card v-if="quizState === 0" class="my-card">
-            <v-img :src="quiz.photoUrl">
-            </v-img>
+            <v-row align="center">
+                <v-col cols="12" align="center">
+                    <v-avatar height="400" width="700" :tile="true">
+                        <v-img :src="quiz.photoUrl">
+                        </v-img>
+                    </v-avatar>
+                </v-col>
+            </v-row>
             <v-row align="center"><v-col cols="12" align="center">{{ quiz.name }}</v-col></v-row>
             <v-row align="center"><v-col cols="12" align="center"><v-btn @click="startQuiz()">Rozpocznij</v-btn></v-col></v-row>
         </v-card>

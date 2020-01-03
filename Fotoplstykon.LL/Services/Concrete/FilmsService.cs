@@ -115,7 +115,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
         }
         #endregion
 
-        #region GetFilmCast()
+        #region GetFilmMakers()
         public async Task<IPaginationResult<FilmmakerDTO>> GetFilmMakers(IPager pager, long filmId)
         {
             var data = await Unit.PeopleInRoles.GetFilmMakers(pager, filmId);

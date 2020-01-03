@@ -16,7 +16,5 @@ namespace Fotoplastykon.BLL.DTOs.FilmPeople
         public decimal Rating { get; set; }
         public decimal? UserRating { get; set; }
         public string PhotoUrl { get; set; }
-        public List<RoleInFilmDTO> Roles { get; set; }
-        public List<ForumElementDTO> ForumThreads { get; set; }
     }
 }

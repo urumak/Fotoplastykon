@@ -2,10 +2,10 @@
     <v-card>
         <div>{{ filmPersonModel.firstName }}</div>
         <div>{{ filmPersonModel.surname }}</div>
-        <div class="col-3">
-            <v-img v-if="filmPersonModel.photoUrl" contain :src="filmPersonModel.photoUrl"></v-img>
+        <v-avatar height="300" width="230" :tile="true">
+            <v-img v-if="filmPersonModel.photoUrl" :src="filmPersonModel.photoUrl"></v-img>
             <v-img v-else src="@/assets/subPhoto.png"></v-img>
-        </div>
+        </v-avatar>
         <v-rating
                 v-model="filmPersonModel.rating"
                 :length="10"
@@ -25,22 +25,17 @@
                 @input="rate()"
         ></v-rating>
         <div>Twoja ocena {{ filmPersonModel.userRating }}</div>
-        <p>Filmy</p>
-        <div v-for="item in filmPersonModel.roles" :key="'f' + item.filmId">
-            <v-avatar>
-                <v-img :src="item.photoUrl"></v-img>
-            </v-avatar>
-            <router-link :to="{ name: 'film-page', params: { id: item.filmId }}" class="font-weight-light custom-link">{{ item.filmName }} - {{ item.roleDescription }}</router-link>
-        </div>
-        <p>Dyskusje</p>
-        <div v-for="item in filmPersonModel.forumThreads" :key="'d' + item.id">
-            <v-avatar>
-                <v-img :src="item.photoUrl"></v-img>
-            </v-avatar>
-            <div>{{ item.subject }}</div>
-            <router-link :to="{ name: 'user-page', params: { id: item.createdById }}" class="font-weight-light custom-link">{{ item.createdByName }}</router-link>
-            <div>{{ item.content }}</div>
-        </div>
+        <v-tabs>
+            <v-tabs-slider></v-tabs-slider>
+            <v-tab :href="`#tab-roles`">Filmy</v-tab>
+            <v-tab :href="`#tab-film-forum`">Forum</v-tab>
+            <v-tab-item :value="'tab-roles'">
+                <film-person-roles :personId="id"></film-person-roles>
+            </v-tab-item>
+            <v-tab-item :value="'tab-film-forum'">
+                <film-person-forum :personId="id"></film-person-forum>
+            </v-tab-item>
+        </v-tabs>
     </v-card>
 </template>
 
@@ -50,8 +45,13 @@
     import {FilmPersonPage} from '@/interfaces/filmPeople';
     import FilmPeopleService from '@/services/FilmPeopleService';
     import { Watch } from 'vue-property-decorator';
+    import FilmPersonRoles from '@/components/filmPeople/FilmPersonRoles.vue';
+    import FilmPersonForum from '@/components/filmPeople/FilmPersonForum.vue';
 
-    @Component({})
+    @Component({components: {
+            'film-person-roles': FilmPersonRoles,
+            'film-person-forum': FilmPersonForum
+        }})
     export default class FilmPersonPageComponent extends Vue {
         private filmPersonModel : FilmPersonPage = {
             id: 0,
@@ -60,9 +60,7 @@
             profession: '',
             rating: 0,
             userRating: 0,
-            photoUrl: '',
-            roles: [],
-            forumThreads: []
+            photoUrl: ''
         };
 
         private get id() : number {

@@ -36,5 +36,14 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
                 .OrderBy(p => p.Person.FirstName)
                 .GetPaginationResult(pager);
         }
+
+        public async Task<IPaginationResult<PersonInRole>> GetPersonRoles(IPager pager, long personId)
+        {
+            return await DatabaseContext.PeopleInRoles
+                .Include(r => r.Film)
+                .Where(r => r.PersonId == personId)
+                .OrderBy(p => p.Person.FirstName)
+                .GetPaginationResult(pager);
+        }
     }
 }

@@ -7,7 +7,7 @@
         <span class="font-weight-light">Fotoplastykon</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn text :to="{name:'information'}">
+      <v-btn text :to="{name:'home'}">
         <span class="mr-2">Kontynuuj bez logowania</span>
       </v-btn>
     </v-app-bar>
