@@ -33,7 +33,7 @@
             <v-btn v-if="!item.editMode"  @click="newCommentReply(item.id)">Odpowiedz</v-btn>
             <div v-if="!item.editMode">{{item.content}}</div>
             <v-textarea v-if="item.editMode" label="Komentarz" v-model="item.content" auto-grow outlined rows="5" row-height="15"></v-textarea>
-            <v-btn v-if="item.editMode" @click="submitComment(item)">Zapisz</v-btn>
+            <v-btn v-if="item.editMode && item.content" @click="submitComment(item)">Zapisz</v-btn>
             <v-card style="margin-left: 20px" v-for="reply in item.replies" :key="'r' + reply.id">
                 <v-avatar>
                     <v-img :src="reply.photoUrl" contain>
@@ -46,7 +46,7 @@
                 <v-btn v-if="reply.editMode && isCommentCreator(reply.createdById)"  @click="cancelEdit(reply)">Anuluj</v-btn>
                 <div v-if="!reply.editMode">{{reply.content}}</div>
                 <v-textarea v-if="reply.editMode" label="Komentarz" v-model="reply.content" auto-grow outlined rows="5" row-height="15"></v-textarea>
-                <v-btn v-if="reply.editMode" @click="submitComment(reply)">Zapisz</v-btn>
+                <v-btn v-if="reply.editMode && reply.content" @click="submitComment(reply)">Zapisz</v-btn>
             </v-card>
         </v-card>
     </v-card>
@@ -70,7 +70,6 @@
             content: '',
             comments: []
         };
-
         private isCommentAdding: boolean = false;
 
         private get id() : number {
@@ -122,14 +121,13 @@
 
         edit(item: InformationCommentModel){
             item.editMode = true;
-            (this as any).$forceUpdate();
+            this.$forceUpdate();
         }
 
         async cancelEdit(item: InformationCommentModel){
             item.editMode = false;
             await this.reloadComments();
         }
-
 
         isCommentCreator(commentCreatorId: number) : boolean {
             return (this as any).$auth.user().id === commentCreatorId;

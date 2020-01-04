@@ -127,7 +127,7 @@
         }
 
         async sendMessage() {
-            await ChatService.sendMessage({
+            if(this.currentMessage) await ChatService.sendMessage({
                 receiverId: this.model.id,
                 messageText: this.currentMessage,
             });

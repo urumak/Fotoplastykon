@@ -10,6 +10,7 @@ import storeHelper from "@/store/storeHelper";
 import user from "@/store/user";
 import films from "@/store/films";
 import filmPeople from "@/store/filmPeople";
+import alert from "@/store/alert";
 
 Vue.use(Vuex);
 
@@ -23,6 +24,7 @@ const mutations = {
     state.user = storeHelper.getDefaultUserState();
     state.films = storeHelper.getDefaultFilmsState();
     state.filmPeople = storeHelper.getDefaultFilmPeopleState();
+    state.alert = storeHelper.getDefaultAlertState();
   }
 };
 
@@ -36,7 +38,8 @@ const store = new Vuex.Store({
     notifications: notifications,
     user: user,
     films: films,
-    filmPeople: filmPeople
+    filmPeople: filmPeople,
+    alert: alert
   },
   mutations: mutations
 });

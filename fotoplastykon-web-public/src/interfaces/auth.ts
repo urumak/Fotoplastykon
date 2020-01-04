@@ -1,7 +1,6 @@
 export interface TokenModel
 {
     token: string;
-    refresh: string;
     expires: string;
 }
 
@@ -19,7 +18,6 @@ export interface LoginModel
 {
     username: string;
     password: string;
-    rememberMe: boolean;
 }
 
 export interface PasswordModel

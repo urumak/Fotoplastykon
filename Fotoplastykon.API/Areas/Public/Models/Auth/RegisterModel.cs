@@ -2,7 +2,6 @@
 using System.ComponentModel.DataAnnotations;
 using FluentValidation;
 using Fotoplastykon.API.Extensions;
-using ValidationContext = System.ComponentModel.DataAnnotations.ValidationContext;
 
 namespace Fotoplastykon.API.Areas.Public.Models.Auth
 {
@@ -15,17 +14,17 @@ namespace Fotoplastykon.API.Areas.Public.Models.Auth
         public string RepeatPassword { get; set; }
         public string Email { get; set; }
 
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        public IEnumerable<ValidationResult> Validate(System.ComponentModel.DataAnnotations.ValidationContext validationContext)
         {
             return this.Rules<RegisterModel>(v =>
             {
-                v.RuleFor(m => m.UserName).NotEmpty().MaximumLength(100);
-                v.RuleFor(m => m.FirstName).MaximumLength(100);
-                v.RuleFor(m => m.Surname).MaximumLength(250);
-                v.RuleFor(m => m.Email).EmailAddress().NotEmpty().MaximumLength(250);
-                v.RuleFor(m => m.Password).NotEmpty().MaximumLength(250);
-                v.RuleFor(m => m.RepeatPassword).Equal(m => m.Password).NotEmpty().MaximumLength(250);
-
+                v.RuleFor(m => m.UserName).NotEmpty().WithMessage("Nazwa użytkownika jest wymagana");
+                v.RuleFor(m => m.FirstName).NotEmpty().WithMessage("Imię jest wymagane");
+                v.RuleFor(m => m.Surname).NotEmpty().WithMessage("Nazwisko jest wymagane");
+                v.RuleFor(m => m.Email).EmailAddress().NotEmpty().WithMessage("Niepoprawny adres email");
+                v.RuleFor(m => m.Password).NotEmpty().WithMessage("Hasło jest wymagane");
+                v.RuleFor(m => m.RepeatPassword).NotEmpty().WithMessage("Powtórzenie hasła jest wymagane");
+                v.RuleFor(m => m.RepeatPassword).Equal(m => m.Password).WithMessage("Powtórzenie hasła nie jest zgodne z hasłem");
             }).Validate(this).Result();
         }
     }

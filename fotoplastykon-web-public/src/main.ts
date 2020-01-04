@@ -11,7 +11,6 @@ import Default from './layouts/Default.vue';
 import Landing from './layouts/Landing.vue';
 
 Vue.component('default-layout', Default);
-Vue.component('landing-layout', Landing);
 
 Vue.use(require('@websanova/vue-auth'), {
   http: require('@websanova/vue-auth/drivers/http/axios.1.x.js'),

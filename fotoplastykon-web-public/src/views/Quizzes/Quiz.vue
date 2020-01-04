@@ -24,7 +24,7 @@
                 </div>
                 <v-btn v-if="canGoToPreviousQuestion()" @click="previousQuestion()">Poprzednie</v-btn>
                 <v-btn v-if="canGoToNextQuestion()" @click="nextQuestion()">Następne</v-btn>
-                <v-btn v-if="canSubmitQuiz()" @click="submitQuiz()">Następne</v-btn>
+                <v-btn v-if="canSubmitQuiz()" @click="submitQuiz()">Zakończ</v-btn>
             </div>
         </v-card>
         <v-card v-if="quizState === 2" class="my-card col-8">
@@ -71,6 +71,7 @@
         private quiz: Quiz = {
             id: 0,
             name: '',
+            photoUrl: '',
             questions: []
         };
 
@@ -120,10 +121,6 @@
             this.quizState = QuizState.ShowingResults;
         }
 
-        selectOrUnselectAnswer(item: Answer) {
-            item.isSelected = !item.isSelected;
-        }
-
         updateAnswers(id: number) {
             if(!this.currentQuestion.isMultichoice) this.currentQuestion.answers.forEach(x => { if(x.id !== id) x.isSelected = false });
         }
@@ -134,12 +131,12 @@
 
         canGoToNextQuestion(): boolean {
             let selectedAnswer = this.currentQuestion.answers.find(x => x.isSelected);
-            return this.questionIndex !== this.quiz.questions.length - 1 && (selectedAnswer !== undefined || this.currentQuestion.isMultichoice);
+            return this.questionIndex !== this.quiz.questions.length - 1 && selectedAnswer !== undefined;
         }
 
         canSubmitQuiz(): boolean {
             let selectedAnswer = this.currentQuestion.answers.find(x => x.isSelected);
-            return this.questionIndex === this.quiz.questions.length - 1 && (selectedAnswer !== undefined || this.currentQuestion.isMultichoice);
+            return this.questionIndex === this.quiz.questions.length - 1 && selectedAnswer !== undefined;
         }
     }
 </script>

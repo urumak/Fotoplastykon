@@ -7,7 +7,7 @@
             <div v-if="!model.editMode">{{model.subject}}</div>
             <div v-if="!model.editMode">{{model.content}}</div>
             <v-btn v-if="showCancelAndSaveButton()" @click="disableEditMode()">Anuluj</v-btn>
-            <v-btn v-if="showCancelAndSaveButton()" @click="saveChanges()">Zapisz</v-btn>
+            <v-btn v-if="showCancelAndSaveButton() && model.content && model.subject" @click="saveChanges()">Zapisz</v-btn>
         </v-card>
         <v-btn v-if="!isCommentAdding" @click="newComment()">Nowy komentarz</v-btn>
         <v-btn v-else @click="cancelComment()">Anuluj</v-btn>
@@ -24,7 +24,7 @@
             <v-btn v-if="!item.editMode && !item.isDeleted"  @click="newCommentReply(item.id)">Odpowiedz</v-btn>
             <div v-if="!item.editMode">{{item.content}}</div>
             <v-textarea v-if="item.editMode" label="Komentarz" v-model="item.content" auto-grow outlined rows="5" row-height="15"></v-textarea>
-            <v-btn v-if="item.editMode" @click="submitComment(item)">Zapisz</v-btn>
+            <v-btn v-if="item.editMode && item.content" @click="submitComment(item)">Zapisz</v-btn>
             <v-card style="margin-left: 20px" v-for="reply in item.replies" :key="'r' + reply.id">
                 <v-avatar>
                     <v-img :src="reply.photoUrl" contain>
@@ -37,7 +37,7 @@
                 <v-btn v-if="reply.editMode && isCommentCreator(reply.createdById)"  @click="cancelEdit(reply)">Anuluj</v-btn>
                 <div v-if="!reply.editMode">{{reply.content}}</div>
                 <v-textarea v-if="reply.editMode" label="Komentarz" v-model="reply.content" auto-grow outlined rows="5" row-height="15"></v-textarea>
-                <v-btn v-if="reply.editMode" @click="submitComment(reply)">Zapisz</v-btn>
+                <v-btn v-if="reply.editMode && item.content" @click="submitComment(reply)">Zapisz</v-btn>
             </v-card>
         </v-card>
     </div>

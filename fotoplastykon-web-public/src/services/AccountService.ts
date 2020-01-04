@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import {RegisterModel} from "@/interfaces/auth";
 
 export default class AccountService
 {
@@ -9,8 +10,8 @@ export default class AccountService
         await Vue.axios.post('account/change-profile-photo', form);
     }
 
-    public static async removeProfilePhoto(): Promise<any>
+    public static async update(model: RegisterModel): Promise<any>
     {
-        await Vue.axios.delete('account/remove-profile-photo');
+        await Vue.axios.post<any>('account/update', model);
     }
 }

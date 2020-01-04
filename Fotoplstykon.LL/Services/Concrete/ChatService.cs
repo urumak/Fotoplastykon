@@ -130,7 +130,21 @@ namespace Fotoplastykon.BLL.Services.Concrete
         public async Task UpdateLastReadingDate(long senderId, long receiverId)
         {
             var reading = await Unit.MessagesReadings.Get(x => x.SenderId == senderId && x.ReceiverId == receiverId);
-            reading.LastReadingDate = DateTime.Now;
+
+            if (reading != null)
+            {
+                reading.LastReadingDate = DateTime.Now;
+            }
+            else
+            {
+                await Unit.MessagesReadings.Add(new MessagesReading
+                {
+                    SenderId = senderId,
+                    ReceiverId = receiverId,
+                    LastReadingDate = DateTime.Now
+                });
+            }
+
             await Unit.Complete();
         }
 

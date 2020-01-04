@@ -17,8 +17,8 @@ namespace Fotoplastykon.API.Areas.Public.Models.Auth
         {
             return this.Rules<LoginModel>(v =>
             {
-                v.RuleFor(m => m.UserName).NotEmpty().MaximumLength(100);
-                v.RuleFor(m => m.Password).NotEmpty().MaximumLength(250);
+                v.RuleFor(m => m.UserName).NotEmpty().WithMessage("Nazwa użytkownika jest wymagana");
+                v.RuleFor(m => m.Password).NotEmpty().WithMessage("Hasło jest wymagane");
             }).Validate(this).Result();
         }
     }

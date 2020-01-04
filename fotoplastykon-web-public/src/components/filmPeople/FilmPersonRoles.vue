@@ -73,7 +73,7 @@
 
         async goToDetails(id: number) {
             console.log(id);
-            await this.$router.push({ name: 'film', params: { id: id.toString() }});
+            await this.$router.push({ name: 'film-page', params: { id: id.toString() }});
         }
     }
 </script>

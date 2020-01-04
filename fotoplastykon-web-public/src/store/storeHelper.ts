@@ -53,4 +53,12 @@ export default class StoreHelper {
             photoUrl: ''
         }
     }
+
+    public static getDefaultAlertState(): any {
+        return {
+            show: false,
+            type: '',
+            message: ''
+        }
+    }
 }

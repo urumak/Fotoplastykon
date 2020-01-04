@@ -45,7 +45,8 @@ namespace Fotoplastykon.BLL.Models
         {
             CreateMap<User, AddUserDTO>()
                 .ReverseMap()
-                .ForMember(d => d.PasswordHash, o => o.Ignore());
+                .ForMember(d => d.PasswordHash, o => o.Ignore())
+                .ForMember(d => d.Id, o => o.Ignore());
 
             CreateMap<User, UserPageDTO>()
                 .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.PhotoId : string.Empty));
