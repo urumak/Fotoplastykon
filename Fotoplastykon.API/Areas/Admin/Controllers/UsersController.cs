@@ -58,7 +58,15 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
             var newPassword = !string.IsNullOrEmpty(model.Password) ? model.Password : null;
             await Users.Update(id, Mapper.Map<AddUserDTO>(model), newPassword);
 
-            return Ok(Mapper.Map<UserFormModel>(await Users.Get(id)));
+            return Ok();
+        }
+
+        [HttpPost("add")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> Add([FromBody]UserFormModel model)
+        {
+            return Ok(Mapper.Map<UserFormModel>(await Users.Add(Mapper.Map<AddUserDTO>(model), model.IsAdmin)));
         }
 
         [HttpDelete("{id}")]
@@ -80,7 +88,7 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
         public async Task<IActionResult> ChangeProfilePhoto(long id, [FromForm]IFormFile file)
         {
             await Account.ChangeProfilePhoto(id, file);
-            return Ok(Mapper.Map<UserFormModel>(await Users.Get(id)));
+            return Ok();
         }
     }
 }

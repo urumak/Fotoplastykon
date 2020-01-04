@@ -11,7 +11,7 @@ namespace Fotoplastykon.BLL.Services.Abstract
     public interface IUsersService
     {
         Task<User> Get(long id);
-        Task<bool> Add(AddUserDTO user, bool isAdmin = false);
+        Task<long> Add(AddUserDTO user, bool isAdmin = false);
         Task<UserLoginDTO> GetForLoginByUserName(string userName);
         Task<List<User>> Search(string searchString);
         Task<bool> CheckIfExists(long id);

@@ -105,6 +105,17 @@ namespace Fotoplastykon.BLL.Services.Concrete
             return await Unit.InformationComments.Get(id);
         }
 
+        #region Add()
+        public async Task<long> Add(InformationFormModel model)
+        {
+            var entity = Mapper.Map<Information>(model);
+            await Unit.Informations.Add(entity);
+            await Unit.Complete();
+
+            return entity.Id;
+        }
+        #endregion
+
         public async Task Update(long id, InformationFormModel model)
         {
             var entity = await Unit.Informations.Get(id);

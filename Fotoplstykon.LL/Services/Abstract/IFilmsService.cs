@@ -29,5 +29,6 @@ namespace Fotoplastykon.BLL.Services.Abstract
         Task<IPaginationResult<CastMemberDTO>> GetFilmCast(IPager pager, long filmId);
         Task<IPaginationResult<FilmmakerDTO>> GetFilmMakers(IPager pager, long filmId);
         Task<IPaginationResult<ForumElementDTO>> GetMostPolularForumThreads(IPager pager, long filmId);
+        Task<long> Add(FilmFormModel model);
     }
 }

@@ -154,6 +154,22 @@ namespace Fotoplastykon.BLL.Services.Concrete
         }
         #endregion
 
+        #region Add()
+        public async Task<long> Add(FilmFormModel model)
+        {
+            var entity = Mapper.Map<Film>(model);
+            entity.PublicId = Guid.NewGuid().ToString();
+            await Unit.Films.Add(entity);
+            await Unit.Complete();
+
+            await AddPeopleInRoles(entity.Id, model.People);
+
+            await Unit.Complete();
+
+            return entity.Id;
+        }
+        #endregion
+
         #region Update()
         public async Task Update(long id, FilmFormModel model)
         {

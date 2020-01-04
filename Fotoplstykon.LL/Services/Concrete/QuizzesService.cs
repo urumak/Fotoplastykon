@@ -96,6 +96,22 @@ namespace Fotoplastykon.BLL.Services.Concrete
             if (oldPhotoId.HasValue) await Files.Remove(oldPhotoId.Value);
         }
 
+
+        #region Add()
+        public async Task<long> Add(QuizFormModel model)
+        {
+            var entity = Mapper.Map<Quiz>(model);
+            await Unit.Quizzes.Add(entity);
+            await Unit.Complete();
+
+            await AddQuestions(entity.Id, model.Questions);
+
+            await Unit.Complete();
+
+            return entity.Id;
+        }
+        #endregion
+
         #region Update()
         public async Task Update(long id, QuizFormModel model)
         {

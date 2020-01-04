@@ -74,6 +74,18 @@ namespace Fotoplastykon.BLL.Services.Concrete
         }
         #endregion
 
+        #region Add()
+        public async Task<long> Add(FilmPersonFormModel model)
+        {
+            var entity = Mapper.Map<FilmPerson>(model);
+            entity.PublicId = Guid.NewGuid().ToString();
+            await Unit.FilmPeople.Add(entity);
+            await Unit.Complete();
+
+            return entity.Id;
+        }
+        #endregion
+
         public async Task Rate(PersonMarkDTO mark)
         {
             var entity = await Unit.PersonMarks.Get(mark.UserId, mark.PersonId);

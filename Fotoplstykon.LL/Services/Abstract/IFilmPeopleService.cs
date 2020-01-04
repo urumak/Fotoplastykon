@@ -25,5 +25,6 @@ namespace Fotoplastykon.BLL.Services.Abstract
         Task Update(long id, FilmPersonFormModel model);
         Task<IPaginationResult<ForumElementDTO>> GetTheMostPopularForumThreads(IPager pager, long personId);
         Task<IPaginationResult<RoleInFilmDTO>> GetPersonRoles(IPager pager, long personId);
+        Task<long> Add(FilmPersonFormModel model);
     }
 }

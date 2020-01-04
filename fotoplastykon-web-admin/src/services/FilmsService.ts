@@ -12,18 +12,22 @@ export default class FilmsService {
         return (await Vue.axios.get<FilmFormModel>(`admin/films/${id}`)).data;
     }
 
-    public static async update(id: number, model: FilmFormModel): Promise<FilmFormModel> {
-        return (await Vue.axios.post<FilmFormModel>(`admin/films/${id}`, model)).data;
+    public static async add(model: FilmFormModel): Promise<number> {
+        return (await Vue.axios.post<number>(`admin/films/add`, model)).data;
+    }
+
+    public static async update(id: number, model: FilmFormModel): Promise<any> {
+        return (await Vue.axios.post<any>(`admin/films/${id}`, model)).data;
     }
 
     public static async delete(id: number): Promise<any> {
         return (await Vue.axios.delete(`admin/films/${id}`));
     }
 
-    public static async changePhoto(id: number, file: any): Promise<FilmFormModel> {
+    public static async changePhoto(id: number, file: any): Promise<any> {
         let form = new FormData();
         form.append('file', file);
-        return (await Vue.axios.post(`admin/films/change-photo/${id}`, form)).data;
+        return (await Vue.axios.post<any>(`admin/films/change-photo/${id}`, form)).data;
     }
 
     public static async getRoleTypes(): Promise<RoleTypeDictionary[]> {

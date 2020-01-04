@@ -57,7 +57,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
             };
         }
 
-        public async Task<bool> Add(AddUserDTO user, bool isAdmin = false)
+        public async Task<long> Add(AddUserDTO user, bool isAdmin = false)
         {
             var entity = Mapper.Map<User>(user);
             entity.PublicId = Guid.NewGuid().ToString();
@@ -66,10 +66,10 @@ namespace Fotoplastykon.BLL.Services.Concrete
             await Unit.Users.Add(entity);
             await Unit.Complete();
 
-            var result = await SetPassword(entity.Id, user.Password);
+            await SetPassword(entity.Id, user.Password);
             await Unit.Complete();
 
-            return result;
+            return entity.Id;
         }
 
         public async Task<UserLoginDTO> GetForLoginByUserName(string userName)

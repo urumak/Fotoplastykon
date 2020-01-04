@@ -54,7 +54,15 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
             if (!await Films.CheckIfExists(id)) return NotFound();
             await Films.Update(id, model);
 
-            return Ok(await Films.Fetch(id));
+            return Ok();
+        }
+
+        [HttpPost("add")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> Add([FromBody]FilmFormModel model)
+        {
+            return Ok(await Films.Add(model));
         }
 
         [HttpDelete("{id}")]
@@ -73,10 +81,10 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
         [HttpPost("change-photo/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> ChangPhoto(long id, [FromForm]IFormFile file)
+        public async Task<IActionResult> ChangePhoto(long id, [FromForm]IFormFile file)
         {
             await Films.ChangePhoto(id, file);
-            return Ok(await Films.Fetch(id));
+            return Ok();
         }
 
         [HttpGet("role-types")]

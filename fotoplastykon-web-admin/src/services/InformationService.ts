@@ -16,17 +16,21 @@ export default class InformationService
         return (await Vue.axios.get<InformationFormModel>(`admin/information/${id}`)).data;
     }
 
-    public static async update(id: number, model: InformationFormModel): Promise<InformationFormModel> {
-        return (await Vue.axios.post<InformationFormModel>(`admin/information/${id}`, model)).data;
+    public static async add(model: InformationFormModel): Promise<number> {
+        return (await Vue.axios.post<number>(`admin/information/add`, model)).data;
+    }
+
+    public static async update(id: number, model: InformationFormModel): Promise<any> {
+        return (await Vue.axios.post<any>(`admin/information/${id}`, model)).data;
     }
 
     public static async delete(id: number): Promise<any> {
         return (await Vue.axios.delete(`admin/information/${id}`));
     }
 
-    public static async changePhoto(id: number, file: any): Promise<InformationFormModel> {
+    public static async changePhoto(id: number, file: any): Promise<any> {
         let form = new FormData();
         form.append('file', file);
-        return (await Vue.axios.post(`admin/information/change-photo/${id}`, form)).data;
+        return (await Vue.axios.post<any>(`admin/information/change-photo/${id}`, form)).data;
     }
 }

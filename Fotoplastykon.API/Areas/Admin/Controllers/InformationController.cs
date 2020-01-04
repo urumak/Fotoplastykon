@@ -54,7 +54,15 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
             if (!await Information.CheckIfExists(id)) return NotFound();
             await Information.Update(id, model);
 
-            return Ok(await Information.Fetch(id));
+            return Ok();
+        }
+
+        [HttpPost("add")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> Add([FromBody]InformationFormModel model)
+        {
+            return Ok(await Information.Add(model));
         }
 
         [HttpDelete("{id}")]
@@ -76,7 +84,7 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
         public async Task<IActionResult> ChangeProfilePhoto(long id, [FromForm]IFormFile file)
         {
             await Information.ChangePhoto(id, file);
-            return Ok(await Information.Fetch(id));
+            return Ok();
         }
     }
 }

@@ -2,10 +2,10 @@
     <v-container class="flex flex-center">
         <v-card>
             <v-row>
-                <div class="col-3">
-                    <v-img v-if="form.photoUrl" contain :src="form.photoUrl"></v-img>
+                <v-avatar height="300" width="230" :tile="true" class="ml-3">
+                    <v-img v-if="form.photoUrl" :src="form.photoUrl"></v-img>
                     <v-img v-else src="@/assets/subPhoto.png"></v-img>
-                </div>
+                </v-avatar>
                 <div class="col-9">
                     <v-file-input
                             accept="image/png, image/jpeg, image/bmp"
@@ -14,7 +14,6 @@
                             label="Zdjęcie"
                             v-model="newPhoto"
                     ></v-file-input>
-                    <v-btn class="primary" @click="changePhoto()">Zmień zdjęcie</v-btn>
                 </div>
             </v-row>
             <v-form
@@ -57,12 +56,17 @@
             if(this.id !== 0) this.form = new Form(await QuizzesService.get(this.id));
         }
 
-        async changePhoto(){
-            this.form = new Form(await QuizzesService.changePhoto(this.id, this.newPhoto));
-        }
+        async update() {
+            if(this.id !== 0) {
+                await QuizzesService.update(this.id, this.form);
+                if(this.newPhoto && this.newPhoto.length !== 0) await QuizzesService.changePhoto(this.id, this.newPhoto)
+            }
+            else {
+                let id = await QuizzesService.add(this.form);
+                if(this.newPhoto && this.newPhoto.length !== 0) await QuizzesService.changePhoto(id, this.newPhoto)
+            }
 
-        async update(){
-            this.form = new Form(await QuizzesService.update(this.id, this.form));
+            await this.$router.push({name: 'quizzes'});
         }
 
         deleteItem(index: number) {

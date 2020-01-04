@@ -53,16 +53,24 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
             if (!await Quizzes.CheckIfQuizExists(id)) return NotFound();
             await Quizzes.Update(id, model);
 
-            return Ok(await Quizzes.Fetch(id));
+            return Ok();
+        }
+
+        [HttpPost("add")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> Add([FromBody]QuizFormModel model)
+        {
+            return Ok(await Quizzes.Add(model));
         }
 
         [HttpPost("change-photo/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> ChangPhoto(long id, [FromForm]IFormFile file)
+        public async Task<IActionResult> ChangePhoto(long id, [FromForm]IFormFile file)
         {
             await Quizzes.ChangePhoto(id, file);
-            return Ok(await Quizzes.Fetch(id));
+            return Ok();
         }
 
         [HttpDelete("{id}")]
