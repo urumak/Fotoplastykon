@@ -1,8 +1,8 @@
 <template>
     <v-container class="flex flex-center">
-        <v-form @keyup.enter="login()" ref="form">
+        <v-form ref="form">
             <v-text-field v-model="model.username" label="Nazwa użytkownika" :error-messages="errors['UserName']" required></v-text-field>
-            <v-text-field type='password' v-model="model.password" label="Hasło" :error-messages="errors['Password']" required></v-text-field>
+            <v-text-field @keyup.enter="login()" type='password' v-model="model.password" label="Hasło" :error-messages="errors['Password']" required></v-text-field>
             <v-btn v-on:click="login()">Zaloguj się</v-btn>
         </v-form>
     </v-container>
@@ -22,6 +22,7 @@
         };
 
         async login() {
+            this.errors = {};
             (await (this as any).$auth.login)({
                 headers: {
                     'Content-Type': 'application/json'
@@ -30,7 +31,7 @@
             }).then((response: any) => {
                 Vue.prototype.startSignalR((this as any).$auth.token());
             }, (response: any) => {
-                if(response.data.status === 400)this.errors = response.data.errors;
+                if(response.code === 400) this.errors = response.data.errors;
             });
         }
     }
