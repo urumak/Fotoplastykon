@@ -23,7 +23,6 @@
                 </div>
             </v-card>
         </div>
-        <router-link :to="{ name: 'information-list' }">Zobacz wszystkie aktualności</router-link>
     </div>
 </template>
 

@@ -28,9 +28,9 @@
             <v-btn v-if="!$auth.check()" text  class="mr-2" :to="{name:'landing'}">
                 <span>Zarejestruj się</span>
             </v-btn>
-            <messages-popover></messages-popover>
-            <notifications-popover></notifications-popover>
-            <profile-popover></profile-popover>
+            <messages-popover v-if="$auth.check()"></messages-popover>
+            <notifications-popover v-if="$auth.check()"></notifications-popover>
+            <profile-popover v-if="$auth.check()"></profile-popover>
         </v-app-bar>
         <v-content style="margin-top:60px;">
             <v-container class="float-right flex flex-center">
