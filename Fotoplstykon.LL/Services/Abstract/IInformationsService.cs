@@ -24,6 +24,6 @@ namespace Fotoplastykon.BLL.Services.Abstract
         Task Update(long id, InformationFormModel model);
         Task ChangePhoto(long id, IFormFile file);
         Task Remove(long id);
-        Task<long> Add(InformationFormModel model);
+        Task<long> Add(InformationFormModel model, long userId);
     }
 }

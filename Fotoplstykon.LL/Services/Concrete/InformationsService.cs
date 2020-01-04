@@ -106,9 +106,10 @@ namespace Fotoplastykon.BLL.Services.Concrete
         }
 
         #region Add()
-        public async Task<long> Add(InformationFormModel model)
+        public async Task<long> Add(InformationFormModel model, long userId)
         {
             var entity = Mapper.Map<Information>(model);
+            entity.CreatedById = userId;
             await Unit.Informations.Add(entity);
             await Unit.Complete();
 

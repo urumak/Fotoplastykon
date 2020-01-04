@@ -1,5 +1,6 @@
 <template>
   <v-content class="landing-page">
+    <app-alert></app-alert>
     <div class="float-left film-tape">
     </div>
     <v-app-bar app>
@@ -30,10 +31,12 @@
   import Component from "vue-class-component";
   import Login from '@/views/Auth/Login.vue';
   import Register from '@/views/Auth/Register.vue';
+  import AppAlertComponent from '@/components/AppAlert.vue';
 
   @Component({
     components: {
       'login-component': Login,
+      'app-alert': AppAlertComponent
     }
   })
   export default class LandingComponent extends Vue {

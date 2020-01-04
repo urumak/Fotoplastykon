@@ -138,21 +138,19 @@ namespace Fotoplastykon.BLL.Services.Concrete
 
         private async Task AddQuestions(long quizId, List<QuestionFormModel> questionsModel)
         {
-            var items = Mapper.Map<List<QuizQuestion>>(questionsModel);
-
-            items.ForEach(i => i.QuizId = quizId);
-
-            await Unit.QuizQuestions.AddRange(items);
-            await Unit.Complete();
-
-            foreach (var item in items)
+            foreach (var item in questionsModel)
             {
-                var answers = Mapper.Map<List<QuizAnswer>>(item.Answers);
-                answers.ForEach(i => i.QuestionId = item.Id);
-                await Unit.QuizAnswers.AddRange(answers);
-            }
+                var question = Mapper.Map<QuizQuestion>(item);
+                question.QuizId = quizId;
 
-            await Unit.Complete();
+                await Unit.QuizQuestions.Add(question);
+                await Unit.Complete();
+
+                var answers = Mapper.Map<List<QuizAnswer>>(item.Answers);
+                answers.ForEach(i => i.QuestionId = question.Id);
+                await Unit.QuizAnswers.AddRange(answers);
+                await Unit.Complete();
+            }
         }
 
         private async Task UpdateQuestions(long quizId, List<QuestionFormModel> questionsModel)

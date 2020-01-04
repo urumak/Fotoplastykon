@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Fotoplastykon.API.Extensions;
 using Fotoplastykon.BLL.DTOs.Information;
 using Fotoplastykon.BLL.Services.Abstract;
 using Fotoplastykon.Tools.Pager;
@@ -62,7 +63,7 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
         [ProducesDefaultResponseType]
         public async Task<IActionResult> Add([FromBody]InformationFormModel model)
         {
-            return Ok(await Information.Add(model));
+            return Ok(await Information.Add(model, User.Id()));
         }
 
         [HttpDelete("{id}")]

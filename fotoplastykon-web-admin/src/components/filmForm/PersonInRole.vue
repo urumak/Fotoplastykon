@@ -14,7 +14,8 @@
                     return-object
                     @change="onChange()"
                     no-data-text="Brak wyników"
-                    autocomplete="off">
+                    autocomplete="off"
+                    :error-messages="errors['PersonId']">
                 <template slot="selection" slot-scope="data">
                     <v-flex xs2>
                         <v-avatar class="small-avatar">
@@ -34,9 +35,9 @@
                     <v-flex v-html="data.item.nameAndSurname"></v-flex>
                 </template>
             </v-autocomplete>
-            <v-select :items="roleTypes" v-model="model.role" label="Rola" item-text="value" item-value="key" class="col-3">
+            <v-select :items="roleTypes" v-model="model.role" label="Rola" item-text="value" item-value="key" class="col-3" :error-messages="errors['Role']">
             </v-select>
-            <v-text-field label="Postać" v-model="model.characterName" class="col-3">
+            <v-text-field label="Postać" v-model="model.characterName" class="col-3" :error-messages="errors['CharacterName']">
             </v-text-field>
             <v-btn class="secondary" small @click="deleteRole()"><v-icon>mdi-minus</v-icon></v-btn>
         </v-row>
@@ -59,6 +60,8 @@
                 characterName: ''
             }
         }) private model!: PersonInRoleForm;
+
+        @Prop({default: {}})private errors!: any;
 
         private people : PersonDropDownModel[] = [];
         private selectedItem : any = null;

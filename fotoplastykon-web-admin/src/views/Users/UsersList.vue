@@ -139,6 +139,11 @@
         async deleteItem(id: number) {
             await UsersService.delete(id);
             await this.loadData();
+            this.$store.state.alert = {
+                show: true,
+                type: 'success',
+                message: 'Rekord został usunięty'
+            };
         }
     }
 </script>

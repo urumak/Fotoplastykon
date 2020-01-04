@@ -3,7 +3,7 @@
         <v-card>
             <v-row>
                 <v-avatar height="300" width="230" :tile="true" class="ml-3">
-                    <v-img v-if="form.photoUrl" :src="form.photoUrl"></v-img>
+                    <v-img v-if="model.photoUrl" :src="model.photoUrl"></v-img>
                     <v-img v-else src="@/assets/subPhoto.png"></v-img>
                 </v-avatar>
                 <di class="col-9">
@@ -19,13 +19,13 @@
             <v-form
                 ref="form"
             >
-                <v-text-field v-model="form.userName" label="Nazwa użytkownika"></v-text-field>
-                <v-text-field v-model="form.firstName" label="Imię"></v-text-field>
-                <v-text-field v-model="form.surname" label="Nazwisko"></v-text-field>
-                <v-text-field v-model="form.email" label="Adres email"></v-text-field>
-                <v-text-field v-model="form.password" type="password" label="Hasło"></v-text-field>
-                <v-text-field v-model="form.repeatPassword" type="password" label="Powtórz hasło"></v-text-field>
-                <v-checkbox v-model="form.isAdmin" label="Administrator"></v-checkbox>
+                <v-text-field v-model="model.userName" label="Nazwa użytkownika" :error-messages="errors['UserName']"></v-text-field>
+                <v-text-field v-model="model.firstName" label="Imię" :error-messages="errors['FirstName']"></v-text-field>
+                <v-text-field v-model="model.surname" label="Nazwisko" :error-messages="errors['Surname']"></v-text-field>
+                <v-text-field v-model="model.email" label="Adres email" :error-messages="errors['Email']"></v-text-field>
+                <v-text-field v-model="model.password" type="password" label="Hasło" :error-messages="errors['Password']"></v-text-field>
+                <v-text-field v-model="model.repeatPassword" type="password" label="Powtórz hasło" :error-messages="errors['RepeatPassword']"></v-text-field>
+                <v-checkbox v-model="model.isAdmin" label="Administrator" :error-messages="errors['IsAdmin']"></v-checkbox>
                 <v-btn class="primary" @click="update()">Zapisz</v-btn>
             </v-form>
         </v-card>
@@ -40,8 +40,9 @@
 
     @Component({})
     export default class UserFormComponent extends Vue {
+        private errors:any = {};
         private newPhoto = [];
-        private form = new Form({
+        private model = {
             id: 0,
             surname: '',
             userName: '',
@@ -51,27 +52,35 @@
             email: '',
             photoUrl: '',
             isAdmin: false
-        });
+        };
 
         private get id() : number {
             return Number(this.$route.params.id || 0);
         }
 
         async created() {
-            if(this.id !== 0) this.form = new Form(await UsersService.get(this.id));
+            if(this.id !== 0) this.model = new Form(await UsersService.get(this.id));
         }
 
         async update() {
-            if(this.id !== 0) {
-                await UsersService.update(this.id, this.form);
-                if(this.newPhoto && this.newPhoto.length !== 0) await UsersService.changeProfilePhoto(this.id, this.newPhoto)
+            try {
+                if(this.id !== 0) {
+                    await UsersService.update(this.id, this.model);
+                    if(this.newPhoto && this.newPhoto.length !== 0) await UsersService.changeProfilePhoto(this.id, this.newPhoto)
+                }
+                else {
+                    let id = await UsersService.add(this.model);
+                    if(this.newPhoto && this.newPhoto.length !== 0) await UsersService.changeProfilePhoto(id, this.newPhoto)
+                }
+                this.$store.state.alert = {
+                    show: true,
+                    type: 'success',
+                    message: 'Zmiany zostały zapisane'
+                };
+                await this.$router.push({name: 'users'});
+            } catch(ex) {
+                if (ex.code === 400) this.errors = ex.data.errors;
             }
-            else {
-                let id = await UsersService.add(this.form);
-                if(this.newPhoto && this.newPhoto.length !== 0) await UsersService.changeProfilePhoto(id, this.newPhoto)
-            }
-
-            await this.$router.push({name: 'users'});
         }
     }
 </script>

@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import {Pager, PaginationResult} from "@/interfaces/pager";
 import merge from "lodash/merge";
-import {InformationFormModel} from "@/interfaces/information";
 import {FilmPersonFormModel, FilmPersonListItem} from "@/interfaces/filmPeople";
 
 export default class FilmPeopleService {
@@ -13,11 +12,11 @@ export default class FilmPeopleService {
         return (await Vue.axios.get<FilmPersonFormModel>(`admin/film-people/${id}`)).data;
     }
 
-    public static async add(model: InformationFormModel): Promise<number> {
+    public static async add(model: FilmPersonFormModel): Promise<number> {
         return (await Vue.axios.post<number>(`admin/film-people/add`, model)).data;
     }
 
-    public static async update(id: number, model: InformationFormModel): Promise<any> {
+    public static async update(id: number, model: FilmPersonFormModel): Promise<any> {
         return (await Vue.axios.post<any>(`admin/film-people/${id}`, model)).data;
     }
 

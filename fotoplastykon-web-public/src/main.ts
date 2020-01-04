@@ -8,7 +8,6 @@ import '@/bootstrap/axios';
 import '@/notifications-hub'
 import vuetify from '@/plugins/vuetify';
 import Default from './layouts/Default.vue';
-import Landing from './layouts/Landing.vue';
 
 Vue.component('default-layout', Default);
 

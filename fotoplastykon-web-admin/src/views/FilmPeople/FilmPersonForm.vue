@@ -3,7 +3,7 @@
         <v-card>
             <v-row>
                 <v-avatar height="300" width="230" :tile="true" class="ml-3">
-                    <v-img v-if="form.photoUrl" :src="form.photoUrl"></v-img>
+                    <v-img v-if="model.photoUrl" :src="model.photoUrl"></v-img>
                     <v-img v-else src="@/assets/subPhoto.png"></v-img>
                 </v-avatar>
                 <div class="col-9">
@@ -19,8 +19,8 @@
             <v-form
                     ref="form"
             >
-                <v-text-field v-model="form.firstName" label="Imię"></v-text-field>
-                <v-text-field v-model="form.surname" label="Nazwisko"></v-text-field>
+                <v-text-field v-model="model.firstName" label="Imię" :error-messages="errors['FirstName']"></v-text-field>
+                <v-text-field v-model="model.surname" label="Nazwisko" :error-messages="errors['Surname']"></v-text-field>
                 <v-btn class="primary" @click="update()">Zapisz</v-btn>
             </v-form>
         </v-card>
@@ -32,36 +32,46 @@
     import Component from "vue-class-component";
     import Form from 'form-backend-validation';
     import FilmPeopleService from "../../services/FilmPeopleService";
+    import {FilmPersonFormModel} from "@/interfaces/filmPeople";
 
     @Component({})
     export default class UserFormComponent extends Vue {
+        private errors:any = {};
         private newPhoto = [];
-        private form = new Form({
+        private model: FilmPersonFormModel = {
             id: 0,
             firstName: '',
             surname: '',
             photoUrl: ''
-        });
+        };
 
         private get id() : number {
             return Number(this.$route.params.id || 0);
         }
 
         async created() {
-            if(this.id !== 0) this.form = new Form(await FilmPeopleService.get(this.id));
+            if(this.id !== 0) this.model = await FilmPeopleService.get(this.id);
         }
 
         async update() {
-            if(this.id !== 0) {
-                await FilmPeopleService.update(this.id, this.form);
-                if(this.newPhoto && this.newPhoto.length !== 0) await FilmPeopleService.changePhoto(this.id, this.newPhoto)
+            try {
+                if(this.id !== 0) {
+                    await FilmPeopleService.update(this.id, this.model);
+                    if(this.newPhoto && this.newPhoto.length !== 0) await FilmPeopleService.changePhoto(this.id, this.newPhoto)
+                }
+                else {
+                    let id = await FilmPeopleService.add(this.model);
+                    if(this.newPhoto && this.newPhoto.length !== 0) await FilmPeopleService.changePhoto(id, this.newPhoto)
+                }
+                this.$store.state.alert = {
+                    show: true,
+                    type: 'success',
+                    message: 'Zmiany zostały zapisane'
+                };
+                await this.$router.push({name: 'film-people'});
+            } catch(ex) {
+                if (ex.code === 400) this.errors = ex.data.errors;
             }
-            else {
-                let id = await FilmPeopleService.add(this.form);
-                if(this.newPhoto && this.newPhoto.length !== 0) await FilmPeopleService.changePhoto(id, this.newPhoto)
-            }
-
-            await this.$router.push({name: 'film-people'});
         }
     }
 </script>

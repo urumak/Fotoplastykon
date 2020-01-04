@@ -121,8 +121,13 @@
         }
 
         async deleteItem(id: number) {
-            //await QuizzesService.delete(id);
+            await QuizzesService.delete(id);
             await this.loadData();
+            this.$store.state.alert = {
+                show: true,
+                type: 'success',
+                message: 'Rekord został usunięty'
+            };
         }
     }
 </script>

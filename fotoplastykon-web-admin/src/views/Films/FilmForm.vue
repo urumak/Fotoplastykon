@@ -3,7 +3,7 @@
         <v-card>
             <v-row>
                 <v-avatar height="300" width="230" :tile="true" class="ml-3">
-                    <v-img v-if="form.photoUrl" :src="form.photoUrl"></v-img>
+                    <v-img v-if="model.photoUrl" :src="model.photoUrl"></v-img>
                     <v-img v-else src="@/assets/subPhoto.png"></v-img>
                 </v-avatar>
                 <div class="col-9">
@@ -19,11 +19,17 @@
             <v-form
                     ref="form"
             >
-                <v-text-field v-model="form.title" label="Tytuł"></v-text-field>
-                <v-text-field type="number" v-model="form.yearOfProduction" label="Rok produkcji"></v-text-field>
+                <v-text-field v-model="model.title" label="Tytuł" :error-messages="errors['Title']"></v-text-field>
+                <v-text-field type="number" v-model="model.yearOfProduction" label="Rok produkcji" :error-messages="errors['YearOfProduction']"></v-text-field>
                 <v-divider></v-divider>
                 <v-subheader>Twórcy</v-subheader>
-                <person-in-role v-for="(item, index) in form.people" :key="index" :model="item" @delete-click="deleteItem(index)"></person-in-role>
+                <person-in-role v-for="(item, index) in model.people"
+                                :key="index" :model="item"
+                                @delete-click="deleteItem(index)"
+                                :errors="getItemErrors(index)"
+                                :index="index"
+                                :error-messages="errors['People']">
+                </person-in-role>
                 <v-btn class="secondary" small @click="addRole()"><v-icon>mdi-plus</v-icon></v-btn>
                 <v-divider></v-divider>
                 <v-btn class="primary mt-5" @click="update()">Zapisz</v-btn>
@@ -39,45 +45,55 @@
     import FilmsService from "../../services/FilmsService";
     import PersonInRole from "@/components/filmForm/PersonInRole.vue";
     import { Watch } from 'vue-property-decorator';
+    import {FilmFormModel} from "@/interfaces/films";
 
     @Component({components:{
             'person-in-role': PersonInRole
         }
     })
     export default class FilmFormComponent extends Vue {
+        private errors: any = {};
         private newPhoto = [];
 
-        private form = new Form({
+        private model: FilmFormModel = {
             id: 0,
             title: '',
             yearOfProduction: 0,
             photoUrl: '',
             people: []
-        });
+        };
 
         private get id() : number {
             return Number(this.$route.params.id || 0);
         }
 
         async created() {
-            if(this.id !== 0) this.form = new Form(await FilmsService.get(this.id));
+            if(this.id !== 0) this.model = new Form(await FilmsService.get(this.id));
         }
 
         async update() {
-            if(this.id !== 0) {
-                await FilmsService.update(this.id, this.form);
-                if(this.newPhoto && this.newPhoto.length !== 0) await FilmsService.changePhoto(this.id, this.newPhoto)
+            try {
+                if(this.id !== 0) {
+                    await FilmsService.update(this.id, this.model);
+                    if(this.newPhoto && this.newPhoto.length !== 0) await FilmsService.changePhoto(this.id, this.newPhoto)
+                }
+                else {
+                    let id = await FilmsService.add(this.model);
+                    if(this.newPhoto && this.newPhoto.length !== 0) await FilmsService.changePhoto(id, this.newPhoto)
+                }
+                this.$store.state.alert = {
+                    show: true,
+                    type: 'success',
+                    message: 'Zmiany zostały zapisane'
+                };
+                await this.$router.push({name: 'films'});
+            } catch(ex) {
+                if (ex.code === 400) this.errors = ex.data.errors;
             }
-            else {
-                let id = await FilmsService.add(this.form);
-                if(this.newPhoto && this.newPhoto.length !== 0) await FilmsService.changePhoto(id, this.newPhoto)
-            }
-
-            await this.$router.push({name: 'films'});
         }
 
         addRole() {
-            this.form.people.push({
+            this.model.people.push({
                 id: 0,
                 personId: 0,
                 role: 0,
@@ -86,7 +102,15 @@
         }
 
         deleteItem(index: number) {
-            this.form.people.splice(index, 1);
+            this.model.people.splice(index, 1);
+        }
+
+        getItemErrors(index: number) : any {
+            return {
+                PersonId: this.errors['People[' + index.toString() + '].PersonId'],
+                Role: this.errors['People[' + index.toString() + '].Role'],
+                CharacterName: this.errors['People[' + index.toString() + '].CharacterName'],
+            }
         }
     }
 </script>

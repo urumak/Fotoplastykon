@@ -1,5 +1,6 @@
 <template>
     <div>
+        <app-alert></app-alert>
         <v-app-bar class="app-bar-standard" app>
             <v-toolbar-title class="headline text-uppercase">
                 <router-link :to="{ name: 'home' }" class="font-weight-light custom-link">Fotoplastykon</router-link>
@@ -46,9 +47,11 @@
     import ProfilePopover from '@/components/popovers/ProfilePopover.vue';
     import menuItems from '@/menu.json'
     import { MenuListItem } from '@/interfaces/menu';
+    import AppAlertComponent from '@/components/AppAlert.vue';
 
     @Component({components: {
-        'profile-popover': ProfilePopover
+        'profile-popover': ProfilePopover,
+        'app-alert': AppAlertComponent
     }})
     export default class Default extends Vue {
         private items : MenuListItem[] = menuItems;
