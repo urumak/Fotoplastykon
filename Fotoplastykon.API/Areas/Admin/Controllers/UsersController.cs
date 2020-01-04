@@ -66,7 +66,7 @@ namespace Fotoplastykon.API.Areas.Admin.Controllers
         [ProducesDefaultResponseType]
         public async Task<IActionResult> Add([FromBody]UserFormModel model)
         {
-            return Ok(Mapper.Map<UserFormModel>(await Users.Add(Mapper.Map<AddUserDTO>(model), model.IsAdmin)));
+            return Ok(await Users.Add(Mapper.Map<AddUserDTO>(model), model.IsAdmin));
         }
 
         [HttpDelete("{id}")]
