@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Fotoplastykon.DAL.Entities.Concrete
 {
-    public class InformationComment : IEntity, IRecoverable, IAuditable
+    public class InformationComment : IEntity, IAuditable
     {
         public InformationComment ()
         {
@@ -20,7 +20,6 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         public DateTime DateCreated { get; set; }
         public long? ParentId { get; set; }
         public string Content { get; set; }
-        public DateTime? DateDeleted { get; set; }
 
         public Information Information { get; set; }
         public InformationComment Parent { get; set; }

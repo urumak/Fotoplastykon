@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Fotoplastykon.DAL.Entities.Concrete
 {
-    public class ForumThread : IEntity, IAuditable, IRecoverable
+    public class ForumThread : IEntity, IAuditable
     {
         public ForumThread ()
         {
@@ -17,7 +17,6 @@ namespace Fotoplastykon.DAL.Entities.Concrete
         public long Id { get; set; }
         public long CreatedById { get; set; }
         public DateTime DateCreated { get; set; }
-        public DateTime? DateDeleted { get; set; }
         public long? PersonId { get; set; }
         public long? FilmId { get; set; }
         public string Subject { get; set; }
