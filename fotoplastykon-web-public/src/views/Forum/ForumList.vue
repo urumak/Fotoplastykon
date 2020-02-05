@@ -24,6 +24,7 @@
     import { ForumThreadCommentModel, ForumThreadModel } from '@/interfaces/forum';
     import {Pager} from '@/interfaces/pager';
     import merge from 'lodash/merge'
+    import { Watch } from 'vue-property-decorator';
 
     @Component({})
     export default class InformationListComponent extends Vue {
@@ -51,13 +52,9 @@
             await this.loadData();
         }
 
-        async paginate(index: number) {
-            this.pager.setPageIndex(index);
-            await this.loadData();
-            window.scrollTo(0,0);
-        }
-
-        async changePageSize() {
+        @Watch('pager.pageSize')
+        @Watch('pager.pageIndex')
+        async paginate() {
             await this.loadData();
             window.scrollTo(0,0);
         }

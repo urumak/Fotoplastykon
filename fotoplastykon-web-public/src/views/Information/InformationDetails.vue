@@ -13,7 +13,7 @@
         <div>
             {{ model.introduction }}
         </div>
-        <v-img :src="model.photoUrl" contain>
+        <v-img :src="model.photoUrl" max-height="600" max-width="700" style="left: 250px">
         </v-img>
         <div>
             {{ model.content }}
@@ -22,8 +22,8 @@
         <v-btn v-else @click="cancelComment()">Anuluj</v-btn>
         <v-card v-for="item in model.comments" :key="item.id">
             <v-avatar>
-                <v-img :src="item.photoUrl" contain>
-                </v-img>
+                <v-img v-if="item.photoUrl" :src="item.photoUrl"></v-img>
+                <v-img v-else src="@/assets/subPhoto.png"></v-img>
             </v-avatar>
             <router-link :to="{ name: 'user-page', params: { id: item.createdById }}" class="font-weight-light custom-link">{{ item.creatorFullName }}</router-link>
             <div>{{item.dateCreated}}</div>
@@ -36,8 +36,8 @@
             <v-btn v-if="item.editMode && item.content" @click="submitComment(item)">Zapisz</v-btn>
             <v-card style="margin-left: 20px" v-for="reply in item.replies" :key="'r' + reply.id">
                 <v-avatar>
-                    <v-img :src="reply.photoUrl" contain>
-                    </v-img>
+                    <v-img v-if="reply.photoUrl" :src="reply.photoUrl"></v-img>
+                    <v-img v-else src="@/assets/subPhoto.png"></v-img>
                 </v-avatar>
                 <router-link :to="{ name: 'user-page', params: { id: reply.createdById }}" class="font-weight-light custom-link">{{ reply.creatorFullName }}</router-link>
                 <div>{{reply.dateCreated}}</div>

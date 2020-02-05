@@ -1,8 +1,8 @@
 <template>
     <div>
-        <v-row><v-text-field v-model="pager.search" label="Szukaj" solo></v-text-field></v-row>
+        <v-row><v-text-field class="outlined-input" v-model="pager.search" label="Szukaj" solo></v-text-field></v-row>
         <div v-for="(item, index) in items" :key="index" class="row">
-            <v-card class="my-card">
+            <v-card class="list-item" :to="{ name: 'film-page', params: { id: item.id }}">
                 <v-row>
                     <v-col cols="2">
                         <v-avatar class="ml-6 list-avatar">
@@ -10,12 +10,13 @@
                             <v-img v-else src="@/assets/subPhoto.png"></v-img>
                         </v-avatar>
                     </v-col>
-                    <router-link :to="{ name: 'film-page', params: { id: item.id }}" class="font-weight-light custom-link">{{ item.title + ' (' + item.yearOfProduction + ')'}}</router-link>
+                    <div class="font-weight-light">
+                        <div class="list-item-title">{{ item.title + ' (' + item.yearOfProduction + ')'}}</div>
+                    </div>
                 </v-row>
             </v-card>
         </div>
-        <v-btn v-for="i in pager.totalPages" :key="'p' + i" @click="paginate(i)">{{i}}</v-btn>
-        <v-select :items="pageSizeOptions" v-model="pager.pageSize" solo @change="changePageSize()"></v-select>
+        <custom-pagination :pager="pager"></custom-pagination>
     </div>
 </template>
 
@@ -26,11 +27,11 @@
     import { Watch } from 'vue-property-decorator';
     import {FilmListItem} from '@/interfaces/films';
     import FilmsService from '@/services/FilmsService';
+    import CustomPagination from '@/components/CustomPagination.vue';
 
-    @Component({})
+    @Component({components: { 'custom-pagination': CustomPagination}})
     export default class FilmsComponent extends Vue {
         private items : FilmListItem[] = [];
-        private pageSizeOptions = [2,5,10,20];
 
         private get pager(): Pager
         {
@@ -44,7 +45,7 @@
         @Watch('pager.search')
         async filter() {
             this.pager.pageIndex = 1;
-            await this.loadData();
+            await this.paginate();
         }
 
         async loadData() {
@@ -54,13 +55,9 @@
             this.pager.setTotalRows(response.pager.totalRows);
         }
 
-        async paginate(index: number) {
-            this.pager.setPageIndex(index);
-            await this.loadData();
-            window.scrollTo(0,0);
-        }
-
-        async changePageSize() {
+        @Watch('pager.pageSize')
+        @Watch('pager.pageIndex')
+        async paginate() {
             await this.loadData();
             window.scrollTo(0,0);
         }

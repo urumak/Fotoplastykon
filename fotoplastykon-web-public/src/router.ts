@@ -29,7 +29,7 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/Information/InformationDetails.vue')
     },
     {
-      path: '/information/list',
+      path: '/information-list',
       name: 'information-list',
       component: () => import(/* webpackChunkName: "about" */ './views/Information/List.vue')
     },

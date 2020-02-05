@@ -13,10 +13,10 @@
         <v-btn v-else @click="cancelComment()">Anuluj</v-btn>
         <v-card v-for="item in model.comments" :key="item.id">
             <v-avatar>
-                <v-img :src="item.photoUrl" contain>
-                </v-img>
+                <v-img v-if="item.photoUrl" :src="item.photoUrl"></v-img>
+                <v-img v-else src="@/assets/subPhoto.png"></v-img>
             </v-avatar>
-            <router-link :to="{ name: 'user-page', params: { id: item.createdById }}" class="font-weight-light custom-link">{{ item.creatorFullName }}</router-link>
+            <router-link :to="{ name: 'user-page', params: { id: item.createdById }}" class="font-weight-light custom-link">{{ item.createdByName }}</router-link>
             <div>{{item.dateCreated}}</div>
             <v-btn v-if="!item.editMode && isCommentCreator(item.createdById) && !item.isDeleted" @click="edit(item)">Edytuj</v-btn>
             <v-btn v-if="!item.editMode && isCommentCreator(item.createdById) && !item.isDeleted" @click="removeComment(item.id)">Usuń</v-btn>
@@ -27,10 +27,10 @@
             <v-btn v-if="item.editMode && item.content" @click="submitComment(item)">Zapisz</v-btn>
             <v-card style="margin-left: 20px" v-for="reply in item.replies" :key="'r' + reply.id">
                 <v-avatar>
-                    <v-img :src="reply.photoUrl" contain>
-                    </v-img>
+                    <v-img v-if="reply.photoUrl" :src="reply.photoUrl"></v-img>
+                    <v-img v-else src="@/assets/subPhoto.png"></v-img>
                 </v-avatar>
-                <router-link :to="{ name: 'user-page', params: { id: reply.createdById }}" class="font-weight-light custom-link">{{ reply.creatorFullName }}</router-link>
+                <router-link :to="{ name: 'user-page', params: { id: reply.createdById }}" class="font-weight-light custom-link">{{ reply.createdByName }}</router-link>
                 <div>{{reply.dateCreated}}</div>
                 <v-btn v-if="!reply.editMode && isCommentCreator(reply.createdById)" @click="edit(reply)">Edytuj</v-btn>
                 <v-btn v-if="!reply.editMode && isCommentCreator(reply.createdById)" @click="removeComment(reply.id)">Usuń</v-btn>

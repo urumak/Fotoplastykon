@@ -213,6 +213,7 @@ namespace Fotoplastykon.BLL.Models
             CreateMap<ForumThread, DTOs.Forum.ForumThreadDTO>()
                 .ForMember(d => d.CreatedByName, o => o.MapFrom(s => s.CreatedBy.FirstName + " " + s.CreatedBy.Surname))
                 .ForMember(d => d.PhotoUrl, o => o.MapFrom(s => s.CreatedBy.PhotoId.HasValue ? Configuration["Files:PublicEndpoint"] + s.CreatedBy.PhotoId : string.Empty))
+                .ForMember(d => d.Comments, o => o.Ignore())
                 .AfterMap((s, d) =>
                 {
                     if (s.CreatedBy.AnonimisationDate.HasValue) d.CreatedByName = USER_DELETED;
@@ -220,7 +221,8 @@ namespace Fotoplastykon.BLL.Models
                 .ReverseMap()
                 .ForMember(d => d.CreatedById, o => o.Ignore())
                 .ForMember(d => d.Id, o => o.Ignore())
-                .ForMember(d => d.DateCreated, o => o.Ignore());
+                .ForMember(d => d.DateCreated, o => o.Ignore())
+                .ForMember(d => d.Comments, o => o.Ignore());
 
             CreateMap<ForumThreadComment, DTOs.Forum.ForumThreadCommentDTO>()
                 .ForMember(d => d.CreatedByName, o => o.MapFrom(s => s.CreatedBy.FirstName + " " + s.CreatedBy.Surname))

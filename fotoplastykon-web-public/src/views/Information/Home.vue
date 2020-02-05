@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div style="padding-left: 10%;padding-right: 10%;">
         <div v-for="(item, i) in Items" :key="item.id" class="row">
-            <v-card v-if="i % 2 !== 0" class="my-card col-8">
+            <v-card v-if="i % 2 !== 0" class="col-8 news-card">
                 <router-link :to="{ name: 'information-details', params: { id: item.id}}" class="card-title">
                     {{ item.title }}
                 </router-link>
@@ -13,7 +13,7 @@
             <v-img v-if="i % 2 !== 0" class="news-img" :src="item.photoUrl" contain>
             </v-img>
             <v-img v-if="i % 2 === 0" class="news-img-reflection" :src="item.photoUrl" contain></v-img>
-            <v-card v-if="i % 2 === 0" class="my-card col-8">
+            <v-card v-if="i % 2 === 0" class="col-8 news-card">
                 <router-link :to="{ name: 'information-details', params: { id: item.id}}" class="card-title">
                     {{ item.title }}
                 </router-link>

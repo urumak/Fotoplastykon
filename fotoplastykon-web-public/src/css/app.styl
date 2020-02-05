@@ -1,6 +1,26 @@
 // app global css
-.my-card
-    width : 100%
+#app
+    position: relative;
+    overflow: hidden;
+
+#app:before
+    content: ' ';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity 0.2
+    background-image: url("img/tile.png");
+    background-repeat: repeat;
+
+.card-container
+    background #e7e2f1 !important
+    border #dad2ed 3px solid !important
+    .row + .row
+        margin-top: 2em
 
 .my-header
     height : 50px
@@ -16,18 +36,11 @@
 .notification-link:hover
     text-decoration underline
 
-.main-content
-    .row + .row
-        margin-top: 3em
-
 .film-tape
-    width: 150px
     min-height 100vh
-    height: 100%
-    z-index: 1
-    margin-left: 35px
     background-image: url("img/tape.png")
     background-repeat: repeat-y
+    background-position: center
 
 .news-img
     height: auto
@@ -35,10 +48,10 @@
     float: right
     margin-left: -140px
     margin-top: 10%
+    margin-bottom: 5%
 
 .v-card
-    border-radius: 10px
-    background: white !important
+    border-radius: 7px
 
 .footer
     position: relative
@@ -60,7 +73,7 @@
     padding-top: 0px !important
 
 .app-bar-standard
-    background: #9d73ce !important
+    background: #8062a7 !important
 
 .app-bar-starter
     background: transparent !important
@@ -90,6 +103,7 @@
     margin-right: -140px
     z-index: 2
     margin-top: 10%
+    margin-bottom: 5%
 
 .card-title
     padding: 20px
@@ -146,7 +160,7 @@ html .landing-page
     cursor pointer
 
 .app-bar-standard .v-input__slot
-    background-color: #8d4ed6!important
+    background-color: #e1e1e1 !important
     min-height: 30px !important
 
 .v-badge--overlap .v-badge__badge
@@ -198,15 +212,19 @@ html .landing-page
     user-select none
 
 .chat-container
+    border-right #dad2ed 3px solid
+    border-left #dad2ed 3px solid
+    border-bottom #dad2ed 3px solid
     position fixed
     top 0
     right 0
     height 100%
-    background-color white
     box-shadow: -1px 0px 0px 0px rgba(0,0,0,.2)
     margin-top: 64px
     width 20%
     padding-bottom 104px !important
+    >.v-list
+        background transparent !important
 
 .custom-scroll
     overflow-y auto
@@ -224,15 +242,22 @@ html .landing-page
     background #555
 
 .chat-search
-    border-top-right-radius 0%
-    border-top-left-radius 0%
-    bottom 0px
-    margin-bottom 0px
-    z-index 3
-    align-items flex-end
-    position fixed
-    width 100%
-    box-shadow: 0px -1px 0px 0px rgba(0,0,0,.2)
+    .v-input__slot
+        bottom 0px
+        margin-bottom 0px
+        z-index 3
+        align-items flex-end
+        position fixed
+        box-shadow: 0px -1px 0px 0px rgba(0,0,0,.2)
+        background #f6f6f6  !important
+        border-top #dad2ed 3px solid
+        border-bottom #dad2ed 3px solid
+        border-right #dad2ed 3px solid
+
+.outlined-input
+    .v-input__slot
+        background #f6f6f6 !important
+        border #dad2ed 3px solid
 
 .chat-window-avatar
     padding 5px
@@ -251,7 +276,6 @@ html .landing-page
 .chat-messages
     padding 5px
     position: relative
-
     .content
         position absolute
         bottom 0px
@@ -261,6 +285,7 @@ html .landing-page
         max-height 100%
         padding-bottom 5px
         padding-top 5px
+
 
 .message-card
     padding 4px
@@ -281,4 +306,56 @@ html .landing-page
     height: 64px
     position fixed
     width 100%
+
+.list-item
+    position: relative;
+    overflow: hidden;
+    border #dad2ed 3px solid !important
+    width 100%
+
+
+.list-item:hover
+    cursor pointer
+
+.list-item:before
+    content: ' ';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: 0.3;
+    background-image: url("img/tile.png");
+    background-repeat: repeat;
+
+.list-item-title
+    margin 0
+    position absolute
+    top 50%
+    -ms-transform translateY(-50%)
+    transform translateY(-50%)
+    font-size 24px
+
+.news-card
+    position: relative;
+    overflow: hidden;
+    border #dad2ed 3px solid !important
+
+.news-card:hover
+    cursor pointer
+
+.news-card:before
+    content: ' ';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: 0.3;
+    background-image: url("img/tile.png");
+    background-repeat: repeat;
 

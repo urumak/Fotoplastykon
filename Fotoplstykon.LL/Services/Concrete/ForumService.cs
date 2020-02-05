@@ -31,6 +31,7 @@ namespace Fotoplastykon.BLL.Services.Concrete
         public async Task<ForumThreadDTO> Get(long id)
         {
             var thread = Mapper.Map<ForumThreadDTO>(await Unit.ForumThreads.GetWithCreator(id));
+            var test = await Unit.ForumThreadComments.GetList(id);
             thread.Comments = Mapper.Map<List<ForumThreadCommentDTO>>(await Unit.ForumThreadComments.GetList(id));
 
             return thread;

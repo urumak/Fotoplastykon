@@ -33,15 +33,15 @@
             <profile-popover v-if="$auth.check()"></profile-popover>
         </v-app-bar>
         <v-content style="margin-top:60px;">
-            <v-container class="float-right flex flex-center">
-                <div class="row  main-content">
-                    <div class="col-lg-8">
+            <div class="row">
+                <div class="film-tape col-1 ml-4 mr-4">
+                </div>
+                <div class="col-8 mt-12">
+                    <v-card class="pa-7 card-container ml-5 mr-5">
                         <slot />
-                    </div>
+                    </v-card>
                 </div>
                 <chat-windows></chat-windows>
-            </v-container>
-            <div class="float-left film-tape">
             </div>
             <chat-list v-if="$auth.check()"></chat-list>
         </v-content>
