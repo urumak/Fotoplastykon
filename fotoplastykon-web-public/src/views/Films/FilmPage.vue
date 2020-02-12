@@ -10,15 +10,16 @@
                     </v-avatar>
                 </v-col>
                 <v-col cols="5">
-                    <v-rating
+                    <div class="rating-description">Średnia ocena: {{ filmModel.rating }}</div>
+                        <v-rating
                             v-model="filmModel.rating"
                             :length="10"
                             color="purple"
                             background-color="grey lighten-1"
                             half-increments
                             readonly
-                    ></v-rating>
-                    <div>Średnia ocena {{ filmModel.rating }}</div>
+                        ></v-rating>
+                    <div class="rating-description">Twoja ocena: {{ filmModel.userRating }}</div>
                     <v-rating
                             v-model="filmModel.userRating"
                             :length="10"
@@ -28,7 +29,6 @@
                             hover
                             @input="rate()"
                     ></v-rating>
-                    <div>Twoja ocena {{ filmModel.userRating }}</div>
                 </v-col>
             </v-row>
         </v-card>
