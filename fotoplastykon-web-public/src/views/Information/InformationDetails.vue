@@ -85,7 +85,7 @@
 
     @Component({filters: {
             moment (date: Date) {
-                return moment(date).format('YYYY-MM-DD');
+                return moment(date).format('YYYY-MM-DD HH:mm');
             }}})
     export default class InformationDetailsComponent extends Vue {
         private model : InformationModel = {
