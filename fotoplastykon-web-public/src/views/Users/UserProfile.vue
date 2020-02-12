@@ -1,12 +1,14 @@
 <template>
     <v-container class="flex flex-center">
-        <v-card>
+        <v-card class="container-item main-card">
             <v-row>
-                <v-avatar height="300" width="230" :tile="true" class="ml-3">
-                    <v-img v-if="photoUrl || $auth.user().photoUrl" :src="photoUrl ? photoUrl : $auth.user().photoUrl"></v-img>
-                    <v-img v-else src="@/assets/subPhoto.png"></v-img>
-                </v-avatar>
-                <div class="col-9">
+                <v-col cols="6">
+                    <v-avatar class="container-item-avatar ml-3">
+                        <v-img v-if="photoUrl || $auth.user().photoUrl" :src="photoUrl ? photoUrl : $auth.user().photoUrl"></v-img>
+                        <v-img v-else src="@/assets/subPhoto.png"></v-img>
+                    </v-avatar>
+                </v-col>
+                <v-col>
                     <v-file-input
                             accept="image/png, image/jpeg, image/bmp"
                             placeholder="Wybierz zdjęcie profilowe"
@@ -14,22 +16,24 @@
                             label="Zdjęcie profilowe"
                             v-model="newPhoto"
                     ></v-file-input>
-                </div>
+                </v-col>
             </v-row>
-            <v-form
-                    ref="form"
-            >
-                <v-text-field v-model="model.userName" label="Nazwa użytkownika" :error-messages="errors['UserName']"></v-text-field>
-                <v-text-field v-model="model.firstName" label="Imię" :error-messages="errors['FirstName']"></v-text-field>
-                <v-text-field v-model="model.surname" label="Nazwisko" :error-messages="errors['Surname']"></v-text-field>
-                <v-text-field v-model="model.email" label="Adres email" :error-messages="errors['Email']"></v-text-field>
-                <v-divider></v-divider>
-                <v-subheader>Jeśli chcesz zmienić hasło wpisz je poniżej</v-subheader>
-                <v-text-field v-model="model.password" type="password" label="Hasło" :error-messages="errors['Password']"></v-text-field>
-                <v-text-field v-model="model.repeatPassword" type="password" label="Powtórz hasło" :error-messages="errors['RepeatPassword']"></v-text-field>
-                <v-divider></v-divider>
-                <v-btn class="primary" @click="update()">Zapisz</v-btn>
-            </v-form>
+            <v-row>
+                <v-col cols="6">
+                    <v-text-field v-model="model.userName" label="Nazwa użytkownika" :error-messages="errors['UserName']"></v-text-field>
+                    <v-text-field v-model="model.firstName" label="Imię" :error-messages="errors['FirstName']"></v-text-field>
+                    <v-text-field v-model="model.surname" label="Nazwisko" :error-messages="errors['Surname']"></v-text-field>
+                    <v-text-field v-model="model.email" label="Adres email" :error-messages="errors['Email']"></v-text-field>
+                    <v-btn class="primary mt-5" @click="update()">Zapisz</v-btn>
+                </v-col>
+                <v-col cols="6" class="float-right">
+                    <v-text-field v-model="model.password" type="password" label="Hasło" :error-messages="errors['Password']"></v-text-field>
+                    <v-text-field v-model="model.repeatPassword" type="password" label="Powtórz hasło" :error-messages="errors['RepeatPassword']"></v-text-field>
+                    <v-subheader>Jeśli nie chcesz zmianiać hasła pozostaw powyższe pola puste</v-subheader>
+                </v-col>
+            </v-row>
+        </v-card>
+        <v-card class="container-item">
             <v-tabs>
                 <v-tabs-slider></v-tabs-slider>
                 <v-tab :href="`#tab-films`">Ocenione filmy</v-tab>

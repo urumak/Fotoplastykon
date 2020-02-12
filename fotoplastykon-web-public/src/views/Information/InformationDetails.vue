@@ -18,7 +18,7 @@
             </div>
         </v-card>
         <v-card class="container-item pa-8">
-            <div>Komentarze</div>
+            <div style="font-size: 20px">Komentarze</div>
             <v-btn class="mt-2 mb-2" color="primary" v-if="!isCommentAdding" @click="newComment()"><v-icon left>mdi-plus</v-icon> Dodaj</v-btn>
             <v-btn class="mt-2 mb-2" color="secondary" v-else @click="cancelComment()"><v-icon left>mdi-close</v-icon> Anuluj</v-btn>
             <div class="comment" v-for="item in model.comments" :key="item.id">

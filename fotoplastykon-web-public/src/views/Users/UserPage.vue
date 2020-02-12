@@ -1,18 +1,24 @@
 <template>
     <v-container class="flex flex-center">
-        <v-card>
-            <div>{{ userModel.firstName }}</div>
-            <div>{{ userModel.surname }}</div>
-            <div>{{ userModel.userName }}</div>
-            <v-avatar height="300" width="230" :tile="true">
-                <v-img v-if="userModel.photoUrl" :src="userModel.photoUrl"></v-img>
-                <v-img v-else src="@/assets/subPhoto.png"></v-img>
-            </v-avatar>
-            <v-btn v-if="isAlreadyAFriend()" @click="removeFriend()">Usuń z listy znajomych</v-btn>
-            <v-btn v-if="canCancelInvitation()" @click="cancelInvitation()">Anuluj zaproszenie</v-btn>
-            <v-btn v-if="canAcceptInvitation()" @click="acceptInvitation()">Przyjmij zaproszenie</v-btn>
-            <v-btn v-if="canAcceptInvitation()" @click="refuseInvitation()">Odrzuć zaproszenie</v-btn>
-            <v-btn v-if="canInvite()" @click="inviteFriend()">Dodaj do znajomych</v-btn>
+        <v-card class="container-item main-card">
+            <div class="main-card-title">{{ userModel.firstName + " " + userModel.surname }}</div>
+            <v-row>
+                <v-col cols="6">
+                    <v-avatar class="container-item-avatar">
+                        <v-img v-if="userModel.photoUrl" :src="userModel.photoUrl"></v-img>
+                        <v-img v-else src="@/assets/subPhoto.png"></v-img>
+                    </v-avatar>
+                </v-col>
+                <v-col cols="6">
+                    <v-btn small class="float-right" v-if="isAlreadyAFriend()" @click="removeFriend()"><v-icon left>mdi-delete</v-icon> Usuń z listy znajomych</v-btn>
+                    <v-btn small class="float-right" v-if="canCancelInvitation()" @click="cancelInvitation()"><v-icon left>mdi-close</v-icon> Anuluj zaproszenie</v-btn>
+                    <v-btn small class="float-right" v-if="canAcceptInvitation()" @click="acceptInvitation()"><v-icon left>mdi-done</v-icon> Przyjmij zaproszenie</v-btn>
+                    <v-btn small class="float-right" v-if="canAcceptInvitation()" @click="refuseInvitation()"><v-icon left>mdi-close</v-icon> Odrzuć zaproszenie</v-btn>
+                    <v-btn small class="float-right" v-if="canInvite()" @click="inviteFriend()"><v-icon left>mdi-plus</v-icon> Dodaj do znajomych</v-btn>
+                </v-col>
+            </v-row>
+        </v-card>
+        <v-card class="container-item">
             <v-tabs>
                 <v-tabs-slider></v-tabs-slider>
                 <v-tab :href="`#tab-films`">Ocenione filmy</v-tab>
