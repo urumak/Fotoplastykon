@@ -23,8 +23,7 @@
                 </v-list-item-content>
             </v-list-item>
         </v-list>
-        <v-btn v-for="i in pager.totalPages" :key="'p' + i" @click="paginate(i)">{{i}}</v-btn>
-        <v-select :items="pageSizeOptions" v-model="pager.pageSize" solo @change="loadData()"></v-select>
+        <custom-pagination :pager="pager" class="pa-5"></custom-pagination>
     </div>
 </template>
 
@@ -35,8 +34,9 @@
     import {Pager} from '@/interfaces/pager';
     import FilmPeopleService from '@/services/FilmPeopleService';
     import {RoleInFilm} from "../../interfaces/filmPeople";
+    import CustomPagination from '@/components/CustomPagination.vue';
 
-    @Component({})
+    @Component({components: { 'custom-pagination': CustomPagination}})
     export default class FilmPersonRolesComponent extends Vue {
 
         private items : RoleInFilm[] = [];
@@ -66,6 +66,8 @@
             this.pager.setTotalRows(response.pager.totalRows);
         }
 
+        @Watch('pager.pageSize')
+        @Watch('pager.pageIndex')
         async paginate(index: number) {
             this.pager.setPageIndex(index);
             await this.loadData();
