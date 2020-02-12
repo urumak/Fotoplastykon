@@ -3,7 +3,7 @@
         <v-card class="container-item main-card">
             <v-row>
                 <v-col cols="7">
-                    <div class="main-card-title">{{ filmModel.title + "(" + filmModel.yearOfProduction + ")"}}</div>
+                    <div>{{ filmModel.title + "(" + filmModel.yearOfProduction + ")"}}</div>
                     <v-avatar class="container-item-avatar">
                         <v-img v-if="filmModel.photoUrl" :src="filmModel.photoUrl"></v-img>
                         <v-img v-else src="@/assets/subPhoto.png"></v-img>

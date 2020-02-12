@@ -36,3 +36,4 @@ declare module 'global'
 declare module 'form-backend-validation';
 declare module '@websanova/vue-auth';
 declare module 'lodash/merge'
+declare module 'moment'
