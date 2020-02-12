@@ -1,46 +1,55 @@
 <template>
-    <v-card>
-        <div>{{ filmModel.title }}</div>
-        <div>{{ filmModel.yearOfProduction }}</div>
-        <v-avatar height="300" width="230" :tile="true">
-            <v-img v-if="filmModel.photoUrl" :src="filmModel.photoUrl"></v-img>
-            <v-img v-else src="@/assets/subPhoto.png"></v-img>
-        </v-avatar>
-        <v-rating
-                v-model="filmModel.rating"
-                :length="10"
-                color="purple"
-                background-color="grey lighten-1"
-                half-increments
-                readonly
-        ></v-rating>
-        <div>Średnia ocena {{ filmModel.rating }}</div>
-        <v-rating
-                v-model="filmModel.userRating"
-                :length="10"
-                color="purple"
-                background-color="grey lighten-1"
-                small
-                hover
-                @input="rate()"
-        ></v-rating>
-        <div>Twoja ocena {{ filmModel.userRating }}</div>
-        <v-tabs>
-            <v-tabs-slider></v-tabs-slider>
-            <v-tab :href="`#tab-cast`">Obsada</v-tab>
-            <v-tab :href="`#tab-film-makers`">Twórcy</v-tab>
-            <v-tab :href="`#tab-film-forum`">Forum</v-tab>
-            <v-tab-item :value="'tab-cast'">
-                <film-cast :filmId="id"></film-cast>
-            </v-tab-item>
-            <v-tab-item :value="'tab-film-makers'">
-                <film-makers :filmId="id"></film-makers>
-            </v-tab-item>
-            <v-tab-item :value="'tab-film-forum'">
-                <film-forum :filmId="id"></film-forum>
-            </v-tab-item>
-        </v-tabs>
-    </v-card>
+    <div>
+        <v-card class="container-item main-card">
+            <v-row>
+                <v-col cols="7">
+                    <div class="main-card-title">{{ filmModel.title + "(" + filmModel.yearOfProduction + ")"}}</div>
+                    <v-avatar class="container-item-avatar">
+                        <v-img v-if="filmModel.photoUrl" :src="filmModel.photoUrl"></v-img>
+                        <v-img v-else src="@/assets/subPhoto.png"></v-img>
+                    </v-avatar>
+                </v-col>
+                <v-col cols="5">
+                    <v-rating
+                            v-model="filmModel.rating"
+                            :length="10"
+                            color="purple"
+                            background-color="grey lighten-1"
+                            half-increments
+                            readonly
+                    ></v-rating>
+                    <div>Średnia ocena {{ filmModel.rating }}</div>
+                    <v-rating
+                            v-model="filmModel.userRating"
+                            :length="10"
+                            color="purple"
+                            background-color="grey lighten-1"
+                            small
+                            hover
+                            @input="rate()"
+                    ></v-rating>
+                    <div>Twoja ocena {{ filmModel.userRating }}</div>
+                </v-col>
+            </v-row>
+        </v-card>
+        <v-card class="container-item">
+            <v-tabs>
+                <v-tabs-slider></v-tabs-slider>
+                <v-tab :href="`#tab-cast`">Obsada</v-tab>
+                <v-tab :href="`#tab-film-makers`">Twórcy</v-tab>
+                <v-tab :href="`#tab-film-forum`">Forum</v-tab>
+                <v-tab-item :value="'tab-cast'">
+                    <film-cast :filmId="id"></film-cast>
+                </v-tab-item>
+                <v-tab-item :value="'tab-film-makers'">
+                    <film-makers :filmId="id"></film-makers>
+                </v-tab-item>
+                <v-tab-item :value="'tab-film-forum'">
+                    <film-forum :filmId="id"></film-forum>
+                </v-tab-item>
+            </v-tabs>
+        </v-card>
+    </div>
 </template>
 
 <script lang="ts">
