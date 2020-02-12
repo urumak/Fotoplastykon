@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-card v-if="quizState === 0" class="my-card">
+        <v-card v-if="quizState === 0" class="container-item main-card">
             <v-row align="center">
                 <v-col cols="12" align="center">
                     <v-avatar height="400" width="700" :tile="true">
@@ -9,10 +9,10 @@
                     </v-avatar>
                 </v-col>
             </v-row>
-            <v-row align="center"><v-col cols="12" align="center">{{ quiz.name }}</v-col></v-row>
+            <v-row align="center"><v-col cols="12" align="center" style="font-size: 20px">{{ quiz.name }}</v-col></v-row>
             <v-row align="center"><v-col cols="12" align="center"><v-btn @click="startQuiz()">Rozpocznij</v-btn></v-col></v-row>
         </v-card>
-        <v-card v-if="quizState === 1" class="my-card">
+        <v-card v-if="quizState === 1" class="container-item main-card">
             <div>
                 <div>{{currentQuestion.questionText}}</div>
                 <span v-if="currentQuestion.isMultichoice">(więcej niż jedna odpowiedź)</span>
@@ -22,37 +22,46 @@
                 <div v-else>
                     <v-checkbox hide-details v-for="(answer, i) in currentQuestion.answers" :key="answer.id" :label="answer.answerText" v-model="currentQuestion.answers[i].isSelected" @change="updateAnswers(answer.id)"></v-checkbox>
                 </div>
-                <v-btn v-if="canGoToPreviousQuestion()" @click="previousQuestion()">Poprzednie</v-btn>
-                <v-btn v-if="canGoToNextQuestion()" @click="nextQuestion()">Następne</v-btn>
-                <v-btn v-if="canSubmitQuiz()" @click="submitQuiz()">Zakończ</v-btn>
+                <v-row class="mt-5">
+                    <v-col cols="6">
+                        <v-btn v-if="canGoToPreviousQuestion()" @click="previousQuestion()"><v-icon left>mdi-arrow-left</v-icon> Poprzednie</v-btn>
+                    </v-col>
+                    <v-col cols="6">
+                        <v-btn class="float-right" v-if="canGoToNextQuestion()" @click="nextQuestion()">Następne <v-icon right>mdi-arrow-right</v-icon></v-btn>
+                        <v-btn class="float-right" v-if="canSubmitQuiz()" @click="submitQuiz()">Zakończ <v-icon right>mdi-done</v-icon></v-btn>
+                    </v-col>
+                </v-row>
             </div>
         </v-card>
-        <v-card v-if="quizState === 2" class="my-card col-8">
-            <div class="col-6 float-left">
-                <div>{{resultModel.name}}</div>
-                <div>{{resultModel.points + "/" + resultModel.questions.length}}</div>
-                <div>"Twoje odpoweidzi"</div>
-                <div v-for="item in resultModel.questions" :key="item.id" >
-                    <div>{{item.questionText}}</div>
-                    <div v-for="answer in item.answers" :key="'a' + answer.id">
-                        <div v-if="answer.isCorrect && answer.isSelected" style="color: green">{{answer.answerText}}</div>
-                        <div v-if="!answer.isCorrect && answer.isSelected" style="color: red">{{answer.answerText}}</div>
-                        <div v-if="answer.isCorrect && !answer.isSelected">{{answer.answerText}}</div>
-                        <div v-if="!answer.isCorrect && !answer.isSelected">{{answer.answerText}}</div>
-                    </div>
+        <v-card v-if="quizState === 2" class="container-item main-card">
+            <v-row align="center"><v-col cols="12" align="center" style="font-size: 24px">{{ resultModel.name }}</v-col></v-row>
+            <v-row align="center"><v-col cols="12" align="center" style="color: #9277ce">{{ "Wynik: " + resultModel.points + "/" + resultModel.questions.length}}</v-col></v-row>
+            <v-row>
+                <div class="col-6 float-left">
+                    <div style="font-size: 20px" class="mb-5">Twoje odpowiedzi</div>
+                    <v-card class="container-item pa-3" v-for="item in resultModel.questions" :key="item.id" >
+                        <div>{{item.questionText}}</div>
+                        <div v-for="answer in item.answers" :key="'a' + answer.id">
+                            <li v-if="answer.isCorrect && answer.isSelected" style="color: green">{{answer.answerText}}</li>
+                            <li v-if="!answer.isCorrect && answer.isSelected" style="color: red">{{answer.answerText}}</li>
+                            <li v-if="answer.isCorrect && !answer.isSelected">{{answer.answerText}}</li>
+                            <li v-if="!answer.isCorrect && !answer.isSelected">{{answer.answerText}}</li>
+                        </div>
+                    </v-card>
                 </div>
-            </div>
-            <div class="col-6 float-right">
-                <div class="mt-12">"Poprawne odpoweidzi"</div>
-                <div v-for="item in resultModel.questions" :key="item.id" >
-                    <div>{{item.questionText}}</div>
-                    <div v-for="answer in item.answers" :key="'a' + answer.id">
-                        <div v-if="answer.isCorrect" style="color: green">{{answer.answerText}}</div>
-                        <div v-else>{{answer.answerText}}</div>
-                    </div>
+                <div class="col-6 float-right">
+                    <div style="font-size: 20px" class="mb-5">Poprawne odpowiedzi</div>
+                    <v-card class="container-item pa-3" v-for="item in resultModel.questions" :key="item.id" >
+                        <div>{{item.questionText}}</div>
+                        <div v-for="answer in item.answers" :key="'a' + answer.id">
+                            <li v-if="answer.isCorrect" style="color: green">{{answer.answerText}}</li>
+                            <li v-else>{{answer.answerText}}</li>
+                        </div>
+                    </v-card>
                 </div>
-            </div>
-            <v-btn :to="{ name: 'quizzes' }">Wróć do listy</v-btn>
+            </v-row>
+
+            <v-btn :to="{ name: 'quizzes' }"><v-icon left>mdi-arrow-left</v-icon> Wróć do listy</v-btn>
         </v-card>
     </div>
 </template>
