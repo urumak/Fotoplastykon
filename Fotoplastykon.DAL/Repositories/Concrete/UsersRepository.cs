@@ -30,10 +30,10 @@ namespace Fotoplastykon.DAL.Repositories.Concrete
         public async Task<List<User>> GetForSearch(string search, int limit = 10)
         {
             var users = await DatabaseContext.Users
-                .Where(p => p.FirstName.StartsWith(search) || p.Surname.StartsWith(search)).OrderBy(f => f.FirstName).Take(limit).ToListAsync();
+                .Where(p => p.AnonimisationDate == null && (p.FirstName.StartsWith(search) || p.Surname.StartsWith(search))).OrderBy(f => f.FirstName).Take(limit).ToListAsync();
 
             if (users == null || users.Count == 0) users = await DatabaseContext.Users
-                    .Where(p => p.FirstName.Contains(search) || p.Surname.Contains(search)).OrderBy(f => f.FirstName).Take(limit).ToListAsync();
+                    .Where(p => p.AnonimisationDate == null && (p.FirstName.Contains(search) || p.Surname.Contains(search))).OrderBy(f => f.FirstName).Take(limit).ToListAsync();
 
             return users;
         }
