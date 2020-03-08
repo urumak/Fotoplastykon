@@ -1,35 +1,41 @@
 <template>
-  <v-content class="landing-page">
+  <v-content class="landing-page pa-0">
     <app-alert></app-alert>
-    <div class="float-left film-tape">
-    </div>
-    <v-app-bar app>
-      <v-toolbar-title class="headline text-uppercase">
-        <span class="font-weight-light">Fotoplastykon</span>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn text :to="{name:'home'}">
-        <span class="mr-2">Kontynuuj bez logowania</span>
-      </v-btn>
-    </v-app-bar>
-    <div style="height: 80px"></div>
-    <v-row style="margin-bottom: -80px">
-      <div class="col-8"><v-img class="landing-img" src="@/assets/main.png"></v-img></div>
-      <div class="col-4 float-right">
-        <v-card color="white" style="margin-top: -40px">
-          <v-tabs>
-            <v-tabs-slider></v-tabs-slider>
-            <v-tab :href="`#tab-login`">Zaloguj się</v-tab>
-            <v-tab :href="`#tab-register`">Zarejestruj się</v-tab>
-            <v-tab-item :value="'tab-login'">
-              <login-component></login-component>
-            </v-tab-item>
-            <v-tab-item :value="'tab-register'">
-              <register-component></register-component>
-            </v-tab-item>
-          </v-tabs>
-        </v-card>
-      </div>
+    <v-row class="pa-0">
+      <v-col cols="1" class="pa-0">
+        <div class="film-tape-landing">
+        </div>
+      </v-col>
+      <v-col cols="11">
+        <v-row class="mt-12">
+          <v-col cols="8">
+            <span class="headline text-uppercase font-weight-light">Fotoplastykon</span>
+            <v-img class="landing-img" src="@/assets/main.png"></v-img>
+          </v-col>
+          <v-col cols="4">
+            <v-row>
+              <v-col cols="11">
+                <v-btn class="float-right" text :to="{name:'home'}">
+                  <span class="mr-2">Kontynuuj bez logowania</span>
+                </v-btn>
+              </v-col>
+            </v-row>
+            <v-card color="white">
+              <v-tabs>
+                <v-tabs-slider></v-tabs-slider>
+                <v-tab :href="`#tab-login`">Zaloguj się</v-tab>
+                <v-tab :href="`#tab-register`">Zarejestruj się</v-tab>
+                <v-tab-item :value="'tab-login'">
+                  <login-component></login-component>
+                </v-tab-item>
+                <v-tab-item :value="'tab-register'">
+                  <register-component></register-component>
+                </v-tab-item>
+              </v-tabs>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-col>
     </v-row>
   </v-content>
 </template>

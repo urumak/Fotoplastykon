@@ -30,9 +30,9 @@
             </v-list>
         </v-navigation-drawer>
         <v-content style="margin-top:60px;">
-            <v-container class="float-right main-content">
+            <v-container class="main-content" style="margin-right: 0px; margin-left: 350px;">
                 <div class="row">
-                    <div class="col-lg-12" style="padding-left: 20px; padding-right: 100px;">
+                    <div class="col-lg-12" style="padding-left: 60px; padding-right: 100px;">
                         <slot />
                     </div>
                 </div>

@@ -41,8 +41,8 @@
                             <v-list-item-subtitle v-if="isInvitationToAccept(item)">
                                 {{ item.nameAndSurname + ' wysłał/a Ci zaproszenie do grona znajomych.' }}
                                 <v-row>
-                                    <v-btn class="primary" @click="acceptInvitation(item)">Zaakceptuj</v-btn>
-                                    <v-btn class="secondary" @click="refuseInvitation(item)">Odrzuć</v-btn>
+                                    <v-btn small class="primary ma-1 ml-3" @click="acceptInvitation(item)"><v-icon left>mdi-plus</v-icon>Zaakceptuj</v-btn>
+                                    <v-btn small class="secondary ma-1" @click="refuseInvitation(item)"><v-icon left>mdi-close</v-icon>Odrzuć</v-btn>
                                 </v-row>
                             </v-list-item-subtitle>
                             <v-list-item-subtitle v-if="isAcceptedInvitation(item)">
