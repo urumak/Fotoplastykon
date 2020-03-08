@@ -10,7 +10,7 @@
                 </v-col>
             </v-row>
             <v-row align="center"><v-col cols="12" align="center" style="font-size: 20px">{{ quiz.name }}</v-col></v-row>
-            <v-row align="center"><v-col cols="12" align="center"><v-btn @click="startQuiz()">Rozpocznij</v-btn></v-col></v-row>
+            <v-row align="center"><v-col cols="12" align="center"><v-btn class="primary" @click="startQuiz()">Rozpocznij</v-btn></v-col></v-row>
         </v-card>
         <v-card v-if="quizState === 1" class="container-item main-card">
             <div>
@@ -28,7 +28,7 @@
                     </v-col>
                     <v-col cols="6">
                         <v-btn class="float-right" v-if="canGoToNextQuestion()" @click="nextQuestion()">Następne <v-icon right>mdi-arrow-right</v-icon></v-btn>
-                        <v-btn class="float-right" v-if="canSubmitQuiz()" @click="submitQuiz()">Zakończ <v-icon right>mdi-done</v-icon></v-btn>
+                        <v-btn class="float-right" v-if="canSubmitQuiz()" @click="submitQuiz()">Zakończ <v-icon right>mdi-check</v-icon></v-btn>
                     </v-col>
                 </v-row>
             </div>
