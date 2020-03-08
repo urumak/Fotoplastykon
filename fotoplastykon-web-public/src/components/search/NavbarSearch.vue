@@ -15,8 +15,8 @@
             no-data-text="Brak wyników"
             autocomplete="off">
         <template slot="selection" slot-scope="data">
-            <v-flex xs2>
-                <v-avatar>
+            <v-flex>
+                <v-avatar height="30px" width="30px">
                     <v-img v-if="data.item.photoUrl != null && data.item.photoUrl.length != 0" :src='data.item.photoUrl'></v-img>
                     <v-img v-else src="@/assets/subPhoto.png"></v-img>
                 </v-avatar>
@@ -26,7 +26,7 @@
             </v-flex>
         </template>
         <template slot="item" slot-scope="data">
-            <v-avatar>
+            <v-avatar width="35" height="35" min-width="35" min-height="35" class="mr-2">
                 <v-img v-if="data.item.photoUrl != null && data.item.photoUrl.length != 0" :src='data.item.photoUrl'></v-img>
                 <v-img v-else src="@/assets/subPhoto.png"></v-img>
             </v-avatar>
