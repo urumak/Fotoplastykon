@@ -32,11 +32,27 @@
             <notifications-popover v-if="$auth.check()"></notifications-popover>
             <profile-popover v-if="$auth.check()"></profile-popover>
         </v-app-bar>
-        <v-content style="margin-top:60px;">
+        <v-app-bar class="app-bar-small" app>
+            <v-toolbar-title class="headline text-uppercase">
+                <router-link :to="{ name: 'home' }" class="font-weight-light custom-link">
+                    <v-avatar tile>
+                        <v-img class="landing-img" src="@/assets/logo.png" ></v-img>
+                    </v-avatar>
+                </router-link>
+            </v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-spacer></v-spacer>
+            <v-spacer></v-spacer>
+            <v-spacer></v-spacer>
+            <messages-popover v-if="$auth.check()"></messages-popover>
+            <notifications-popover v-if="$auth.check()"></notifications-popover>
+            <profile-popover v-if="$auth.check()"></profile-popover>
+        </v-app-bar>
+        <v-content>
             <div class="row">
                 <div class="film-tape col-1 ml-4 mr-4">
                 </div>
-                <div class="col-8 mt-12">
+                <div class="col-xl-8 col-md-8 col-sm-9 mt-xl-12 mt-md-12 mt-sm-6">
                     <v-card class="pa-7 card-container ml-5 mr-5">
                         <slot />
                     </v-card>

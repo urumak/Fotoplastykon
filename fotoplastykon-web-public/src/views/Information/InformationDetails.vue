@@ -67,7 +67,7 @@
                     </v-row>
                     <v-tooltip top>
                         <template v-slot:activator="{ on }">
-                            <v-btn small v-if="item.editMode && item.content" v-on="on" @click="submitComment(item)"><v-icon left>mdi-check</v-icon></v-btn>
+                            <v-btn small class="primary" v-if="item.editMode && item.content" v-on="on" @click="submitComment(item)"><v-icon left>mdi-check</v-icon></v-btn>
                         </template>
                         <span>Zapisz</span>
                     </v-tooltip>
@@ -109,7 +109,12 @@
                         <div v-if="!reply.editMode">{{reply.content}}</div>
                         <v-textarea v-if="reply.editMode" label="Komentarz" v-model="reply.content" auto-grow outlined rows="5" row-height="15" class="mr-5"></v-textarea>
                     </v-row>
-                    <v-btn small v-if="reply.editMode && reply.content" @click="submitComment(reply)">Zapisz</v-btn>
+                    <v-tooltip top>
+                        <template v-slot:activator="{ on }">
+                            <v-btn small class="primary" v-if="reply.editMode && reply.content" @click="submitComment(reply)"><v-icon left>mdi-check</v-icon></v-btn>
+                        </template>
+                        <span>Zapisz</span>
+                    </v-tooltip>
                 </v-card>
             </div>
         </v-card>

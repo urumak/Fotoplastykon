@@ -78,7 +78,7 @@
 .v-content
     padding-top: 0px !important
 
-.app-bar-standard
+.app-bar-standard, .app-bar-small
     background: #8062a7 !important
 
 .app-bar-starter
@@ -402,4 +402,37 @@ html .landing-page
 .news-text
     text-align: justify;
     line-height: 30px;
+
+.v-content
+    margin-top 60px
+
+@media only screen and (max-width: 1264px)
+    .film-tape, .app-bar-standard, .news-img-reflection, .news-img
+        display none
+
+    .news-card-content
+        padding: 0px
+        float: none
+        width 100%
+
+    .news-card-content-reflection
+        padding: 0px
+        float: none
+        width 100%
+
+    .v-content
+        margin-top 56px
+
+    .chat-container
+        margin-top 56px
+
+    .chat-container
+        width 24%
+
+    .chat-area
+        right 26%
+
+@media only screen and (min-width: 1264px)
+    .app-bar-small
+        display none
 
