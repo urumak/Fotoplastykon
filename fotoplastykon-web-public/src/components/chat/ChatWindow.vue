@@ -95,8 +95,13 @@
 
         updated() {
             if(this.$refs.window) {
-                if(this.keepScrollPosition) this.$refs.window.scrollTop = this.$refs.window.scrollHeight - this.oldScrollHeight;
-                else this.$refs.window.scrollTop = this.$refs.window.scrollHeight;
+                if(this.keepScrollPosition) {
+                    this.$refs.window.scrollTop = this.$refs.window.scrollHeight - this.oldScrollHeight;
+                    this.keepScrollPosition = false;
+                }
+                else {
+                    this.$refs.window.scrollTop = this.$refs.window.scrollHeight;
+                }
             }
             this.keepScrollPosition = false;
         }
