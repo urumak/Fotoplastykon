@@ -11,7 +11,7 @@
             <div class="news-text">
                 {{ model.introduction }}
             </div>
-            <v-img :src="model.photoUrl" class="mt-12 mb-12" max-height="600" max-width="700" style="left: 210px">
+            <v-img :src="model.photoUrl" class="mt-12 mb-12">
             </v-img>
             <div class="news-text">
                 {{ model.content }}
