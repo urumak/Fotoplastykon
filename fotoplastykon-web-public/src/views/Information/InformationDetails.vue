@@ -37,15 +37,40 @@
                             </v-row>
                         </v-col>
                         <v-col cols="4" right>
-                            <v-btn class="float-right" small v-if="!item.editMode && isCommentCreator(item.createdById)" @click="edit(item)"><v-icon left>mdi-pencil</v-icon> Edytuj</v-btn>
-                            <v-btn class="float-right" small v-if="!item.editMode && isCommentCreator(item.createdById)" @click="removeComment(item.id)"><v-icon left>mdi-delete</v-icon> Usuń</v-btn>
-                            <v-btn class="float-right" small v-if="item.editMode && isCommentCreator(item.createdById)" @click="cancelEdit(item)"><v-icon left>mdi-close</v-icon> Anuluj</v-btn>
-                            <v-btn class="float-right" small v-if="!item.editMode"  @click="newCommentReply(item.id)"><v-icon left>mdi-replay</v-icon> Odpowiedz</v-btn>
+                            <v-tooltip top>
+                                <template v-slot:activator="{ on }">
+                                    <v-btn class="float-right" small v-if="!item.editMode"  v-on="on" @click="newCommentReply(item.id)"><v-icon left>mdi-replay</v-icon></v-btn>
+                                </template>
+                                <span>Odpowiedz</span>
+                            </v-tooltip>
+                            <v-tooltip top>
+                                <template v-slot:activator="{ on }">
+                                    <v-btn class="float-right" small v-if="!item.editMode && isCommentCreator(item.createdById)" v-on="on" @click="edit(item)"><v-icon left>mdi-pencil</v-icon></v-btn>
+                                </template>
+                                <span>Edytuj</span>
+                            </v-tooltip>
+                            <v-tooltip top>
+                                <template v-slot:activator="{ on }">
+                                    <v-btn class="float-right" small v-if="!item.editMode && isCommentCreator(item.createdById)" v-on="on" @click="removeComment(item.id)"><v-icon left>mdi-delete</v-icon></v-btn>
+                                </template>
+                                <span>Usuń</span>
+                            </v-tooltip>
+                            <v-tooltip top>
+                                <template v-slot:activator="{ on }">
+                                    <v-btn class="float-right" small v-if="item.editMode && isCommentCreator(item.createdById) && item.id" v-on="on" @click="cancelEdit(item)"><v-icon left>mdi-close</v-icon></v-btn>
+                                </template>
+                                <span>Anuluj</span>
+                            </v-tooltip>
                         </v-col>
                         <div v-if="!item.editMode">{{item.content}}</div>
                         <v-textarea v-if="item.editMode" label="Komentarz" v-model="item.content" auto-grow outlined rows="5" row-height="15" class="mr-5"></v-textarea>
                     </v-row>
-                    <v-btn small v-if="item.editMode && item.content" @click="submitComment(item)">Zapisz</v-btn>
+                    <v-tooltip top>
+                        <template v-slot:activator="{ on }">
+                            <v-btn small v-if="item.editMode && item.content" v-on="on" @click="submitComment(item)"><v-icon left>mdi-check</v-icon></v-btn>
+                        </template>
+                        <span>Zapisz</span>
+                    </v-tooltip>
                 </v-card>
                 <v-card class="container-item col-11 float-right mb-5" v-for="reply in item.replies" :key="'r' + reply.id">
                     <v-row class="ml-5">
@@ -62,9 +87,24 @@
                             </v-row>
                         </v-col>
                         <v-col cols="4" right>
-                            <v-btn class="float-right" small v-if="!reply.editMode && isCommentCreator(reply.createdById)" @click="edit(reply)"><v-icon left>mdi-pencil</v-icon> Edytuj</v-btn>
-                            <v-btn class="float-right" small v-if="!reply.editMode && isCommentCreator(reply.createdById)" @click="removeComment(reply.id)"><v-icon left>mdi-delete</v-icon> Usuń</v-btn>
-                            <v-btn class="float-right" small v-if="reply.editMode && isCommentCreator(reply.createdById)" @click="cancelEdit(reply)"><v-icon left>mdi-close</v-icon> Anuluj</v-btn>
+                            <v-tooltip top>
+                                <template v-slot:activator="{ on }">
+                                    <v-btn class="float-right" small v-if="!reply.editMode && isCommentCreator(reply.createdById)" v-on="on" @click="edit(reply)"><v-icon left>mdi-pencil</v-icon></v-btn>
+                                </template>
+                                <span>Edytuj</span>
+                            </v-tooltip>
+                            <v-tooltip top>
+                                <template v-slot:activator="{ on }">
+                                    <v-btn class="float-right" small v-if="!reply.editMode && isCommentCreator(reply.createdById)" v-on="on" @click="removeComment(reply.id)"><v-icon left>mdi-delete</v-icon></v-btn>
+                                </template>
+                                <span>Usuń</span>
+                            </v-tooltip>
+                            <v-tooltip top>
+                                <template v-slot:activator="{ on }">
+                                    <v-btn class="float-right" small v-if="reply.editMode && isCommentCreator(reply.createdById)" v-on="on" @click="cancelEdit(reply)"><v-icon left>mdi-close</v-icon></v-btn>
+                                </template>
+                                <span>Anuluj</span>
+                            </v-tooltip>
                         </v-col>
                         <div v-if="!reply.editMode">{{reply.content}}</div>
                         <v-textarea v-if="reply.editMode" label="Komentarz" v-model="reply.content" auto-grow outlined rows="5" row-height="15" class="mr-5"></v-textarea>
@@ -75,7 +115,10 @@
         </v-card>
     </div>
 </template>
-
+<style lang="stylus">
+    .v-icon--left
+        margin-right 0px !important
+</style>
 <script lang="ts">
     import Vue from "vue";
     import Component from "vue-class-component";
