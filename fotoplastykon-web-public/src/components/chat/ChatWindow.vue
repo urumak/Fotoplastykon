@@ -74,13 +74,15 @@
         }
 
         async pullMoreMessages(event: any) {
-            this.keepScrollPosition = true;
-            if(event.target.scrollTop >= 0) this.oldScrollHeight = this.$refs.window.scrollHeight;
             if(event.target.scrollTop === 0) {
-                this.model.messages.scroll.rowsLoaded = this.model.messages.items.length;
-                let response = await ChatService.getMessages(this.model.messages.scroll, this.model.id);
-                if(this.model.messages.items) this.model.messages.items = this.model.messages.items.concat(response.items);
-                else this.model.messages.items = response.items;
+                this.keepScrollPosition = true;
+                if(event.target.scrollTop >= 0) this.oldScrollHeight = this.$refs.window.scrollHeight;
+                if(event.target.scrollTop === 0) {
+                    this.model.messages.scroll.rowsLoaded = this.model.messages.items.length;
+                    let response = await ChatService.getMessages(this.model.messages.scroll, this.model.id);
+                    if(this.model.messages.items) this.model.messages.items = this.model.messages.items.concat(response.items);
+                    else this.model.messages.items = response.items;
+                }
             }
         }
 
@@ -99,7 +101,7 @@
                     this.$refs.window.scrollTop = this.$refs.window.scrollHeight - this.oldScrollHeight;
                     this.keepScrollPosition = false;
                 }
-                else {
+                else if (this.$refs.window.scrollTop !== this.$refs.window.scrollHeight) {
                     this.$refs.window.scrollTop = this.$refs.window.scrollHeight;
                 }
             }
@@ -125,7 +127,6 @@
         }
 
         async onKeyUp(event: any) {
-            this.keepScrollPosition = false;
             if(event.code === 'Enter'){
                 this.sendMessage();
             }
