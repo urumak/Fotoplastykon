@@ -54,6 +54,24 @@ namespace Fotoplastykon.API.Areas.Public.Controllers
             return Ok(await ForumThreads.Add(model, User.Id()));
         }
 
+        [HttpPost("film/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> AddForFilm(long id, [FromBody]ForumThreadDTO model)
+        {
+            return Ok(await ForumThreads.AddForFilm(model, User.Id(), id));
+        }
+
+        [HttpPost("film-person/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<IActionResult> AddForFilmPerson(long id, [FromBody]ForumThreadDTO model)
+        {
+            return Ok(await ForumThreads.AddForFilmPerson(model, User.Id(), id));
+        }
+
         [HttpPost("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

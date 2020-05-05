@@ -1,5 +1,5 @@
 <template>
-  <v-content class="landing-page pa-0">
+  <v-content class="landing-page pa-0 mt-0">
     <app-alert></app-alert>
     <v-row class="pa-0">
       <v-col cols="1" class="pa-0">

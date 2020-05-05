@@ -35,7 +35,7 @@
 
         private get pager(): Pager
         {
-            return this.$store.state.filmPeople.pager;
+            return this.$store.state.films.pager;
         }
 
         async created() {

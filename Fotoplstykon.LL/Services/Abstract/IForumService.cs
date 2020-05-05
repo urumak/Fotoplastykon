@@ -14,6 +14,8 @@ namespace Fotoplastykon.BLL.Services.Abstract
         Task<ForumThreadDTO> Get(long id);
         Task<ForumThreadCommentDTO> GetComment(long id);
         Task<long> Add(ForumThreadDTO thread, long userId);
+        Task<long> AddForFilmPerson(ForumThreadDTO thread, long userId, long filmPersonId);
+        Task<long> AddForFilm(ForumThreadDTO thread, long userId, long filmId);
         Task Update(long id, ForumThreadDTO thread);
         Task Remove(long id);
         Task AddComment(ForumThreadCommentDTO comment, long userId);

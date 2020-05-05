@@ -1,5 +1,10 @@
 <template>
     <div>
+        <v-row>
+            <v-col cols="12">
+                <v-btn :to="{ name: 'forum-thread-related', params: { id: 0, type: 'film', sourceId: this.filmId }}" class="float-right primary mt-1 mr-5"><v-icon left>mdi-plus</v-icon>&nbsp Dodaj</v-btn>
+            </v-col>
+        </v-row>
         <v-list>
             <v-list-item
                     v-if="items.length === 0"

@@ -14,6 +14,12 @@
                         </template>
                         <span>Edytuj</span>
                     </v-tooltip>
+                    <v-tooltip top>
+                        <template v-slot:activator="{ on }">
+                            <v-btn class="float-right" small v-if="canDelete()" v-on="on" @click="remove()"><v-icon left>mdi-delete</v-icon></v-btn>
+                        </template>
+                        <span>Usuń</span>
+                    </v-tooltip>
                 </v-col>
             </v-row>
             <div v-if="!model.editMode">{{model.content}}</div>
@@ -151,6 +157,14 @@
             return Number(this.$route.params.id || 0);
         }
 
+        private get threadType() : string {
+            return this.$route.params.type || '';
+        }
+
+        private get sourceId() : number {
+            return Number(this.$route.params.sourceId || 0);
+        }
+
         async created() {
             if(this.id !== 0) await this.loadData(this.id);
             else this.model.editMode = true;
@@ -162,7 +176,16 @@
 
         async saveChanges() {
             if (this.id === 0) {
-                let id = await ForumService.add(this.model);
+                let id = 0;
+                if(this.threadType)
+                {
+                    if(this.threadType == 'film') id = await ForumService.addForFilm(this.model, this.sourceId);
+                    else if (this.threadType == 'film') id = await ForumService.addForFilmPerson(this.model, this.sourceId);
+                }
+                else
+                {
+                    id = await ForumService.add(this.model);
+                }
                 await this.loadData(id);
 
                 // @ts-ignore
@@ -176,6 +199,10 @@
 
         showEditButton() : boolean {
             return (this as any).$auth.user().id === this.model.createdById && !this.model.editMode;
+        }
+
+        canDelete() : boolean {
+            return (this as any).$auth.user().id === this.model.createdById;
         }
 
         showCancelAndSaveButton() : boolean {
@@ -205,9 +232,9 @@
             await this.reloadComments();
         }
 
-        async removeComment(id: number) {
-            await ForumService.removeComment(id);
-            this.model.comments = (await ForumService.get(this.id)).comments;
+        async remove(id: number) {
+            await ForumService.remove(this.id);
+            this.$router.push({ name: 'forum' });
         }
 
         newComment() {

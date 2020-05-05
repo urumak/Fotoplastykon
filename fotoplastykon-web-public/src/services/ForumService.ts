@@ -20,6 +20,16 @@ export default class ForumService
         return (await Vue.axios.post<number>(`forum`, model)).data;
     }
 
+    public static async addForFilm(model: ForumThreadModel, id: number): Promise<number>
+    {
+        return (await Vue.axios.post<number>(`forum/film/${id}`, model)).data;
+    }
+
+    public static async addForFilmPerson(model: ForumThreadModel, id: number): Promise<number>
+    {
+        return (await Vue.axios.post<number>(`forum/film-person/${id}`, model)).data;
+    }
+
     public static async update(model: ForumThreadModel)
     {
         (await Vue.axios.post(`forum/${model.id}`, model));

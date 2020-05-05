@@ -1,19 +1,37 @@
 <template>
     <div>
-        <v-btn :to="{ name: 'forum-thread', params: { id: 0 }}">Dodaj</v-btn>
-        <div v-for="item in items" :key="item.id" class="row">
-            <v-card class="my-card">
-                <v-btn v-if="canDelete(item)" @click="deleteItem(item.id)">Usuń</v-btn>
-                <v-avatar>
-                    <v-img :src="item.photoUrl"></v-img>
-                </v-avatar>
-                <router-link :to="{ name: 'user-page', params: { id: item.createdById }}" class="font-weight-light custom-link">{{ item.createdByName }}</router-link>
-                <div><router-link :to="{ name: 'forum-thread', params: { id: item.id }}" class="font-weight-light custom-link">{{ item.subject }}</router-link></div>
-                <div>{{ item.content }}</div>
+        <v-row>
+            <v-col cols="10">
+                <v-text-field class="outlined-input" v-model="pager.search" label="Szukaj" solo></v-text-field>
+            </v-col>
+            <v-col cols="2">
+                <v-btn :to="{ name: 'forum-thread', params: { id: 0 }}" class="float-right primary mt-1"><v-icon left>mdi-plus</v-icon>&nbsp Dodaj</v-btn>
+            </v-col>
+        </v-row>
+        <div v-for="(item, index) in items" :key="index" class="row">
+            <v-card class="list-item" :to="{ name: 'forum-thread', params: { id: item.id }}">
+                <v-row class="ml-5">
+                    <v-col cols="1">
+                        <v-avatar>
+                            <v-img v-if="item.photoUrl != null && item.photoUrl.length != 0" :src="item.photoUrl"></v-img>
+                            <v-img v-else src="@/assets/subPhoto.png"></v-img>
+                        </v-avatar>
+                        <div style="margin:auto" class="font-weight-light row">{{ item.createdByName }}</div>
+                    </v-col>
+                    <v-col cols="10">
+                        <v-row>
+                            <v-col cols="8">
+                                <div class="col-10 font-weight-light">{{ item.subject }}</div>
+                            </v-col>
+                        </v-row>
+                        <div>
+                            {{ item.content }}
+                        </div>
+                    </v-col>
+                </v-row>
             </v-card>
         </div>
-        <v-btn v-for="i in pager.totalPages" :key="'p' + i" @click="paginate(i)">{{i}}</v-btn>
-        <v-select :items="pageSizeOptions" v-model="pager.pageSize" solo @change="changePageSize()"></v-select>
+        <custom-pagination :pager="pager"></custom-pagination>
     </div>
 </template>
 
@@ -25,8 +43,9 @@
     import {Pager} from '@/interfaces/pager';
     import merge from 'lodash/merge'
     import { Watch } from 'vue-property-decorator';
+    import CustomPagination from '@/components/CustomPagination.vue';
 
-    @Component({})
+    @Component({components: { 'custom-pagination': CustomPagination}})
     export default class InformationListComponent extends Vue {
         private items : ForumThreadModel[] = [];
         private pageSizeOptions = [2,5,10,20];

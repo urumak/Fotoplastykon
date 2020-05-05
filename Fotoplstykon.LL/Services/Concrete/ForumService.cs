@@ -37,6 +37,28 @@ namespace Fotoplastykon.BLL.Services.Concrete
             return thread;
         }
 
+        public async Task<long> AddForFilm(ForumThreadDTO thread, long userId, long filmId)
+        {
+            var entity = Mapper.Map<ForumThread>(thread);
+            entity.CreatedById = userId;
+            entity.FilmId = filmId;
+            entity = await Unit.ForumThreads.Add(entity);
+            await Unit.Complete();
+
+            return entity.Id;
+        }
+
+        public async Task<long> AddForFilmPerson(ForumThreadDTO thread, long userId, long filmPersonId)
+        {
+            var entity = Mapper.Map<ForumThread>(thread);
+            entity.CreatedById = userId;
+            entity.PersonId = filmPersonId;
+            entity = await Unit.ForumThreads.Add(entity);
+            await Unit.Complete();
+
+            return entity.Id;
+        }
+
         public async Task<long> Add(ForumThreadDTO thread, long userId)
         {
             var entity = Mapper.Map<ForumThread>(thread);

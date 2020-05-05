@@ -74,6 +74,11 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/Forum/ForumThread.vue')
     },
     {
+      path: '/:type/:sourceId/forum/:id',
+      name: 'forum-thread-related',
+      component: () => import(/* webpackChunkName: "about" */ './views/Forum/ForumThread.vue')
+    },
+    {
       path: '/quizzes',
       name: 'quizzes',
       component: () => import(/* webpackChunkName: "about" */ './views/Quizzes/QuizzesList.vue')
